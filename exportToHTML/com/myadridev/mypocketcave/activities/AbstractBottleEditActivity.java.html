@@ -1,0 +1,278 @@
+<html>
+<head>
+<title>AbstractBottleEditActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(0,0,255); }
+.ls0 { height: 1px; border-width: 0; color: rgb(192,192,192); background-color:rgb(192,192,192)}
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+AbstractBottleEditActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.myadridev.mypocketcave.activities; 
+ 
+</span><span class="s0">import </span><span class="s1">android.content.Context; 
+</span><span class="s0">import </span><span class="s1">android.content.DialogInterface; 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle; 
+</span><span class="s0">import </span><span class="s1">android.support.design.widget.CoordinatorLayout; 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AlertDialog; 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity; 
+</span><span class="s0">import </span><span class="s1">android.util.DisplayMetrics; 
+</span><span class="s0">import </span><span class="s1">android.view.MotionEvent; 
+</span><span class="s0">import </span><span class="s1">android.view.View; 
+</span><span class="s0">import </span><span class="s1">android.view.inputmethod.InputMethodManager; 
+</span><span class="s0">import </span><span class="s1">android.widget.EditText; 
+</span><span class="s0">import </span><span class="s1">android.widget.Spinner; 
+</span><span class="s0">import </span><span class="s1">android.widget.TextView; 
+ 
+</span><span class="s0">import </span><span class="s1">com.myadridev.mypocketcave.R; 
+</span><span class="s0">import </span><span class="s1">com.myadridev.mypocketcave.adapters.MillesimeAdapter; 
+</span><span class="s0">import </span><span class="s1">com.myadridev.mypocketcave.adapters.WineColorSpinnerAdapter; 
+</span><span class="s0">import </span><span class="s1">com.myadridev.mypocketcave.enums.FoodToEatWithEnum; 
+</span><span class="s0">import </span><span class="s1">com.myadridev.mypocketcave.enums.WineColorEnum; 
+</span><span class="s0">import </span><span class="s1">com.myadridev.mypocketcave.helpers.FoodToEatHelper; 
+</span><span class="s0">import </span><span class="s1">com.myadridev.mypocketcave.managers.BottleManager; 
+</span><span class="s0">import </span><span class="s1">com.myadridev.mypocketcave.models.BottleModel; 
+ 
+</span><span class="s0">public abstract class </span><span class="s1">AbstractBottleEditActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+ 
+    </span><span class="s0">private final boolean</span><span class="s1">[] foodToEatWithList = </span><span class="s0">new boolean</span><span class="s1">[FoodToEatWithEnum.number]; 
+    </span><span class="s0">protected </span><span class="s1">BottleModel bottle; 
+    </span><span class="s0">protected </span><span class="s1">EditText nameView; 
+    </span><span class="s0">protected </span><span class="s1">EditText stockView; 
+    </span><span class="s0">protected </span><span class="s1">Spinner wineColorView; 
+    </span><span class="s0">protected </span><span class="s1">EditText personView; 
+    </span><span class="s0">protected </span><span class="s1">EditText commentsView; 
+    </span><span class="s0">protected </span><span class="s1">TextView foodView; 
+    </span><span class="s0">protected </span><span class="s1">Spinner millesimeView; 
+    </span><span class="s0">private boolean </span><span class="s1">isFoodListOpen; 
+    </span><span class="s0">private </span><span class="s1">EditText domainView; 
+    </span><span class="s0">protected </span><span class="s1">CoordinatorLayout coordinatorLayout; 
+    </span><span class="s0">private final </span><span class="s1">View.OnTouchListener hideKeyboardOnClick; 
+ <hr class="ls0">    </span><span class="s0">protected </span><span class="s1">AbstractBottleEditActivity() { 
+        hideKeyboardOnClick = </span><span class="s0">new </span><span class="s1">View.OnTouchListener() { 
+            @Override 
+            </span><span class="s0">public boolean </span><span class="s1">onTouch(View v, MotionEvent event) { 
+                hideKeyboard(); 
+                </span><span class="s0">return false</span><span class="s1">; 
+            } 
+        }; 
+    } 
+ <hr class="ls0">    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState); 
+        isFoodListOpen = </span><span class="s0">false</span><span class="s1">; 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s1">; i &lt; FoodToEatWithEnum.number; i++) { 
+            foodToEatWithList[i] = </span><span class="s0">false</span><span class="s1">; 
+        } 
+    } 
+ <hr class="ls0">    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onPostCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onPostCreate(savedInstanceState); 
+        initBottle(); 
+        initLayout(); 
+    } 
+ <hr class="ls0">    </span><span class="s0">private void </span><span class="s1">initLayout() { 
+        setLayout(); 
+        setLayoutValues(); 
+    } 
+ <hr class="ls0">    </span><span class="s0">protected void </span><span class="s1">setLayout() { 
+        setCoordinatorLayout(); 
+        coordinatorLayout.setOnTouchListener(hideKeyboardOnClick); 
+        nameView = (EditText) findViewById(R.id.bottle_edit_name); 
+        domainView = (EditText) findViewById(R.id.bottle_edit_domain); 
+        stockView = (EditText) findViewById(R.id.bottle_edit_stock); 
+        wineColorView = (Spinner) findViewById(R.id.bottle_edit_wine_color); 
+        wineColorView.setOnTouchListener(hideKeyboardOnClick); 
+        personView = (EditText) findViewById(R.id.bottle_edit_person); 
+        commentsView = (EditText) findViewById(R.id.bottle_edit_comments); 
+        foodView = (TextView) findViewById(R.id.bottle_edit_food); 
+        foodView.setOnTouchListener(hideKeyboardOnClick); 
+        foodView.setOnClickListener(onFoodViewClick()); 
+        millesimeView = (Spinner) findViewById(R.id.bottle_edit_millesime); 
+        millesimeView.setOnTouchListener(hideKeyboardOnClick); 
+    } 
+ <hr class="ls0">    </span><span class="s0">protected abstract void </span><span class="s1">setCoordinatorLayout(); 
+ <hr class="ls0">    </span><span class="s0">private </span><span class="s1">View.OnClickListener onFoodViewClick() { 
+        </span><span class="s0">return new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                </span><span class="s0">if </span><span class="s1">(!isFoodListOpen) { 
+                    isFoodListOpen = </span><span class="s0">true</span><span class="s1">; 
+                    AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(AbstractBottleEditActivity.</span><span class="s0">this</span><span class="s1">); 
+                    builder.setMultiChoiceItems(FoodToEatWithEnum.getAllFoodLabels(AbstractBottleEditActivity.</span><span class="s0">this</span><span class="s1">), foodToEatWithList, </span><span class="s0">new </span><span class="s1">DialogInterface.OnMultiChoiceClickListener() { 
+                        @Override 
+                        </span><span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog, </span><span class="s0">int </span><span class="s1">which, </span><span class="s0">boolean </span><span class="s1">isChecked) { 
+                            foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.</span><span class="s0">this</span><span class="s1">, foodToEatWithList)); 
+                        } 
+                    }); 
+                    builder.setOnDismissListener(</span><span class="s0">new </span><span class="s1">DialogInterface.OnDismissListener() { 
+                        @Override 
+                        </span><span class="s0">public void </span><span class="s1">onDismiss(DialogInterface dialog) { 
+                            isFoodListOpen = </span><span class="s0">false</span><span class="s1">; 
+                            foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.</span><span class="s0">this</span><span class="s1">, foodToEatWithList)); 
+                        } 
+                    }); 
+                    AlertDialog dialog = builder.create(); 
+                    dialog.show(); 
+ 
+                    DisplayMetrics displaymetrics = </span><span class="s0">new </span><span class="s1">DisplayMetrics(); 
+                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
+ 
+                    </span><span class="s0">int </span><span class="s1">width = displaymetrics.widthPixels; 
+                    </span><span class="s0">int </span><span class="s1">height = displaymetrics.heightPixels; 
+ 
+                    dialog.getWindow().setLayout(width * </span><span class="s2">95 </span><span class="s1">/ </span><span class="s2">100</span><span class="s1">, height * </span><span class="s2">2 </span><span class="s1">/ </span><span class="s2">3</span><span class="s1">); 
+                } 
+            } 
+        }; 
+    } 
+ <hr class="ls0">    </span><span class="s0">private void </span><span class="s1">setLayoutValues() { 
+        WineColorSpinnerAdapter wineColorAdapter = </span><span class="s0">new </span><span class="s1">WineColorSpinnerAdapter(</span><span class="s0">this</span><span class="s1">, </span><span class="s0">false</span><span class="s1">); 
+        wineColorView.setAdapter(wineColorAdapter); 
+ 
+        MillesimeAdapter millesimeAdapter = </span><span class="s0">new </span><span class="s1">MillesimeAdapter(</span><span class="s0">this</span><span class="s1">); 
+        millesimeView.setAdapter(millesimeAdapter); 
+ 
+        </span><span class="s0">if </span><span class="s1">(bottle.Id &gt; </span><span class="s2">0</span><span class="s1">) { 
+            wineColorView.setSelection(getWineColorPosition(bottle.WineColor.id)); 
+            millesimeView.setSelection(bottle.Millesime == </span><span class="s2">0 </span><span class="s1">? </span><span class="s2">0 </span><span class="s1">: millesimeAdapter.currentYear + </span><span class="s2">1 </span><span class="s1">- bottle.Millesime); 
+            nameView.setText(bottle.Name); 
+            domainView.setText(bottle.Domain); 
+            </span><span class="s0">if </span><span class="s1">(bottle.Stock &gt; </span><span class="s2">0</span><span class="s1">) 
+                stockView.setText(String.valueOf(bottle.Stock)); 
+            personView.setText(bottle.PersonToShareWith); 
+            commentsView.setText(bottle.Comments); 
+            </span><span class="s0">for </span><span class="s1">(FoodToEatWithEnum food : bottle.FoodToEatWithList) { 
+                foodToEatWithList[food.id] = </span><span class="s0">true</span><span class="s1">; 
+            } 
+            foodView.setText(FoodToEatHelper.computeFoodViewText(</span><span class="s0">this</span><span class="s1">, foodToEatWithList)); 
+        } 
+    } 
+ <hr class="ls0">    </span><span class="s0">private int </span><span class="s1">getWineColorPosition(</span><span class="s0">int </span><span class="s1">id) { 
+        </span><span class="s0">return </span><span class="s1">id - </span><span class="s2">1</span><span class="s1">; 
+    } 
+ <hr class="ls0">    </span><span class="s0">private void </span><span class="s1">hideKeyboard() { 
+        View view = getCurrentFocus(); 
+        </span><span class="s0">if </span><span class="s1">(view != </span><span class="s0">null</span><span class="s1">) { 
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
+            </span><span class="s0">if </span><span class="s1">(imm.isAcceptingText()) { 
+                imm.hideSoftInputFromWindow(view.getWindowToken(), </span><span class="s2">0</span><span class="s1">); 
+            } 
+        } 
+    } 
+ <hr class="ls0">    @Override 
+    </span><span class="s0">public void </span><span class="s1">onBackPressed() { 
+        hideKeyboard(); 
+        </span><span class="s0">if </span><span class="s1">(setValues()) { 
+            saveBottle(); 
+            finish(); 
+        } 
+    } 
+ <hr class="ls0">    </span><span class="s0">protected abstract void </span><span class="s1">initBottle(); 
+ 
+    </span><span class="s0">protected abstract void </span><span class="s1">saveBottle(); 
+ 
+    </span><span class="s0">protected abstract void </span><span class="s1">cancelBottle(); 
+ 
+    </span><span class="s0">protected abstract void </span><span class="s1">removeBottle(); 
+ <hr class="ls0">    </span><span class="s0">protected boolean </span><span class="s1">setValues() { 
+        </span><span class="s0">boolean </span><span class="s1">isValid = checkValues(); 
+ 
+        </span><span class="s0">if </span><span class="s1">(!isValid) { 
+            </span><span class="s0">return false</span><span class="s1">; 
+        } 
+ 
+        _______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________rrrrrrrrrrrrsbd )àkènnnnnn-fogtifj kpameView.getText().toString(); 
+        bottle.Domain = domainView.getText().toString(); 
+        bottle.WineColor = (WineColorEnum) wineColorView.getSelectedItem(); 
+        bottle.Millesime = (</span><span class="s0">int</span><span class="s1">) millesimeView.getSelectedItem(); 
+        bottle.PersonToShareWith = personView.getText().toString(); 
+        bottle.Comments = commentsView.getText().toString(); 
+ 
+        bottle.FoodToEatWithList.clear(); 
+        </span><span class="s0">for </span><span class="s1">(FoodToEatWithEnum food : FoodToEatWithEnum.values()) { 
+            </span><span class="s0">if </span><span class="s1">(foodToEatWithList[food.id]) { 
+                bottle.FoodToEatWithList.add(food); 
+            } 
+        } 
+        String stockString = stockView.getText().toString(); 
+        bottle.Stock = stockString.isEmpty() ? </span><span class="s2">0 </span><span class="s1">: Integer.valueOf(stockString); 
+        </span><span class="s0">return true</span><span class="s1">; 
+    } 
+ <hr class="ls0">    </span><span class="s0">private boolean </span><span class="s1">checkValues() { 
+        </span><span class="s0">boolean </span><span class="s1">isErrors = </span><span class="s0">false</span><span class="s1">; 
+ 
+        String name = nameView.getText().toString(); 
+ 
+        </span><span class="s0">if </span><span class="s1">(name.isEmpty()) { 
+            AlertDialog.Builder noNameBottleDialogBuilder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(</span><span class="s0">this</span><span class="s1">); 
+            noNameBottleDialogBuilder.setCancelable(</span><span class="s0">true</span><span class="s1">); 
+            noNameBottleDialogBuilder.setMessage(R.string.error_bottle_no_name); 
+            noNameBottleDialogBuilder.setNegativeButton(R.string.global_cancel, </span><span class="s0">new </span><span class="s1">DialogInterface.OnClickListener() { 
+                @Override 
+                </span><span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog, </span><span class="s0">int </span><span class="s1">which) { 
+                    dialog.dismiss(); 
+                } 
+            }); 
+            noNameBottleDialogBuilder.setPositiveButton(R.string.global_exit, </span><span class="s0">new </span><span class="s1">DialogInterface.OnClickListener() { 
+                @Override 
+                </span><span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog, </span><span class="s0">int </span><span class="s1">which) { 
+                    dialog.dismiss(); 
+                    finish(); 
+                    cancelBottle(); 
+                } 
+            }); 
+            noNameBottleDialogBuilder.show(); 
+            isErrors = </span><span class="s0">true</span><span class="s1">; 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            String domain = domainView.getText().toString(); 
+            WineColorEnum wineColor = (WineColorEnum) wineColorView.getSelectedItem(); 
+            </span><span class="s0">int </span><span class="s1">millesime = (</span><span class="s0">int</span><span class="s1">) millesimeView.getSelectedItem(); 
+ 
+            </span><span class="s0">final int </span><span class="s1">existingBottleId = BottleManager.Instance.getExistingBottleId(bottle.Id, name, domain, wineColor, millesime); 
+            </span><span class="s0">if </span><span class="s1">(existingBottleId &gt; </span><span class="s2">0</span><span class="s1">) { 
+                AlertDialog.Builder existingBottleDialogBuilder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(</span><span class="s0">this</span><span class="s1">); 
+                existingBottleDialogBuilder.setCancelable(</span><span class="s0">true</span><span class="s1">); 
+                existingBottleDialogBuilder.setMessage(R.string.error_bottle_already_exists); 
+                existingBottleDialogBuilder.setNeutralButton(R.string.global_cancel, </span><span class="s0">new </span><span class="s1">DialogInterface.OnClickListener() { 
+                    @Override 
+                    </span><span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog, </span><span class="s0">int </span><span class="s1">which) { 
+                        dialog.dismiss(); 
+                    } 
+                }); 
+                existingBottleDialogBuilder.setNegativeButton(R.string.global_exit, </span><span class="s0">new </span><span class="s1">DialogInterface.OnClickListener() { 
+                    @Override 
+                    </span><span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog, </span><span class="s0">int </span><span class="s1">which) { 
+                        dialog.dismiss(); 
+                        finish(); 
+                        cancelBottle(); 
+                    } 
+                }); 
+                existingBottleDialogBuilder.setPositiveButton(R.string.global_merge, </span><span class="s0">new </span><span class="s1">DialogInterface.OnClickListener() { 
+                    @Override 
+                    </span><span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog, </span><span class="s0">int </span><span class="s1">which) { 
+                        dialog.dismiss(); 
+                        removeBottle(); 
+                        redirectToExistingBottle(existingBottleId); 
+                    } 
+                }); 
+                existingBottleDialogBuilder.show(); 
+                isErrors = </span><span class="s0">true</span><span class="s1">; 
+            } 
+        } 
+        </span><span class="s0">return </span><span class="s1">!isErrors; 
+    } 
+ <hr class="ls0">    </span><span class="s0">protected abstract void </span><span class="s1">redirectToExistingBottle(</span><span class="s0">int </span><span class="s1">existingBottleId); 
+} 
+</span></pre>
+</body>
+</html>

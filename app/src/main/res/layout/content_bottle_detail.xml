@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.myadridev.mypocketcave.activities.BottleDetailActivity"
+    tools:showIn="@layout/bottle_detail">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/bottle_detail_domain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:hint="@string/bottle_domain"
+            android:textSize="@dimen/text_size"
+            app:layout_widthPercent="55%" />
+
+        <TextView
+            android:id="@+id/bottle_detail_millesime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/bottle_detail_domain"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@id/bottle_detail_domain"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_toEndOf="@id/bottle_detail_domain"
+            android:layout_toRightOf="@id/bottle_detail_domain"
+            android:gravity="center"
+            android:text="@string/no_millesime"
+            android:textSize="@dimen/text_size"
+            app:layout_widthPercent="45%" />
+
+        <ImageView
+            android:id="@+id/bottle_detail_wine_color_icon"
+            android:layout_width="@dimen/bottle_icon_size_large"
+            android:layout_height="@dimen/bottle_icon_size_large"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/bottle_detail_domain"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:src="@drawable/wine_red"
+            app:layout_widthPercent="20%" />
+
+        <TextView
+            android:id="@+id/bottle_detail_wine_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/bottle_detail_wine_color_icon"
+            android:layout_alignTop="@id/bottle_detail_wine_color_icon"
+            android:layout_below="@id/bottle_detail_domain"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_toEndOf="@id/bottle_detail_wine_color_icon"
+            android:layout_toRightOf="@id/bottle_detail_wine_color_icon"
+            android:gravity="center_vertical"
+            android:text="Couleur"
+            android:textSize="@dimen/text_size"
+            app:layout_widthPercent="40%" />
+
+        <TextView
+            android:id="@+id/bottle_detail_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/bottle_detail_wine_color_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/bottle_detail_wine_color_icon"
+            android:layout_below="@id/bottle_detail_domain"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_toEndOf="@id/bottle_detail_wine_color"
+            android:layout_toRightOf="@id/bottle_detail_wine_color"
+            android:gravity="center"
+            android:text="@string/bottles_stock"
+            android:textSize="@dimen/text_size"
+            app:layout_widthPercent="40%" />
+
+        <TextView
+            android:id="@+id/bottle_detail_food"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/bottle_detail_wine_color_icon"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:hint="@string/bottle_detail_food"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/bottle_detail_person"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/bottle_detail_food"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:hint="@string/bottle_detail_person"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/bottle_detail_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/bottle_detail_person"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:hint="@string/bottle_detail_comments"
+            android:textSize="@dimen/text_size" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

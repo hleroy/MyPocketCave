@@ -1,0 +1,52 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <TextView
+        android:id="@+id/no_bottles_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/no_bottles"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/bottles_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="@string/bottles_count"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_widthPercent="66%"/>
+
+    <TextView
+        android:id="@+id/bottles_count_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="@string/bottles_count_detail"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_widthPercent="66%" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bottles_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/no_bottles_label"
+        android:layout_centerHorizontal="true" />
+
+</android.support.percent.PercentRelativeLayout>

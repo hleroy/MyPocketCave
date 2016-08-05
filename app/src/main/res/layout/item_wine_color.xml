@@ -1,0 +1,27 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/wine_color_image"
+        android:layout_width="@dimen/bottle_icon_size"
+        android:layout_height="@dimen/bottle_icon_size"
+        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:src="@drawable/wine_red" />
+
+    <TextView
+        android:id="@+id/wine_color_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_toEndOf="@id/wine_color_image"
+        android:layout_toRightOf="@id/wine_color_image"
+        android:text="Couleur"
+        android:textSize="@dimen/text_size" />
+
+</android.support.percent.PercentRelativeLayout>

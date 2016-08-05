@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/suggest_bottle_search_coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.SuggestBottleSearchActivity">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/suggest_bottle_search_must_have"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:gravity="center_vertical|end"
+            android:text="@string/suggest_bottle_essential"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            app:layout_widthPercent="23%" />
+
+        <TextView
+            android:id="@+id/suggest_bottle_search_criteria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/suggest_bottle_search_must_have"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@id/suggest_bottle_search_must_have"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:gravity="center_vertical"
+            android:text="@string/suggest_bottle_search_criteria"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            app:layout_widthPercent="73%" />
+
+        <Spinner
+            android:id="@+id/suggest_bottle_search_wine_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/suggest_bottle_search_must_have"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:spinnerMode="dropdown"
+            app:layout_widthPercent="75%" />
+
+        <CheckBox
+            android:id="@+id/suggest_bottle_search_wine_color_must_have"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/suggest_bottle_search_wine_color"
+            android:layout_alignTop="@id/suggest_bottle_search_wine_color"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/suggest_bottle_search_wine_color"
+            android:layout_toRightOf="@id/suggest_bottle_search_wine_color"
+            app:layout_marginLeftPercent="7%"
+            app:layout_marginRightPercent="7%"
+            app:layout_widthPercent="11%" />
+
+        <Spinner
+            android:id="@+id/suggest_bottle_search_domain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/suggest_bottle_search_wine_color"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:spinnerMode="dropdown"
+            app:layout_widthPercent="75%" />
+
+        <CheckBox
+            android:id="@+id/suggest_bottle_search_domain_must_have"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/suggest_bottle_search_domain"
+            android:layout_alignEnd="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignLeft="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignRight="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignStart="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignTop="@id/suggest_bottle_search_domain"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <Spinner
+            android:id="@+id/suggest_bottle_search_millesime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/suggest_bottle_search_domain"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:spinnerMode="dropdown"
+            app:layout_widthPercent="75%" />
+
+        <CheckBox
+            android:id="@+id/suggest_bottle_search_millesime_must_have"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/suggest_bottle_search_millesime"
+            android:layout_alignEnd="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignLeft="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignRight="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignStart="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignTop="@id/suggest_bottle_search_millesime"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/suggest_bottle_search_food"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/suggest_bottle_search_millesime"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin"
+            android:layout_marginLeft="@dimen/horizontal_big_margin"
+            android:layout_marginRight="@dimen/horizontal_big_margin"
+            android:layout_marginStart="@dimen/horizontal_big_margin"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:hint="@string/food_none"
+            android:textSize="@dimen/text_size"
+            app:layout_widthPercent="70%" />
+
+        <CheckBox
+            android:id="@+id/suggest_bottle_search_food_must_have"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/suggest_bottle_search_food"
+            android:layout_alignEnd="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignLeft="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignRight="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignStart="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignTop="@id/suggest_bottle_search_food"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <Spinner
+            android:id="@+id/suggest_bottle_search_person"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/suggest_bottle_search_food"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:spinnerMode="dropdown"
+            app:layout_widthPercent="75%" />
+
+        <CheckBox
+            android:id="@+id/suggest_bottle_search_person_must_have"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/suggest_bottle_search_person"
+            android:layout_alignEnd="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignLeft="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignRight="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignStart="@id/suggest_bottle_search_wine_color_must_have"
+            android:layout_alignTop="@id/suggest_bottle_search_person"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <Button
+            android:id="@+id/suggest_bottle_search_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/suggest_bottle_search_person"
+            android:layout_margin="@dimen/margin_button"
+            android:background="@color/colorAccent"
+            android:text="@string/suggest_bottle_search"
+            android:textColor="@android:color/white" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

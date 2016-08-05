@@ -1,0 +1,86 @@
+package com.myadridev.mypocketcave.managers;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myadridev.mypocketcave.activities.AboutActivity;
+import com.myadridev.mypocketcave.activities.BottleCreateActivity;
+import com.myadridev.mypocketcave.activities.BottleDetailActivity;
+import com.myadridev.mypocketcave.activities.BottleEditActivity;
+import com.myadridev.mypocketcave.activities.CaveCreateActivity;
+import com.myadridev.mypocketcave.activities.CaveDetailActivity;
+import com.myadridev.mypocketcave.activities.CaveEditActivity;
+import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
+import com.myadridev.mypocketcave.activities.SuggestBottleSearchActivity;
+import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
+
+public class NavigationManager {
+
+    public static void navigateToBottleDetail(Context context, int bottleId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("bottleId", bottleId);
+        Intent intent = new Intent(context, BottleDetailActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    public static void navigateToBottleCreate(Context context) {
+        context.startActivity(new Intent(context, BottleCreateActivity.class));
+    }
+
+    public static void navigateToBottleEdit(Context context, int bottleId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("bottleId", bottleId);
+        Intent intent = new Intent(context, BottleEditActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    public static void navigateToAbout(Context context) {
+        context.startActivity(new Intent(context, AboutActivity.class));
+    }
+
+    public static void navigateToSuggestBottleSearch(Context context) {
+        context.startActivity(new Intent(context, SuggestBottleSearchActivity.class));
+    }
+
+    public static boolean navigateToSuggestBottleResult(Context context, SuggestBottleCriteria searchCriteria) {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        String searchCriteriaJson;
+        try {
+            searchCriteriaJson = jsonMapper.writeValueAsString(searchCriteria);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return false;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString("searchCriteria", searchCriteriaJson);
+        Intent intent = new Intent(context, SuggestBottleResultActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+        return true;
+    }
+
+    public static void navigateToCaveDetail(Context context, int caveId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("caveId", caveId);
+        Intent intent = new Intent(context, CaveDetailActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    public static void navigateToCaveCreate(Context context) {
+        context.startActivity(new Intent(context, CaveCreateActivity.class));
+    }
+
+    public static void navigateToCaveEdit(Context context, int caveId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("caveId", caveId);
+        Intent intent = new Intent(context, CaveEditActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+}
