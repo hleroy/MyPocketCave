@@ -11,7 +11,7 @@
         android:layout_margin="@dimen/margin_button"
         android:layout_gravity="center"
         android:layout_centerVertical="true"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
         android:text="@string/suggest_bottle_result_show_more"
         android:textColor="@android:color/white" />
 

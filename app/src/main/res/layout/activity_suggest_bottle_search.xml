@@ -209,7 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/suggest_bottle_search_person"
             android:layout_margin="@dimen/margin_button"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary"
             android:text="@string/suggest_bottle_search"
             android:textColor="@android:color/white" />
 

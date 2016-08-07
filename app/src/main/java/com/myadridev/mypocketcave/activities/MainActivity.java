@@ -14,7 +14,6 @@ import android.view.View;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.ViewPagerAdapter;
 import com.myadridev.mypocketcave.fragments.IVisibleFragment;
-import com.myadridev.mypocketcave.managers.ManagersHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 
 import java.util.Map;
@@ -42,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
         if (supportActionBar != null) {
             supportActionBar.setLogo(R.mipmap.logo);
         }
-        ManagersHelper.initializeAllManagers(this);
-
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, 0);
 
         viewPager = (ViewPager) findViewById(R.id.container);

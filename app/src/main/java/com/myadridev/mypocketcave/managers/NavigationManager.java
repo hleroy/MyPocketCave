@@ -13,11 +13,16 @@ import com.myadridev.mypocketcave.activities.BottleEditActivity;
 import com.myadridev.mypocketcave.activities.CaveCreateActivity;
 import com.myadridev.mypocketcave.activities.CaveDetailActivity;
 import com.myadridev.mypocketcave.activities.CaveEditActivity;
+import com.myadridev.mypocketcave.activities.MainActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleSearchActivity;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 
 public class NavigationManager {
+
+    public static void navigateToMain(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     public static void navigateToBottleDetail(Context context, int bottleId) {
         Bundle bundle = new Bundle();
