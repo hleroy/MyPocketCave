@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
@@ -35,6 +36,11 @@ public class BottleDetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView domainView;
 
+    private FloatingActionButton fabMenu;
+    private FloatingActionButton fabCloseMenu;
+    private FloatingActionButton fabEdit;
+    private FloatingActionButton fabDelete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +53,28 @@ public class BottleDetailActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         refreshBottle(bundle.getInt("bottleId"));
 
-        FloatingActionButton fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_bottle);
-        assert fabEdit != null;
+        setupFloatingActionButtons();
+        setupFloatingActionButtonsVisibility();
+    }
+
+    private void setupFloatingActionButtons() {
+        fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_bottle);
+        fabMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFloatingActionButtonsMenu();
+            }
+        });
+
+        fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_bottle);
+        fabCloseMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFloatingActionButtonsMenu();
+            }
+        });
+
+        fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_bottle);
         fabEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,8 +83,7 @@ public class BottleDetailActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_bottle);
-        assert fabDelete != null;
+        fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_bottle);
         fabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +107,39 @@ public class BottleDetailActivity extends AppCompatActivity {
                 deleteBottleDialogBuilder.show();
             }
         });
+    }
+
+    private void closeFloatingActionButtonsMenu() {
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabCloseMenu, 0);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabEdit, 1);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabDelete, 2);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabMenu, 0);
+
+        fabCloseMenu.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0);
+            }
+        }, 150);
+    }
+
+    private void openFloatingActionButtonsMenu() {
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabCloseMenu, 0);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabEdit, 1);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabDelete, 2);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabMenu, 0);
+        FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterShow(fabCloseMenu, 0);
+    }
+
+    private void setupFloatingActionButtonsVisibility() {
+        fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.setClickable(true);
+        fabCloseMenu.setVisibility(View.INVISIBLE);
+        fabCloseMenu.setClickable(false);
+        fabEdit.setVisibility(View.INVISIBLE);
+        fabEdit.setClickable(false);
+        fabDelete.setVisibility(View.INVISIBLE);
+        fabDelete.setClickable(false);
     }
 
     @Override

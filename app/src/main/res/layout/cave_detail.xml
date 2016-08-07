@@ -35,15 +35,31 @@
     <include layout="@layout/content_cave_detail" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_menu_cave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/menu" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_close_menu_cave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/close"
+        android:visibility="gone"
+        app:fabSize="mini" />
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_delete_cave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginBottom="@dimen/fab_margin_bottom"
-        android:layout_marginEnd="@dimen/fab_margin_right_large"
-        android:layout_marginRight="@dimen/fab_margin_right_large"
+        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/delete"
-        app:fabSize="mini" />
+        android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_edit_cave"
@@ -51,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/edit" />
+        android:src="@drawable/edit"
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

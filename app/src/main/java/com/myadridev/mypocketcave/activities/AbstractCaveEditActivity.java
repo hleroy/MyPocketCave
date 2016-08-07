@@ -169,13 +169,10 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         }
     }
 
-    protected abstract void initCave();
-
-    protected abstract void saveCave();
-
-    protected abstract void cancelCave();
-
-    protected abstract void removeCave();
+    protected void initCave() {}
+    protected void saveCave() {}
+    protected void cancelCave() {}
+    protected void removeCave() {}
 
     protected boolean setValues() {
         boolean isValid = checkValues();

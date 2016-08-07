@@ -40,34 +40,48 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_menu_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/menu" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_close_menu_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/close"
+        android:visibility="gone"
+        app:fabSize="mini" />
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_suggest_bottle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/magic_button" />
+        android:src="@drawable/magic_button"
+        android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_bottle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginBottom="@dimen/fab_margin_bottom"
-        android:layout_marginEnd="@dimen/fab_margin_right_large"
-        android:layout_marginRight="@dimen/fab_margin_right_large"
+        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/add_bottle"
-        android:visibility="gone"
-        app:fabSize="mini" />
+        android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_cave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginBottom="@dimen/fab_margin_bottom"
-        android:layout_marginEnd="@dimen/fab_margin_right_large"
-        android:layout_marginRight="@dimen/fab_margin_right_large"
+        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/add_cave"
-        app:fabSize="mini" />
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

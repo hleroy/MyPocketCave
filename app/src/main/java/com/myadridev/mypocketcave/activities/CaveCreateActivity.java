@@ -33,16 +33,6 @@ public class CaveCreateActivity extends AbstractCaveEditActivity {
     }
 
     @Override
-    protected void cancelCave() {
-        // Do nothing
-    }
-
-    @Override
-    protected void removeCave() {
-        // Do nothing
-    }
-
-    @Override
     protected boolean setValues() {
         return super.setValues();
     }

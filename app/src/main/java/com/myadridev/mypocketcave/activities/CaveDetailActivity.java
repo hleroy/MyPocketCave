@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
+import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesModelManager;
@@ -42,6 +43,11 @@ public class CaveDetailActivity extends AppCompatActivity {
     private PercentRelativeLayout patternContainerView;
     private RecyclerView patternRecyclerView;
 
+    private FloatingActionButton fabMenu;
+    private FloatingActionButton fabCloseMenu;
+    private FloatingActionButton fabEdit;
+    private FloatingActionButton fabDelete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +59,28 @@ public class CaveDetailActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         refreshCave(bundle.getInt("caveId"));
 
-        FloatingActionButton fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_cave);
-        assert fabEdit != null;
+        setupFloatingActionButtons();
+        setupFloatingActionButtonsVisibility();
+    }
+
+    private void setupFloatingActionButtons() {
+        fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_cave);
+        fabMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFloatingActionButtonsMenu();
+            }
+        });
+
+        fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_cave);
+        fabCloseMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFloatingActionButtonsMenu();
+            }
+        });
+
+        fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_cave);
         fabEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,8 +89,7 @@ public class CaveDetailActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_cave);
-        assert fabDelete != null;
+        fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_cave);
         fabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +113,39 @@ public class CaveDetailActivity extends AppCompatActivity {
                 deleteCaveDialogBuilder.show();
             }
         });
+    }
+
+    private void closeFloatingActionButtonsMenu() {
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabCloseMenu, 0);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabEdit, 1);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabDelete, 2);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabMenu, 0);
+
+        fabCloseMenu.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0);
+            }
+        }, 150);
+    }
+
+    private void openFloatingActionButtonsMenu() {
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabCloseMenu, 0);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabEdit, 1);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabDelete, 2);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabMenu, 0);
+        FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterShow(fabCloseMenu, 0);
+    }
+
+    private void setupFloatingActionButtonsVisibility() {
+        fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.setClickable(true);
+        fabCloseMenu.setVisibility(View.INVISIBLE);
+        fabCloseMenu.setClickable(false);
+        fabEdit.setVisibility(View.INVISIBLE);
+        fabEdit.setClickable(false);
+        fabDelete.setVisibility(View.INVISIBLE);
+        fabDelete.setClickable(false);
     }
 
     @Override

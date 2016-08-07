@@ -33,16 +33,6 @@ public class BottleCreateActivity extends AbstractBottleEditActivity {
     }
 
     @Override
-    protected void cancelBottle() {
-        // Do nothing
-    }
-
-    @Override
-    protected void removeBottle() {
-        // Do nothing
-    }
-
-    @Override
     protected boolean setValues() {
         return super.setValues();
     }

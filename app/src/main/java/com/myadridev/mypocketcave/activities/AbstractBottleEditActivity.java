@@ -170,13 +170,10 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         }
     }
 
-    protected abstract void initBottle();
-
-    protected abstract void saveBottle();
-
-    protected abstract void cancelBottle();
-
-    protected abstract void removeBottle();
+    protected void initBottle() {}
+    protected void saveBottle() {}
+    protected void cancelBottle() {}
+    protected void removeBottle() {}
 
     protected boolean setValues() {
         boolean isValid = checkValues();
