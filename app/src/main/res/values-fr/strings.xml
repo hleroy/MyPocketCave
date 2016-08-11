@@ -113,4 +113,14 @@
     <string name="cave_boxes_bottles_number_edit">Nombre de bouteilles par caisse</string>
     <string name="cave_boxes_number_edit">Nombre de caisses</string>
     <string name="cave_bulk_bottles_number_edit">Nombre de bouteilles</string>
+    <string name="title_select_pattern">Motifs récents</string>
+    <string name="title_create_pattern">Nouveau motif</string>
+    <string name="pattern_name">Nom du motif</string>
+    <string name="create_pattern_number_bottles_by_row">Bouteilles par ligne</string>
+    <string name="create_pattern_number_bottles_by_column">Bouteilles par colonne</string>
+    <string name="create_pattern_horizontally_expendable">Extensible horizontallement</string>
+    <string name="create_pattern_vertically_expendable">Extensible verticallement</string>
+    <string name="create_pattern_overview">Aperçu du motif</string>
+    <string name="create_pattern_invert">Inverser le motif</string>
+    <string name="error_pattern_incorrect_rows_cols">Le nombre de bouteilles par ligne et par colonne doivent être supérieurs à 0</string>
 </resources>

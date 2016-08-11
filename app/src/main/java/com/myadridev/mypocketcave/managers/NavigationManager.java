@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.managers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +14,12 @@ import com.myadridev.mypocketcave.activities.BottleEditActivity;
 import com.myadridev.mypocketcave.activities.CaveCreateActivity;
 import com.myadridev.mypocketcave.activities.CaveDetailActivity;
 import com.myadridev.mypocketcave.activities.CaveEditActivity;
+import com.myadridev.mypocketcave.activities.CreatePatternActivity;
 import com.myadridev.mypocketcave.activities.MainActivity;
+import com.myadridev.mypocketcave.activities.PatternSelectionActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleSearchActivity;
+import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 
 public class NavigationManager {
@@ -87,5 +91,13 @@ public class NavigationManager {
         Intent intent = new Intent(context, CaveEditActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    public static void navigateToPatternSelection(Activity activity) {
+        activity.startActivityForResult(new Intent(activity, PatternSelectionActivity.class), ActivityRequestEnum.PATTERN_SELECTION.id);
+    }
+
+    public static void navigateToCreatePattern(PatternSelectionActivity activity) {
+        activity.startActivityForResult(new Intent(activity, CreatePatternActivity.class), ActivityRequestEnum.CREATE_PATTERN.id);
     }
 }

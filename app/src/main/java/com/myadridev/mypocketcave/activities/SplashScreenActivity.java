@@ -10,8 +10,9 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
-import com.myadridev.mypocketcave.managers.CoordinatesModelManager;
+import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
+import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.managers.StorageManager;
 
 /**
@@ -66,13 +67,16 @@ public class SplashScreenActivity extends AppCompatActivity {
                         if (!CaveArrangementManager.IsInitialized()) {
                             CaveArrangementManager.Init();
                         }
+                        if (!PatternManager.IsInitialized()) {
+                            PatternManager.Init();
+                        }
                         step++;
                         initializationHandler.postDelayed(this, RunnableDelayBetweenSteps);
                         break;
                     case 3:
                         splashImageView.setImageDrawable(ContextCompat.getDrawable(SplashScreenActivity.this, R.mipmap.splash_4));
-                        if (!CoordinatesModelManager.IsInitialized()) {
-                            CoordinatesModelManager.Init();
+                        if (!CoordinatesManager.IsInitialized()) {
+                            CoordinatesManager.Init();
                         }
                         step++;
                         initializationHandler.postDelayed(this, RunnableDelayBetweenSteps);

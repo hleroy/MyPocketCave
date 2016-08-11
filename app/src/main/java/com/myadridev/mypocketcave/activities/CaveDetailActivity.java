@@ -20,9 +20,10 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
+import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
-import com.myadridev.mypocketcave.managers.CoordinatesModelManager;
+import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
@@ -31,22 +32,28 @@ import java.util.Map;
 
 public class CaveDetailActivity extends AppCompatActivity {
 
+    public static final int overviewScreenHeightPercent = 50;
+    public static final int overviewScreenWidthMarginLeft = 5;
+    public static final int overviewScreenWidthMarginRight = 5;
+
     private CaveModel cave;
     private ImageView caveTypeIconView;
     private TextView caveTypeView;
     private TextView capacityUsedView;
     private Toolbar toolbar;
-    private TextView arrangementView;
     private TextView bulkBottlesNumberView;
     private TextView boxesNumberView;
     private TextView boxesBottlesNumberView;
-    private PercentRelativeLayout patternContainerView;
+    private PercentRelativeLayout patternRecyclerViewContainer;
     private RecyclerView patternRecyclerView;
 
     private FloatingActionButton fabMenu;
     private FloatingActionButton fabCloseMenu;
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
+
+    private int screenHeight;
+    private int screenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,11 +165,10 @@ public class CaveDetailActivity extends AppCompatActivity {
         caveTypeIconView = (ImageView) findViewById(R.id.cave_detail_type_icon);
         caveTypeView = (TextView) findViewById(R.id.cave_detail_type);
         capacityUsedView = (TextView) findViewById(R.id.cave_detail_capacity_used_total);
-        arrangementView = (TextView) findViewById(R.id.cave_detail_arrangement);
         bulkBottlesNumberView = (TextView) findViewById(R.id.cave_detail_bulk_bottles_number);
         boxesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_number);
         boxesBottlesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_bottles_number);
-        patternContainerView = (PercentRelativeLayout) findViewById(R.id.cave_detail_arrangement_pattern_container);
+        patternRecyclerViewContainer = (PercentRelativeLayout)findViewById(R.id.cave_detail_arrangement_pattern_container);
         patternRecyclerView = (RecyclerView) findViewById(R.id.cave_detail_arrangement_pattern);
     }
 
@@ -179,7 +185,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 bulkBottlesNumberView.setText(getString(R.string.cave_bulk_bottles_number_detail, cave.CaveArrangement.NumberBottlesBulk));
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
-                patternContainerView.setVisibility(View.GONE);
+                patternRecyclerViewContainer.setVisibility(View.GONE);
                 break;
             case BOX:
                 bulkBottlesNumberView.setVisibility(View.GONE);
@@ -187,26 +193,36 @@ public class CaveDetailActivity extends AppCompatActivity {
                 boxesNumberView.setText(getString(R.string.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes));
                 boxesBottlesNumberView.setVisibility(View.VISIBLE);
                 boxesBottlesNumberView.setText(getString(R.string.cave_boxes_bottles_number_detail, cave.CaveArrangement.NumberBottlesPerBox));
-                patternContainerView.setVisibility(View.GONE);
+                patternRecyclerViewContainer.setVisibility(View.GONE);
                 break;
             case RACK:
             case FRIDGE:
                 bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
-                patternContainerView.setVisibility(View.VISIBLE);
+                patternRecyclerViewContainer.setVisibility(View.VISIBLE);
 
                 Map<CoordinatesModel, CavePlaceTypeEnum> caveArrangementPlaceMap = CaveArrangementManager.Instance.getPlaceMap(cave.CaveArrangement);
-                CoordinatesModel maxRawCol = CoordinatesModelManager.Instance.getMaxRawCol(caveArrangementPlaceMap.keySet());
-                if (maxRawCol.Col > 0) {
-                    patternRecyclerView.setLayoutManager(new GridLayoutManager(this, maxRawCol.Col));
-                    PatternAdapter patternAdapter = new PatternAdapter(this, caveArrangementPlaceMap, maxRawCol, true);
+                CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(caveArrangementPlaceMap.keySet());
+                if (maxRowCol.Col > 0) {
+                    if (screenHeight == 0 || screenWidth == 0) {
+                        setScreenDimensions();
+                    }
+                    PatternAdapter patternAdapter = new PatternAdapter(this, caveArrangementPlaceMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 1), true,
+                            screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight, screenHeight * overviewScreenHeightPercent / 100);
+                    patternRecyclerView.setLayoutManager(new GridLayoutManager(this, maxRowCol.Col + 1));
                     patternRecyclerView.setAdapter(patternAdapter);
+                    patternRecyclerView.setVisibility(View.VISIBLE);
                 } else {
                     patternRecyclerView.setVisibility(View.GONE);
                 }
                 break;
         }
+    }
+
+    private void setScreenDimensions() {
+        screenHeight = ScreenHelper.getScreenHeight(this);
+        screenWidth = ScreenHelper.getScreenWidth(this);
     }
 
     @Override

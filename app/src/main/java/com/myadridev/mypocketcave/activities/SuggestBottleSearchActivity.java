@@ -47,7 +47,7 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_suggest_bottle_search);
+        setContentView(R.layout.suggest_bottle_search);
         isFoodListOpen = false;
         for (int i = 0; i < FoodToEatWithEnum.number; i++) {
             foodToEatWithList[i] = false;

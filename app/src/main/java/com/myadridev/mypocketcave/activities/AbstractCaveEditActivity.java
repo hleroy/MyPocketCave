@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.percent.PercentRelativeLayout;
@@ -20,10 +21,12 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.CaveTypeSpinnerAdapter;
+import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
-import com.myadridev.mypocketcave.managers.CoordinatesModelManager;
+import com.myadridev.mypocketcave.managers.CoordinatesManager;
+import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 
@@ -40,6 +43,9 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private EditText boxesBottlesNumberView;
     private PercentRelativeLayout caveArrangementContainerView;
     private RecyclerView caveArrangementRecyclerView;
+
+    public CoordinatesModel ClickedPatternCoordinates;
+    private CaveArrangementAdapter caveArrangementAdapter;
 
     protected AbstractCaveEditActivity() {
         hideKeyboardOnClick = new View.OnTouchListener() {
@@ -138,11 +144,30 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 boxesBottlesNumberView.setVisibility(View.GONE);
                 caveArrangementContainerView.setVisibility(View.VISIBLE);
 
-                CoordinatesModel maxRawCol = CoordinatesModelManager.Instance.getMaxRawCol(cave.CaveArrangement.PatternMap.keySet());
-                caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, Math.max(maxRawCol.Col + 1, 2)));
-                CaveArrangementAdapter caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, new CoordinatesModel(maxRawCol.Raw + 1, maxRawCol.Col + 1));
+                createAdapter();
                 caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
                 break;
+        }
+    }
+
+    private void createAdapter() {
+        CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
+        caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, Math.max(maxRowCol.Col + 2, 2)));
+        caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 1));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ActivityRequestEnum.PATTERN_SELECTION.id) {
+            if (resultCode == RESULT_OK && ClickedPatternCoordinates != null) {
+                int patternId = data.getIntExtra("patternId", -1);
+                if (patternId != -1) {
+                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, PatternManager.Instance.getPattern(patternId));
+                    createAdapter();
+                    caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
+                }
+            }
         }
     }
 
@@ -169,10 +194,17 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         }
     }
 
-    protected void initCave() {}
-    protected void saveCave() {}
-    protected void cancelCave() {}
-    protected void removeCave() {}
+    protected void initCave() {
+    }
+
+    protected void saveCave() {
+    }
+
+    protected void cancelCave() {
+    }
+
+    protected void removeCave() {
+    }
 
     protected boolean setValues() {
         boolean isValid = checkValues();
@@ -214,16 +246,16 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         String name = nameView.getText().toString();
 
         if (name.isEmpty()) {
-            AlertDialog.Builder noNameBottleDialogBuilder = new AlertDialog.Builder(this);
-            noNameBottleDialogBuilder.setCancelable(true);
-            noNameBottleDialogBuilder.setMessage(R.string.error_cave_no_name);
-            noNameBottleDialogBuilder.setNegativeButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
+            AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
+            noNameDialogBuilder.setCancelable(true);
+            noNameDialogBuilder.setMessage(R.string.error_cave_no_name);
+            noNameDialogBuilder.setNegativeButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            noNameBottleDialogBuilder.setPositiveButton(R.string.global_exit, new DialogInterface.OnClickListener() {
+            noNameDialogBuilder.setPositiveButton(R.string.global_exit, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -231,23 +263,23 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                     cancelCave();
                 }
             });
-            noNameBottleDialogBuilder.show();
+            noNameDialogBuilder.show();
             isErrors = true;
         } else {
             CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
 
             final int existingCaveId = CaveManager.Instance.getExistingCaveId(cave.Id, name, caveType);
             if (existingCaveId > 0) {
-                AlertDialog.Builder existingBottleDialogBuilder = new AlertDialog.Builder(this);
-                existingBottleDialogBuilder.setCancelable(true);
-                existingBottleDialogBuilder.setMessage(R.string.error_cave_already_exists);
-                existingBottleDialogBuilder.setNeutralButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
+                AlertDialog.Builder existingCaveDialogBuilder = new AlertDialog.Builder(this);
+                existingCaveDialogBuilder.setCancelable(true);
+                existingCaveDialogBuilder.setMessage(R.string.error_cave_already_exists);
+                existingCaveDialogBuilder.setNeutralButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-                existingBottleDialogBuilder.setNegativeButton(R.string.global_exit, new DialogInterface.OnClickListener() {
+                existingCaveDialogBuilder.setNegativeButton(R.string.global_exit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -255,7 +287,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                         cancelCave();
                     }
                 });
-                existingBottleDialogBuilder.setPositiveButton(R.string.global_merge, new DialogInterface.OnClickListener() {
+                existingCaveDialogBuilder.setPositiveButton(R.string.global_merge, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -263,7 +295,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                         redirectToExistingCave(existingCaveId);
                     }
                 });
-                existingBottleDialogBuilder.show();
+                existingCaveDialogBuilder.show();
                 isErrors = true;
             }
         }

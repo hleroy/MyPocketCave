@@ -38,7 +38,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_suggest_bottle_result);
+        setContentView(R.layout.suggest_bottle_result);
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.suggest_bottle_result_coordinator_layout);
 

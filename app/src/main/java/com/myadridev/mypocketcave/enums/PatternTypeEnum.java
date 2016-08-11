@@ -4,8 +4,8 @@ import com.myadridev.mypocketcave.R;
 
 public enum PatternTypeEnum {
     LINEAR(0, R.string.pattern_type_linear, R.drawable.pattern_type_linear),
-    STAGGERED_ROWS(1, R.string.pattern_type_staggered_rows, R.drawable.pattern_type_staggered_rows),
-    FREE(2, R.string.pattern_type_free, -1);
+    STAGGERED_ROWS(1, R.string.pattern_type_staggered_rows, R.drawable.pattern_type_staggered_rows);
+//    FREE(2, R.string.pattern_type_free, -1);
 
     public static final int number = values().length;
     public final int id;

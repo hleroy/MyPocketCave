@@ -4,12 +4,12 @@ import com.myadridev.mypocketcave.models.CoordinatesModel;
 
 import java.util.Collection;
 
-public class CoordinatesModelManager {
+public class CoordinatesManager {
 
-    public static CoordinatesModelManager Instance;
+    public static CoordinatesManager Instance;
     private static boolean _isInitialized;
 
-    private CoordinatesModelManager() {
+    private CoordinatesManager() {
     }
 
     public static boolean IsInitialized() {
@@ -17,19 +17,19 @@ public class CoordinatesModelManager {
     }
 
     public static void Init() {
-        Instance = new CoordinatesModelManager();
+        Instance = new CoordinatesManager();
         _isInitialized = true;
     }
 
-    public CoordinatesModel getMaxRawCol(Collection<CoordinatesModel> coordinates) {
-        int maxCol = 0;
-        int maxRaw = 0;
+    public CoordinatesModel getMaxRowCol(Collection<CoordinatesModel> coordinates) {
+        int maxCol = -1;
+        int maxRaw = -1;
         for (CoordinatesModel coordinate : coordinates) {
             if (coordinate.Col > maxCol) {
                 maxCol = coordinate.Col;
             }
-            if (coordinate.Raw > maxRaw) {
-                maxRaw = coordinate.Raw;
+            if (coordinate.Row > maxRaw) {
+                maxRaw = coordinate.Row;
             }
         }
         return new CoordinatesModel(maxRaw, maxCol);

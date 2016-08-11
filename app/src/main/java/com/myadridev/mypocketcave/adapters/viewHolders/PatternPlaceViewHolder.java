@@ -26,12 +26,20 @@ public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
         placeTypeView.setImageDrawable(placeTypeViewDrawable);
     }
 
+    public ImageView getPlaceTypeView() {
+        return placeTypeView;
+    }
+
     public void setOnItemClickListener(final OnPlaceClickListener listener, final CoordinatesModel coordinates) {
-        itemView.setOnClickListener(new View.OnClickListener() {
+        placeTypeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onPlaceClick(coordinates);
             }
         });
+    }
+
+    public void setClickable(boolean isClickable) {
+        placeTypeView.setClickable(isClickable);
     }
 }

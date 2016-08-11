@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/pattern_type_icon"
+        android:layout_width="@dimen/bottle_icon_size"
+        android:layout_height="@dimen/bottle_icon_size"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+        android:src="@drawable/pattern_type_staggered_rows" />
+
+    <TextView
+        android:id="@+id/pattern_type_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_toEndOf="@id/pattern_type_icon"
+        android:layout_toRightOf="@id/pattern_type_icon"
+        android:text="Pattern type"
+        android:textSize="@dimen/text_size" />
+
+</RelativeLayout>

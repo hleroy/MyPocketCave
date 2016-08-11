@@ -1,0 +1,169 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreatePatternActivity">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/create_pattern_relative_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/create_pattern_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:spinnerMode="dropdown" />
+
+        <EditText
+            android:id="@+id/create_pattern_number_bottles_by_column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/create_pattern_type"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:gravity="center"
+            android:hint="@string/create_pattern_number_bottles_by_column"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            app:layout_widthPercent="45%" />
+
+        <EditText
+            android:id="@+id/create_pattern_number_bottles_by_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/create_pattern_type"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:gravity="center"
+            android:hint="@string/create_pattern_number_bottles_by_row"
+            android:inputType="number"
+            app:layout_widthPercent="45%" />
+
+        <TextView
+            android:id="@+id/create_pattern_vertically_expendable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_pattern_number_bottles_by_row"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements"
+            android:text="@string/create_pattern_vertically_expendable"
+            android:textSize="@dimen/text_size" />
+
+        <CheckBox
+            android:id="@+id/create_pattern_vertically_expendable_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/create_pattern_vertically_expendable"
+            android:layout_alignTop="@id/create_pattern_vertically_expendable"
+            android:layout_below="@id/create_pattern_number_bottles_by_row"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/create_pattern_vertically_expendable"
+            android:layout_toRightOf="@id/create_pattern_vertically_expendable" />
+
+        <TextView
+            android:id="@+id/create_pattern_horizontally_expendable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_pattern_vertically_expendable"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements"
+            android:text="@string/create_pattern_horizontally_expendable"
+            android:textSize="@dimen/text_size" />
+
+        <CheckBox
+            android:id="@+id/create_pattern_horizontally_expendable_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/create_pattern_horizontally_expendable"
+            android:layout_alignTop="@id/create_pattern_horizontally_expendable"
+            android:layout_below="@id/create_pattern_number_bottles_by_row"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/create_pattern_horizontally_expendable"
+            android:layout_toRightOf="@id/create_pattern_horizontally_expendable" />
+
+        <TextView
+            android:id="@+id/create_pattern_inverted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_pattern_horizontally_expendable"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements"
+            android:text="@string/create_pattern_invert"
+            android:textSize="@dimen/text_size" />
+
+        <CheckBox
+            android:id="@+id/create_pattern_inverted_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/create_pattern_inverted"
+            android:layout_alignTop="@id/create_pattern_inverted"
+            android:layout_below="@id/create_pattern_horizontally_expendable"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/create_pattern_inverted"
+            android:layout_toRightOf="@id/create_pattern_inverted" />
+
+        <TextView
+            android:id="@+id/create_pattern_overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_pattern_inverted"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements"
+            android:text="@string/create_pattern_overview"
+            android:textSize="@dimen/text_size_big" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/create_pattern_overview_recyclerview"
+            android:layout_width="match_parent"
+            app:layout_heightPercent="50%"
+            android:layout_below="@id/create_pattern_overview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+</ScrollView>

@@ -206,16 +206,16 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         String name = nameView.getText().toString();
 
         if (name.isEmpty()) {
-            AlertDialog.Builder noNameBottleDialogBuilder = new AlertDialog.Builder(this);
-            noNameBottleDialogBuilder.setCancelable(true);
-            noNameBottleDialogBuilder.setMessage(R.string.error_bottle_no_name);
-            noNameBottleDialogBuilder.setNegativeButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
+            AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
+            noNameDialogBuilder.setCancelable(true);
+            noNameDialogBuilder.setMessage(R.string.error_bottle_no_name);
+            noNameDialogBuilder.setNegativeButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            noNameBottleDialogBuilder.setPositiveButton(R.string.global_exit, new DialogInterface.OnClickListener() {
+            noNameDialogBuilder.setPositiveButton(R.string.global_exit, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -223,7 +223,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
                     cancelBottle();
                 }
             });
-            noNameBottleDialogBuilder.show();
+            noNameDialogBuilder.show();
             isErrors = true;
         } else {
             String domain = domainView.getText().toString();

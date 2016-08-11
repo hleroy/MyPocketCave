@@ -1,7 +1,6 @@
 package com.myadridev.mypocketcave.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import com.myadridev.mypocketcave.adapters.viewHolders.PatternPlaceViewHolder;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.Map;
 
@@ -22,24 +22,28 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final LayoutInflater layoutInflater;
 
     private final OnPlaceClickListener listener;
-    private final int maxRaw;
-    private final int maxCol;
+    private final int numberRows;
+    private final int numberCols;
     private final boolean isClickable;
+    private final int totalWidth;
+    private final int totalHeight;
 
-    public PatternAdapter(Context _context, Map<CoordinatesModel, CavePlaceTypeEnum> _patternPlaceType, CoordinatesModel maxRawCol, boolean _isClickable) {
+    public PatternAdapter(Context _context, Map<CoordinatesModel, CavePlaceTypeEnum> _patternPlaceType, CoordinatesModel maxRawCol, boolean _isClickable, int _totalWidth, int _totalHeight) {
         context = _context;
         patternPlaceType = _patternPlaceType;
-        maxRaw = maxRawCol.Raw;
-        maxCol = maxRawCol.Col;
+        numberRows = maxRawCol.Row;
+        numberCols = maxRawCol.Col;
         isClickable = _isClickable;
         layoutInflater = LayoutInflater.from(context);
         listener = new OnPlaceClickListener() {
             @Override
-            public void onPlaceClick(CoordinatesModel coordinate) {
+            public void onPlaceClick(CoordinatesModel coordinates) {
                 // TODO : voir la bouteille / popup d'ajout de bouteille
-                Toast.makeText(context, "click on raw : " + coordinate.Raw + ", col : " + coordinate.Col, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "click on raw : " + coordinates.Row + ", col : " + coordinates.Col, Toast.LENGTH_LONG).show();
             }
         };
+        totalWidth = _totalWidth;
+        totalHeight = _totalHeight;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return maxRaw * maxCol;
+        return numberRows * numberCols;
     }
 
     @Override
@@ -74,15 +78,33 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (cavePlace != null) {
             // TODO : quand il y a une bouteille, drawable différent
             int caveTypeDrawableId = cavePlace.drawableResourceId;
-            holder.setPlaceTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);
-            if (isClickable && cavePlace == CavePlaceTypeEnum.PLACE) {
-                holder.setOnItemClickListener(listener, coordinates);
+            if (caveTypeDrawableId != -1) {
+                Picasso.with(context).load(caveTypeDrawableId)
+                        .resize(getItemWidth(), getItemHeight()).into(holder.getPlaceTypeView());
+            } else {
+                holder.setPlaceTypeViewImageDrawable(null);
+            }
+            if (isClickable) {
+                if (cavePlace == CavePlaceTypeEnum.PLACE) {
+                    holder.setOnItemClickListener(listener, coordinates);
+                }
+            }
+            else {
+                holder.setClickable(false);
             }
         }
     }
 
+    private int getItemWidth() {
+        return totalWidth / numberCols;
+    }
+
+    private int getItemHeight() {
+        return totalHeight / numberRows;
+    }
+
     private CoordinatesModel getCoordinateByPosition(int position) {
-        return new CoordinatesModel(position / maxCol, position % maxCol);
+        return new CoordinatesModel(position / numberCols, position % numberCols);
     }
 }
 
