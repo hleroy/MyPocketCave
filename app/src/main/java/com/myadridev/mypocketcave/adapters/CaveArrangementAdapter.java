@@ -18,6 +18,7 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.Map;
 
@@ -27,17 +28,17 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final LayoutInflater layoutInflater;
 
     private final OnPatternClickListener listener;
-    private final int maxRow;
-    private final int maxCol;
+    private final int nbRows;
+    private final int nbCols;
     private int itemWidth;
     private int numberOfColumnsForDisplay;
 
-    public CaveArrangementAdapter(AbstractCaveEditActivity _activity, Map<CoordinatesModel, Integer> _patternMap, CoordinatesModel maxRawCol) {
+    public CaveArrangementAdapter(AbstractCaveEditActivity _activity, Map<CoordinatesModel, Integer> _patternMap, int nbRows, int nbCols) {
         activity = _activity;
         patternMap = _patternMap;
-        maxRow = maxRawCol.Row;
-        maxCol = maxRawCol.Col;
-        numberOfColumnsForDisplay = maxRow + 1;
+        this.nbRows = nbRows;
+        this.nbCols = nbCols;
+        numberOfColumnsForDisplay = nbCols;
         layoutInflater = LayoutInflater.from(activity);
         listener = new OnPatternClickListener() {
             @Override
@@ -77,7 +78,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return (maxRow + 1) * (maxCol + 1);
+        return nbRows * nbCols;
     }
 
     @Override
@@ -130,11 +131,12 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
         } else if (isAddPattern(coordinates)) {
             AddPatternViewHolder holder = (AddPatternViewHolder) viewHolder;
+            Picasso.with(activity).load(R.drawable.add).resize(itemWidth / 2, itemWidth / 2).into(holder.getImageView());
             holder.setOnItemClickListener(listener, coordinates);
         }
     }
 
     private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {
-        return new CoordinatesModel(rowPosition / (maxCol + 1), colPosition % (maxCol + 1));
+        return new CoordinatesModel(rowPosition / nbCols, colPosition % nbCols);
     }
 }

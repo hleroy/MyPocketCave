@@ -1,119 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/cave_edit_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
-        android:hint="@string/cave_name"
-        android:imeOptions="actionNext"
-        android:inputType="textCapSentences" />
-
-    <Spinner
-        android:id="@+id/cave_edit_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/cave_edit_name"
-        android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
-        android:spinnerMode="dropdown" />
-
-    <TextView
-        android:id="@+id/cave_edit_arrangement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cave_edit_type"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="@dimen/vertical_margin_between_elements"
-        android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
-        android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
-        android:layout_marginTop="@dimen/vertical_margin_between_elements"
-        android:text="@string/cave_arrangement"
-        android:textSize="@dimen/text_size_big" />
-
-    <EditText
-        android:id="@+id/cave_edit_bulk_bottles_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cave_edit_arrangement"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:gravity="center"
-        android:hint="@string/cave_bulk_bottles_number_edit"
-        android:imeOptions="actionNext"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/cave_edit_boxes_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cave_edit_bulk_bottles_number"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:gravity="center"
-        android:hint="@string/cave_boxes_number_edit"
-        android:imeOptions="actionNext"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/cave_edit_boxes_bottles_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cave_edit_boxes_number"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:gravity="center"
-        android:hint="@string/cave_boxes_bottles_number_edit"
-        android:imeOptions="actionNext"
-        android:inputType="number" />
-
     <android.support.percent.PercentRelativeLayout
-        android:id="@+id/cave_edit_arrangement_patterns_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/cave_edit_boxes_bottles_number"
-        android:layout_marginBottom="@dimen/vertical_margin_between_elements"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:layout_marginTop="@dimen/vertical_margin_between_elements">
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/cave_edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:hint="@string/cave_name"
+            android:imeOptions="actionNext"
+            android:inputType="textCapSentences" />
+
+        <Spinner
+            android:id="@+id/cave_edit_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/cave_edit_name"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:spinnerMode="dropdown" />
+
+        <TextView
+            android:id="@+id/cave_edit_arrangement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_type"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements"
+            android:text="@string/cave_arrangement"
+            android:textSize="@dimen/text_size_big" />
+
+        <EditText
+            android:id="@+id/cave_edit_bulk_bottles_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_arrangement"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:gravity="center"
+            android:hint="@string/cave_bulk_bottles_number_edit"
+            android:imeOptions="actionNext"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/cave_edit_boxes_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_bulk_bottles_number"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:gravity="center"
+            android:hint="@string/cave_boxes_number_edit"
+            android:imeOptions="actionNext"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/cave_edit_boxes_bottles_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_boxes_number"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:gravity="center"
+            android:hint="@string/cave_boxes_bottles_number_edit"
+            android:imeOptions="actionNext"
+            android:inputType="number" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/cave_edit_arrangement_patterns"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_boxes_bottles_number"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements">
 
         </android.support.v7.widget.RecyclerView>
 
     </android.support.percent.PercentRelativeLayout>
 
-</android.support.percent.PercentRelativeLayout>
+</ScrollView>

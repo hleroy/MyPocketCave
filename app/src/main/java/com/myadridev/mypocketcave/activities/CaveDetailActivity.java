@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.percent.PercentRelativeLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -44,7 +43,6 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView bulkBottlesNumberView;
     private TextView boxesNumberView;
     private TextView boxesBottlesNumberView;
-    private PercentRelativeLayout patternRecyclerViewContainer;
     private RecyclerView patternRecyclerView;
 
     private FloatingActionButton fabMenu;
@@ -168,7 +166,6 @@ public class CaveDetailActivity extends AppCompatActivity {
         bulkBottlesNumberView = (TextView) findViewById(R.id.cave_detail_bulk_bottles_number);
         boxesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_number);
         boxesBottlesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_bottles_number);
-        patternRecyclerViewContainer = (PercentRelativeLayout)findViewById(R.id.cave_detail_arrangement_pattern_container);
         patternRecyclerView = (RecyclerView) findViewById(R.id.cave_detail_arrangement_pattern);
     }
 
@@ -185,7 +182,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 bulkBottlesNumberView.setText(getString(R.string.cave_bulk_bottles_number_detail, cave.CaveArrangement.NumberBottlesBulk));
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
-                patternRecyclerViewContainer.setVisibility(View.GONE);
+                patternRecyclerView.setVisibility(View.GONE);
                 break;
             case BOX:
                 bulkBottlesNumberView.setVisibility(View.GONE);
@@ -193,14 +190,13 @@ public class CaveDetailActivity extends AppCompatActivity {
                 boxesNumberView.setText(getString(R.string.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes));
                 boxesBottlesNumberView.setVisibility(View.VISIBLE);
                 boxesBottlesNumberView.setText(getString(R.string.cave_boxes_bottles_number_detail, cave.CaveArrangement.NumberBottlesPerBox));
-                patternRecyclerViewContainer.setVisibility(View.GONE);
+                patternRecyclerView.setVisibility(View.GONE);
                 break;
             case RACK:
             case FRIDGE:
                 bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
-                patternRecyclerViewContainer.setVisibility(View.VISIBLE);
 
                 Map<CoordinatesModel, CavePlaceTypeEnum> caveArrangementPlaceMap = CaveArrangementManager.Instance.getPlaceMap(cave.CaveArrangement);
                 CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(caveArrangementPlaceMap.keySet());
@@ -208,8 +204,10 @@ public class CaveDetailActivity extends AppCompatActivity {
                     if (screenHeight == 0 || screenWidth == 0) {
                         setScreenDimensions();
                     }
+                    int totalWidth = screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight;
+                    int totalHeight = screenHeight * overviewScreenHeightPercent / 100;
                     PatternAdapter patternAdapter = new PatternAdapter(this, caveArrangementPlaceMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 1), true,
-                            screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight, screenHeight * overviewScreenHeightPercent / 100);
+                            totalWidth, totalHeight);
                     patternRecyclerView.setLayoutManager(new GridLayoutManager(this, maxRowCol.Col + 1));
                     patternRecyclerView.setAdapter(patternAdapter);
                     patternRecyclerView.setVisibility(View.VISIBLE);

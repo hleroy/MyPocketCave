@@ -1,9 +1,12 @@
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/add_pattern_image"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:background="@color/colorAccent"
-    android:src="@drawable/add" />
+    android:gravity="center">
 
-    <!-- TODO : modifier la couleur de fond -->
+    <ImageView
+        android:id="@+id/add_pattern_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add" />
+
+</RelativeLayout>

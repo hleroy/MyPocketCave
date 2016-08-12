@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -40,7 +39,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private EditText bulkBottlesNumberView;
     private EditText boxesNumberView;
     private EditText boxesBottlesNumberView;
-    private PercentRelativeLayout caveArrangementContainerView;
     private RecyclerView caveArrangementRecyclerView;
 
     public CoordinatesModel ClickedPatternCoordinates;
@@ -84,8 +82,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         bulkBottlesNumberView = (EditText) findViewById(R.id.cave_edit_bulk_bottles_number);
         boxesNumberView = (EditText) findViewById(R.id.cave_edit_boxes_number);
         boxesBottlesNumberView = (EditText) findViewById(R.id.cave_edit_boxes_bottles_number);
-        caveArrangementContainerView = (PercentRelativeLayout) findViewById(R.id.cave_edit_arrangement_patterns_container);
-        caveArrangementContainerView.setOnTouchListener(hideKeyboardOnClick);
         caveArrangementRecyclerView = (RecyclerView) findViewById(R.id.cave_edit_arrangement_patterns);
         caveArrangementRecyclerView.setOnTouchListener(hideKeyboardOnClick);
     }
@@ -124,24 +120,24 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 }
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
-                caveArrangementContainerView.setVisibility(View.GONE);
+                caveArrangementRecyclerView.setVisibility(View.GONE);
                 break;
             case BOX:
                 bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.VISIBLE);
                 boxesBottlesNumberView.setVisibility(View.VISIBLE);
+                caveArrangementRecyclerView.setVisibility(View.GONE);
                 if (cave.Id > 0) {
                     boxesNumberView.setText(String.valueOf(cave.CaveArrangement.NumberBoxes));
                     boxesBottlesNumberView.setText(String.valueOf(cave.CaveArrangement.NumberBottlesPerBox));
                 }
-                caveArrangementContainerView.setVisibility(View.GONE);
                 break;
             case RACK:
             case FRIDGE:
                 bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
-                caveArrangementContainerView.setVisibility(View.VISIBLE);
+                caveArrangementRecyclerView.setVisibility(View.VISIBLE);
 
                 createAdapter();
                 caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
@@ -152,8 +148,10 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private void createAdapter() {
         cave.CaveArrangement.setPatternMapForEdit();
         CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
-        caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, Math.max(maxRowCol.Col + 3, 3)));
-        caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 2));
+        int nbCols = Math.max(maxRowCol.Col + 2, 3);
+        int nbRows = maxRowCol.Row + 2;
+        caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
+        caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, nbRows, nbCols);
     }
 
     @Override

@@ -121,25 +121,18 @@
             android:text="@string/cave_boxes_bottles_number_detail"
             android:textSize="@dimen/text_size" />
 
-        <android.support.percent.PercentRelativeLayout
-            android:id="@+id/cave_detail_arrangement_pattern_container"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cave_detail_arrangement_pattern"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cave_detail_boxes_bottles_number"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
             android:layout_marginRight="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:layout_marginTop="@dimen/vertical_margin_between_elements">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/cave_detail_arrangement_pattern"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true" />
-
-        </android.support.percent.PercentRelativeLayout>
+            android:layout_marginTop="@dimen/vertical_margin_between_elements" />
 
     </android.support.percent.PercentRelativeLayout>
 

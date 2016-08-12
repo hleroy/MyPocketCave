@@ -50,7 +50,7 @@ public class CaveArrangementManager {
                         getLeftPatternExpendable(row, col, caveArrangement.PatternMap));
             }
 
-            fillPattern(placeMap, patternsAbsoluteLastRowCol);
+            fillPattern(placeMap, patternsAbsoluteLastRowCol, caveArrangement.PatternMap);
         }
 
         return placeMap;
@@ -214,15 +214,25 @@ public class CaveArrangementManager {
         }
     }
 
-    private void fillPattern(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, Map<CoordinatesModel, CoordinatesModel> patternsAbsoluteLastRowCol) {
+    private void fillPattern(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, Map<CoordinatesModel, CoordinatesModel> patternsAbsoluteLastRowCol, Map<CoordinatesModel, Integer> patternMap) {
         int maxRowIndex = 0;
         int maxColIndex = 0;
-        for (CoordinatesModel rowCol : patternsAbsoluteLastRowCol.values()) {
+        for (Map.Entry<CoordinatesModel, CoordinatesModel> absoluteLastRowColEntry : patternsAbsoluteLastRowCol.entrySet()) {
+            CoordinatesModel patternCoordinates = absoluteLastRowColEntry.getKey();
+            CoordinatesModel rowCol = absoluteLastRowColEntry.getValue();
             maxRowIndex = Math.max(rowCol.Row, maxRowIndex);
             maxColIndex = Math.max(rowCol.Col, maxColIndex);
+
+            PatternModel pattern = PatternManager.Instance.getPattern(patternMap.get(patternCoordinates));
+            if (maxRowIndex == rowCol.Row && pattern.IsVerticallyExpendable) {
+                maxRowIndex++;
+            }
+            if (maxColIndex == rowCol.Col && pattern.IsHorizontallyExpendable) {
+                maxColIndex++;
+            }
         }
-        for (int row = 0; row <= maxRowIndex; row++) {
-            for (int col = 0; col <= maxColIndex; col++) {
+        for (int row = 0; row < maxRowIndex; row++) {
+            for (int col = 0; col < maxColIndex; col++) {
                 CoordinatesModel rowCol = new CoordinatesModel(row, col);
                 if (!placeMap.containsKey(rowCol)) {
                     placeMap.put(rowCol, CavePlaceTypeEnum.NO_PLACE);
