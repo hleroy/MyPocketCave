@@ -154,7 +154,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/create_pattern_overview_recyclerview"
             android:layout_width="match_parent"
-            app:layout_heightPercent="50%"
+            android:layout_height="wrap_content"
             android:layout_below="@id/create_pattern_overview"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"

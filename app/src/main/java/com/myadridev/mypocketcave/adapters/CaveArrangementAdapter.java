@@ -112,9 +112,10 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             PatternModel pattern = patternMap.get(coordinates);
             if (pattern != null) {
                 int numberRowsGridLayout = pattern.getNumberRowsGridLayout();
+                int numberColumnsGridLayout = pattern.getNumberColumnsGridLayout();
                 if (numberRowsGridLayout > 0) {
-                    holder.setPatternViewLayoutManager(new GridLayoutManager(activity, numberRowsGridLayout));
-                    PatternAdapter patternAdapter = new PatternAdapter(activity, pattern.PlaceMap, new CoordinatesModel(numberRowsGridLayout, pattern.getNumberColumnsGridLayout()),
+                    holder.setPatternViewLayoutManager(new GridLayoutManager(activity, numberColumnsGridLayout));
+                    PatternAdapter patternAdapter = new PatternAdapter(activity, pattern.PlaceMap, new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
                             false, itemWidth, itemWidth);
                     holder.setPatternViewAdapter(patternAdapter);
                     holder.setOnItemClickListener(listener, coordinates);
