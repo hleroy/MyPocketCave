@@ -64,11 +64,15 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private boolean isAddPattern(CoordinatesModel coordinates) {
-        return (patternMap.size() == 0 && coordinates.Col + coordinates.Row == 0)
+        return (patternMap.size() == 0 && coordinates.Col == 1 && coordinates.Row == 0)
+                // over existing
                 || patternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))
-                || patternMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col - 1))
-                || patternMap.containsKey(new CoordinatesModel(coordinates.Row + 1, coordinates.Col))
-                || patternMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col + 1));
+                // right to existing and no line under or existing under
+                || (patternMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col - 1))
+                && (coordinates.Row == 0 || patternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))))
+                // left to existing and no line under or existing under
+                || (patternMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col + 1))
+                && (coordinates.Row == 0 || patternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))));
     }
 
     @Override

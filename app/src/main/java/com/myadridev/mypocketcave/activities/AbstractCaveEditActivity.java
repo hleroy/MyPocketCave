@@ -150,9 +150,10 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     }
 
     private void createAdapter() {
+        cave.CaveArrangement.setPatternMapForEdit();
         CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
-        caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, Math.max(maxRowCol.Col + 2, 2)));
-        caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 1));
+        caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, Math.max(maxRowCol.Col + 3, 3)));
+        caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 2));
     }
 
     @Override
@@ -212,6 +213,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             return false;
         }
 
+        cave.CaveArrangement.setPatternMapForSave();
         cave.Name = nameView.getText().toString();
         cave.CaveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
         String NumberBottlesBulk = bulkBottlesNumberView.getText().toString();

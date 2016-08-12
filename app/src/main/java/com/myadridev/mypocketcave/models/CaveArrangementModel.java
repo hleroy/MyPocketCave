@@ -32,4 +32,29 @@ public class CaveArrangementModel {
         NumberBoxes = caveArrangement.NumberBoxes;
         NumberBottlesPerBox = caveArrangement.NumberBottlesPerBox;
     }
+
+    public void setPatternMapForSave() {
+        Map<CoordinatesModel, Integer> patternMapAtOrigin = new HashMap<>(PatternMap.size());
+
+        for (Map.Entry<CoordinatesModel, Integer> patternMapEntry : PatternMap.entrySet()) {
+            CoordinatesModel coordinates = patternMapEntry.getKey();
+            patternMapAtOrigin.put(new CoordinatesModel(coordinates.Row, coordinates.Col - 1), patternMapEntry.getValue());
+        }
+
+        PatternMap.clear();
+        PatternMap.putAll(patternMapAtOrigin);
+    }
+
+    public void setPatternMapForEdit() {
+        if (!PatternMap.containsKey(new CoordinatesModel(0, 0))) return;
+        Map<CoordinatesModel, Integer> patternMapAtOrigin = new HashMap<>(PatternMap.size());
+
+        for (Map.Entry<CoordinatesModel, Integer> patternMapEntry : PatternMap.entrySet()) {
+            CoordinatesModel coordinates = patternMapEntry.getKey();
+            patternMapAtOrigin.put(new CoordinatesModel(coordinates.Row, coordinates.Col + 1), patternMapEntry.getValue());
+        }
+
+        PatternMap.clear();
+        PatternMap.putAll(patternMapAtOrigin);
+    }
 }
