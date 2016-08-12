@@ -14,7 +14,7 @@ public class CaveArrangementModel {
 
     @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
     @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
-    public final Map<CoordinatesModel, PatternModel> PatternMap;
+    public final Map<CoordinatesModel, Integer> PatternMap;
 
     public int NumberBottlesBulk;
     public int NumberBoxes;

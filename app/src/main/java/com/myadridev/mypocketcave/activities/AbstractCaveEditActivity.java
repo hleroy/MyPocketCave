@@ -26,7 +26,6 @@ import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
-import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 
@@ -163,7 +162,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK && ClickedPatternCoordinates != null) {
                 int patternId = data.getIntExtra("patternId", -1);
                 if (patternId != -1) {
-                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, PatternManager.Instance.getPattern(patternId));
+                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, patternId);
                     createAdapter();
                     caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
                 }

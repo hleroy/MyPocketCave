@@ -15,6 +15,7 @@ import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
+import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
 
@@ -22,7 +23,7 @@ import java.util.Map;
 
 public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final AbstractCaveEditActivity activity;
-    private final Map<CoordinatesModel, PatternModel> patternMap;
+    private final Map<CoordinatesModel, Integer> patternMap;
     private final LayoutInflater layoutInflater;
 
     private final OnPatternClickListener listener;
@@ -31,7 +32,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private int itemWidth;
     private int numberOfColumnsForDisplay;
 
-    public CaveArrangementAdapter(AbstractCaveEditActivity _activity, Map<CoordinatesModel, PatternModel> _patternMap, CoordinatesModel maxRawCol) {
+    public CaveArrangementAdapter(AbstractCaveEditActivity _activity, Map<CoordinatesModel, Integer> _patternMap, CoordinatesModel maxRawCol) {
         activity = _activity;
         patternMap = _patternMap;
         maxRow = maxRawCol.Row;
@@ -110,7 +111,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if (patternMap.containsKey(coordinates)) {
             CaveArrangementViewHolder holder = (CaveArrangementViewHolder) viewHolder;
-            PatternModel pattern = patternMap.get(coordinates);
+            PatternModel pattern = PatternManager.Instance.getPattern(patternMap.get(coordinates));
             if (pattern != null) {
                 int numberRowsGridLayout = pattern.getNumberRowsGridLayout();
                 int numberColumnsGridLayout = pattern.getNumberColumnsGridLayout();
