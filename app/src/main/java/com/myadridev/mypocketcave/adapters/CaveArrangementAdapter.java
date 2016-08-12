@@ -13,6 +13,7 @@ import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder
 import com.myadridev.mypocketcave.adapters.viewHolders.NoPatternViewHolder;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
+import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
@@ -48,7 +49,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        CoordinatesModel coordinates = getCoordinateByPosition(position);
+        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
 
         if (patternMap.containsKey(coordinates)) {
             // Existing pattern
@@ -105,7 +106,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        CoordinatesModel coordinates = getCoordinateByPosition(position);
+        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
 
         if (patternMap.containsKey(coordinates)) {
             CaveArrangementViewHolder holder = (CaveArrangementViewHolder) viewHolder;
@@ -128,9 +129,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private CoordinatesModel getCoordinateByPosition(int position) {
-        return new CoordinatesModel(position / (maxCol + 1), position % (maxCol + 1));
+    private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {
+        return new CoordinatesModel(rowPosition / (maxCol + 1), colPosition % (maxCol + 1));
     }
 }
-
-

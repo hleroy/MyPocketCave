@@ -62,14 +62,14 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
             for (int colIndex = 0; colIndex < numberCols; colIndex++) {
                 if (colIndex % 2 == 0) {
                     PlaceMap.put(new CoordinatesModel(0, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
-                            IsInverted ? CavePlaceTypeEnum.PLACE_WITH_TOP : CavePlaceTypeEnum.NO_PLACE);
-                    PlaceMap.put(new CoordinatesModel(numberRows + 1, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
                             IsInverted ? CavePlaceTypeEnum.PLACE_WITH_BOTTOM : CavePlaceTypeEnum.NO_PLACE);
+                    PlaceMap.put(new CoordinatesModel(numberRows + 1, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
+                            IsInverted ? CavePlaceTypeEnum.PLACE_WITH_TOP : CavePlaceTypeEnum.NO_PLACE);
                 } else {
                     PlaceMap.put(new CoordinatesModel(0, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
-                            IsInverted ? CavePlaceTypeEnum.NO_PLACE : CavePlaceTypeEnum.PLACE_WITH_TOP);
-                    PlaceMap.put(new CoordinatesModel(numberRows + 1, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
                             IsInverted ? CavePlaceTypeEnum.NO_PLACE : CavePlaceTypeEnum.PLACE_WITH_BOTTOM);
+                    PlaceMap.put(new CoordinatesModel(numberRows + 1, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
+                            IsInverted ? CavePlaceTypeEnum.NO_PLACE : CavePlaceTypeEnum.PLACE_WITH_TOP);
                 }
             }
         }

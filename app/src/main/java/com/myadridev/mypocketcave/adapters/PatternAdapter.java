@@ -11,6 +11,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.PatternPlaceViewHolder;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
+import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +40,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onPlaceClick(CoordinatesModel coordinates) {
                 // TODO : voir la bouteille / popup d'ajout de bouteille
-                Toast.makeText(context, "click on raw : " + coordinates.Row + ", col : " + coordinates.Col, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "click on raw : " + coordinates.Row + ", col : " + coordinates.Col, Toast.LENGTH_SHORT).show();
             }
         };
         totalWidth = _totalWidth;
@@ -73,7 +74,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         PatternPlaceViewHolder holder = (PatternPlaceViewHolder) viewHolder;
-        CoordinatesModel coordinates = getCoordinateByPosition(position);
+        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
         CavePlaceTypeEnum cavePlace = patternPlaceType.get(coordinates);
         if (cavePlace != null) {
             // TODO : quand il y a une bouteille, drawable différent
@@ -88,8 +89,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (cavePlace == CavePlaceTypeEnum.PLACE) {
                     holder.setOnItemClickListener(listener, coordinates);
                 }
-            }
-            else {
+            } else {
                 holder.setClickable(false);
             }
         }
@@ -103,8 +103,8 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return totalHeight / numberRows;
     }
 
-    private CoordinatesModel getCoordinateByPosition(int position) {
-        return new CoordinatesModel(position / numberCols, position % numberCols);
+    private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {
+        return new CoordinatesModel(rowPosition / numberCols, colPosition % numberCols);
     }
 }
 

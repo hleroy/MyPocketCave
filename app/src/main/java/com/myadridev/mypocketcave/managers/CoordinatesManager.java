@@ -34,4 +34,12 @@ public class CoordinatesManager {
         }
         return new CoordinatesModel(maxRaw, maxCol);
     }
+
+    public int getColFromPosition(int position) {
+        return position;
+    }
+
+    public int getRowFromPosition(int position, int itemCount) {
+        return itemCount - 1 - position;
+    }
 }

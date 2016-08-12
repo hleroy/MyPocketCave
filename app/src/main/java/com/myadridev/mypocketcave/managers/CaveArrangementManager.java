@@ -165,7 +165,7 @@ public class CaveArrangementManager {
                     // merge 2 complementary places if necessary
                     if (placeMap.containsKey(absoluteCoordinates)) {
                         CavePlaceTypeEnum oldPlaceType = placeMap.get(absoluteCoordinates);
-                        if (oldPlaceType == CavePlaceTypeEnum.PLACE_WITH_BOTTOM && placeType == CavePlaceTypeEnum.PLACE_WITH_TOP) {
+                        if (oldPlaceType == CavePlaceTypeEnum.PLACE_WITH_TOP && placeType == CavePlaceTypeEnum.PLACE_WITH_BOTTOM) {
                             placeMap.put(absoluteCoordinates, CavePlaceTypeEnum.PLACE);
                         }
                     } else {
