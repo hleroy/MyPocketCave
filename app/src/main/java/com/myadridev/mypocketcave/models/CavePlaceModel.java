@@ -8,8 +8,10 @@ public class CavePlaceModel {
 
     public CavePlaceTypeEnum PlaceType;
     public int BottleId;
+    public boolean IsClickable;
 
     public CavePlaceModel() {
         BottleId = -1;
+        IsClickable = false;
     }
 }

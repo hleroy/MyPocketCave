@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.models;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -54,54 +56,35 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
     }
 
     private void computeStaggeredPlacesMap() {
-        int numberRows = 2 * NumberBottlesByColumn - 1;
-        int numberCols = 2 * NumberBottlesByRow - 1;
+        int numberRows = 4 * NumberBottlesByColumn - 2;
+        int numberCols = 4 * NumberBottlesByRow - 2;
 
         if (IsVerticallyExpendable) {
             // add 1 row at beginning and end
-            for (int colIndex = 0; colIndex < numberCols; colIndex++) {
-                if (colIndex % 2 == 0) {
-                    PlaceMap.put(new CoordinatesModel(0, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
-                            IsInverted ? CavePlaceTypeEnum.PLACE_WITH_BOTTOM : CavePlaceTypeEnum.NO_PLACE);
-                    PlaceMap.put(new CoordinatesModel(numberRows + 1, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
-                            IsInverted ? CavePlaceTypeEnum.PLACE_WITH_TOP : CavePlaceTypeEnum.NO_PLACE);
-                } else {
-                    PlaceMap.put(new CoordinatesModel(0, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
-                            IsInverted ? CavePlaceTypeEnum.NO_PLACE : CavePlaceTypeEnum.PLACE_WITH_BOTTOM);
-                    PlaceMap.put(new CoordinatesModel(numberRows + 1, colIndex + (IsHorizontallyExpendable ? 1 : 0)),
-                            IsInverted ? CavePlaceTypeEnum.NO_PLACE : CavePlaceTypeEnum.PLACE_WITH_TOP);
-                }
+            for (int colIndex = 0; colIndex < numberCols; colIndex += 2) {
+                computePlaceWithBottom(PlaceMap, 0, colIndex + (IsHorizontallyExpendable ? 1 : 0), (colIndex % 4 == 0) == IsInverted);
+                computePlaceWithTop(PlaceMap, numberRows + 1, colIndex + (IsHorizontallyExpendable ? 1 : 0), (colIndex % 4 == 0) == IsInverted);
             }
         }
 
         if (IsHorizontallyExpendable) {
             // add 1 column at beginning and end
-            for (int rowIndex = 0; rowIndex < numberRows; rowIndex++) {
-                if (rowIndex % 2 == 0) {
-                    PlaceMap.put(new CoordinatesModel(rowIndex + (IsVerticallyExpendable ? 1 : 0), 0),
-                            IsInverted ? CavePlaceTypeEnum.PLACE_WITH_LEFT : CavePlaceTypeEnum.NO_PLACE);
-                    PlaceMap.put(new CoordinatesModel(rowIndex + (IsVerticallyExpendable ? 1 : 0), numberCols + 1),
-                            IsInverted ? CavePlaceTypeEnum.PLACE_WITH_RIGHT : CavePlaceTypeEnum.NO_PLACE);
+            for (int rowIndex = 0; rowIndex < numberRows; rowIndex += 2) {
+                computePlaceWithLeft(PlaceMap, rowIndex + (IsVerticallyExpendable ? 1 : 0), 0, (rowIndex % 4 == 0) == IsInverted);
+                computePlaceWithRight(PlaceMap, rowIndex + (IsVerticallyExpendable ? 1 : 0), numberCols + 1, (rowIndex % 4 == 0) == IsInverted);
+            }
+        }
+
+        for (int colIndex = 0; colIndex < numberCols; colIndex += 2) {
+            for (int rowIndex = 0; rowIndex < numberRows; rowIndex += 2) {
+                if ((rowIndex % 4 == colIndex % 4) == IsInverted) {
+                    computeFullNoPlace(PlaceMap, rowIndex + (IsVerticallyExpendable ? 1 : 0), colIndex + (IsHorizontallyExpendable ? 1 : 0));
                 } else {
-                    PlaceMap.put(new CoordinatesModel(rowIndex + (IsVerticallyExpendable ? 1 : 0), 0),
-                            IsInverted ? CavePlaceTypeEnum.NO_PLACE : CavePlaceTypeEnum.PLACE_WITH_LEFT);
-                    PlaceMap.put(new CoordinatesModel(rowIndex + (IsVerticallyExpendable ? 1 : 0), numberCols + 1),
-                            IsInverted ? CavePlaceTypeEnum.NO_PLACE : CavePlaceTypeEnum.PLACE_WITH_RIGHT);
+                    computeFullPlace(PlaceMap, rowIndex + (IsVerticallyExpendable ? 1 : 0), colIndex + (IsHorizontallyExpendable ? 1 : 0));
                 }
             }
         }
 
-        for (int colIndex = 0; colIndex < numberCols; colIndex++) {
-            for (int rowIndex = 0; rowIndex < numberRows; rowIndex++) {
-                if (rowIndex % 2 == colIndex % 2) {
-                    PlaceMap.put(new CoordinatesModel(rowIndex + (IsVerticallyExpendable ? 1 : 0), colIndex + (IsHorizontallyExpendable ? 1 : 0)),
-                            IsInverted ? CavePlaceTypeEnum.NO_PLACE : CavePlaceTypeEnum.PLACE);
-                } else {
-                    PlaceMap.put(new CoordinatesModel(rowIndex + (IsVerticallyExpendable ? 1 : 0), colIndex + (IsHorizontallyExpendable ? 1 : 0)),
-                            IsInverted ? CavePlaceTypeEnum.PLACE : CavePlaceTypeEnum.NO_PLACE);
-                }
-            }
-        }
         if (IsVerticallyExpendable && IsHorizontallyExpendable) {
             PlaceMap.put(new CoordinatesModel(0, 0), CavePlaceTypeEnum.NO_PLACE);
             PlaceMap.put(new CoordinatesModel(0, numberCols + 1), CavePlaceTypeEnum.NO_PLACE);
@@ -113,18 +96,52 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
     private void computeLinearPlacesMap() {
         for (int row = 0; row < NumberBottlesByColumn; row++) {
             for (int col = 0; col < NumberBottlesByRow; col++) {
-                PlaceMap.put(new CoordinatesModel(row, col), CavePlaceTypeEnum.PLACE);
+                computeFullPlace(PlaceMap, 2 * row, 2 * col);
             }
         }
+    }
+
+    private void computeFullPlace(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, int row, int col) {
+        placeMap.put(new CoordinatesModel(row, col), CavePlaceTypeEnum.PLACE_TOP_RIGHT);
+        placeMap.put(new CoordinatesModel(row, col + 1), CavePlaceTypeEnum.PLACE_TOP_LEFT);
+        placeMap.put(new CoordinatesModel(row + 1, col), CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT);
+        placeMap.put(new CoordinatesModel(row + 1, col + 1), CavePlaceTypeEnum.PLACE_BOTTOM_LEFT);
+    }
+
+    private void computeFullNoPlace(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, int row, int col) {
+        placeMap.put(new CoordinatesModel(row, col), CavePlaceTypeEnum.NO_PLACE);
+        placeMap.put(new CoordinatesModel(row, col + 1), CavePlaceTypeEnum.NO_PLACE);
+        placeMap.put(new CoordinatesModel(row + 1, col), CavePlaceTypeEnum.NO_PLACE);
+        placeMap.put(new CoordinatesModel(row + 1, col + 1), CavePlaceTypeEnum.NO_PLACE);
+    }
+
+    private void computePlaceWithRight(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, int row, int col, boolean isInverted) {
+        placeMap.put(new CoordinatesModel(row, col), isInverted ? CavePlaceTypeEnum.PLACE_TOP_RIGHT : CavePlaceTypeEnum.NO_PLACE);
+        placeMap.put(new CoordinatesModel(row + 1, col), isInverted ? CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT : CavePlaceTypeEnum.NO_PLACE);
+    }
+
+    private void computePlaceWithLeft(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, int row, int col, boolean isInverted) {
+        placeMap.put(new CoordinatesModel(row, col), isInverted ? CavePlaceTypeEnum.PLACE_TOP_LEFT : CavePlaceTypeEnum.NO_PLACE);
+        placeMap.put(new CoordinatesModel(row + 1, col), isInverted ? CavePlaceTypeEnum.PLACE_BOTTOM_LEFT : CavePlaceTypeEnum.NO_PLACE);
+    }
+
+    private void computePlaceWithTop(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, int row, int col, boolean isInverted) {
+        placeMap.put(new CoordinatesModel(row, col), isInverted ? CavePlaceTypeEnum.PLACE_TOP_RIGHT : CavePlaceTypeEnum.NO_PLACE);
+        placeMap.put(new CoordinatesModel(row, col + 1), isInverted ? CavePlaceTypeEnum.PLACE_TOP_LEFT : CavePlaceTypeEnum.NO_PLACE);
+    }
+
+    private void computePlaceWithBottom(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, int row, int col, boolean isInverted) {
+        placeMap.put(new CoordinatesModel(row, col), isInverted ? CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT : CavePlaceTypeEnum.NO_PLACE);
+        placeMap.put(new CoordinatesModel(row, col + 1), isInverted ? CavePlaceTypeEnum.PLACE_BOTTOM_LEFT : CavePlaceTypeEnum.NO_PLACE);
     }
 
     @JsonIgnore
     public int getNumberColumnsGridLayout() {
         switch (Type) {
             case LINEAR:
-                return NumberBottlesByRow;
+                return 2 * NumberBottlesByRow;
             case STAGGERED_ROWS:
-                return 2 * NumberBottlesByRow - 1 + (IsHorizontallyExpendable ? 2 : 0);
+                return 4 * NumberBottlesByRow - (IsHorizontallyExpendable ? 0 : 2);
         }
         return 0;
     }
@@ -133,15 +150,15 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
     public int getNumberRowsGridLayout() {
         switch (Type) {
             case LINEAR:
-                return NumberBottlesByColumn;
+                return 2 * NumberBottlesByColumn;
             case STAGGERED_ROWS:
-                return 2 * NumberBottlesByColumn - 1 + (IsVerticallyExpendable ? 2 : 0);
+                return 4 * NumberBottlesByColumn - (IsVerticallyExpendable ? 0 : 2);
         }
         return 0;
     }
 
     @Override
-    public int compareTo(PatternModel otherPattern) {
+    public int compareTo(@NonNull PatternModel otherPattern) {
         int compareOrder = Order - otherPattern.Order;
         if (compareOrder > 0)
             return 1;
@@ -173,7 +190,6 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
 
     @JsonIgnore
     public Map<CoordinatesModel, CavePlaceModel> getPlaceMapForDisplay() {
-
         Map<CoordinatesModel, CavePlaceModel> placeMapForDisplay = new HashMap<>(PlaceMap.size());
         for (Map.Entry<CoordinatesModel, CavePlaceTypeEnum> placeMapEntry : PlaceMap.entrySet()) {
             CoordinatesModel coordinates = placeMapEntry.getKey();
@@ -182,5 +198,53 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
             placeMapForDisplay.put(coordinates, cavePlace);
         }
         return placeMapForDisplay;
+    }
+
+    @JsonIgnore
+    public int getCapacityAlone() {
+        switch (Type) {
+            case LINEAR:
+                return NumberBottlesByColumn * NumberBottlesByRow;
+            case STAGGERED_ROWS:
+                return getCapacityForEvenRows() + getCapacityForOddRows();
+            default:
+                return 0;
+        }
+    }
+
+    @JsonIgnore
+    private int getCapacityForEvenRows() {
+        // on an even row : NumberBottlesByRow (-1 if inverted))
+        // number of even rows : NumberBottlesByColumn
+        return NumberBottlesByColumn * (NumberBottlesByRow - (IsInverted ? 1 : 0));
+    }
+
+    @JsonIgnore
+    private int getCapacityForOddRows() {
+        // on an odd row : NumberBottlesByRow (-1 if not inverted)
+        // number of odd rows : NumberBottlesByColumn -1
+        return (NumberBottlesByColumn - 1) * (NumberBottlesByRow - (IsInverted ? 0 : 1));
+    }
+
+    @JsonIgnore
+    public boolean isPatternHorizontallyCompatible(PatternModel otherPattern) {
+        // if both patterns not IsHorizontallyExpendable -> false
+        // if otherPattern null -> false
+        if (!IsHorizontallyExpendable || otherPattern == null || !otherPattern.IsHorizontallyExpendable)
+            return false;
+
+        // if same IsInverted and same NumberBottlesByColumn -> true
+        return IsInverted == otherPattern.IsInverted && NumberBottlesByColumn == otherPattern.NumberBottlesByColumn;
+    }
+
+    @JsonIgnore
+    public boolean isPatternVerticallyCompatible(PatternModel otherPattern) {
+        // if both patterns not IsVerticallyExpendable -> false
+        // if otherPattern null -> false
+        if (!IsVerticallyExpendable || otherPattern == null || !otherPattern.IsVerticallyExpendable)
+            return false;
+
+        // if same IsInverted and same NumberBottlesByRow -> true
+        return IsInverted == otherPattern.IsInverted && NumberBottlesByRow == otherPattern.NumberBottlesByRow;
     }
 }

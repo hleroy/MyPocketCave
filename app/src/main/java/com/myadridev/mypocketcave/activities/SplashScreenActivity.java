@@ -42,7 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             int step = 0;
 
             public void run() {
-                switch (step){
+                switch (step) {
                     case 0:
                         splashImageView.setImageDrawable(ContextCompat.getDrawable(SplashScreenActivity.this, R.mipmap.splash_1));
                         if (!StorageManager.IsInitialized()) {
@@ -67,6 +67,14 @@ public class SplashScreenActivity extends AppCompatActivity {
                         if (!CaveArrangementManager.IsInitialized()) {
                             CaveArrangementManager.Init();
                         }
+
+//                        String storeFile = getString(R.string.filename_patterns);
+//                        String storeSet = getString(R.string.store_patterns);
+//
+//                        SharedPreferences storedData = getSharedPreferences(storeFile, Context.MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = storedData.edit();
+//                        editor.putStringSet(storeSet, new HashSet<String>());
+//                        editor.apply();
                         if (!PatternManager.IsInitialized()) {
                             PatternManager.Init();
                         }

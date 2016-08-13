@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
+import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 
@@ -21,6 +22,8 @@ public class CaveArrangementViewHolder extends RecyclerView.ViewHolder {
 
     public static CaveArrangementViewHolder newInstance(View parent) {
         RecyclerView patternView = (RecyclerView) parent.findViewById(R.id.pattern_recycler);
+        CompatibilityHelper.setNestedScrollEnable(patternView, false);
+
         Button clickableSpace = (Button) parent.findViewById(R.id.pattern_clickable_space);
         return new CaveArrangementViewHolder(parent, patternView, clickableSpace);
     }
@@ -45,5 +48,9 @@ public class CaveArrangementViewHolder extends RecyclerView.ViewHolder {
                 listener.onPatternClick(coordinates);
             }
         });
+    }
+
+    public void hideClickableSpace() {
+        clickableSpace.setVisibility(View.GONE);
     }
 }

@@ -85,7 +85,6 @@ public class StorageManager {
                 serializedData.put(dataEntry.getKey(), dataJson);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                continue;
             }
         }
         return serializedData;

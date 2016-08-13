@@ -16,7 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.adapters.PatternAdapter;
+import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
+import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.managers.CaveManager;
@@ -27,10 +28,6 @@ import com.myadridev.mypocketcave.models.CoordinatesModel;
 
 public class CaveDetailActivity extends AppCompatActivity {
 
-    public static final int overviewScreenHeightPercent = 60;
-    public static final int overviewScreenWidthMarginLeft = 5;
-    public static final int overviewScreenWidthMarginRight = 5;
-
     private CaveModel cave;
     private ImageView caveTypeIconView;
     private TextView caveTypeView;
@@ -39,15 +36,12 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView bulkBottlesNumberView;
     private TextView boxesNumberView;
     private TextView boxesBottlesNumberView;
-    private RecyclerView patternRecyclerView;
+    private RecyclerView arrangementRecyclerView;
 
     private FloatingActionButton fabMenu;
     private FloatingActionButton fabCloseMenu;
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
-
-    private int screenHeight;
-    private int screenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +156,8 @@ public class CaveDetailActivity extends AppCompatActivity {
         bulkBottlesNumberView = (TextView) findViewById(R.id.cave_detail_bulk_bottles_number);
         boxesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_number);
         boxesBottlesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_bottles_number);
-        patternRecyclerView = (RecyclerView) findViewById(R.id.cave_detail_arrangement_pattern);
+        arrangementRecyclerView = (RecyclerView) findViewById(R.id.cave_detail_arrangement_pattern);
+        CompatibilityHelper.setNestedScrollEnable(arrangementRecyclerView, false);
     }
 
     private void setLayoutValues() {
@@ -178,7 +173,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 bulkBottlesNumberView.setText(getString(R.string.cave_bulk_bottles_number_detail, cave.CaveArrangement.NumberBottlesBulk));
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
-                patternRecyclerView.setVisibility(View.GONE);
+                arrangementRecyclerView.setVisibility(View.GONE);
                 break;
             case BOX:
                 bulkBottlesNumberView.setVisibility(View.GONE);
@@ -186,7 +181,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 boxesNumberView.setText(getString(R.string.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes));
                 boxesBottlesNumberView.setVisibility(View.VISIBLE);
                 boxesBottlesNumberView.setText(getString(R.string.cave_boxes_bottles_number_detail, cave.CaveArrangement.NumberBottlesPerBox));
-                patternRecyclerView.setVisibility(View.GONE);
+                arrangementRecyclerView.setVisibility(View.GONE);
                 break;
             case RACK:
             case FRIDGE:
@@ -194,28 +189,22 @@ public class CaveDetailActivity extends AppCompatActivity {
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
 
-                CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PlaceMap.keySet());
-                if (maxRowCol.Col > 0) {
-                    if (screenHeight == 0 || screenWidth == 0) {
-                        setScreenDimensions();
-                    }
-                    int totalWidth = screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight;
-                    int totalHeight = screenHeight * overviewScreenHeightPercent / 100;
-                    PatternAdapter patternAdapter = new PatternAdapter(this, cave.CaveArrangement.PlaceMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 1),
-                            true, totalWidth, totalHeight);
-                    patternRecyclerView.setLayoutManager(new GridLayoutManager(this, maxRowCol.Col + 1));
-                    patternRecyclerView.setAdapter(patternAdapter);
-                    patternRecyclerView.setVisibility(View.VISIBLE);
+                CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
+                if (maxRowCol.Col >= 0) {
+                    int nbCols = maxRowCol.Col + 1;
+                    int nbRows = maxRowCol.Row + 1;
+                    arrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
+                    int marginLeftRight = (int) getResources().getDimension(R.dimen.horizontal_big_margin_between_elements);
+                    int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight);
+
+                    CaveArrangementAdapter caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, nbRows, nbCols, totalWidth);
+                    arrangementRecyclerView.setAdapter(caveArrangementAdapter);
+                    arrangementRecyclerView.setVisibility(View.VISIBLE);
                 } else {
-                    patternRecyclerView.setVisibility(View.GONE);
+                    arrangementRecyclerView.setVisibility(View.GONE);
                 }
                 break;
         }
-    }
-
-    private void setScreenDimensions() {
-        screenHeight = ScreenHelper.getScreenHeight(this);
-        screenWidth = ScreenHelper.getScreenWidth(this);
     }
 
     @Override

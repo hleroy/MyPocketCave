@@ -94,7 +94,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.setPlaceTypeViewImageDrawable(null);
             }
             if (isClickable) {
-                if (cavePlaceType == CavePlaceTypeEnum.PLACE) {
+                if (cavePlace.IsClickable) {
                     holder.setOnItemClickListener(listener, coordinates);
                 }
             } else {

@@ -14,15 +14,7 @@ public class CaveArrangementModel {
 
     @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
     @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
-    public final Map<CoordinatesModel, Integer> PatternMap;
-
-    @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
-    public final Map<CoordinatesModel, CavePlaceModel> PlaceMap;
-
-    @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
-    public final Map<CoordinatesModel, Integer> CoordinatesBottlesMap;
+    public final Map<CoordinatesModel, PatternModelWithBottles> PatternMap;
 
     public int NumberBottlesBulk;
     public int NumberBoxes;
@@ -30,25 +22,21 @@ public class CaveArrangementModel {
 
     public CaveArrangementModel() {
         PatternMap = new HashMap<>();
-        PlaceMap = new HashMap<>();
-        CoordinatesBottlesMap = new HashMap<>();
     }
 
     public CaveArrangementModel(CaveArrangementModel caveArrangement) {
         TotalCapacity = caveArrangement.TotalCapacity;
         TotalUsed = caveArrangement.TotalUsed;
         PatternMap = new HashMap<>(caveArrangement.PatternMap);
-        PlaceMap = new HashMap<>(caveArrangement.PlaceMap);
-        CoordinatesBottlesMap = new HashMap<>(caveArrangement.CoordinatesBottlesMap);
         NumberBottlesBulk = caveArrangement.NumberBottlesBulk;
         NumberBoxes = caveArrangement.NumberBoxes;
         NumberBottlesPerBox = caveArrangement.NumberBottlesPerBox;
     }
 
     public void movePatternMapToLeft() {
-        Map<CoordinatesModel, Integer> patternMapToLeft = new HashMap<>(PatternMap.size());
+        Map<CoordinatesModel, PatternModelWithBottles> patternMapToLeft = new HashMap<>(PatternMap.size());
 
-        for (Map.Entry<CoordinatesModel, Integer> patternMapEntry : PatternMap.entrySet()) {
+        for (Map.Entry<CoordinatesModel, PatternModelWithBottles> patternMapEntry : PatternMap.entrySet()) {
             CoordinatesModel coordinates = patternMapEntry.getKey();
             patternMapToLeft.put(new CoordinatesModel(coordinates.Row, coordinates.Col - 1), patternMapEntry.getValue());
         }
@@ -57,29 +45,46 @@ public class CaveArrangementModel {
         PatternMap.putAll(patternMapToLeft);
     }
 
-    public void movePatternMapToRight(int numberRows) {
+    public void movePatternMapToRight() {
         if (!PatternMap.containsKey(new CoordinatesModel(0, 0))) return;
-        Map<CoordinatesModel, Integer> patternMapToRight = new HashMap<>(PatternMap.size());
+        Map<CoordinatesModel, PatternModelWithBottles> patternMapToRight = new HashMap<>(PatternMap.size());
 
-        for (Map.Entry<CoordinatesModel, Integer> patternMapEntry : PatternMap.entrySet()) {
+        for (Map.Entry<CoordinatesModel, PatternModelWithBottles> patternMapEntry : PatternMap.entrySet()) {
             CoordinatesModel coordinates = patternMapEntry.getKey();
             patternMapToRight.put(new CoordinatesModel(coordinates.Row, coordinates.Col + 1), patternMapEntry.getValue());
         }
 
         PatternMap.clear();
         PatternMap.putAll(patternMapToRight);
-
-        Map<CoordinatesModel, Integer> coordinatesBottlesMapToRight = new HashMap<>(CoordinatesBottlesMap.size());
-        for (Map.Entry<CoordinatesModel, Integer> patternBottleMapEntry : CoordinatesBottlesMap.entrySet()) {
-            CoordinatesModel coordinates = patternBottleMapEntry.getKey();
-            coordinatesBottlesMapToRight.put(new CoordinatesModel(coordinates.Row, coordinates.Col + numberRows), patternBottleMapEntry.getValue());
-        }
-
-        CoordinatesBottlesMap.clear();
-        CoordinatesBottlesMap.putAll(coordinatesBottlesMapToRight);
     }
 
-    public void movePatternMapToRight() {
-        movePatternMapToRight(0);
+    public void setClickablePlaces() {
+        for (Map.Entry<CoordinatesModel, PatternModelWithBottles> patternMapEntry : PatternMap.entrySet()) {
+            PatternModelWithBottles pattern = patternMapEntry.getValue();
+            pattern.setClickablePlaces();
+
+            CoordinatesModel coordinates = patternMapEntry.getKey();
+            if (pattern.IsHorizontallyExpendable) {
+                CoordinatesModel coordinatesRight = new CoordinatesModel(coordinates.Row, coordinates.Col + 1);
+                if (PatternMap.containsKey(coordinatesRight)) {
+                    PatternModelWithBottles rightPattern = PatternMap.get(coordinatesRight);
+                    if (pattern.isPatternHorizontallyCompatible(rightPattern)) {
+                        pattern.setRightClickablePlaces();
+                        rightPattern.setLeftClickablePlaces();
+                    }
+                }
+            }
+
+            if (pattern.IsVerticallyExpendable) {
+                CoordinatesModel coordinatesTop = new CoordinatesModel(coordinates.Row + 1, coordinates.Col);
+                if (PatternMap.containsKey(coordinatesTop)) {
+                    PatternModelWithBottles topPattern = PatternMap.get(coordinatesTop);
+                    if (pattern.isPatternVerticallyCompatible(topPattern)) {
+                        pattern.setTopClickablePlaces();
+                        topPattern.setBottomClickablePlaces();
+                    }
+                }
+            }
+        }
     }
 }
