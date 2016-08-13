@@ -48,11 +48,6 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
     }
 
     @Override
-    protected boolean setValues() {
-        return super.setValues();
-    }
-
-    @Override
     protected void redirectToExistingCave(int existingCaveId) {
         CaveManager.Instance.removeCave(cave.Id);
         NavigationManager.navigateToCaveDetail(this, existingCaveId);

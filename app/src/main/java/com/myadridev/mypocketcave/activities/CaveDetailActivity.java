@@ -17,21 +17,17 @@ import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
-import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
-import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 
-import java.util.Map;
-
 public class CaveDetailActivity extends AppCompatActivity {
 
-    public static final int overviewScreenHeightPercent = 50;
+    public static final int overviewScreenHeightPercent = 60;
     public static final int overviewScreenWidthMarginLeft = 5;
     public static final int overviewScreenWidthMarginRight = 5;
 
@@ -198,16 +194,15 @@ public class CaveDetailActivity extends AppCompatActivity {
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
 
-                Map<CoordinatesModel, CavePlaceTypeEnum> caveArrangementPlaceMap = CaveArrangementManager.Instance.getPlaceMap(cave.CaveArrangement);
-                CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(caveArrangementPlaceMap.keySet());
+                CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PlaceMap.keySet());
                 if (maxRowCol.Col > 0) {
                     if (screenHeight == 0 || screenWidth == 0) {
                         setScreenDimensions();
                     }
                     int totalWidth = screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight;
                     int totalHeight = screenHeight * overviewScreenHeightPercent / 100;
-                    PatternAdapter patternAdapter = new PatternAdapter(this, caveArrangementPlaceMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 1), true,
-                            totalWidth, totalHeight);
+                    PatternAdapter patternAdapter = new PatternAdapter(this, cave.CaveArrangement.PlaceMap, new CoordinatesModel(maxRowCol.Row + 1, maxRowCol.Col + 1),
+                            true, totalWidth, totalHeight);
                     patternRecyclerView.setLayoutManager(new GridLayoutManager(this, maxRowCol.Col + 1));
                     patternRecyclerView.setAdapter(patternAdapter);
                     patternRecyclerView.setVisibility(View.VISIBLE);

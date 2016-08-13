@@ -154,11 +154,11 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
     @JsonIgnore
     public boolean hasSameValues(PatternModel otherPattern) {
         return Type == otherPattern.Type
-            && IsHorizontallyExpendable == otherPattern.IsHorizontallyExpendable
-            && IsVerticallyExpendable == otherPattern.IsVerticallyExpendable
-            && IsInverted == otherPattern.IsInverted
-            && NumberBottlesByRow == otherPattern.NumberBottlesByRow
-            && NumberBottlesByColumn == otherPattern.NumberBottlesByColumn;
+                && IsHorizontallyExpendable == otherPattern.IsHorizontallyExpendable
+                && IsVerticallyExpendable == otherPattern.IsVerticallyExpendable
+                && IsInverted == otherPattern.IsInverted
+                && NumberBottlesByRow == otherPattern.NumberBottlesByRow
+                && NumberBottlesByColumn == otherPattern.NumberBottlesByColumn;
     }
 
     @JsonIgnore
@@ -169,5 +169,18 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
     @JsonIgnore
     public int getId() {
         return Id;
+    }
+
+    @JsonIgnore
+    public Map<CoordinatesModel, CavePlaceModel> getPlaceMapForDisplay() {
+
+        Map<CoordinatesModel, CavePlaceModel> placeMapForDisplay = new HashMap<>(PlaceMap.size());
+        for (Map.Entry<CoordinatesModel, CavePlaceTypeEnum> placeMapEntry : PlaceMap.entrySet()) {
+            CoordinatesModel coordinates = placeMapEntry.getKey();
+            CavePlaceModel cavePlace = new CavePlaceModel();
+            cavePlace.PlaceType = placeMapEntry.getValue();
+            placeMapForDisplay.put(coordinates, cavePlace);
+        }
+        return placeMapForDisplay;
     }
 }

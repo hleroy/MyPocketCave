@@ -194,7 +194,7 @@ public class CreatePatternActivity extends AppCompatActivity {
         if (screenHeight == 0 || screenWidth == 0) {
             setScreenDimensions();
         }
-        return new PatternAdapter(this, pattern.PlaceMap, new CoordinatesModel(pattern.getNumberRowsGridLayout(), pattern.getNumberColumnsGridLayout()),
+        return new PatternAdapter(this, pattern.getPlaceMapForDisplay(), new CoordinatesModel(pattern.getNumberRowsGridLayout(), pattern.getNumberColumnsGridLayout()),
                 false, screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight,
                 (screenHeight * overviewScreenHeightPercent / 100));
     }

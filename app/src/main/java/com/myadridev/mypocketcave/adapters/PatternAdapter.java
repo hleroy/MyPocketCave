@@ -12,6 +12,7 @@ import com.myadridev.mypocketcave.adapters.viewHolders.PatternPlaceViewHolder;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
+import com.myadridev.mypocketcave.models.CavePlaceModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.squareup.picasso.Picasso;
 
@@ -19,19 +20,19 @@ import java.util.Map;
 
 public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
-    private final Map<CoordinatesModel, CavePlaceTypeEnum> patternPlaceType;
+    private final Map<CoordinatesModel, CavePlaceModel> patternPlace;
     private final LayoutInflater layoutInflater;
 
     private final OnPlaceClickListener listener;
-    private final int numberRows;
-    private final int numberCols;
     private final boolean isClickable;
     private final int totalWidth;
     private final int totalHeight;
+    private final int numberRows;
+    private final int numberCols;
 
-    public PatternAdapter(Context _context, Map<CoordinatesModel, CavePlaceTypeEnum> _patternPlaceType, CoordinatesModel maxRawCol, boolean _isClickable, int _totalWidth, int _totalHeight) {
+    public PatternAdapter(Context _context, Map<CoordinatesModel, CavePlaceModel> _patternPlace, CoordinatesModel maxRawCol, boolean _isClickable, int _totalWidth, int _totalHeight) {
         context = _context;
-        patternPlaceType = _patternPlaceType;
+        patternPlace = _patternPlace;
         numberRows = maxRawCol.Row;
         numberCols = maxRawCol.Col;
         isClickable = _isClickable;
@@ -75,23 +76,32 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         PatternPlaceViewHolder holder = (PatternPlaceViewHolder) viewHolder;
         CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
-        CavePlaceTypeEnum cavePlace = patternPlaceType.get(coordinates);
+        CavePlaceModel cavePlace = patternPlace.get(coordinates);
         if (cavePlace != null) {
+            CavePlaceTypeEnum cavePlaceType = cavePlace.PlaceType;
+            int itemWidth = getItemWidth();
+            int itemHeight = getItemHeight();
+
+            holder.itemView.setMinimumWidth(itemWidth);
+            holder.itemView.setMinimumHeight(itemHeight);
+
             // TODO : quand il y a une bouteille, drawable différent
-            int caveTypeDrawableId = cavePlace.drawableResourceId;
+            int caveTypeDrawableId = cavePlaceType.drawableResourceId;
             if (caveTypeDrawableId != -1) {
                 Picasso.with(context).load(caveTypeDrawableId)
-                        .resize(getItemWidth(), getItemHeight()).into(holder.getPlaceTypeView());
+                        .resize(itemWidth, itemHeight).into(holder.getPlaceTypeView());
             } else {
                 holder.setPlaceTypeViewImageDrawable(null);
             }
             if (isClickable) {
-                if (cavePlace == CavePlaceTypeEnum.PLACE) {
+                if (cavePlaceType == CavePlaceTypeEnum.PLACE) {
                     holder.setOnItemClickListener(listener, coordinates);
                 }
             } else {
                 holder.setClickable(false);
             }
+        } else {
+            holder.setPlaceTypeViewImageDrawable(null);
         }
     }
 

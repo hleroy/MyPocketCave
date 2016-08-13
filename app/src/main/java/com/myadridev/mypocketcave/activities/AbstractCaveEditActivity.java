@@ -25,8 +25,11 @@ import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
+import com.myadridev.mypocketcave.managers.PatternManager;
+import com.myadridev.mypocketcave.models.CaveArrangementModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.PatternModel;
 
 public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
@@ -41,8 +44,12 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private EditText boxesBottlesNumberView;
     private RecyclerView caveArrangementRecyclerView;
 
+    public int OldClickedPatternId;
     public CoordinatesModel ClickedPatternCoordinates;
     private CaveArrangementAdapter caveArrangementAdapter;
+
+    private CaveArrangementModel oldCaveArrangement;
+    private boolean needsToMapPatterns;
 
     protected AbstractCaveEditActivity() {
         hideKeyboardOnClick = new View.OnTouchListener() {
@@ -63,6 +70,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         initCave();
+        oldCaveArrangement = new CaveArrangementModel(cave.CaveArrangement);
         initLayout();
     }
 
@@ -146,7 +154,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     }
 
     private void createAdapter() {
-        cave.CaveArrangement.setPatternMapForEdit();
+        cave.CaveArrangement.movePatternMapToRight();
         CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
         int nbCols = Math.max(maxRowCol.Col + 2, 3);
         int nbRows = maxRowCol.Row + 2;
@@ -161,9 +169,19 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK && ClickedPatternCoordinates != null) {
                 int patternId = data.getIntExtra("patternId", -1);
                 if (patternId != -1) {
-                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, patternId);
-                    createAdapter();
-                    caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
+                    if (OldClickedPatternId != patternId) {
+                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, patternId);
+                        createAdapter();
+                        caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
+
+                        if (ClickedPatternCoordinates.Col == 0) {
+                            // it's a new pattern on the left, we need to move oldCaveArrangement to the right
+                            PatternModel pattern = PatternManager.Instance.getPattern(patternId);
+                            int nbCols = pattern.getNumberColumnsGridLayout();
+                            oldCaveArrangement.movePatternMapToRight(nbCols);
+                        }
+                        needsToMapPatterns = true;
+                    }
                 }
             }
         }
@@ -211,7 +229,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             return false;
         }
 
-        cave.CaveArrangement.setPatternMapForSave();
+        cave.CaveArrangement.movePatternMapToLeft();
         cave.Name = nameView.getText().toString();
         cave.CaveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
         String NumberBottlesBulk = bulkBottlesNumberView.getText().toString();
@@ -220,6 +238,11 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         cave.CaveArrangement.NumberBoxes = NumberBoxes.isEmpty() ? 0 : Integer.valueOf(NumberBoxes);
         String NumberBottlesPerBox = boxesBottlesNumberView.getText().toString();
         cave.CaveArrangement.NumberBottlesPerBox = NumberBottlesPerBox.isEmpty() ? 0 : Integer.valueOf(NumberBottlesPerBox);
+
+        if (needsToMapPatterns) {
+            cave.CaveArrangement.PlaceMap.clear();
+            cave.CaveArrangement.PlaceMap.putAll(CaveArrangementManager.Instance.getPlaceMap(cave.CaveArrangement));
+        }
 
         switch (cave.CaveType) {
             case BULK:

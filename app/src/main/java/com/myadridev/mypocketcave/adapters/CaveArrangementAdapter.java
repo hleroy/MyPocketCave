@@ -31,18 +31,18 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final int nbRows;
     private final int nbCols;
     private int itemWidth;
-    private int numberOfColumnsForDisplay;
+    private int itemHeight;
 
     public CaveArrangementAdapter(AbstractCaveEditActivity _activity, Map<CoordinatesModel, Integer> _patternMap, int nbRows, int nbCols) {
         activity = _activity;
         patternMap = _patternMap;
         this.nbRows = nbRows;
         this.nbCols = nbCols;
-        numberOfColumnsForDisplay = nbCols;
         layoutInflater = LayoutInflater.from(activity);
         listener = new OnPatternClickListener() {
             @Override
             public void onPatternClick(CoordinatesModel coordinates) {
+                activity.OldClickedPatternId = patternMap.containsKey(coordinates) ? patternMap.get(coordinates) : -1;
                 activity.ClickedPatternCoordinates = coordinates;
                 NavigationManager.navigateToPatternSelection(activity);
             }
@@ -104,7 +104,8 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void setItemDimensions(View view) {
         if (itemWidth == 0) {
-            itemWidth = ScreenHelper.getScreenWidth(activity) / numberOfColumnsForDisplay;
+            itemWidth = ScreenHelper.getScreenWidth(activity) / nbCols;
+            itemHeight = ScreenHelper.getScreenHeight(activity) / nbRows;
         }
         view.setMinimumWidth(itemWidth);
         view.setMinimumHeight(itemWidth);
@@ -122,7 +123,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 int numberColumnsGridLayout = pattern.getNumberColumnsGridLayout();
                 if (numberRowsGridLayout > 0) {
                     holder.setPatternViewLayoutManager(new GridLayoutManager(activity, numberColumnsGridLayout));
-                    PatternAdapter patternAdapter = new PatternAdapter(activity, pattern.PlaceMap, new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
+                    PatternAdapter patternAdapter = new PatternAdapter(activity, pattern.getPlaceMapForDisplay(), new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
                             false, itemWidth, itemWidth);
                     holder.setPatternViewAdapter(patternAdapter);
                     holder.setOnItemClickListener(listener, coordinates);

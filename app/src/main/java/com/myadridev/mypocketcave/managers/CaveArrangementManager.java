@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.managers;
 
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.models.CaveArrangementModel;
+import com.myadridev.mypocketcave.models.CavePlaceModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
 
@@ -29,8 +30,8 @@ public class CaveArrangementManager {
         _isInitialized = true;
     }
 
-    public Map<CoordinatesModel, CavePlaceTypeEnum> getPlaceMap(CaveArrangementModel caveArrangement) {
-        Map<CoordinatesModel, CavePlaceTypeEnum> placeMap = new HashMap<>();
+    public Map<CoordinatesModel, CavePlaceModel> getPlaceMap(CaveArrangementModel caveArrangement) {
+        Map<CoordinatesModel, CavePlaceModel> placeMap = new HashMap<>();
 
         CoordinatesModel originCoordinates = new CoordinatesModel(0, 0);
         if (caveArrangement.PatternMap.containsKey(originCoordinates)) {
@@ -40,17 +41,10 @@ public class CaveArrangementManager {
             coordinatesToHandleQueue.add(originCoordinates);
             while (!coordinatesToHandleQueue.isEmpty()) {
                 CoordinatesModel coordinates = coordinatesToHandleQueue.remove();
-                int row = coordinates.Row;
-                int col = coordinates.Col;
                 getPlaceMap(placeMap, patternsDone, patternsAbsoluteLastRowCol, coordinatesToHandleQueue,
-                        caveArrangement.PatternMap, coordinates,
-                        getIndexFirstRow(row, col, patternsAbsoluteLastRowCol),
-                        getIndexFirstCol(row, col, patternsAbsoluteLastRowCol),
-                        getBottomPatternExpendable(row, col, caveArrangement.PatternMap),
-                        getLeftPatternExpendable(row, col, caveArrangement.PatternMap));
+                        caveArrangement.PatternMap, coordinates);
             }
-
-            fillPattern(placeMap, patternsAbsoluteLastRowCol, caveArrangement.PatternMap);
+//            fillPattern(placeMap, patternsAbsoluteLastRowCol, caveArrangement.PatternMap);
         }
 
         return placeMap;
@@ -100,11 +94,7 @@ public class CaveArrangementManager {
             if (patternMap.containsKey(bottomCoordinates)) {
                 return PatternManager.Instance.getPattern(patternMap.get(bottomCoordinates)).IsVerticallyExpendable;
             } else {
-                if (col == 0) {
-                    return false;
-                } else {
-                    return getBottomPatternExpendable(row, col - 1, patternMap);
-                }
+                return col != 0 && getBottomPatternExpendable(row, col - 1, patternMap);
             }
         }
     }
@@ -117,24 +107,28 @@ public class CaveArrangementManager {
             if (patternMap.containsKey(leftCoordinates)) {
                 return PatternManager.Instance.getPattern(patternMap.get(leftCoordinates)).IsHorizontallyExpendable;
             } else {
-                if (row == 0) {
-                    return false;
-                } else {
-                    return getLeftPatternExpendable(row - 1, col, patternMap);
-                }
+                return row != 0 && getLeftPatternExpendable(row - 1, col, patternMap);
             }
         }
     }
 
-    private void getPlaceMap(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, List<CoordinatesModel> patternsDone,
+    private void getPlaceMap(Map<CoordinatesModel, CavePlaceModel> placeMap, List<CoordinatesModel> patternsDone,
                              Map<CoordinatesModel, CoordinatesModel> patternsAbsoluteLastRowCol, Queue<CoordinatesModel> coordinatesToHandleQueue,
-                             Map<CoordinatesModel, Integer> patternMap, CoordinatesModel patternCoordinates,
-                             int indexFirstRow, int indexFirstCol, boolean isBottomPatternExpendable, boolean isLeftPatternExpendable) {
+                             Map<CoordinatesModel, Integer> patternMap, CoordinatesModel patternCoordinates) {
 
         if (patternsDone.contains(patternCoordinates)) {
             return;
         }
         PatternModel pattern = PatternManager.Instance.getPattern(patternMap.get(patternCoordinates));
+
+        int row = patternCoordinates.Row;
+        int col = patternCoordinates.Col;
+
+        int indexFirstRow = getIndexFirstRow(row, col, patternsAbsoluteLastRowCol);
+        int indexFirstCol = getIndexFirstCol(row, col, patternsAbsoluteLastRowCol);
+
+        boolean isBottomPatternExpendable = getBottomPatternExpendable(row, col, patternMap);
+        boolean isLeftPatternExpendable = getLeftPatternExpendable(row, col, patternMap);
 
         // if isBottomPatternExpendable, then indexFirstRow is the index of the last row
         // else it's the real first index
@@ -162,49 +156,52 @@ public class CaveArrangementManager {
             CoordinatesModel absoluteCoordinates = new CoordinatesModel(absoluteRow, absoluteCol);
             indexLastRow = Math.max(indexLastRow, absoluteRow);
             indexLastCol = Math.max(indexLastCol, absoluteCol);
+
+            CavePlaceModel cavePlace = new CavePlaceModel();
             if (patternRow != 0 && patternCol != 0) {
-                placeMap.put(absoluteCoordinates, placeType);
+                cavePlace.PlaceType = placeType;
             } else if (patternRow == 0) {
                 if (!isBottomPatternExpendable || !pattern.IsVerticallyExpendable) {
-                    placeMap.put(absoluteCoordinates, placeType);
+                    cavePlace.PlaceType = placeType;
                 } else {
                     // merge 2 complementary places if necessary
                     if (placeMap.containsKey(absoluteCoordinates)) {
-                        CavePlaceTypeEnum oldPlaceType = placeMap.get(absoluteCoordinates);
+                        CavePlaceTypeEnum oldPlaceType = placeMap.get(absoluteCoordinates).PlaceType;
                         if (oldPlaceType == CavePlaceTypeEnum.PLACE_WITH_TOP && placeType == CavePlaceTypeEnum.PLACE_WITH_BOTTOM) {
-                            placeMap.put(absoluteCoordinates, CavePlaceTypeEnum.PLACE);
+                            cavePlace.PlaceType = CavePlaceTypeEnum.PLACE;
                         } else {
-                            placeMap.put(absoluteCoordinates, placeType);
+                            cavePlace.PlaceType = placeType;
                         }
                     } else {
-                        placeMap.put(absoluteCoordinates, placeType);
+                        cavePlace.PlaceType = placeType;
                     }
                 }
             } else {
                 if (!isLeftPatternExpendable || !pattern.IsHorizontallyExpendable) {
-                    placeMap.put(absoluteCoordinates, placeType);
+                    cavePlace.PlaceType = placeType;
                 } else {
                     // merge 2 complementary places if necessary
                     if (placeMap.containsKey(absoluteCoordinates)) {
-                        CavePlaceTypeEnum oldPlaceType = placeMap.get(absoluteCoordinates);
+                        CavePlaceTypeEnum oldPlaceType = placeMap.get(absoluteCoordinates).PlaceType;
                         if (oldPlaceType == CavePlaceTypeEnum.PLACE_WITH_RIGHT && placeType == CavePlaceTypeEnum.PLACE_WITH_LEFT) {
-                            placeMap.put(absoluteCoordinates, CavePlaceTypeEnum.PLACE);
+                            cavePlace.PlaceType = CavePlaceTypeEnum.PLACE;
                         } else {
-                            placeMap.put(absoluteCoordinates, placeType);
+                            cavePlace.PlaceType = placeType;
                         }
                     } else {
-                        placeMap.put(absoluteCoordinates, placeType);
+                        cavePlace.PlaceType = placeType;
                     }
                 }
             }
+            placeMap.put(absoluteCoordinates, cavePlace);
         }
         patternsDone.add(patternCoordinates);
         int indexFirstRowForBottom = pattern.IsVerticallyExpendable ? indexLastRow : indexLastRow + 1;
         int indexFirstColForRight = pattern.IsHorizontallyExpendable ? indexLastCol : indexLastCol + 1;
         patternsAbsoluteLastRowCol.put(patternCoordinates, new CoordinatesModel(indexFirstRowForBottom, indexFirstColForRight));
 
-        CoordinatesModel rightCoordinates = new CoordinatesModel(patternCoordinates.Row, patternCoordinates.Col + 1);
-        CoordinatesModel topCoordinates = new CoordinatesModel(patternCoordinates.Row + 1, patternCoordinates.Col);
+        CoordinatesModel rightCoordinates = new CoordinatesModel(row, col + 1);
+        CoordinatesModel topCoordinates = new CoordinatesModel(row + 1, col);
 
         if (patternMap.containsKey(rightCoordinates)) {
             coordinatesToHandleQueue.add(rightCoordinates);
@@ -214,7 +211,7 @@ public class CaveArrangementManager {
         }
     }
 
-    private void fillPattern(Map<CoordinatesModel, CavePlaceTypeEnum> placeMap, Map<CoordinatesModel, CoordinatesModel> patternsAbsoluteLastRowCol, Map<CoordinatesModel, Integer> patternMap) {
+    private void fillPattern(Map<CoordinatesModel, CavePlaceModel> placeMap, Map<CoordinatesModel, CoordinatesModel> patternsAbsoluteLastRowCol, Map<CoordinatesModel, Integer> patternMap) {
         int maxRowIndex = 0;
         int maxColIndex = 0;
         for (Map.Entry<CoordinatesModel, CoordinatesModel> absoluteLastRowColEntry : patternsAbsoluteLastRowCol.entrySet()) {
@@ -235,7 +232,9 @@ public class CaveArrangementManager {
             for (int col = 0; col < maxColIndex; col++) {
                 CoordinatesModel rowCol = new CoordinatesModel(row, col);
                 if (!placeMap.containsKey(rowCol)) {
-                    placeMap.put(rowCol, CavePlaceTypeEnum.NO_PLACE);
+                    CavePlaceModel cavePlace = new CavePlaceModel();
+                    cavePlace.PlaceType = CavePlaceTypeEnum.NO_PLACE;
+                    placeMap.put(rowCol, cavePlace);
                 }
             }
         }
