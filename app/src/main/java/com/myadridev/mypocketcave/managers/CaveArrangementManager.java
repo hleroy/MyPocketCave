@@ -76,6 +76,8 @@ public class CaveArrangementManager {
                     if (pattern.isPatternVerticallyCompatible(topPattern)) {
                         capacityDoubled += pattern.NumberBottlesByRow - (pattern.IsInverted ? 0 : 1);
                     }
+                } else {
+                    capacity += pattern.NumberBottlesByRow - (pattern.IsInverted ? 0 : 1);
                 }
             }
         }

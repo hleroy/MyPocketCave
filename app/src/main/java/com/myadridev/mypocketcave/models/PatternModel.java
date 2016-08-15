@@ -170,7 +170,8 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
 
     @JsonIgnore
     public boolean hasSameValues(PatternModel otherPattern) {
-        return Type == otherPattern.Type
+        return otherPattern != null
+                && Type == otherPattern.Type
                 && IsHorizontallyExpendable == otherPattern.IsHorizontallyExpendable
                 && IsVerticallyExpendable == otherPattern.IsVerticallyExpendable
                 && IsInverted == otherPattern.IsInverted

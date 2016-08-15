@@ -27,7 +27,6 @@ import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
-import com.myadridev.mypocketcave.models.CaveArrangementModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModelWithBottles;
@@ -49,8 +48,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     public CoordinatesModel ClickedPatternCoordinates;
     private CaveArrangementAdapter caveArrangementAdapter;
 
-    private CaveArrangementModel oldCaveArrangement;
-
     protected AbstractCaveEditActivity() {
         hideKeyboardOnClick = new View.OnTouchListener() {
             @Override
@@ -70,7 +67,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         initCave();
-        oldCaveArrangement = new CaveArrangementModel(cave.CaveArrangement);
         initLayout();
     }
 
@@ -159,7 +155,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         int nbCols = Math.max(maxRowCol.Col + 2, 3);
         int nbRows = maxRowCol.Row + 2;
         caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
-        caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, nbRows, nbCols, ScreenHelper.getScreenWidth(this));
+        caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, ScreenHelper.getScreenWidth(this));
     }
 
     @Override
@@ -173,11 +169,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                         cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.Instance.getPattern(patternId)));
                         createAdapter();
                         caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
-
-                        if (ClickedPatternCoordinates.Col == 0) {
-                            // it's a new pattern on the left, we need to move oldCaveArrangement to the right
-                            oldCaveArrangement.movePatternMapToRight();
-                        }
                     }
                 }
             }

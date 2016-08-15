@@ -20,6 +20,7 @@ import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
+import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
@@ -197,7 +198,13 @@ public class CaveDetailActivity extends AppCompatActivity {
                     int marginLeftRight = (int) getResources().getDimension(R.dimen.horizontal_big_margin_between_elements);
                     int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight);
 
-                    CaveArrangementAdapter caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement.PatternMap, nbRows, nbCols, totalWidth);
+                    CaveArrangementAdapter caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth);
+                    caveArrangementAdapter.addOnValueChangedListener(new OnValueChangedListener() {
+                        @Override
+                        public void onValueChanged() {
+                            capacityUsedView.setText(getString(R.string.cave_used_capacity, cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+                        }
+                    });
                     arrangementRecyclerView.setAdapter(caveArrangementAdapter);
                     arrangementRecyclerView.setVisibility(View.VISIBLE);
                 } else {
@@ -237,6 +244,6 @@ public class CaveDetailActivity extends AppCompatActivity {
     }
 
     private void refreshCave(int caveId) {
-        cave = new CaveModel(CaveManager.Instance.getCave(caveId));
+        cave = CaveManager.Instance.getCave(caveId);
     }
 }

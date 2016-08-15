@@ -30,11 +30,11 @@ public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
         return placeTypeView;
     }
 
-    public void setOnItemClickListener(final OnPlaceClickListener listener, final CoordinatesModel coordinates) {
+    public void setOnItemClickListener(final OnPlaceClickListener listener, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates) {
         placeTypeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onPlaceClick(coordinates);
+                listener.onPlaceClick(patternCoordinates, coordinates);
             }
         });
     }

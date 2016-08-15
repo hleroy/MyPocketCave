@@ -123,4 +123,7 @@
     <string name="create_pattern_overview">Aperçu du motif</string>
     <string name="create_pattern_invert">Inverser le motif</string>
     <string name="error_pattern_incorrect_rows_cols">Le nombre de bouteilles par ligne et par colonne doivent être supérieurs à 0</string>
+    <string name="no_bottles_to_add">Toutes les bouteilles sont déjà dans les caves, bien joué !</string>
+    <string name="bottles_to_place">%1$d à placer</string>
+    <string name="title_place_bottle">Placer une bouteille</string>
 </resources>

@@ -133,4 +133,7 @@
     <string name="create_pattern_overview">Pattern overview</string>
     <string name="create_pattern_invert">Invert pattern</string>
     <string name="error_pattern_incorrect_rows_cols">Number of bottles by row and column should be greater than 0</string>
+    <string name="no_bottles_to_add">All bottles are already in caves, great !</string>
+    <string name="bottles_to_place">%1$d to place</string>
+    <string name="title_place_bottle">Place a bottle</string>
 </resources>

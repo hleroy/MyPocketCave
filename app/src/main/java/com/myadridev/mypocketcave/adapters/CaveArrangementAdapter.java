@@ -12,19 +12,23 @@ import com.myadridev.mypocketcave.activities.CaveDetailActivity;
 import com.myadridev.mypocketcave.adapters.viewHolders.AddPatternViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.NoPatternViewHolder;
+import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
+import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
+import com.myadridev.mypocketcave.models.CaveArrangementModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModelWithBottles;
 import com.squareup.picasso.Picasso;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final AbstractCaveEditActivity editActivity;
     private final CaveDetailActivity detailActivity;
-    private final Map<CoordinatesModel, PatternModelWithBottles> patternWithBottlesMap;
+    private final CaveArrangementModel caveArangement;
     private final LayoutInflater layoutInflater;
     private final boolean isIndividualPlacesClickable;
 
@@ -34,10 +38,12 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final int totalWidth;
     private int itemWidth;
 
-    public CaveArrangementAdapter(AbstractCaveEditActivity activity, Map<CoordinatesModel, PatternModelWithBottles> _patternWithBottlesMap, int nbRows, int nbCols, int totalWidth) {
+    private final List<OnValueChangedListener> onValueChangedListeners;
+
+    public CaveArrangementAdapter(AbstractCaveEditActivity activity, CaveArrangementModel _caveArrangement, int nbRows, int nbCols, int totalWidth) {
         editActivity = activity;
         detailActivity = null;
-        patternWithBottlesMap = _patternWithBottlesMap;
+        caveArangement = _caveArrangement;
         this.nbRows = nbRows;
         this.nbCols = nbCols;
         this.totalWidth = totalWidth;
@@ -46,41 +52,39 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         listener = new OnPatternClickListener() {
             @Override
             public void onPatternClick(CoordinatesModel coordinates) {
-                editActivity.OldClickedPatternId = patternWithBottlesMap.containsKey(coordinates) ? patternWithBottlesMap.get(coordinates).Id : -1;
+                editActivity.OldClickedPatternId = caveArangement.PatternMap.containsKey(coordinates) ? caveArangement.PatternMap.get(coordinates).Id : -1;
                 editActivity.ClickedPatternCoordinates = coordinates;
                 NavigationManager.navigateToPatternSelection(editActivity);
             }
         };
+        onValueChangedListeners = new ArrayList<>();
     }
 
-    public CaveArrangementAdapter(CaveDetailActivity activity, Map<CoordinatesModel, PatternModelWithBottles> _patternWithBottlesMap, int nbRows, int nbCols, int totalWidth) {
+    public CaveArrangementAdapter(CaveDetailActivity activity, CaveArrangementModel _caveArangement, int nbRows, int nbCols, int totalWidth) {
         detailActivity = activity;
         editActivity = null;
-        patternWithBottlesMap = _patternWithBottlesMap;
+        caveArangement = _caveArangement;
         this.nbRows = nbRows;
         this.nbCols = nbCols;
         this.totalWidth = totalWidth;
         layoutInflater = LayoutInflater.from(detailActivity);
         isIndividualPlacesClickable = true;
-        listener = new OnPatternClickListener() {
-            @Override
-            public void onPatternClick(CoordinatesModel coordinates) {
-                // TODO
-//                editActivity.OldClickedPatternId = patternWithBottlesMap.containsKey(coordinates) ? patternWithBottlesMap.get(coordinates).Id : -1;
-//                editActivity.ClickedPatternCoordinates = coordinates;
-//                NavigationManager.navigateToPatternSelection(editActivity);
-            }
-        };
+        listener = null;
+        onValueChangedListeners = new ArrayList<>();
+    }
+
+    public void addOnValueChangedListener(OnValueChangedListener onValueChangedListener) {
+        onValueChangedListeners.add(onValueChangedListener);
     }
 
     @Override
     public int getItemViewType(int position) {
         CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
 
-        if (patternWithBottlesMap.containsKey(coordinates)) {
+        if (caveArangement.PatternMap.containsKey(coordinates)) {
             // Existing pattern
             return 0;
-        } else if (isAddPattern(coordinates)) {
+        } else if (!isIndividualPlacesClickable && isAddPattern(coordinates)) {
             // Add new pattern
             return 1;
         } else {
@@ -89,15 +93,15 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private boolean isAddPattern(CoordinatesModel coordinates) {
-        return (patternWithBottlesMap.size() == 0 && coordinates.Col == 1 && coordinates.Row == 0)
+        return (caveArangement.PatternMap.size() == 0 && coordinates.Col == 1 && coordinates.Row == 0)
                 // over existing
-                || patternWithBottlesMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))
+                || caveArangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))
                 // right to existing and no line under or existing under
-                || (patternWithBottlesMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col - 1))
-                && (coordinates.Row == 0 || patternWithBottlesMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))))
+                || (caveArangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col - 1))
+                && (coordinates.Row == 0 || caveArangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))))
                 // left to existing and no line under or existing under
-                || (patternWithBottlesMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col + 1))
-                && (coordinates.Row == 0 || patternWithBottlesMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))));
+                || (caveArangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col + 1))
+                && (coordinates.Row == 0 || caveArangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))));
     }
 
     @Override
@@ -138,33 +142,42 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
 
-        if (patternWithBottlesMap.containsKey(coordinates)) {
+        if (caveArangement.PatternMap.containsKey(coordinates)) {
             CaveArrangementViewHolder holder = (CaveArrangementViewHolder) viewHolder;
-            PatternModelWithBottles patternWithBottles = patternWithBottlesMap.get(coordinates);
+            PatternModelWithBottles patternWithBottles = caveArangement.PatternMap.get(coordinates);
             if (patternWithBottles != null) {
                 int numberRowsGridLayout = patternWithBottles.getNumberRowsGridLayout();
                 int numberColumnsGridLayout = patternWithBottles.getNumberColumnsGridLayout();
                 if (numberRowsGridLayout > 0) {
                     PatternAdapter patternAdapter;
                     if (isIndividualPlacesClickable) {
-                        // TODO : add listener
                         holder.setPatternViewLayoutManager(new GridLayoutManager(detailActivity, numberColumnsGridLayout));
                         patternAdapter = new PatternAdapter(detailActivity, patternWithBottles.PlaceMapWithBottles,
                                 new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                                true, itemWidth, itemWidth);
+                                true, itemWidth, itemWidth, coordinates);
+                        patternAdapter.addOnBottlePlacedClickListener(new OnBottlePlacedClickListener() {
+                            @Override
+                            public void onBottlePlaced(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId) {
+                                caveArangement.placeBottle(patternCoordinates, coordinates, bottleId);
+                                notifyDataSetChanged();
+                                for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
+                                    onValueChangedListener.onValueChanged();
+                                }
+                            }
+                        });
                         holder.hideClickableSpace();
-                    }else {
+                    } else {
                         holder.setPatternViewLayoutManager(new GridLayoutManager(editActivity, numberColumnsGridLayout));
                         patternAdapter = new PatternAdapter(editActivity, patternWithBottles.PlaceMapWithBottles,
                                 new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                                false, itemWidth, itemWidth);
+                                false, itemWidth, itemWidth, null);
                         holder.setOnItemClickListener(listener, coordinates);
                         holder.setClickableSpaceDimensions(itemWidth, itemWidth);
                     }
                     holder.setPatternViewAdapter(patternAdapter);
                 }
             }
-        } else if (isAddPattern(coordinates)) {
+        } else if (!isIndividualPlacesClickable && isAddPattern(coordinates)) {
             AddPatternViewHolder holder = (AddPatternViewHolder) viewHolder;
             Picasso.with(editActivity).load(R.drawable.add).resize(itemWidth / 2, itemWidth / 2).into(holder.getImageView());
             holder.setOnItemClickListener(listener, coordinates);

@@ -1,12 +1,14 @@
 package com.myadridev.mypocketcave.models;
 
+import android.support.annotation.NonNull;
+
 public class SuggestBottleResultModel implements Comparable<SuggestBottleResultModel> {
 
     public int Score;
     public BottleModel Bottle;
 
     @Override
-    public int compareTo(SuggestBottleResultModel otherResult) {
+    public int compareTo(@NonNull SuggestBottleResultModel otherResult) {
         int compareScore = otherResult.Score - Score;
         if (compareScore > 0)
             return 1;

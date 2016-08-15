@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.models;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
@@ -26,7 +28,7 @@ public class CaveModel implements IStorableModel, Comparable<CaveModel> {
     }
 
     @Override
-    public int compareTo(CaveModel otherCave) {
+    public int compareTo(@NonNull CaveModel otherCave) {
         int compareType = CaveType.id - otherCave.CaveType.id;
         if (compareType > 0)
             return 1;

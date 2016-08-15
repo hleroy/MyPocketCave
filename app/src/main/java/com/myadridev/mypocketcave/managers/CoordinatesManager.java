@@ -23,16 +23,16 @@ public class CoordinatesManager {
 
     public CoordinatesModel getMaxRowCol(Collection<CoordinatesModel> coordinates) {
         int maxCol = -1;
-        int maxRaw = -1;
+        int maxRow = -1;
         for (CoordinatesModel coordinate : coordinates) {
             if (coordinate.Col > maxCol) {
                 maxCol = coordinate.Col;
             }
-            if (coordinate.Row > maxRaw) {
-                maxRaw = coordinate.Row;
+            if (coordinate.Row > maxRow) {
+                maxRow = coordinate.Row;
             }
         }
-        return new CoordinatesModel(maxRaw, maxCol);
+        return new CoordinatesModel(maxRow, maxCol);
     }
 
     public int getColFromPosition(int position) {
@@ -41,5 +41,45 @@ public class CoordinatesManager {
 
     public int getRowFromPosition(int position, int itemCount) {
         return itemCount - 1 - position;
+    }
+
+    public boolean containsRow(Collection<CoordinatesModel> coordinates, int row) {
+        if (row < 0) return false;
+        for (CoordinatesModel coordinate : coordinates) {
+            if (coordinate.Row >= row) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsCol(Collection<CoordinatesModel> coordinates, int col) {
+        if (col < 0) return false;
+        for (CoordinatesModel coordinate : coordinates) {
+            if (coordinate.Col >= col) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getMaxCol(Collection<CoordinatesModel> coordinates) {
+        int maxCol = -1;
+        for (CoordinatesModel coordinate : coordinates) {
+            if (coordinate.Col >= maxCol) {
+                maxCol = coordinate.Col;
+            }
+        }
+        return maxCol;
+    }
+
+    public int getMaxRow(Collection<CoordinatesModel> coordinates) {
+        int maxRow = -1;
+        for (CoordinatesModel coordinate : coordinates) {
+            if (coordinate.Row > maxRow) {
+                maxRow = coordinate.Row;
+            }
+        }
+        return maxRow;
     }
 }

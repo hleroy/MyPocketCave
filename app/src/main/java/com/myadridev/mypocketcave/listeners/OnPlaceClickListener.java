@@ -4,5 +4,5 @@ import com.myadridev.mypocketcave.models.CoordinatesModel;
 
 public interface OnPlaceClickListener {
 
-    void onPlaceClick(CoordinatesModel coordinates);
+    void onPlaceClick(CoordinatesModel patternCoordinates, CoordinatesModel coordinates);
 }

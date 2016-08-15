@@ -19,7 +19,7 @@ public class CoordinatesModel {
     @Override
     public boolean equals(Object other) {
         boolean result = false;
-        if (other instanceof CoordinatesModel) {
+        if (other != null && other instanceof CoordinatesModel) {
             CoordinatesModel that = (CoordinatesModel) other;
             result = (this.Row == that.Row && this.Col == that.Col);
         }

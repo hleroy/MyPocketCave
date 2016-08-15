@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.models;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -24,11 +26,11 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
     @JsonProperty("wc")
     public WineColorEnum WineColor;
     public int Stock;
+    public int NumberPlaced;
     // TODO : Apellation
     // TODO : conservation en fonction de couleur + millésime + apellation
     // TODO : notation (prestige + gout)
 
-    //TODO : place dans la cave
     //TODO : année de consommation conseillée ou équivalent
     //TODO : photo
 
@@ -46,10 +48,11 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
         WineColor = bottle.WineColor;
         FoodToEatWithList = new ArrayList<>(bottle.FoodToEatWithList);
         Stock = bottle.Stock;
+        NumberPlaced = bottle.NumberPlaced;
     }
 
     @Override
-    public int compareTo(BottleModel otherBottle) {
+    public int compareTo(@NonNull BottleModel otherBottle) {
         int compareColor = WineColor.id - otherBottle.WineColor.id;
         if (compareColor > 0)
             return 1;

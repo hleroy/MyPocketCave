@@ -130,7 +130,7 @@ public class CaveManager {
         _maxCaveId = maxId;
     }
 
-    private void saveCaves() {
+    public void saveCaves() {
         StorageManager.Instance.storeData(storeFileResourceId, storeSetResourceId, caves);
     }
 

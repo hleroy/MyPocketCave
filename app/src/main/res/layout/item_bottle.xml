@@ -26,7 +26,7 @@
         android:layout_toRightOf="@id/bottle_color"
         android:text="@string/bottle_name"
         android:textSize="@dimen/text_size"
-        app:layout_widthPercent="44%" />
+        app:layout_widthPercent="40%" />
 
     <TextView
         android:id="@+id/bottle_millesime"
@@ -40,7 +40,7 @@
         android:gravity="center"
         android:text="2012"
         android:textSize="@dimen/text_size"
-        app:layout_widthPercent="12%" />
+        app:layout_widthPercent="14%" />
 
     <TextView
         android:id="@+id/bottle_stock_label"

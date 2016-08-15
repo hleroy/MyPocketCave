@@ -171,7 +171,7 @@ public class BottleManager {
 
         for (Map.Entry<Integer, BottleModel> bottleEntry : bottles.entrySet()) {
             String person = bottleEntry.getValue().PersonToShareWith;
-            if (person != null && person != "" && !differentPersons.contains(person)) {
+            if (person != null && !"".equals(person) && !differentPersons.contains(person)) {
                 differentPersons.add(person);
             }
         }
@@ -280,5 +280,23 @@ public class BottleManager {
             return 1;
         if (searchCriteria.PersonToShareWith.equalsIgnoreCase(bottle.PersonToShareWith)) return 1;
         return 0;
+    }
+
+    public List<BottleModel> getNonPlacedBottles() {
+        List<BottleModel> nonPlacedBottles = new ArrayList<>(bottles.size());
+
+        for (BottleModel bottle : bottles.values()) {
+            if (bottle.Stock - bottle.NumberPlaced > 0) {
+                nonPlacedBottles.add(bottle);
+            }
+        }
+
+        Collections.sort(nonPlacedBottles);
+        return nonPlacedBottles;
+    }
+
+    public void placeBottle(int bottleId) {
+        bottles.get(bottleId).NumberPlaced += 1;
+        saveBottles();
     }
 }

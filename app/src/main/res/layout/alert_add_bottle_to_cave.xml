@@ -1,0 +1,23 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/alert_add_bottle_no_bottles_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/no_bottles_to_add"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/alert_add_bottle_bottles_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alert_add_bottle_no_bottles_label"
+        android:layout_centerHorizontal="true" />
+
+</android.support.percent.PercentRelativeLayout>

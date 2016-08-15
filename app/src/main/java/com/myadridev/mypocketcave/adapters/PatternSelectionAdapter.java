@@ -116,7 +116,7 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
                 if (numberColumnsGridLayout > 0) {
                     holder.setPatternViewLayoutManager(new GridLayoutManager(activity, numberColumnsGridLayout));
                     PatternAdapter patternAdapter = new PatternAdapter(activity, pattern.getPlaceMapForDisplay(), new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                            false, itemWidth, itemWidth);
+                            false, itemWidth, itemWidth, null);
                     holder.setPatternViewAdapter(patternAdapter);
                     holder.setOnItemClickListener(listener, pattern.Id);
                     holder.setClickableSpaceDimensions(itemWidth, itemWidth);
