@@ -28,7 +28,7 @@ public class BottleCreateActivity extends AbstractBottleEditActivity {
 
     @Override
     protected void saveBottle() {
-        bottle.Id = BottleManager.Instance.addBottle(bottle);
+        bottle.Id = BottleManager.addBottle(bottle);
         NavigationManager.navigateToBottleDetail(this, bottle.Id);
     }
 

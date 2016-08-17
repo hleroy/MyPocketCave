@@ -101,7 +101,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 deleteCaveDialogBuilder.setPositiveButton(R.string.global_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        CaveManager.Instance.removeCave(cave.Id);
+                        CaveManager.removeCave(cave);
                         dialog.dismiss();
                         finish();
                     }
@@ -190,7 +190,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
 
-                CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
+                CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
                 if (maxRowCol.Col >= 0) {
                     int nbCols = maxRowCol.Col + 1;
                     int nbRows = maxRowCol.Row + 1;
@@ -202,6 +202,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                     caveArrangementAdapter.addOnValueChangedListener(new OnValueChangedListener() {
                         @Override
                         public void onValueChanged() {
+                            CaveManager.editCave(cave);
                             capacityUsedView.setText(getString(R.string.cave_used_capacity, cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
                         }
                     });
@@ -244,6 +245,6 @@ public class CaveDetailActivity extends AppCompatActivity {
     }
 
     private void refreshCave(int caveId) {
-        cave = CaveManager.Instance.getCave(caveId);
+        cave = CaveManager.getCave(caveId);
     }
 }

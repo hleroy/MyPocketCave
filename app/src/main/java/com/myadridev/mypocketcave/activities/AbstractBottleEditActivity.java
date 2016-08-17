@@ -230,7 +230,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             WineColorEnum wineColor = (WineColorEnum) wineColorView.getSelectedItem();
             int millesime = (int) millesimeView.getSelectedItem();
 
-            final int existingBottleId = BottleManager.Instance.getExistingBottleId(bottle.Id, name, domain, wineColor, millesime);
+            final int existingBottleId = BottleManager.getExistingBottleId(bottle.Id, name, domain, wineColor, millesime);
             if (existingBottleId > 0) {
                 AlertDialog.Builder existingBottleDialogBuilder = new AlertDialog.Builder(this);
                 existingBottleDialogBuilder.setCancelable(true);

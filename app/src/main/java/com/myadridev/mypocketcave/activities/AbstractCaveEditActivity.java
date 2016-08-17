@@ -23,7 +23,6 @@ import com.myadridev.mypocketcave.adapters.CaveTypeSpinnerAdapter;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
-import com.myadridev.mypocketcave.managers.CaveArrangementManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
@@ -151,7 +150,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
     private void createAdapter() {
         cave.CaveArrangement.movePatternMapToRight();
-        CoordinatesModel maxRowCol = CoordinatesManager.Instance.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
+        CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
         int nbCols = Math.max(maxRowCol.Col + 2, 3);
         int nbRows = maxRowCol.Row + 2;
         caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
@@ -166,7 +165,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 int patternId = data.getIntExtra("patternId", -1);
                 if (patternId != -1) {
                     if (OldClickedPatternId != patternId) {
-                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.Instance.getPattern(patternId)));
+                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
                         createAdapter();
                         caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
                     }
@@ -230,14 +229,14 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
         switch (cave.CaveType) {
             case BULK:
-                cave.CaveArrangement.TotalCapacity = CaveArrangementManager.Instance.computeTotalCapacityWithBulk(cave.CaveArrangement);
+                cave.CaveArrangement.computeTotalCapacityWithBulk();
                 break;
             case BOX:
-                cave.CaveArrangement.TotalCapacity = CaveArrangementManager.Instance.computeTotalCapacityWithBoxes(cave.CaveArrangement);
+                cave.CaveArrangement.computeTotalCapacityWithBoxes();
                 break;
             case FRIDGE:
             case RACK:
-                cave.CaveArrangement.TotalCapacity = CaveArrangementManager.Instance.computeTotalCapacityWithPattern(cave.CaveArrangement);
+                cave.CaveArrangement.computeTotalCapacityWithPattern();
                 break;
             default:
                 cave.CaveArrangement.TotalCapacity = 0;
@@ -274,7 +273,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         } else {
             CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
 
-            final int existingCaveId = CaveManager.Instance.getExistingCaveId(cave.Id, name, caveType);
+            final int existingCaveId = CaveManager.getExistingCaveId(cave.Id, name, caveType);
             if (existingCaveId > 0) {
                 AlertDialog.Builder existingCaveDialogBuilder = new AlertDialog.Builder(this);
                 existingCaveDialogBuilder.setCancelable(true);

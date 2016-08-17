@@ -1,11 +1,12 @@
 package com.myadridev.mypocketcave.models;
 
+import android.support.annotation.Nullable;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
 @JsonSerialize(as = CaveArrangementModel.class)
 public class CaveArrangementModel {
 
+    public int Id;
     public int TotalCapacity;
     public int TotalUsed;
 
@@ -30,12 +32,75 @@ public class CaveArrangementModel {
     }
 
     public CaveArrangementModel(CaveArrangementModel caveArrangement) {
+        Id = caveArrangement.Id;
         TotalCapacity = caveArrangement.TotalCapacity;
         TotalUsed = caveArrangement.TotalUsed;
         PatternMap = new HashMap<>(caveArrangement.PatternMap);
         NumberBottlesBulk = caveArrangement.NumberBottlesBulk;
         NumberBoxes = caveArrangement.NumberBoxes;
         NumberBottlesPerBox = caveArrangement.NumberBottlesPerBox;
+    }
+
+    public void computeTotalCapacityWithBulk() {
+        TotalCapacity = NumberBottlesBulk;
+    }
+
+    public void computeTotalCapacityWithBoxes() {
+        TotalCapacity = NumberBottlesPerBox * NumberBoxes;
+    }
+
+    public void computeTotalCapacityWithPattern() {
+        int capacity = 0;
+        int capacityDoubled = 0; // for the half-places, there will be added twice
+
+        for (Map.Entry<CoordinatesModel, PatternModelWithBottles> patternEntry : PatternMap.entrySet()) {
+            CoordinatesModel patternCoordinates = patternEntry.getKey();
+            PatternModelWithBottles pattern = patternEntry.getValue();
+
+            capacity += pattern.getCapacityAlone();
+
+            // if pattern.IsHorizontallyExpendable look at left and right pattern
+            if (pattern.IsHorizontallyExpendable) {
+                // number of half-places : pattern.NumberBottlesByColumn (-1 if not inverted)
+                CoordinatesModel leftCoordinates = new CoordinatesModel(patternCoordinates.Row, patternCoordinates.Col - 1);
+                if (PatternMap.containsKey(leftCoordinates)) {
+                    PatternModelWithBottles leftPattern = PatternMap.get(leftCoordinates);
+                    if (pattern.isPatternHorizontallyCompatible(leftPattern)) {
+                        capacityDoubled += pattern.NumberBottlesByColumn - (pattern.IsInverted ? 0 : 1);
+                    }
+                }
+                CoordinatesModel rightCoordinates = new CoordinatesModel(patternCoordinates.Row, patternCoordinates.Col + 1);
+                if (PatternMap.containsKey(rightCoordinates)) {
+                    PatternModelWithBottles rightPattern = PatternMap.get(rightCoordinates);
+                    if (pattern.isPatternHorizontallyCompatible(rightPattern)) {
+                        capacityDoubled += pattern.NumberBottlesByColumn - (pattern.IsInverted ? 0 : 1);
+                    }
+                }
+            }
+
+            // if pattern.IsVerticallyExpendable look at top and bottom pattern
+            if (pattern.IsVerticallyExpendable) {
+                // number of half-places : pattern.NumberBottlesByRow (-1 if not inverted)
+                CoordinatesModel bottomCoordinates = new CoordinatesModel(patternCoordinates.Row - 1, patternCoordinates.Col);
+                if (PatternMap.containsKey(bottomCoordinates)) {
+                    PatternModelWithBottles bottomPattern = PatternMap.get(bottomCoordinates);
+                    if (pattern.isPatternVerticallyCompatible(bottomPattern)) {
+                        capacityDoubled += pattern.NumberBottlesByRow - (pattern.IsInverted ? 0 : 1);
+                    }
+                }
+                CoordinatesModel topCoordinates = new CoordinatesModel(patternCoordinates.Row + 1, patternCoordinates.Col);
+                if (PatternMap.containsKey(topCoordinates)) {
+                    PatternModelWithBottles topPattern = PatternMap.get(topCoordinates);
+                    if (pattern.isPatternVerticallyCompatible(topPattern)) {
+                        capacityDoubled += pattern.NumberBottlesByRow - (pattern.IsInverted ? 0 : 1);
+                    }
+                } else {
+                    capacity += pattern.NumberBottlesByRow - (pattern.IsInverted ? 0 : 1);
+                }
+            }
+        }
+        capacity += capacityDoubled / 2;
+        TotalCapacity = capacity;
     }
 
     public void movePatternMapToLeft() {
@@ -99,7 +164,7 @@ public class CaveArrangementModel {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CavePlaceModel cavePlace = pattern.PlaceMapWithBottles.get(coordinates);
 
-        BottleModel bottle = BottleManager.Instance.getBottle(bottleId);
+        BottleModel bottle = BottleManager.getBottle(bottleId);
 
         CavePlaceModel leftPlace = null;
         CavePlaceModel bottomPlace = null;
@@ -161,9 +226,7 @@ public class CaveArrangementModel {
             updateCavePlace(topRightPlace, bottle);
         }
 
-        BottleManager.Instance.placeBottle(bottleId);
         TotalUsed++;
-        CaveManager.Instance.saveCaves();
     }
 
     private void updateCavePlace(CavePlaceModel cavePlaceToUpdate, BottleModel bottle) {
@@ -171,12 +234,13 @@ public class CaveArrangementModel {
         cavePlaceToUpdate.PlaceType = getPlaceTypeByTypeAndColor(cavePlaceToUpdate.PlaceType, bottle.WineColor);
     }
 
+    @Nullable
     private CavePlaceModel getTopRightPlace(CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CoordinatesModel topRightCoordinates = new CoordinatesModel(coordinates.Row + 1, coordinates.Col + 1);
         if (pattern.PlaceMapWithBottles.containsKey(topRightCoordinates)) {
             return pattern.PlaceMapWithBottles.get(topRightCoordinates);
-        } else if (CoordinatesManager.Instance.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row + 1)) {
+        } else if (CoordinatesManager.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row + 1)) {
             // if pattern.PlaceMapWithBottles contains the row + 1 -> search rightPattern
             PatternModelWithBottles rightPattern = getRightPattern(patternCoordinates);
             if (rightPattern != null) {
@@ -185,7 +249,7 @@ public class CaveArrangementModel {
                     return rightPattern.PlaceMapWithBottles.get(topRightOtherCoordinates);
                 }
             }
-        } else if (CoordinatesManager.Instance.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
+        } else if (CoordinatesManager.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
             // if pattern.PlaceMapWithBottles contains the col + 1 -> search topPattern
             PatternModelWithBottles topPattern = getTopPattern(patternCoordinates);
             if (topPattern != null) {
@@ -198,21 +262,22 @@ public class CaveArrangementModel {
         return null;
     }
 
+    @Nullable
     private CavePlaceModel getTopLeftPlace(CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CoordinatesModel topLeftCoordinates = new CoordinatesModel(coordinates.Row + 1, coordinates.Col - 1);
         if (pattern.PlaceMapWithBottles.containsKey(topLeftCoordinates)) {
             return pattern.PlaceMapWithBottles.get(topLeftCoordinates);
-        } else if (CoordinatesManager.Instance.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row + 1)) {
+        } else if (CoordinatesManager.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row + 1)) {
             // if pattern.PlaceMapWithBottles contains the row + 1 -> search leftPattern
             PatternModelWithBottles leftPattern = getLeftPattern(patternCoordinates);
             if (leftPattern != null) {
-                CoordinatesModel topLeftOtherCoordinates = new CoordinatesModel(coordinates.Row + 1, CoordinatesManager.Instance.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
+                CoordinatesModel topLeftOtherCoordinates = new CoordinatesModel(coordinates.Row + 1, CoordinatesManager.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
                 if (leftPattern.PlaceMapWithBottles.containsKey(topLeftOtherCoordinates)) {
                     return leftPattern.PlaceMapWithBottles.get(topLeftOtherCoordinates);
                 }
             }
-        } else if (CoordinatesManager.Instance.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
+        } else if (CoordinatesManager.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
             // if pattern.PlaceMapWithBottles contains the col - 1 -> search topPattern
             PatternModelWithBottles topPattern = getTopPattern(patternCoordinates);
             if (topPattern != null) {
@@ -225,6 +290,7 @@ public class CaveArrangementModel {
         return null;
     }
 
+    @Nullable
     private CavePlaceModel getTopPlace(CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CoordinatesModel topCoordinates = new CoordinatesModel(coordinates.Row + 1, coordinates.Col);
@@ -243,12 +309,13 @@ public class CaveArrangementModel {
         return null;
     }
 
+    @Nullable
     private CavePlaceModel getBottomRightPlace(CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CoordinatesModel bottomRightCoordinates = new CoordinatesModel(coordinates.Row - 1, coordinates.Col + 1);
         if (pattern.PlaceMapWithBottles.containsKey(bottomRightCoordinates)) {
             return pattern.PlaceMapWithBottles.get(bottomRightCoordinates);
-        } else if (CoordinatesManager.Instance.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row - 1)) {
+        } else if (CoordinatesManager.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row - 1)) {
             // if pattern.PlaceMapWithBottles contains the row - 1 -> search rightPattern
             PatternModelWithBottles rightPattern = getRightPattern(patternCoordinates);
             if (rightPattern != null) {
@@ -257,11 +324,11 @@ public class CaveArrangementModel {
                     return rightPattern.PlaceMapWithBottles.get(bottomRightOtherCoordinates);
                 }
             }
-        } else if (CoordinatesManager.Instance.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
+        } else if (CoordinatesManager.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
             // if pattern.PlaceMapWithBottles contains the col + 1 -> search bottomPattern
             PatternModelWithBottles bottomPattern = getBottomPattern(patternCoordinates);
             if (bottomPattern != null) {
-                CoordinatesModel bottomRightOtherCoordinates = new CoordinatesModel(CoordinatesManager.Instance.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col + 1);
+                CoordinatesModel bottomRightOtherCoordinates = new CoordinatesModel(CoordinatesManager.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col + 1);
                 if (bottomPattern.PlaceMapWithBottles.containsKey(bottomRightOtherCoordinates)) {
                     return bottomPattern.PlaceMapWithBottles.get(bottomRightOtherCoordinates);
                 }
@@ -270,6 +337,7 @@ public class CaveArrangementModel {
         return null;
     }
 
+    @Nullable
     private CavePlaceModel getRightPlace(CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CoordinatesModel rightCoordinates = new CoordinatesModel(coordinates.Row, coordinates.Col + 1);
@@ -288,25 +356,26 @@ public class CaveArrangementModel {
         return null;
     }
 
+    @Nullable
     private CavePlaceModel getBottomLeftPlace(CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CoordinatesModel bottomLeftCoordinates = new CoordinatesModel(coordinates.Row - 1, coordinates.Col - 1);
         if (pattern.PlaceMapWithBottles.containsKey(bottomLeftCoordinates)) {
             return pattern.PlaceMapWithBottles.get(bottomLeftCoordinates);
-        } else if (CoordinatesManager.Instance.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row - 1)) {
+        } else if (CoordinatesManager.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row - 1)) {
             // if pattern.PlaceMapWithBottles contains the row - 1 -> search leftPattern
             PatternModelWithBottles leftPattern = getLeftPattern(patternCoordinates);
             if (leftPattern != null) {
-                CoordinatesModel bottomLeftOtherCoordinates = new CoordinatesModel(coordinates.Row - 1, CoordinatesManager.Instance.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
+                CoordinatesModel bottomLeftOtherCoordinates = new CoordinatesModel(coordinates.Row - 1, CoordinatesManager.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
                 if (leftPattern.PlaceMapWithBottles.containsKey(bottomLeftOtherCoordinates)) {
                     return leftPattern.PlaceMapWithBottles.get(bottomLeftOtherCoordinates);
                 }
             }
-        } else if (CoordinatesManager.Instance.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col - 1)) {
+        } else if (CoordinatesManager.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col - 1)) {
             // if pattern.PlaceMapWithBottles contains the col - 1 -> search bottomPattern
             PatternModelWithBottles bottomPattern = getBottomPattern(patternCoordinates);
             if (bottomPattern != null) {
-                CoordinatesModel bottomLeftOtherCoordinates = new CoordinatesModel(CoordinatesManager.Instance.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col - 1);
+                CoordinatesModel bottomLeftOtherCoordinates = new CoordinatesModel(CoordinatesManager.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col - 1);
                 if (bottomPattern.PlaceMapWithBottles.containsKey(bottomLeftOtherCoordinates)) {
                     return bottomPattern.PlaceMapWithBottles.get(bottomLeftOtherCoordinates);
                 }
@@ -315,6 +384,7 @@ public class CaveArrangementModel {
         return null;
     }
 
+    @Nullable
     private CavePlaceModel getBottomPlace(CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CoordinatesModel bottomCoordinates = new CoordinatesModel(coordinates.Row - 1, coordinates.Col);
@@ -324,7 +394,7 @@ public class CaveArrangementModel {
             // search bottomPattern
             PatternModelWithBottles bottomPattern = getBottomPattern(patternCoordinates);
             if (bottomPattern != null) {
-                CoordinatesModel bottomOtherCoordinates = new CoordinatesModel(CoordinatesManager.Instance.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col);
+                CoordinatesModel bottomOtherCoordinates = new CoordinatesModel(CoordinatesManager.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col);
                 if (bottomPattern.PlaceMapWithBottles.containsKey(bottomOtherCoordinates)) {
                     return bottomPattern.PlaceMapWithBottles.get(bottomOtherCoordinates);
                 }
@@ -333,6 +403,7 @@ public class CaveArrangementModel {
         return null;
     }
 
+    @Nullable
     private CavePlaceModel getLeftPlace(CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CoordinatesModel leftCoordinates = new CoordinatesModel(coordinates.Row, coordinates.Col - 1);
@@ -342,7 +413,7 @@ public class CaveArrangementModel {
             // search leftPattern
             PatternModelWithBottles leftPattern = getLeftPattern(patternCoordinates);
             if (leftPattern != null) {
-                CoordinatesModel leftOtherCoordinates = new CoordinatesModel(coordinates.Row, CoordinatesManager.Instance.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
+                CoordinatesModel leftOtherCoordinates = new CoordinatesModel(coordinates.Row, CoordinatesManager.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
                 if (leftPattern.PlaceMapWithBottles.containsKey(leftOtherCoordinates)) {
                     return leftPattern.PlaceMapWithBottles.get(leftOtherCoordinates);
                 }
@@ -351,21 +422,25 @@ public class CaveArrangementModel {
         return null;
     }
 
+    @Nullable
     private PatternModelWithBottles getRightPattern(CoordinatesModel patternCoordinates) {
         CoordinatesModel rightPatternCoordinates = new CoordinatesModel(patternCoordinates.Row, patternCoordinates.Col + 1);
         return PatternMap.containsKey(rightPatternCoordinates) ? PatternMap.get(rightPatternCoordinates) : null;
     }
 
+    @Nullable
     private PatternModelWithBottles getTopPattern(CoordinatesModel patternCoordinates) {
         CoordinatesModel topPatternCoordinates = new CoordinatesModel(patternCoordinates.Row + 1, patternCoordinates.Col);
         return PatternMap.containsKey(topPatternCoordinates) ? PatternMap.get(topPatternCoordinates) : null;
     }
 
+    @Nullable
     private PatternModelWithBottles getLeftPattern(CoordinatesModel patternCoordinates) {
         CoordinatesModel leftPatternCoordinates = new CoordinatesModel(patternCoordinates.Row, patternCoordinates.Col - 1);
         return PatternMap.containsKey(leftPatternCoordinates) ? PatternMap.get(leftPatternCoordinates) : null;
     }
 
+    @Nullable
     private PatternModelWithBottles getBottomPattern(CoordinatesModel patternCoordinates) {
         CoordinatesModel bottomPatternCoordinates = new CoordinatesModel(patternCoordinates.Row - 1, patternCoordinates.Col);
         return PatternMap.containsKey(bottomPatternCoordinates) ? PatternMap.get(bottomPatternCoordinates) : null;

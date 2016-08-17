@@ -93,7 +93,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
             return;
         }
 
-        allBottles = BottleManager.Instance.getSuggestBottles(searchCriteria);
+        allBottles = BottleManager.getSuggestBottles(searchCriteria);
 
         bottlesResultAdapter = new SuggestBottlesResultAdapter(this, allBottles);
         bottlesResultAdapter.addOnSeeMoreClickListener(new SuggestBottlesResultAdapter.OnSeeMoreClickListener() {
@@ -139,7 +139,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     private int getBottlesCount(List<SuggestBottleResultModel> allBottles, boolean isAllBottlesVisible) {
         List<BottleModel> bottles = getBottleModels(allBottles, isAllBottlesVisible);
 
-        return BottleManager.Instance.getBottlesCount(bottles);
+        return BottleManager.getBottlesCount(bottles);
     }
 
     @NonNull
@@ -156,6 +156,6 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
 
     private int getBottlesCount(List<SuggestBottleResultModel> allBottles, boolean isAllBottlesVisible, WineColorEnum wineColor) {
         List<BottleModel> bottles = getBottleModels(allBottles, isAllBottlesVisible);
-        return BottleManager.Instance.getBottlesCount(bottles, wineColor);
+        return BottleManager.getBottlesCount(bottles, wineColor);
     }
 }

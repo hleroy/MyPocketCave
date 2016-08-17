@@ -56,7 +56,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             TextView noBottlesView = (TextView) dialogView.findViewById(R.id.alert_add_bottle_no_bottles_label);
             RecyclerView bottlesRecyclerView = (RecyclerView) dialogView.findViewById(R.id.alert_add_bottle_bottles_recyclerview);
 
-            List<BottleModel> nonPlacedBottles = BottleManager.Instance.getNonPlacedBottles();
+            List<BottleModel> nonPlacedBottles = BottleManager.getNonPlacedBottles();
             final int[] bottleIdToPlace = {-1};
             if (nonPlacedBottles.isEmpty()) {
                 noBottlesView.setVisibility(View.VISIBLE);
@@ -153,7 +153,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         PatternPlaceViewHolder holder = (PatternPlaceViewHolder) viewHolder;
-        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
+        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
         CavePlaceModel cavePlace = patternPlace.get(coordinates);
         if (cavePlace != null) {
             CavePlaceTypeEnum cavePlaceType = cavePlace.PlaceType;

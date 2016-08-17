@@ -23,7 +23,7 @@ public class PersonSpinnerAdapter implements SpinnerAdapter {
         layoutInflater = LayoutInflater.from(context);
         containsNone = _containsNone;
 
-        String[] allDifferentPersons = BottleManager.Instance.getAllDifferentPersons();
+        String[] allDifferentPersons = BottleManager.getAllDistinctPersons();
         allDifferentPersonsWithNone = new String[allDifferentPersons.length + 1];
         allDifferentPersonsWithNone[0] = context.getString(R.string.suggest_bottle_person_none);
         System.arraycopy(allDifferentPersons, 0, allDifferentPersonsWithNone, 1, allDifferentPersons.length);

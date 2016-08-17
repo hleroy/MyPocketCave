@@ -257,7 +257,7 @@ public class CreatePatternActivity extends AppCompatActivity {
     public void onBackPressed() {
         hideKeyboard();
         if (checkValues()) {
-            setResultAndFinish(RESULT_OK, PatternManager.Instance.addPattern(pattern));
+            setResultAndFinish(RESULT_OK, PatternManager.addPattern(pattern));
         }
     }
 

@@ -12,6 +12,7 @@ public class PatternModelWithBottles extends PatternModel {
     @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
     @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
     public final Map<CoordinatesModel, CavePlaceModel> PlaceMapWithBottles;
+    public int PatternWithBottlesId;
 
     public PatternModelWithBottles() {
         PlaceMapWithBottles = new HashMap<>();

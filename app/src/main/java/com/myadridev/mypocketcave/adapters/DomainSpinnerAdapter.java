@@ -23,7 +23,7 @@ public class DomainSpinnerAdapter implements SpinnerAdapter {
         layoutInflater = LayoutInflater.from(context);
         containsNone = _containsNone;
 
-        String[] allDifferentDomains = BottleManager.Instance.getAllDifferentDomains();
+        String[] allDifferentDomains = BottleManager.getAllDistinctDomains();
         allDifferentDomainsWithNone = new String[allDifferentDomains.length + 1];
         allDifferentDomainsWithNone[0] = context.getString(R.string.suggest_bottle_domain_none);
         System.arraycopy(allDifferentDomains, 0, allDifferentDomainsWithNone, 1, allDifferentDomains.length);

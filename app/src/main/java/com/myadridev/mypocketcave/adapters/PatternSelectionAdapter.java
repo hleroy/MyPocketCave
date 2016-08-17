@@ -73,7 +73,7 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        return PatternManager.maxNumberOfPatterns + 1;
+        return patternList.size() + 1;
     }
 
     @Override

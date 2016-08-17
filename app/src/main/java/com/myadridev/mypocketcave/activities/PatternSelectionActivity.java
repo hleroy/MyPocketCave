@@ -39,14 +39,14 @@ public class PatternSelectionActivity extends AppCompatActivity {
     }
 
     private void setLayoutValues() {
-        List<PatternModel> recentPatternList = PatternManager.Instance.getSortedPatterns();
+        List<PatternModel> recentPatternList = PatternManager.getPatterns();
         patternSelectionRecyclerView.setLayoutManager(new GridLayoutManager(this, PatternManager.numberOfColumnsForDisplay));
         PatternSelectionAdapter patternSelectionAdapter = new PatternSelectionAdapter(this, recentPatternList);
         patternSelectionRecyclerView.setAdapter(patternSelectionAdapter);
         patternSelectionAdapter.addOnSelectionPatternClickListener(new OnSelectionPatternClickListener() {
             @Override
             public void onItemClick(int patternId) {
-                PatternManager.Instance.setLastUsedPattern(patternId);
+                PatternManager.setLastUsedPattern(patternId);
                 setResultAndFinish(RESULT_OK, patternId);
             }
         });

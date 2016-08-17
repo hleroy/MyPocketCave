@@ -14,15 +14,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class StorageManager {
+public class SharedPreferencesStorageManager {
 
-    public static StorageManager Instance;
+    public static SharedPreferencesStorageManager Instance;
     private static boolean _isInitialized;
     private final Context context;
     private final int openMode = Context.MODE_PRIVATE;
     private ObjectMapper jsonMapper = new ObjectMapper();
 
-    private StorageManager(Context _context) {
+    private SharedPreferencesStorageManager(Context _context) {
         context = _context;
     }
 
@@ -31,7 +31,7 @@ public class StorageManager {
     }
 
     public static void Init(Context context) {
-        Instance = new StorageManager(context);
+        Instance = new SharedPreferencesStorageManager(context);
         _isInitialized = true;
     }
 
@@ -73,6 +73,11 @@ public class StorageManager {
         }
         editor.putStringSet(storeSet, dataJsonSet);
         editor.apply();
+    }
+
+    public void delete(int storeFileResourceId) {
+        SharedPreferences settings = context.getSharedPreferences(context.getString(storeFileResourceId), Context.MODE_PRIVATE);
+        settings.edit().clear().apply();
     }
 
     @NonNull

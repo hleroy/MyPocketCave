@@ -95,7 +95,7 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
     }
 
     private void refreshBottles() {
-        allBottles = BottleManager.Instance.getBottles();
+        allBottles = BottleManager.getBottles();
         Collections.sort(allBottles);
         if (allBottles.isEmpty()) {
             noBottlesLabelView.setVisibility(View.VISIBLE);
@@ -110,14 +110,14 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
             params.addRule(RelativeLayout.ABOVE, R.id.bottles_count);
 
             bottlesCountLabelView.setVisibility(View.VISIBLE);
-            bottlesCountLabelView.setText(getString(R.string.bottles_count, BottleManager.Instance.getBottlesCount()));
+            bottlesCountLabelView.setText(getString(R.string.bottles_count, BottleManager.getBottlesCount()));
 
             bottlesCountDetailLabelView.setVisibility(View.GONE);
             bottlesCountDetailLabelView.setText(getString(R.string.bottles_count_detail,
-                    BottleManager.Instance.getBottlesCount(WineColorEnum.RED),
-                    BottleManager.Instance.getBottlesCount(WineColorEnum.WHITE),
-                    BottleManager.Instance.getBottlesCount(WineColorEnum.ROSE),
-                    BottleManager.Instance.getBottlesCount(WineColorEnum.CHAMPAGNE)));
+                    BottleManager.getBottlesCount(WineColorEnum.RED),
+                    BottleManager.getBottlesCount(WineColorEnum.WHITE),
+                    BottleManager.getBottlesCount(WineColorEnum.ROSE),
+                    BottleManager.getBottlesCount(WineColorEnum.CHAMPAGNE)));
         }
     }
 

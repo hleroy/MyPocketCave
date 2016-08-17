@@ -99,7 +99,7 @@ public class BottleDetailActivity extends AppCompatActivity {
                 deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        BottleManager.Instance.removeBottle(bottle.Id);
+                        BottleManager.removeBottle(bottle.Id);
                         dialog.dismiss();
                         finish();
                     }
@@ -203,6 +203,6 @@ public class BottleDetailActivity extends AppCompatActivity {
     }
 
     private void refreshBottle(int bottleId) {
-        bottle = new BottleModel(BottleManager.Instance.getBottle(bottleId));
+        bottle = new BottleModel(BottleManager.getBottle(bottleId));
     }
 }

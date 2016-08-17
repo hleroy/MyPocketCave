@@ -15,6 +15,7 @@ import com.myadridev.mypocketcave.adapters.viewHolders.NoPatternViewHolder;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
 import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
+import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveArrangementModel;
@@ -79,7 +80,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
+        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
 
         if (caveArangement.PatternMap.containsKey(coordinates)) {
             // Existing pattern
@@ -140,7 +141,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.Instance.getRowFromPosition(position, getItemCount()), CoordinatesManager.Instance.getColFromPosition(position));
+        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
 
         if (caveArangement.PatternMap.containsKey(coordinates)) {
             CaveArrangementViewHolder holder = (CaveArrangementViewHolder) viewHolder;
@@ -159,10 +160,11 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             @Override
                             public void onBottlePlaced(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId) {
                                 caveArangement.placeBottle(patternCoordinates, coordinates, bottleId);
-                                notifyDataSetChanged();
+                                BottleManager.placeBottle(bottleId);
                                 for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
                                     onValueChangedListener.onValueChanged();
                                 }
+                                notifyDataSetChanged();
                             }
                         });
                         holder.hideClickableSpace();

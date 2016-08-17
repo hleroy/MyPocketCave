@@ -57,7 +57,7 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
     }
 
     private void refreshCaves() {
-        allCaves = CaveManager.Instance.getCaves();
+        allCaves = CaveManager.getCaves();
         Collections.sort(allCaves);
         if (allCaves.isEmpty()) {
             noCavesLabelView.setVisibility(View.VISIBLE);
@@ -72,14 +72,14 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
             params.addRule(RelativeLayout.ABOVE, R.id.caves_count);
 
             cavesCountLabelView.setVisibility(View.VISIBLE);
-            cavesCountLabelView.setText(getString(R.string.caves_count, CaveManager.Instance.getCavesCount()));
+            cavesCountLabelView.setText(getString(R.string.caves_count, CaveManager.getCavesCount()));
 
             cavesCountDetailLabelView.setVisibility(View.GONE);
             cavesCountDetailLabelView.setText(getString(R.string.caves_count_detail,
-                    CaveManager.Instance.getCavesCount(CaveTypeEnum.BULK),
-                    CaveManager.Instance.getCavesCount(CaveTypeEnum.BOX),
-                    CaveManager.Instance.getCavesCount(CaveTypeEnum.FRIDGE),
-                    CaveManager.Instance.getCavesCount(CaveTypeEnum.RACK)));
+                    CaveManager.getCavesCount(CaveTypeEnum.BULK),
+                    CaveManager.getCavesCount(CaveTypeEnum.BOX),
+                    CaveManager.getCavesCount(CaveTypeEnum.FRIDGE),
+                    CaveManager.getCavesCount(CaveTypeEnum.RACK)));
         }
     }
 
