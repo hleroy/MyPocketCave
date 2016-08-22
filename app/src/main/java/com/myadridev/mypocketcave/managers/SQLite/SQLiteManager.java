@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.managers.SQLite;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -160,5 +161,30 @@ public class SQLiteManager extends SQLiteOpenHelper {
         } else {
             isDatabaseReady = true;
         }
+    }
+
+    public void deleteAllCaves() {
+        SQLiteDatabase db = getSQLiteWritableDatabase();
+        db.delete(CaveArrangementSQLiteManager.CAVE_ARRANGEMENTS_PATTERN_WITH_BOTTLES_TABLE_NAME, null, null);
+        db.delete(CaveArrangementSQLiteManager.CAVE_ARRANGEMENTS_TABLE_NAME, null, null);
+        db.delete(CaveSQLiteManager.CAVES_TABLE_NAME, null, null);
+        db.close();
+    }
+
+    public void deleteAllPatterns() {
+        SQLiteDatabase db = getSQLiteWritableDatabase();
+        db.delete(PatternSQLiteManager.PATTERN_PLACES_TABLE_NAME, null, null);
+        db.delete(PatternSQLiteManager.PATTERNS_TABLE_NAME, null, null);
+        db.delete(PatternWithBottlesSQLiteManager.PATTERN_WITH_BOTTLES_CAVE_PLACES_TABLE_NAME, null, null);
+        db.delete(PatternWithBottlesSQLiteManager.PATTERN_WITH_BOTTLES_TABLE_NAME, null, null);
+        db.close();
+    }
+
+    public void resetNumberPlacedBottles() {
+        SQLiteDatabase db = getSQLiteWritableDatabase();
+        ContentValues updatedFields = new ContentValues(1);
+        updatedFields.put(BottleSQLiteManager.NUMBER_PLACED, 0);
+        db.update(BottleSQLiteManager.BOTTLES_TABLE_NAME, updatedFields, null, null);
+        db.close();
     }
 }

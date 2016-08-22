@@ -314,12 +314,12 @@ public class CaveSQLiteManager {
     }
 
     private static void insertPatternWithBottleInfos(SQLiteDatabase db, CaveModel cave, CoordinatesModel patternCoordinates, PatternModelWithBottles patternWithBottles) {
-        patternWithBottles.Id = insertPatternWithBottles(db, patternWithBottles);
-        insertCaveArrangementPatternWithBottles(db, cave.CaveArrangement.Id, patternCoordinates, patternWithBottles.Id);
+        patternWithBottles.PatternWithBottlesId = insertPatternWithBottles(db, patternWithBottles);
+        insertCaveArrangementPatternWithBottles(db, cave.CaveArrangement.Id, patternCoordinates, patternWithBottles.PatternWithBottlesId);
         for (Map.Entry<CoordinatesModel, CavePlaceModel> cavePlaceEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
             CoordinatesModel placeCoordinates = cavePlaceEntry.getKey();
             CavePlaceModel cavePlace = cavePlaceEntry.getValue();
-            insertPatternWithBottlesCavePlaces(db, patternWithBottles.Id, placeCoordinates, cavePlace);
+            insertPatternWithBottlesCavePlaces(db, patternWithBottles.PatternWithBottlesId, placeCoordinates, cavePlace);
         }
     }
 
@@ -380,12 +380,13 @@ public class CaveSQLiteManager {
 
     private static void updatePatternWithBottleInfos(SQLiteDatabase db, CaveModel cave, CoordinatesModel patternCoordinates, PatternModelWithBottles patternWithBottles) {
         updatePatternWithBottles(db, patternWithBottles);
-        updateCaveArrangementPatternWithBottles(db, cave.CaveArrangement.Id, patternCoordinates, patternWithBottles.Id);
+        updateCaveArrangementPatternWithBottles(db, cave.CaveArrangement.Id, patternCoordinates, patternWithBottles.PatternWithBottlesId);
 
         SQLiteDatabase readableDb = SQLiteManager.Instance.getSQLiteReadableDatabase();
 
         Cursor patternsWthBottlesCavePlacesFromDb = readableDb.query(PatternWithBottlesSQLiteManager.PATTERN_WITH_BOTTLES_CAVE_PLACES_TABLE_NAME,
-                getPatternsWithBottlesCavePlacesColumn(), PatternWithBottlesSQLiteManager.PATTERN_WITH_BOTTLE_ID + "=?", new String[]{String.valueOf(patternWithBottles.Id)},
+                getPatternsWithBottlesCavePlacesColumn(), PatternWithBottlesSQLiteManager.PATTERN_WITH_BOTTLE_ID + "=?",
+                new String[]{String.valueOf(patternWithBottles.PatternWithBottlesId)},
                 null, null, null, null);
 
         List<CoordinatesModel> placeCoordinatesToDeleteList = new ArrayList<>();
@@ -415,14 +416,14 @@ public class CaveSQLiteManager {
             CoordinatesModel placeCoordinates = cavePlaceEntry.getKey();
             if (placeCoordinatesToUpdateMap.contains(placeCoordinates)) {
                 CavePlaceModel cavePlace = cavePlaceEntry.getValue();
-                updatePatternWithBottlesCavePlaces(db, patternWithBottles.Id, placeCoordinates, cavePlace);
+                updatePatternWithBottlesCavePlaces(db, patternWithBottles.PatternWithBottlesId, placeCoordinates, cavePlace);
             } else if (placeCoordinatesToDeleteList.contains(placeCoordinates)) {
-                deletePatternWithBottlesCavePlaces(db, patternWithBottles.Id, placeCoordinates);
+                deletePatternWithBottlesCavePlaces(db, patternWithBottles.PatternWithBottlesId, placeCoordinates);
             } else if (placeCoordinatesToDoNothingMap.contains(patternCoordinates)) {
                 // Do nothing
             } else {
                 CavePlaceModel cavePlace = cavePlaceEntry.getValue();
-                insertPatternWithBottlesCavePlaces(db, patternWithBottles.Id, placeCoordinates, cavePlace);
+                insertPatternWithBottlesCavePlaces(db, patternWithBottles.PatternWithBottlesId, placeCoordinates, cavePlace);
             }
         }
     }
@@ -430,7 +431,7 @@ public class CaveSQLiteManager {
     private static void updatePatternWithBottles(SQLiteDatabase db, PatternModelWithBottles patternWithBottles) {
         ContentValues patternWithBottlesFields = getPatternWithBottlesFields(patternWithBottles);
         db.update(PatternWithBottlesSQLiteManager.PATTERN_WITH_BOTTLES_TABLE_NAME, patternWithBottlesFields,
-                PatternWithBottlesSQLiteManager.PATTERN_WITH_BOTTLE_ID + "=?", new String[]{});
+                PatternWithBottlesSQLiteManager.PATTERN_WITH_BOTTLE_ID + "=?", new String[]{String.valueOf(patternWithBottles.PatternWithBottlesId)});
     }
 
     private static void updateCaveArrangementPatternWithBottles(SQLiteDatabase db, int caveArrangementId, CoordinatesModel patternCoordinates, int patternWithBottlesId) {

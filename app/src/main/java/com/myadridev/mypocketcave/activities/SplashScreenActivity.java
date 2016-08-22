@@ -57,6 +57,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                         break;
                     case 2:
                         splashImageView.setImageDrawable(ContextCompat.getDrawable(SplashScreenActivity.this, R.mipmap.splash_3));
+//                        SQLiteManager.Instance.deleteAllPatterns();
+//                        SQLiteManager.Instance.deleteAllCaves();
+//                        SQLiteManager.Instance.resetNumberPlacedBottles();
                         step++;
                         initializationHandler.postDelayed(this, RunnableDelayBetweenSteps);
                         break;

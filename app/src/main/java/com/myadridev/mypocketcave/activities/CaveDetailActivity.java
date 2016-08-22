@@ -43,17 +43,19 @@ public class CaveDetailActivity extends AppCompatActivity {
     private FloatingActionButton fabCloseMenu;
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
+    private int caveId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cave_detail);
+        cave = null;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_cave);
         setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
-        refreshCave(bundle.getInt("caveId"));
+        caveId = bundle.getInt("caveId");
 
         setupFloatingActionButtons();
         setupFloatingActionButtonsVisibility();
@@ -218,7 +220,7 @@ public class CaveDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshCave();
+        refreshCave(cave == null ? caveId : cave.Id);
         refreshActionBar();
         setLayoutValues();
     }
@@ -238,10 +240,6 @@ public class CaveDetailActivity extends AppCompatActivity {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setTitle(cave.Name);
         }
-    }
-
-    private void refreshCave() {
-        refreshCave(cave.Id);
     }
 
     private void refreshCave(int caveId) {

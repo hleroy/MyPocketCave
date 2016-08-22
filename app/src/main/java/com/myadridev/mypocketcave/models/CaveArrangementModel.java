@@ -161,6 +161,10 @@ public class CaveArrangementModel {
     }
 
     public void placeBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId) {
+        updateBottleWhenPlaced(patternCoordinates, coordinates, bottleId, true);
+    }
+
+    private void updateBottleWhenPlaced(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId, boolean incrementBottleUsedQuantity) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CavePlaceModel cavePlace = pattern.PlaceMapWithBottles.get(coordinates);
 
@@ -226,7 +230,9 @@ public class CaveArrangementModel {
             updateCavePlace(topRightPlace, bottle);
         }
 
-        TotalUsed++;
+        if (incrementBottleUsedQuantity) {
+            TotalUsed++;
+        }
     }
 
     private void updateCavePlace(CavePlaceModel cavePlaceToUpdate, BottleModel bottle) {

@@ -216,26 +216,34 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             return false;
         }
 
-        cave.CaveArrangement.movePatternMapToLeft();
-        cave.CaveArrangement.setClickablePlaces();
         cave.Name = nameView.getText().toString();
         cave.CaveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
-        String NumberBottlesBulk = bulkBottlesNumberView.getText().toString();
-        cave.CaveArrangement.NumberBottlesBulk = NumberBottlesBulk.isEmpty() ? 0 : Integer.valueOf(NumberBottlesBulk);
-        String NumberBoxes = boxesNumberView.getText().toString();
-        cave.CaveArrangement.NumberBoxes = NumberBoxes.isEmpty() ? 0 : Integer.valueOf(NumberBoxes);
-        String NumberBottlesPerBox = boxesBottlesNumberView.getText().toString();
-        cave.CaveArrangement.NumberBottlesPerBox = NumberBottlesPerBox.isEmpty() ? 0 : Integer.valueOf(NumberBottlesPerBox);
 
         switch (cave.CaveType) {
             case BULK:
+                String NumberBottlesBulk = bulkBottlesNumberView.getText().toString();
+                cave.CaveArrangement.NumberBottlesBulk = NumberBottlesBulk.isEmpty() ? 0 : Integer.valueOf(NumberBottlesBulk);
+                cave.CaveArrangement.NumberBoxes = 0;
+                cave.CaveArrangement.NumberBottlesPerBox = 0;
+                cave.CaveArrangement.PatternMap.clear();
                 cave.CaveArrangement.computeTotalCapacityWithBulk();
                 break;
             case BOX:
+                cave.CaveArrangement.NumberBottlesBulk = 0;
+                String NumberBoxes = boxesNumberView.getText().toString();
+                cave.CaveArrangement.NumberBoxes = NumberBoxes.isEmpty() ? 0 : Integer.valueOf(NumberBoxes);
+                String NumberBottlesPerBox = boxesBottlesNumberView.getText().toString();
+                cave.CaveArrangement.NumberBottlesPerBox = NumberBottlesPerBox.isEmpty() ? 0 : Integer.valueOf(NumberBottlesPerBox);
+                cave.CaveArrangement.PatternMap.clear();
                 cave.CaveArrangement.computeTotalCapacityWithBoxes();
                 break;
             case FRIDGE:
             case RACK:
+                cave.CaveArrangement.NumberBottlesBulk = 0;
+                cave.CaveArrangement.NumberBoxes = 0;
+                cave.CaveArrangement.NumberBottlesPerBox = 0;
+                cave.CaveArrangement.movePatternMapToLeft();
+                cave.CaveArrangement.setClickablePlaces();
                 cave.CaveArrangement.computeTotalCapacityWithPattern();
                 break;
             default:
