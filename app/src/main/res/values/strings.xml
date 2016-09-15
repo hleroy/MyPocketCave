@@ -2,7 +2,7 @@
     <string name="app_name">My pocket cave</string>
     <string name="about_mail" translatable="false">myadridev@gmail.com</string>
     <string name="about_mail_uri" translatable="false">mailto:</string>
-    <string name="about_sources_url" translatable="false">https://github.com/AdricoM/MyPocketCave</string>
+    <string name="about_sources_url" translatable="false">https://github.com/adridevparis/MyPocketCave</string>
     <string name="about_version_default" translatable="false">-</string>
     <string name="about_version">Version</string>
     <string name="about">About</string>
