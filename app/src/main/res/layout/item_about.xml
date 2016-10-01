@@ -11,16 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:singleLine="true"
         android:text="About"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/about_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
         android:text="Valeur"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:maxLines="1" />
 
 </LinearLayout>
