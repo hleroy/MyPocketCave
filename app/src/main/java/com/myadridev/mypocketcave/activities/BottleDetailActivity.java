@@ -27,6 +27,7 @@ public class BottleDetailActivity extends AppCompatActivity {
     public int currentYear;
     private BottleModel bottle;
     private TextView stockView;
+    private TextView placedView;
     private ImageView wineColorIconView;
     private TextView wineColorView;
     private TextView millesimeView;
@@ -151,6 +152,7 @@ public class BottleDetailActivity extends AppCompatActivity {
     private void setLayout() {
         domainView = (TextView) findViewById(R.id.bottle_detail_domain);
         stockView = (TextView) findViewById(R.id.bottle_detail_stock);
+        placedView = (TextView) findViewById(R.id.bottle_detail_placed);
         wineColorIconView = (ImageView) findViewById(R.id.bottle_detail_wine_color_icon);
         wineColorView = (TextView) findViewById(R.id.bottle_detail_wine_color);
         millesimeView = (TextView) findViewById(R.id.bottle_detail_millesime);
@@ -162,6 +164,7 @@ public class BottleDetailActivity extends AppCompatActivity {
     private void setLayoutValues() {
         domainView.setText(bottle.Domain);
         stockView.setText(getString(R.string.bottles_stock, bottle.Stock));
+        placedView.setText(getString(R.string.bottles_placed, bottle.NumberPlaced));
         int wineColorDrawableId = bottle.WineColor.drawableResourceId;
         if (wineColorDrawableId != -1) {
             wineColorIconView.setImageDrawable(ContextCompat.getDrawable(this, wineColorDrawableId));

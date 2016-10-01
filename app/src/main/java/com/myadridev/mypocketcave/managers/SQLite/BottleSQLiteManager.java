@@ -102,9 +102,13 @@ public class BottleSQLiteManager {
     }
 
     public static void updateNumberPlaced(int bottleId, int increment) {
-        SQLiteDatabase readableDb = SQLiteManager.Instance.getSQLiteReadableDatabase();
+        SQLiteDatabase db = SQLiteManager.Instance.getSQLiteWritableDatabase();
+        updateNumberPlaced(db, bottleId, increment);
+        db.close();
+    }
 
-        Cursor bottlesPlacedNumberFromDb = readableDb.query(BOTTLES_TABLE_NAME, new String[]{NUMBER_PLACED}, BOTTLE_ID + "=?", new String[]{String.valueOf(bottleId)}, null, null, null);
+    public static void updateNumberPlaced(SQLiteDatabase db, int bottleId, int increment) {
+        Cursor bottlesPlacedNumberFromDb = db.query(BOTTLES_TABLE_NAME, new String[]{NUMBER_PLACED}, BOTTLE_ID + "=?", new String[]{String.valueOf(bottleId)}, null, null, null);
 
         int oldNumberPlaced = 0;
         if (bottlesPlacedNumberFromDb != null && bottlesPlacedNumberFromDb.moveToFirst()) {
@@ -112,12 +116,9 @@ public class BottleSQLiteManager {
             bottlesPlacedNumberFromDb.close();
         }
 
-        SQLiteDatabase writableDb = SQLiteManager.Instance.getSQLiteWritableDatabase();
         ContentValues updatedFields = new ContentValues(1);
         updatedFields.put(NUMBER_PLACED, oldNumberPlaced + increment);
-        writableDb.update(BOTTLES_TABLE_NAME, updatedFields, BOTTLE_ID + "=?", new String[]{String.valueOf(bottleId)});
-
-        writableDb.close();
+        db.update(BOTTLES_TABLE_NAME, updatedFields, BOTTLE_ID + "=?", new String[]{String.valueOf(bottleId)});
     }
 
     // Get
@@ -418,20 +419,15 @@ public class BottleSQLiteManager {
                     millesimeMin = 10;
                     break;
             }
-
-            if (millesimeMin > -1) {
-                if (!isFirst) {
-                    whereClauseBuilder.append(" and ");
-                }
-                whereClauseBuilder.append("b." + MILLESIME + ">=?");
-                arguments.add(String.valueOf(millesimeMin));
-                isFirst = false;
+            if (!isFirst) {
+                whereClauseBuilder.append(" and ");
             }
+            whereClauseBuilder.append("b." + MILLESIME + ">=?");
+            arguments.add(String.valueOf(millesimeMin));
+            isFirst = false;
 
             if (millesimeMax > -1) {
-                if (!isFirst) {
-                    whereClauseBuilder.append(" and ");
-                }
+                whereClauseBuilder.append(" and ");
                 whereClauseBuilder.append("b." + MILLESIME + "<=?");
                 arguments.add(String.valueOf(millesimeMax));
                 isFirst = false;

@@ -102,12 +102,29 @@
             app:layout_widthPercent="40%" />
 
         <TextView
+            android:id="@+id/bottle_detail_placed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/bottle_detail_wine_color"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
+            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:gravity="center"
+            android:text="@string/bottles_placed"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
             android:id="@+id/bottle_detail_food"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/bottle_detail_wine_color_icon"
+            android:layout_below="@id/bottle_detail_placed"
             android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"

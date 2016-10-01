@@ -136,4 +136,5 @@
     <string name="no_bottles_to_add">All bottles are already in caves, great !</string>
     <string name="bottles_to_place">%1$d to place</string>
     <string name="title_place_bottle">Place a bottle</string>
+    <string name="bottles_placed">%1$d placed in the caves</string>
 </resources>
