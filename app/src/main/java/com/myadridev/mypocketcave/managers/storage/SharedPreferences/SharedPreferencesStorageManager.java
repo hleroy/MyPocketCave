@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.managers;
+package com.myadridev.mypocketcave.managers.storage.SharedPreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

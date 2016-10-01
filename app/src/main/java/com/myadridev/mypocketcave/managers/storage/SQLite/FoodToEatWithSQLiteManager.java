@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.managers.SQLite;
+package com.myadridev.mypocketcave.managers.storage.SQLite;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;

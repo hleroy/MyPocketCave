@@ -1,7 +1,7 @@
 package com.myadridev.mypocketcave.managers;
 
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
-import com.myadridev.mypocketcave.managers.SQLite.CaveSQLiteManager;
+import com.myadridev.mypocketcave.managers.storage.SQLite.CaveSQLiteManager;
 import com.myadridev.mypocketcave.models.CaveModel;
 
 import java.util.List;

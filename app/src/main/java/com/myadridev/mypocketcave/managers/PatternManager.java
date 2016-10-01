@@ -1,6 +1,6 @@
 package com.myadridev.mypocketcave.managers;
 
-import com.myadridev.mypocketcave.managers.SQLite.PatternSQLiteManager;
+import com.myadridev.mypocketcave.managers.storage.SQLite.PatternSQLiteManager;
 import com.myadridev.mypocketcave.models.PatternModel;
 
 import java.util.List;

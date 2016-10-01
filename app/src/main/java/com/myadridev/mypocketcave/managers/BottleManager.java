@@ -2,7 +2,7 @@ package com.myadridev.mypocketcave.managers;
 
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
-import com.myadridev.mypocketcave.managers.SQLite.BottleSQLiteManager;
+import com.myadridev.mypocketcave.managers.storage.SQLite.BottleSQLiteManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
