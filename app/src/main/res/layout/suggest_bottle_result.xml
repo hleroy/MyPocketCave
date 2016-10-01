@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.SuggestBottleResultActivity">
 
         <android.support.percent.PercentRelativeLayout
@@ -21,7 +20,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="@string/suggest_bottle_result_no_bottles"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -33,7 +32,7 @@
                 android:gravity="center_vertical"
                 android:padding="10dp"
                 android:text="@string/bottles_count"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -45,7 +44,7 @@
                 android:gravity="center_vertical"
                 android:padding="10dp"
                 android:text="@string/bottles_count_detail"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView

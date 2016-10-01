@@ -5,5 +5,5 @@ public enum PositionEnum {
     LEFT,
     RIGHT,
     TOP,
-    BOTTOM;
+    BOTTOM
 }

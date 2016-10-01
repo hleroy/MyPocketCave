@@ -10,7 +10,7 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/no_bottles_to_add"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView

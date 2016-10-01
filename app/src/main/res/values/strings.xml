@@ -28,7 +28,7 @@
     <string name="error_bottle_already_exists">There is the same bottle in the cave (same domain, color, name and millesime). What de we do?</string>
     <string name="global_merge">Merge</string>
     <string name="error_bottle_no_name">A bottle name is needed</string>
-    <string name="error_ok">Ok</string>
+    <string name="error_ok">OK</string>
     <string name="filename_bottles" translatable="false">bottles</string>
     <string name="food_aperitif">Aperitif</string>
     <string name="food_cheese">Cheese</string>
