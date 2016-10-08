@@ -25,9 +25,9 @@ public class WineColorSQLiteManager {
     public static void insertAll(SQLiteDatabase db) {
         for (WineColorEnum color : WineColorEnum.values()) {
             ContentValues fields = new ContentValues();
-            fields.put(WINE_COLOR_ID, color.id);
-            fields.put(STRING_ID, color.stringResourceId);
-            fields.put(DRAWABLE_ID, color.drawableResourceId);
+            fields.put(WINE_COLOR_ID, color.Id);
+            fields.put(STRING_ID, color.StringResourceId);
+            fields.put(DRAWABLE_ID, color.DrawableResourceId);
 
             db.insert(WINE_COLORS_TABLE_NAME, null, fields);
         }

@@ -80,7 +80,7 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
                 holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
                 holder.setStockLabelViewText(context.getString(R.string.bottles_stock, bottle.Stock));
-                int wineColorDrawableId = bottle.WineColor.drawableResourceId;
+                int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
                 holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
                 holder.setOnItemClickListener(listener, bottle.Id);
             }

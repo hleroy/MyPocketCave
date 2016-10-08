@@ -83,7 +83,7 @@ public class BottleSQLiteManager {
                 bottleFoodsFromDb.close();
                 for (FoodToEatWithEnum oldFood : oldFoodToEatWithList) {
                     if (!bottle.FoodToEatWithList.contains(oldFood)) {
-                        deleteBottleFood(db, bottle.Id, oldFood.id);
+                        deleteBottleFood(db, bottle.Id, oldFood.Id);
                     }
                 }
 
@@ -303,7 +303,7 @@ public class BottleSQLiteManager {
         bottleFields.put(DOMAIN, bottle.Domain);
         bottleFields.put(COMMENTS, bottle.Comments);
         bottleFields.put(PERSON_TO_SHARE_WITH, bottle.PersonToShareWith);
-        bottleFields.put(WineColorSQLiteManager.WINE_COLOR_ID, bottle.WineColor.id);
+        bottleFields.put(WineColorSQLiteManager.WINE_COLOR_ID, bottle.WineColor.Id);
         bottleFields.put(STOCK, bottle.Stock);
         bottleFields.put(NUMBER_PLACED, bottle.NumberPlaced);
         return bottleFields;
@@ -372,7 +372,7 @@ public class BottleSQLiteManager {
     private static ContentValues getBottleFoodContentValues(int bottleId, FoodToEatWithEnum food) {
         ContentValues bottleFoodFields = new ContentValues(2);
         bottleFoodFields.put(BOTTLE_ID, bottleId);
-        bottleFoodFields.put(FoodToEatWithSQLiteManager.FOOD_ID, food.id);
+        bottleFoodFields.put(FoodToEatWithSQLiteManager.FOOD_ID, food.Id);
         return bottleFoodFields;
     }
 
@@ -396,7 +396,7 @@ public class BottleSQLiteManager {
         boolean isFirst = true;
         if (searchCriteria.IsWineColorRequired) {
             whereClauseBuilder.append("b." + WineColorSQLiteManager.WINE_COLOR_ID + "=?");
-            arguments.add(String.valueOf(searchCriteria.WineColor.id));
+            arguments.add(String.valueOf(searchCriteria.WineColor.Id));
             isFirst = false;
         }
         if (searchCriteria.IsMillesimeRequired) {
@@ -459,7 +459,7 @@ public class BottleSQLiteManager {
                     whereClauseBuilder.append(", ");
                 }
                 whereClauseBuilder.append("?");
-                arguments.add(String.valueOf(food.id));
+                arguments.add(String.valueOf(food.Id));
                 isFirstFood = false;
             }
             whereClauseBuilder.append(")");

@@ -38,9 +38,9 @@ public class CaveTypeSpinnerAdapter implements SpinnerAdapter {
 
         CaveTypeEnum caveType = CaveTypeEnum.getById(getCaveTypeId(position));
         if (caveType != null) {
-            int caveTypeDrawableId = caveType.drawableResourceId;
+            int caveTypeDrawableId = caveType.DrawableResourceId;
             viewHolder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);
-            viewHolder.setLabelViewText(context.getString(caveType.stringResourceId));
+            viewHolder.setLabelViewText(context.getString(caveType.StringResourceId));
         }
 
         return convertView;
@@ -56,7 +56,7 @@ public class CaveTypeSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return containsNone ? CaveTypeEnum.number : CaveTypeEnum.number - 1;
+        return containsNone ? CaveTypeEnum.values().length : CaveTypeEnum.values().length - 1;
     }
 
     @Override
@@ -88,12 +88,12 @@ public class CaveTypeSpinnerAdapter implements SpinnerAdapter {
 
         CaveTypeEnum caveType = CaveTypeEnum.getById(getCaveTypeId(position));
         if (caveType != null) {
-            int caveTypeDrawableId = caveType.drawableResourceId;
+            int caveTypeDrawableId = caveType.DrawableResourceId;
             if (caveTypeDrawableId != -1)
                 viewHolder.setTypeViewImageDrawable(ContextCompat.getDrawable(context, caveTypeDrawableId));
             else
                 viewHolder.hideTypeView();
-            viewHolder.setLabelViewText(context.getString(caveType.stringResourceId));
+            viewHolder.setLabelViewText(context.getString(caveType.StringResourceId));
         }
 
         return convertView;

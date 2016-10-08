@@ -97,7 +97,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
         if (cave.Id > 0) {
             nameView.setText(cave.Name);
-            caveTypeView.setSelection(getCaveTypePosition(cave.CaveType.id));
+            caveTypeView.setSelection(getCaveTypePosition(cave.CaveType.Id));
         }
         setArrangementByCaveType();
         caveTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -160,7 +160,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ActivityRequestEnum.PATTERN_SELECTION.id) {
+        if (requestCode == ActivityRequestEnum.PATTERN_SELECTION.Id) {
             if (resultCode == RESULT_OK && ClickedPatternCoordinates != null) {
                 int patternId = data.getIntExtra("patternId", -1);
                 if (patternId != -1) {

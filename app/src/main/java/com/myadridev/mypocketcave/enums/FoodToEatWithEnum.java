@@ -23,18 +23,17 @@ public enum FoodToEatWithEnum {
     Cheese(15, R.string.food_cheese),
     Dessert(16, R.string.food_dessert);
 
-    public static final int number = values().length;
-    public final int id;
-    public final int stringResourceId;
+    public final int Id;
+    public final int StringResourceId;
 
-    FoodToEatWithEnum(int _id, int _stringResourceId) {
-        id = _id;
-        stringResourceId = _stringResourceId;
+    FoodToEatWithEnum(int id, int stringResourceId) {
+        Id = id;
+        StringResourceId = stringResourceId;
     }
 
     public static FoodToEatWithEnum getById(int id) {
         for (FoodToEatWithEnum food : FoodToEatWithEnum.values()) {
-            if (food.id == id) {
+            if (food.Id == id) {
                 return food;
             }
         }
@@ -42,9 +41,9 @@ public enum FoodToEatWithEnum {
     }
 
     public static String[] getAllFoodLabels(Context context) {
-        String[] allLabels = new String[number];
+        String[] allLabels = new String[values().length];
         for (FoodToEatWithEnum food : FoodToEatWithEnum.values()) {
-            allLabels[food.id] = context.getString(food.stringResourceId);
+            allLabels[food.Id] = context.getString(food.StringResourceId);
         }
         return allLabels;
     }

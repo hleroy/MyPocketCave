@@ -407,7 +407,7 @@ public class CaveSQLiteManager {
     private static ContentValues getCaveContentValues(CaveModel cave, int caveArrangementId) {
         ContentValues caveFields = new ContentValues(3);
         caveFields.put(NAME, cave.Name);
-        caveFields.put(CaveTypeSQLiteManager.CAVE_TYPE_ID, cave.CaveType.id);
+        caveFields.put(CaveTypeSQLiteManager.CAVE_TYPE_ID, cave.CaveType.Id);
         caveFields.put(CaveArrangementSQLiteManager.CAVE_ARRANGEMENT_ID, caveArrangementId);
         return caveFields;
     }

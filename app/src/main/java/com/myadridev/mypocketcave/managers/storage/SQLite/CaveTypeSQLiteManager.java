@@ -25,9 +25,9 @@ public class CaveTypeSQLiteManager {
     public static void insertAll(SQLiteDatabase db) {
         for (CaveTypeEnum caveType : CaveTypeEnum.values()) {
             ContentValues fields = new ContentValues();
-            fields.put(CAVE_TYPE_ID, caveType.id);
-            fields.put(STRING_ID, caveType.stringResourceId);
-            fields.put(DRAWABLE_ID, caveType.drawableResourceId);
+            fields.put(CAVE_TYPE_ID, caveType.Id);
+            fields.put(STRING_ID, caveType.StringResourceId);
+            fields.put(DRAWABLE_ID, caveType.DrawableResourceId);
 
             db.insert(CAVE_TYPE_TABLE_NAME, null, fields);
         }

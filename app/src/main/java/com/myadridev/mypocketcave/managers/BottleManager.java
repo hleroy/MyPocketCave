@@ -45,7 +45,7 @@ public class BottleManager {
     }
 
     public static int getExistingBottleId(int id, String name, String domain, WineColorEnum wineColor, int millesime) {
-        return getBottleStorageManager().getExistingBottleId(id, name, domain, wineColor.id, millesime);
+        return getBottleStorageManager().getExistingBottleId(id, name, domain, wineColor.Id, millesime);
     }
 
     public static int getBottlesCount() {
@@ -61,7 +61,7 @@ public class BottleManager {
     }
 
     public static int getBottlesCount(WineColorEnum wineColor) {
-        return getBottleStorageManager().getBottlesCount(wineColor.id);
+        return getBottleStorageManager().getBottlesCount(wineColor.Id);
     }
 
     public static int getBottlesCount(Collection<BottleModel> bottles, WineColorEnum wineColor) {

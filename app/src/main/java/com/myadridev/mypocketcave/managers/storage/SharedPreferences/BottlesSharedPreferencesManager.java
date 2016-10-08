@@ -111,7 +111,7 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         for (BottleModel bottle : allBottlesMap.values()) {
             if (name.equals(bottle.Name)
                     && domain.equals(bottle.Domain)
-                    && wineColorId == bottle.WineColor.id
+                    && wineColorId == bottle.WineColor.Id
                     && millesime == bottle.Millesime
                     && id != bottle.Id) {
                 return bottle.Id;
@@ -122,16 +122,16 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
     @Override
     public int getBottlesCount() {
-        return getBottlesCount(WineColorEnum.ANY.id);
+        return getBottlesCount(WineColorEnum.ANY.Id);
     }
 
     @Override
     public int getBottlesCount(int wineColorId) {
         int bottlesCount = 0;
-        boolean isAnyBottles = wineColorId == WineColorEnum.ANY.id;
+        boolean isAnyBottles = wineColorId == WineColorEnum.ANY.Id;
 
         for (BottleModel bottle : allBottlesMap.values()) {
-            if (isAnyBottles || bottle.WineColor.id == wineColorId) {
+            if (isAnyBottles || bottle.WineColor.Id == wineColorId) {
                 bottlesCount += bottle.Stock;
             }
         }

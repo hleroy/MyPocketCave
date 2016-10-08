@@ -29,7 +29,7 @@ public class CaveModel implements IStorableModel, Comparable<CaveModel> {
 
     @Override
     public int compareTo(@NonNull CaveModel otherCave) {
-        int compareType = CaveType.id - otherCave.CaveType.id;
+        int compareType = CaveType.Id - otherCave.CaveType.Id;
         if (compareType > 0)
             return 1;
         else if (compareType < 0)

@@ -94,10 +94,10 @@ public class NavigationManager {
     }
 
     public static void navigateToPatternSelection(Activity activity) {
-        activity.startActivityForResult(new Intent(activity, PatternSelectionActivity.class), ActivityRequestEnum.PATTERN_SELECTION.id);
+        activity.startActivityForResult(new Intent(activity, PatternSelectionActivity.class), ActivityRequestEnum.PATTERN_SELECTION.Id);
     }
 
     public static void navigateToCreatePattern(PatternSelectionActivity activity) {
-        activity.startActivityForResult(new Intent(activity, CreatePatternActivity.class), ActivityRequestEnum.CREATE_PATTERN.id);
+        activity.startActivityForResult(new Intent(activity, CreatePatternActivity.class), ActivityRequestEnum.CREATE_PATTERN.Id);
     }
 }

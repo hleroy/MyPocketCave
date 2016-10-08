@@ -53,7 +53,7 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
 
     @Override
     public int compareTo(@NonNull BottleModel otherBottle) {
-        int compareColor = WineColor.id - otherBottle.WineColor.id;
+        int compareColor = WineColor.Id - otherBottle.WineColor.Id;
         if (compareColor > 0)
             return 1;
         else if (compareColor < 0)

@@ -54,7 +54,7 @@ public class CaveManager {
     }
 
     public static int getExistingCaveId(int id, String name, CaveTypeEnum caveType) {
-        return getCavesStorageManager().getExistingCaveId(id, name, caveType.id);
+        return getCavesStorageManager().getExistingCaveId(id, name, caveType.Id);
     }
 
     public static int getCavesCount() {
@@ -62,6 +62,6 @@ public class CaveManager {
     }
 
     public static int getCavesCount(CaveTypeEnum caveType) {
-        return getCavesStorageManager().getCavesCount(caveType.id);
+        return getCavesStorageManager().getCavesCount(caveType.Id);
     }
 }

@@ -67,7 +67,7 @@ public class PatternSelectionActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ActivityRequestEnum.CREATE_PATTERN.id) {
+        if (requestCode == ActivityRequestEnum.CREATE_PATTERN.Id) {
             if (resultCode == RESULT_OK) {
                 int patternId = data.getIntExtra("patternId", -1);
                 if (patternId != -1) {

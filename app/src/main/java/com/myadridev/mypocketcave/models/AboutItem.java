@@ -12,7 +12,7 @@ public class AboutItem implements Comparable<AboutItem> {
 
     public AboutItem(Context _context, AboutFieldsEnum aboutFieldsEnum, String value) {
         AboutFieldsEnum = aboutFieldsEnum;
-        Label = _context.getString(aboutFieldsEnum.getStringResource());
+        Label = _context.getString(aboutFieldsEnum.StringResourceId);
         Value = value;
     }
 

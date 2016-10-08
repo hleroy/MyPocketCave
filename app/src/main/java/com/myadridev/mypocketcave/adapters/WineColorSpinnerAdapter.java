@@ -38,9 +38,9 @@ public class WineColorSpinnerAdapter implements SpinnerAdapter {
 
         WineColorEnum wineColor = WineColorEnum.getById(getWineColorId(position));
         if (wineColor != null) {
-            int wineColorDrawableId = wineColor.drawableResourceId;
+            int wineColorDrawableId = wineColor.DrawableResourceId;
             viewHolder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
-            viewHolder.setLabelViewText(context.getString(wineColor.stringResourceId));
+            viewHolder.setLabelViewText(context.getString(wineColor.StringResourceId));
         }
 
         return convertView;
@@ -56,7 +56,7 @@ public class WineColorSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return containsNone ? WineColorEnum.number : WineColorEnum.number - 1;
+        return containsNone ? WineColorEnum.values().length : WineColorEnum.values().length - 1;
     }
 
     @Override
@@ -88,12 +88,12 @@ public class WineColorSpinnerAdapter implements SpinnerAdapter {
 
         WineColorEnum wineColor = WineColorEnum.getById(getWineColorId(position));
         if (wineColor != null) {
-            int wineColorDrawableId = wineColor.drawableResourceId;
+            int wineColorDrawableId = wineColor.DrawableResourceId;
             if (wineColorDrawableId != -1)
                 viewHolder.setColorViewImageDrawable(ContextCompat.getDrawable(context, wineColorDrawableId));
             else
                 viewHolder.hideColorView();
-            viewHolder.setLabelViewText(context.getString(wineColor.stringResourceId));
+            viewHolder.setLabelViewText(context.getString(wineColor.StringResourceId));
         }
 
         return convertView;

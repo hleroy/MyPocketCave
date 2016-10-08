@@ -7,20 +7,19 @@ public enum PatternTypeEnum {
     STAGGERED_ROWS(1, R.string.pattern_type_staggered_rows, R.drawable.pattern_type_staggered_rows);
 //    FREE(2, R.string.pattern_type_free, -1);
 
-    public static final int number = values().length;
-    public final int id;
-    public final int stringResourceId;
-    public final int drawableResourceId;
+    public final int Id;
+    public final int StringResourceId;
+    public final int DrawableResourceId;
 
-    PatternTypeEnum(int _id, int _stringResourceId, int _drawableResourceId) {
-        id = _id;
-        stringResourceId = _stringResourceId;
-        drawableResourceId = _drawableResourceId;
+    PatternTypeEnum(int id, int stringResourceId, int drawableResourceId) {
+        Id = id;
+        StringResourceId = stringResourceId;
+        DrawableResourceId = drawableResourceId;
     }
 
     public static PatternTypeEnum getById(int id) {
         for (PatternTypeEnum patternType : PatternTypeEnum.values()) {
-            if (patternType.id == id) {
+            if (patternType.Id == id) {
                 return patternType;
             }
         }

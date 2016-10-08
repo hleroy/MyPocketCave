@@ -164,11 +164,11 @@ public class CaveDetailActivity extends AppCompatActivity {
     }
 
     private void setLayoutValues() {
-        int caveTypeDrawableId = cave.CaveType.drawableResourceId;
+        int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
         if (caveTypeDrawableId != -1) {
             caveTypeIconView.setImageDrawable(ContextCompat.getDrawable(this, caveTypeDrawableId));
         }
-        caveTypeView.setText(cave.CaveType.stringResourceId);
+        caveTypeView.setText(cave.CaveType.StringResourceId);
         capacityUsedView.setText(getString(R.string.cave_used_capacity, cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
         switch (cave.CaveType) {
             case BULK:

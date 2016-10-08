@@ -38,7 +38,7 @@ public class CaveLightModel implements IStorableModel, Comparable<CaveLightModel
 
     @Override
     public int compareTo(@NonNull CaveLightModel otherCave) {
-        int compareType = CaveType.id - otherCave.CaveType.id;
+        int compareType = CaveType.Id - otherCave.CaveType.Id;
         if (compareType > 0)
             return 1;
         else if (compareType < 0)

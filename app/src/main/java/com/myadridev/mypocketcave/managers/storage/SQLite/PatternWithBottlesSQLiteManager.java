@@ -282,7 +282,7 @@ public class PatternWithBottlesSQLiteManager {
         patternWithBottlesCavePlacesFields.put(PATTERN_WITH_BOTTLE_ID, patternWithBottlesId);
         patternWithBottlesCavePlacesFields.put(ROW, placeCoordinates.Row);
         patternWithBottlesCavePlacesFields.put(COLUMN, placeCoordinates.Col);
-        patternWithBottlesCavePlacesFields.put(CavePlaceTypeSQLiteManager.PLACE_TYPE_ID, cavePlace.PlaceType.id);
+        patternWithBottlesCavePlacesFields.put(CavePlaceTypeSQLiteManager.PLACE_TYPE_ID, cavePlace.PlaceType.Id);
         patternWithBottlesCavePlacesFields.put(BottleSQLiteManager.BOTTLE_ID, cavePlace.BottleId);
         patternWithBottlesCavePlacesFields.put(IS_CLICKABLE, cavePlace.IsClickable ? 1 : 0);
         return patternWithBottlesCavePlacesFields;
@@ -318,7 +318,7 @@ public class PatternWithBottlesSQLiteManager {
                 boolean oldIsClickable = patternsWthBottlesCavePlacesFromDb.getInt(4) != 0;
                 if (patternWithBottles.PlaceMapWithBottles.containsKey(placeCoordinates)) {
                     CavePlaceModel cavePlace = patternWithBottles.PlaceMapWithBottles.get(placeCoordinates);
-                    if (cavePlace.PlaceType.id != oldPlaceTypeId || cavePlace.BottleId != oldBottleId || cavePlace.IsClickable != oldIsClickable) {
+                    if (cavePlace.PlaceType.Id != oldPlaceTypeId || cavePlace.BottleId != oldBottleId || cavePlace.IsClickable != oldIsClickable) {
                         placeCoordinatesToUpdateMap.add(placeCoordinates);
                     }
                     {

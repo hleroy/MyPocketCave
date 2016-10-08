@@ -165,11 +165,11 @@ public class BottleDetailActivity extends AppCompatActivity {
         domainView.setText(bottle.Domain);
         stockView.setText(getString(R.string.bottles_stock, bottle.Stock));
         placedView.setText(getString(R.string.bottles_placed, bottle.NumberPlaced));
-        int wineColorDrawableId = bottle.WineColor.drawableResourceId;
+        int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
         if (wineColorDrawableId != -1) {
             wineColorIconView.setImageDrawable(ContextCompat.getDrawable(this, wineColorDrawableId));
         }
-        wineColorView.setText(bottle.WineColor.stringResourceId);
+        wineColorView.setText(bottle.WineColor.StringResourceId);
         millesimeView.setText(bottle.Millesime == 0 ? getString(R.string.no_millesime) : String.valueOf(bottle.Millesime));
         foodView.setText(FoodToEatHelper.computeFoodViewText(this, bottle.FoodToEatWithList));
         personView.setText(bottle.PersonToShareWith);

@@ -28,7 +28,7 @@ import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 
 public class SuggestBottleSearchActivity extends AppCompatActivity {
 
-    private final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.number];
+    private final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
     private Spinner wineColorSpinner;
     private CheckBox wineColorCheckBox;
     private Spinner domainSpinner;
@@ -49,7 +49,7 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.suggest_bottle_search);
         isFoodListOpen = false;
-        for (int i = 0; i < FoodToEatWithEnum.number; i++) {
+        for (int i = 0; i < FoodToEatWithEnum.values().length; i++) {
             foodToEatWithList[i] = false;
         }
 

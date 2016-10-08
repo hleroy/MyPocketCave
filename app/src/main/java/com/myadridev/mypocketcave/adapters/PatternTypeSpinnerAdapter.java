@@ -36,11 +36,11 @@ public class PatternTypeSpinnerAdapter implements SpinnerAdapter {
 
         PatternTypeEnum patternType = PatternTypeEnum.getById(position);
         if (patternType != null) {
-            int drawableResourceId = patternType.drawableResourceId;
+            int drawableResourceId = patternType.DrawableResourceId;
             if (drawableResourceId != -1) {
                 viewHolder.setIconViewImageDrawable(ContextCompat.getDrawable(context, drawableResourceId));
             }
-            viewHolder.setLabelViewText(context.getString(patternType.stringResourceId));
+            viewHolder.setLabelViewText(context.getString(patternType.StringResourceId));
         }
 
         return convertView;
@@ -56,7 +56,7 @@ public class PatternTypeSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return PatternTypeEnum.number;
+        return PatternTypeEnum.values().length;
     }
 
     @Override
@@ -88,11 +88,11 @@ public class PatternTypeSpinnerAdapter implements SpinnerAdapter {
 
         PatternTypeEnum patternType = PatternTypeEnum.getById(position);
         if (patternType != null) {
-            int drawableResourceId = patternType.drawableResourceId;
+            int drawableResourceId = patternType.DrawableResourceId;
             if (drawableResourceId != -1) {
                 viewHolder.setIconViewImageDrawable(ContextCompat.getDrawable(context, drawableResourceId));
             }
-            viewHolder.setLabelViewText(context.getString(patternType.stringResourceId));
+            viewHolder.setLabelViewText(context.getString(patternType.StringResourceId));
         }
 
         return convertView;

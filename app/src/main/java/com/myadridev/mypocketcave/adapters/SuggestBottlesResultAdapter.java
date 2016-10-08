@@ -146,7 +146,7 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
             viewHolder.setLabelViewText(bottle.Bottle.Domain + " - " + bottle.Bottle.Name);
             viewHolder.setMillesimeViewText(bottle.Bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Bottle.Millesime));
             viewHolder.setStockLabelViewText(context.getString(R.string.bottles_stock, bottle.Bottle.Stock));
-            int wineColorDrawableId = bottle.Bottle.WineColor.drawableResourceId;
+            int wineColorDrawableId = bottle.Bottle.WineColor.DrawableResourceId;
             viewHolder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
             viewHolder.setOnItemClickListener(listener, bottle.Bottle.Id);
         }

@@ -63,7 +63,7 @@ public class PatternSQLiteManager {
                 for (Map.Entry<CoordinatesModel, CavePlaceTypeEnum> cavePlaceEntry : pattern.PlaceMap.entrySet()) {
                     CoordinatesModel placeCoordinates = cavePlaceEntry.getKey();
                     CavePlaceTypeEnum placeType = cavePlaceEntry.getValue();
-                    insertPatternPlace(db, pattern.Id, placeCoordinates, placeType.id);
+                    insertPatternPlace(db, pattern.Id, placeCoordinates, placeType.Id);
                 }
             } else {
                 // existing pattern -> update order
@@ -151,7 +151,7 @@ public class PatternSQLiteManager {
                 PatternTypeSQLiteManager.PATTERN_TYPE_ID + "=? and " + IS_HORIZONTALLY_EXPENDABLE + "=? and "
                         + IS_VERTICALLY_EXPENDABLE + "=? and " + IS_INVERTED + "=? and "
                         + NUMBER_BOTTLES_BY_ROW + "=? and " + NUMBER_BOTTLES_BY_COLUMN + "=?",
-                new String[]{String.valueOf(pattern.Type.id), String.valueOf(pattern.IsHorizontallyExpendable ? 1 : 0),
+                new String[]{String.valueOf(pattern.Type.Id), String.valueOf(pattern.IsHorizontallyExpendable ? 1 : 0),
                         String.valueOf(pattern.IsVerticallyExpendable ? 1 : 0), String.valueOf(pattern.IsInverted ? 1 : 0),
                         String.valueOf(pattern.NumberBottlesByRow), String.valueOf(pattern.NumberBottlesByColumn)},
                 null, null, null, null);
@@ -173,7 +173,7 @@ public class PatternSQLiteManager {
 
     private static ContentValues getPatternContentValues(PatternModel pattern) {
         ContentValues patternFields = new ContentValues(7);
-        patternFields.put(PatternTypeSQLiteManager.PATTERN_TYPE_ID, pattern.Type.id);
+        patternFields.put(PatternTypeSQLiteManager.PATTERN_TYPE_ID, pattern.Type.Id);
         patternFields.put(NUMBER_BOTTLES_BY_COLUMN, pattern.NumberBottlesByColumn);
         patternFields.put(NUMBER_BOTTLES_BY_ROW, pattern.NumberBottlesByRow);
         patternFields.put(IS_HORIZONTALLY_EXPENDABLE, pattern.IsHorizontallyExpendable ? 1 : 0);

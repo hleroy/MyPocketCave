@@ -25,18 +25,17 @@ public enum CavePlaceTypeEnum {
     PLACE_TOP_RIGHT_CHAMPAGNE(43, R.drawable.place_type_top_right_champagne),
     PLACE_TOP_LEFT_CHAMPAGNE(44, R.drawable.place_type_top_left_champagne);
 
-    public static final int number = values().length;
-    public final int id;
-    public final int drawableResourceId;
+    public final int Id;
+    public final int DrawableResourceId;
 
-    CavePlaceTypeEnum(int _id, int _drawableResourceId) {
-        id = _id;
-        drawableResourceId = _drawableResourceId;
+    CavePlaceTypeEnum(int id, int drawableResourceId) {
+        Id = id;
+        DrawableResourceId = drawableResourceId;
     }
 
     public static CavePlaceTypeEnum getById(int id) {
         for (CavePlaceTypeEnum cavePlaceType : CavePlaceTypeEnum.values()) {
-            if (cavePlaceType.id == id) {
+            if (cavePlaceType.Id == id) {
                 return cavePlaceType;
             }
         }
@@ -44,18 +43,18 @@ public enum CavePlaceTypeEnum {
     }
 
     public boolean isBottomRight() {
-        return id % 10 == 1;
+        return Id % 10 == 1;
     }
 
     public boolean isBottomLeft() {
-        return id % 10 == 2;
+        return Id % 10 == 2;
     }
 
     public boolean isTopRight() {
-        return id % 10 == 3;
+        return Id % 10 == 3;
     }
 
     public boolean isTopLeft() {
-        return id % 10 == 4;
+        return Id % 10 == 4;
     }
 }

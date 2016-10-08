@@ -9,20 +9,19 @@ public enum WineColorEnum {
     ROSE(3, R.string.wine_color_rose, R.drawable.wine_rose),
     CHAMPAGNE(4, R.string.wine_color_champagne, R.drawable.champagne);
 
-    public static final int number = values().length;
-    public final int id;
-    public final int stringResourceId;
-    public final int drawableResourceId;
+    public final int Id;
+    public final int StringResourceId;
+    public final int DrawableResourceId;
 
-    WineColorEnum(int _id, int _stringResourceId, int _drawableResourceId) {
-        id = _id;
-        stringResourceId = _stringResourceId;
-        drawableResourceId = _drawableResourceId;
+    WineColorEnum(int id, int stringResourceId, int drawableResourceId) {
+        Id = id;
+        StringResourceId = stringResourceId;
+        DrawableResourceId = drawableResourceId;
     }
 
     public static WineColorEnum getById(int id) {
         for (WineColorEnum wineColor : WineColorEnum.values()) {
-            if (wineColor.id == id) {
+            if (wineColor.Id == id) {
                 return wineColor;
             }
         }

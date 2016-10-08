@@ -37,7 +37,7 @@ public class MillesimeSpinnerAdapter implements SpinnerAdapter {
 
         MillesimeEnum millesime = MillesimeEnum.getById(getMillesimeEnumId(position));
         if (millesime != null) {
-            viewHolder.setLabelViewText(context.getString(millesime.stringResourceId));
+            viewHolder.setLabelViewText(context.getString(millesime.StringResourceId));
         }
 
         return convertView;
@@ -57,7 +57,7 @@ public class MillesimeSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return containsNone ? MillesimeEnum.number : MillesimeEnum.number - 1;
+        return containsNone ? MillesimeEnum.values().length : MillesimeEnum.values().length - 1;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class MillesimeSpinnerAdapter implements SpinnerAdapter {
 
         MillesimeEnum millesime = MillesimeEnum.getById(getMillesimeEnumId(position));
         if (millesime != null) {
-            viewHolder.setLabelViewText(context.getString(millesime.stringResourceId));
+            viewHolder.setLabelViewText(context.getString(millesime.StringResourceId));
         }
 
         return convertView;

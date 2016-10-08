@@ -25,9 +25,9 @@ public class PatternTypeSQLiteManager {
     public static void insertAll(SQLiteDatabase db) {
         for (PatternTypeEnum patternType : PatternTypeEnum.values()) {
             ContentValues fields = new ContentValues();
-            fields.put(PATTERN_TYPE_ID, patternType.id);
-            fields.put(STRING_ID, patternType.stringResourceId);
-            fields.put(DRAWABLE_ID, patternType.drawableResourceId);
+            fields.put(PATTERN_TYPE_ID, patternType.Id);
+            fields.put(STRING_ID, patternType.StringResourceId);
+            fields.put(DRAWABLE_ID, patternType.DrawableResourceId);
 
             db.insert(PATTERN_TYPES_TABLE_NAME, null, fields);
         }

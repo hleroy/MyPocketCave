@@ -9,18 +9,17 @@ public enum MillesimeEnum {
     SIX_TO_TEN(3, R.string.millesime_six_to_ten),
     OVER_TEN(4, R.string.millesime_over_ten);
 
-    public static final int number = values().length;
-    public final int id;
-    public final int stringResourceId;
+    public final int Id;
+    public final int StringResourceId;
 
-    MillesimeEnum(int _id, int _stringResourceId) {
-        id = _id;
-        stringResourceId = _stringResourceId;
+    MillesimeEnum(int id, int stringResourceId) {
+        Id = id;
+        StringResourceId = stringResourceId;
     }
 
     public static MillesimeEnum getById(int id) {
         for (MillesimeEnum millesime : MillesimeEnum.values()) {
-            if (millesime.id == id) {
+            if (millesime.Id == id) {
                 return millesime;
             }
         }

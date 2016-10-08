@@ -9,22 +9,18 @@ public enum AboutFieldsEnum {
     SOURCES(2, R.string.about_sources),
     LICENSE(3, R.string.about_license);
 
-    private int index;
-    private int stringResource;
+    public final int Id;
+    public final int StringResourceId;
 
-    AboutFieldsEnum(int _index, int _stringResource) {
-        index = _index;
-        stringResource = _stringResource;
-    }
-
-    public int getStringResource() {
-        return stringResource;
+    AboutFieldsEnum(int id, int stringResourceId) {
+        Id = id;
+        StringResourceId = stringResourceId;
     }
 
     public int compare(AboutFieldsEnum otherAboutFieldsEnum) {
-        if (otherAboutFieldsEnum.index > index) {
+        if (otherAboutFieldsEnum.Id > Id) {
             return -1;
-        } else if (otherAboutFieldsEnum.index < index) {
+        } else if (otherAboutFieldsEnum.Id < Id) {
             return 1;
         } else {
             return 0;

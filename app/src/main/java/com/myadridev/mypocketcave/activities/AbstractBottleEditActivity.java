@@ -25,7 +25,7 @@ import com.myadridev.mypocketcave.models.BottleModel;
 
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
-    private final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.number];
+    private final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
     protected BottleModel bottle;
     protected EditText nameView;
     protected EditText stockView;
@@ -53,7 +53,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isFoodListOpen = false;
-        for (int i = 0; i < FoodToEatWithEnum.number; i++) {
+        for (int i = 0; i < FoodToEatWithEnum.values().length; i++) {
             foodToEatWithList[i] = false;
         }
     }
@@ -132,7 +132,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         millesimeView.setAdapter(millesimeAdapter);
 
         if (bottle.Id > 0) {
-            wineColorView.setSelection(getWineColorPosition(bottle.WineColor.id));
+            wineColorView.setSelection(getWineColorPosition(bottle.WineColor.Id));
             millesimeView.setSelection(bottle.Millesime == 0 ? 0 : millesimeAdapter.currentYear + 1 - bottle.Millesime);
             nameView.setText(bottle.Name);
             domainView.setText(bottle.Domain);
@@ -141,7 +141,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             personView.setText(bottle.PersonToShareWith);
             commentsView.setText(bottle.Comments);
             for (FoodToEatWithEnum food : bottle.FoodToEatWithList) {
-                foodToEatWithList[food.id] = true;
+                foodToEatWithList[food.Id] = true;
             }
             foodView.setText(FoodToEatHelper.computeFoodViewText(this, foodToEatWithList));
         }
@@ -191,7 +191,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
         bottle.FoodToEatWithList.clear();
         for (FoodToEatWithEnum food : FoodToEatWithEnum.values()) {
-            if (foodToEatWithList[food.id]) {
+            if (foodToEatWithList[food.Id]) {
                 bottle.FoodToEatWithList.add(food);
             }
         }

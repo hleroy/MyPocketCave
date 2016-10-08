@@ -64,7 +64,7 @@ public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         CaveLightModel cave = allCaves.get(position);
             if (cave != null) {
                 holder.setLabelViewText(cave.Name);
-                int caveTypeDrawableId = cave.CaveType.drawableResourceId;
+                int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
                 holder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);
                 holder.setUsedLabelViewText(context.getString(R.string.cave_used_capacity, cave.TotalUsed, cave.TotalCapacity));
                 holder.setOnItemClickListener(listener, cave.Id);

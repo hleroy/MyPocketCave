@@ -163,7 +163,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setMinimumWidth(itemWidth);
             holder.itemView.setMinimumHeight(itemHeight);
 
-            int caveTypeDrawableId = cavePlaceType.drawableResourceId;
+            int caveTypeDrawableId = cavePlaceType.DrawableResourceId;
             if (caveTypeDrawableId != -1) {
                 Picasso.with(activity).load(caveTypeDrawableId)
                         .resize(itemWidth, itemHeight).into(holder.getPlaceTypeView());

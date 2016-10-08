@@ -24,8 +24,8 @@ public class FoodToEatWithSQLiteManager {
     public static void insertAll(SQLiteDatabase db) {
         for (FoodToEatWithEnum food : FoodToEatWithEnum.values()) {
             ContentValues fields = new ContentValues();
-            fields.put(FOOD_ID, food.id);
-            fields.put(STRING_ID, food.stringResourceId);
+            fields.put(FOOD_ID, food.Id);
+            fields.put(STRING_ID, food.StringResourceId);
 
             db.insert(FOODS_TABLE_NAME, null, fields);
         }

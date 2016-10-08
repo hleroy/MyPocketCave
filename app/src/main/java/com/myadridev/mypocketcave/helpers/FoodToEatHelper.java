@@ -13,11 +13,11 @@ public class FoodToEatHelper {
         boolean isAtLeastOneFood = false;
         StringBuilder computedText = new StringBuilder();
         for (FoodToEatWithEnum food : FoodToEatWithEnum.values()) {
-            if (foodToEatWithList[food.id]) {
+            if (foodToEatWithList[food.Id]) {
                 if (isAtLeastOneFood) {
                     computedText.append(foodSeparator);
                 }
-                computedText.append(context.getString(food.stringResourceId));
+                computedText.append(context.getString(food.StringResourceId));
                 isAtLeastOneFood = true;
             }
         }
@@ -31,7 +31,7 @@ public class FoodToEatHelper {
             if (isAtLeastOneFood) {
                 computedText.append(foodSeparator);
             }
-            computedText.append(context.getString(food.stringResourceId));
+            computedText.append(context.getString(food.StringResourceId));
             isAtLeastOneFood = true;
         }
         return computedText.toString();

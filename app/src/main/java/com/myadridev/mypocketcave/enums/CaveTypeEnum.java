@@ -9,20 +9,19 @@ public enum CaveTypeEnum {
     FRIDGE(3, R.string.cave_type_fridge, R.drawable.cave_fridge),
     RACK(4, R.string.cave_type_rack, R.drawable.cave_rack);
 
-    public static final int number = values().length;
-    public final int id;
-    public final int stringResourceId;
-    public final int drawableResourceId;
+    public final int Id;
+    public final int StringResourceId;
+    public final int DrawableResourceId;
 
-    CaveTypeEnum(int _id, int _stringResourceId, int _drawableResourceId) {
-        id = _id;
-        stringResourceId = _stringResourceId;
-        drawableResourceId = _drawableResourceId;
+    CaveTypeEnum(int id, int stringResourceId, int drawableResourceId) {
+        Id = id;
+        StringResourceId = stringResourceId;
+        DrawableResourceId = drawableResourceId;
     }
 
     public static CaveTypeEnum getById(int id) {
         for (CaveTypeEnum caveType : CaveTypeEnum.values()) {
-            if (caveType.id == id) {
+            if (caveType.Id == id) {
                 return caveType;
             }
         }
