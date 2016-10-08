@@ -1,24 +1,33 @@
 package com.myadridev.mypocketcave.managers;
 
-import com.myadridev.mypocketcave.managers.storage.SQLite.PatternSQLiteManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
 import com.myadridev.mypocketcave.models.PatternModel;
 
 import java.util.List;
 
 public class PatternManager {
 
+    private static IPatternsStorageManager patternsStorageManager = null;
+
+    private static IPatternsStorageManager getPatternsStorageManager() {
+        if (patternsStorageManager == null) {
+            patternsStorageManager = DependencyManager.getSingleton(IPatternsStorageManager.class);
+        }
+        return patternsStorageManager;
+    }
+
     public static final int numberOfColumnsForDisplay = 3;
 
     public static List<PatternModel> getPatterns() {
-        return PatternSQLiteManager.getPatterns();
+        return getPatternsStorageManager().getPatterns();
     }
 
     public static PatternModel getPattern(int patternId) {
-        return PatternSQLiteManager.getPattern(patternId);
+        return getPatternsStorageManager().getPattern(patternId);
     }
 
     public static int addPattern(PatternModel pattern) {
-        return PatternSQLiteManager.insertPattern(pattern);
+        return getPatternsStorageManager().insertPattern(pattern);
     }
 
     public static void setLastUsedPattern(int patternId) {
@@ -29,7 +38,7 @@ public class PatternManager {
             } else {
                 pattern.Order = pattern.Order + 1;
             }
-            PatternSQLiteManager.updatePatternOrder(pattern.Id, pattern.Order);
         }
+        getPatternsStorageManager().updateAllPatterns(patterns);
     }
 }

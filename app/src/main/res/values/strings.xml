@@ -52,7 +52,8 @@
     <string name="no_bottles">No bottles in the cave, so sad!</string>
     <string name="no_caves">No cave created, efforts are needed!</string>
     <string name="no_millesime">No millesime</string>
-    <string name="store_bottles" translatable="false">bottles</string>
+    <string name="store_indexes" translatable="false">indexes</string>
+    <string name="store_bottle" translatable="false">bottle_%1$d</string>
     <string name="suggest_me_a_bottle_button">Please, suggest me a bottle</string>
     <string name="title_about">About</string>
     <string name="title_bottles">My bottles</string>
@@ -75,8 +76,8 @@
     <string name="suggest_bottle_domain_none">Any domain</string>
     <string name="millesime_none">Any millesime</string>
     <string name="millesime_less_than_two"><![CDATA[<]]> 3 years</string>
-    <string name="millesime_three_to_five">3 - 5 years</string>
-    <string name="millesime_six_to_ten">6 - 10 years</string>
+    <string name="millesime_three_to_five">3 – 5 years</string>
+    <string name="millesime_six_to_ten">6 – 10 years</string>
     <string name="millesime_over_ten"><![CDATA[>]]> 10 years</string>
     <string name="food_none">To drink with anything</string>
     <string name="error_technical">There was a technical error, please try again!</string>
@@ -137,4 +138,7 @@
     <string name="bottles_to_place">%1$d to place</string>
     <string name="title_place_bottle">Place a bottle</string>
     <string name="bottles_placed">%1$d placed in the caves</string>
+    <string name="store_cave" translatable="false">cave_%1$d</string>
+    <string name="store_pattern" translatable="false">pattern_%1$d</string>
+    <string name="store_cave_key" translatable="false">cave</string>
 </resources>

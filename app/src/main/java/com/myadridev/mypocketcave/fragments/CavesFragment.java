@@ -14,14 +14,14 @@ import com.myadridev.mypocketcave.adapters.CavesAdapter;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
-import com.myadridev.mypocketcave.models.CaveModel;
+import com.myadridev.mypocketcave.models.CaveLightModel;
 
 import java.util.Collections;
 import java.util.List;
 
 public class CavesFragment extends Fragment implements IVisibleFragment {
 
-    private List<CaveModel> allCaves;
+    private List<CaveLightModel> allCaves;
     private TextView noCavesLabelView;
     private View rootView;
     private RecyclerView cavesRecyclerView;

@@ -1,42 +1,67 @@
 package com.myadridev.mypocketcave.managers;
 
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
-import com.myadridev.mypocketcave.managers.storage.SQLite.CaveSQLiteManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.ICaveStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
+import com.myadridev.mypocketcave.models.CaveLightModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 
 import java.util.List;
 
 public class CaveManager {
 
-    public static List<CaveModel> getCaves() {
-        return CaveSQLiteManager.getCaves();
+    private static ICavesStorageManager cavesStorageManager = null;
+    private static ICaveStorageManager caveStorageManager = null;
+
+    private static ICavesStorageManager getCavesStorageManager() {
+        if (cavesStorageManager == null) {
+            cavesStorageManager = DependencyManager.getSingleton(ICavesStorageManager.class);
+        }
+        return cavesStorageManager;
+    }
+
+    private static ICaveStorageManager getCaveStorageManager() {
+        if (caveStorageManager == null) {
+            caveStorageManager = DependencyManager.getSingleton(ICaveStorageManager.class);
+        }
+        return caveStorageManager;
+    }
+
+    public static List<CaveLightModel> getCaves() {
+        return getCavesStorageManager().getCaves();
     }
 
     public static CaveModel getCave(int caveId) {
-        return CaveSQLiteManager.getCave(caveId);
+        return getCaveStorageManager().getCave(caveId);
     }
 
     public static int addCave(CaveModel cave) {
-        return CaveSQLiteManager.insertCave(cave);
+        CaveLightModel caveLight = new CaveLightModel(cave);
+        cave.Id = getCavesStorageManager().insertCave(caveLight, true);
+        getCaveStorageManager().insertCave(cave);
+        return cave.Id;
     }
 
     public static void editCave(CaveModel cave) {
-        CaveSQLiteManager.updateCave(cave);
+        CaveLightModel caveLight = new CaveLightModel(cave);
+        getCavesStorageManager().updateCave(caveLight);
+        getCaveStorageManager().updateCave(cave);
     }
 
     public static void removeCave(CaveModel cave) {
-        CaveSQLiteManager.deleteCave(cave);
+        getCavesStorageManager().deleteCave(cave.Id);
+        getCaveStorageManager().deleteCave(cave);
     }
 
     public static int getExistingCaveId(int id, String name, CaveTypeEnum caveType) {
-        return CaveSQLiteManager.getExistingCaveId(id, name, caveType.id);
+        return getCavesStorageManager().getExistingCaveId(id, name, caveType.id);
     }
 
     public static int getCavesCount() {
-        return CaveSQLiteManager.getCavesCount();
+        return getCavesStorageManager().getCavesCount();
     }
 
     public static int getCavesCount(CaveTypeEnum caveType) {
-        return CaveSQLiteManager.getCavesCount(caveType.id);
+        return getCavesStorageManager().getCavesCount(caveType.id);
     }
 }

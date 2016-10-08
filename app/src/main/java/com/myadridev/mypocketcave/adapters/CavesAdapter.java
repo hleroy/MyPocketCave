@@ -11,18 +11,18 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
 import com.myadridev.mypocketcave.listeners.OnCaveClickListener;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.CaveModel;
+import com.myadridev.mypocketcave.models.CaveLightModel;
 
 import java.util.List;
 
 public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
-    private final List<CaveModel> allCaves;
+    private final List<CaveLightModel> allCaves;
     private final LayoutInflater layoutInflater;
 
     private final OnCaveClickListener listener;
 
-    public CavesAdapter(Context _context, List<CaveModel> _allCaves) {
+    public CavesAdapter(Context _context, List<CaveLightModel> _allCaves) {
         context = _context;
         allCaves = _allCaves;
         layoutInflater = LayoutInflater.from(context);
@@ -61,12 +61,12 @@ public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
             CaveViewHolder holder = (CaveViewHolder) viewHolder;
-            CaveModel cave = allCaves.get(position);
+        CaveLightModel cave = allCaves.get(position);
             if (cave != null) {
                 holder.setLabelViewText(cave.Name);
                 int caveTypeDrawableId = cave.CaveType.drawableResourceId;
                 holder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);
-                holder.setUsedLabelViewText(context.getString(R.string.cave_used_capacity, cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+                holder.setUsedLabelViewText(context.getString(R.string.cave_used_capacity, cave.TotalUsed, cave.TotalCapacity));
                 holder.setOnItemClickListener(listener, cave.Id);
             }
     }

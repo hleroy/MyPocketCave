@@ -2,7 +2,7 @@ package com.myadridev.mypocketcave.managers;
 
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
-import com.myadridev.mypocketcave.managers.storage.SQLite.BottleSQLiteManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
@@ -15,32 +15,41 @@ import java.util.List;
 
 public class BottleManager {
 
+    private static IBottleStorageManager bottleStorageManager = null;
+
+    private static IBottleStorageManager getBottleStorageManager() {
+        if (bottleStorageManager == null) {
+            bottleStorageManager = DependencyManager.getSingleton(IBottleStorageManager.class);
+        }
+        return bottleStorageManager;
+    }
+
     public static List<BottleModel> getBottles() {
-        return BottleSQLiteManager.getBottles();
+        return getBottleStorageManager().getBottles();
     }
 
     public static BottleModel getBottle(int bottleId) {
-        return BottleSQLiteManager.getBottle(bottleId);
+        return getBottleStorageManager().getBottle(bottleId);
     }
 
     public static int addBottle(BottleModel bottle) {
-        return BottleSQLiteManager.insertBottle(bottle);
+        return getBottleStorageManager().insertBottle(bottle);
     }
 
     public static void editBottle(BottleModel bottle) {
-        BottleSQLiteManager.updateBottle(bottle);
+        getBottleStorageManager().updateBottle(bottle);
     }
 
     public static void removeBottle(int bottleId) {
-        BottleSQLiteManager.deleteBottle(bottleId);
+        getBottleStorageManager().deleteBottle(bottleId);
     }
 
     public static int getExistingBottleId(int id, String name, String domain, WineColorEnum wineColor, int millesime) {
-        return BottleSQLiteManager.getExistingBottleId(id, name, domain, wineColor.id, millesime);
+        return getBottleStorageManager().getExistingBottleId(id, name, domain, wineColor.id, millesime);
     }
 
     public static int getBottlesCount() {
-        return BottleSQLiteManager.getBottlesCount();
+        return getBottleStorageManager().getBottlesCount();
     }
 
     public static int getBottlesCount(Collection<BottleModel> bottles) {
@@ -52,7 +61,7 @@ public class BottleManager {
     }
 
     public static int getBottlesCount(WineColorEnum wineColor) {
-        return BottleSQLiteManager.getBottlesCount(wineColor.id);
+        return getBottleStorageManager().getBottlesCount(wineColor.id);
     }
 
     public static int getBottlesCount(Collection<BottleModel> bottles, WineColorEnum wineColor) {
@@ -65,27 +74,41 @@ public class BottleManager {
     }
 
     public static String[] getAllDistinctPersons() {
-        return BottleSQLiteManager.getDistinctPersons();
+        return getBottleStorageManager().getDistinctPersons();
     }
 
     public static String[] getAllDistinctDomains() {
-        return BottleSQLiteManager.getDistinctDomains();
+        return getBottleStorageManager().getDistinctDomains();
     }
 
     public static List<SuggestBottleResultModel> getSuggestBottles(SuggestBottleCriteria searchCriteria) {
-        List<BottleModel> suggestBottlesFromDb = BottleSQLiteManager.getSuggestBottles(searchCriteria);
+        List<BottleModel> allBottles = getBottleStorageManager().getBottles();
+        List<SuggestBottleResultModel> suggestBottles = new ArrayList<>(allBottles.size());
 
-        List<SuggestBottleResultModel> suggestBottles = new ArrayList<>(suggestBottlesFromDb.size());
+        for (BottleModel bottle : allBottles) {
+            int wineColorScore = computeWineColorScore(bottle, searchCriteria);
+            if (searchCriteria.IsWineColorRequired && wineColorScore == 0) {
+                continue;
+            }
+            int domainScore = computeDomainScore(bottle, searchCriteria);
+            if (searchCriteria.IsDomainRequired && domainScore == 0) {
+                continue;
+            }
+            int millesimeScore = computeMillesimeScore(bottle, searchCriteria);
+            if (searchCriteria.IsMillesimeRequired && millesimeScore == 0) {
+                continue;
+            }
+            int foodScore = computeFoodScore(bottle, searchCriteria);
+            if (searchCriteria.IsFoodRequired && foodScore == 0) {
+                continue;
+            }
+            int personScore = computePersonScore(bottle, searchCriteria);
+            if (searchCriteria.IsPersonRequired && personScore == 0) {
+                continue;
+            }
 
-        for (BottleModel bottle : suggestBottlesFromDb) {
             SuggestBottleResultModel suggestedBottle = new SuggestBottleResultModel();
             suggestedBottle.Bottle = bottle;
-
-            int wineColorScore = computeWineColorScore(bottle, searchCriteria);
-            int domainScore = computeDomainScore(bottle, searchCriteria);
-            int millesimeScore = computeMillesimeScore(bottle, searchCriteria);
-            int foodScore = computeFoodScore(bottle, searchCriteria);
-            int personScore = computePersonScore(bottle, searchCriteria);
             suggestedBottle.Score = wineColorScore + domainScore + millesimeScore + foodScore + personScore;
 
             suggestBottles.add(suggestedBottle);
@@ -149,7 +172,7 @@ public class BottleManager {
     }
 
     public static List<BottleModel> getNonPlacedBottles() {
-        List<BottleModel> nonPlacedBottles = BottleSQLiteManager.getNonPlacedBottles();
+        List<BottleModel> nonPlacedBottles = getBottleStorageManager().getNonPlacedBottles();
         Collections.sort(nonPlacedBottles);
         return nonPlacedBottles;
     }
@@ -163,6 +186,6 @@ public class BottleManager {
     }
 
     public static void updateNumberPlaced(int bottleId, int increment) {
-        BottleSQLiteManager.updateNumberPlaced(bottleId, increment);
+        getBottleStorageManager().updateNumberPlaced(bottleId, increment);
     }
 }
