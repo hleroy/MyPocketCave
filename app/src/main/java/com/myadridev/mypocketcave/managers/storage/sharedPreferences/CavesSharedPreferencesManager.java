@@ -103,7 +103,7 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
     public int getExistingCaveId(int id, String name, int caveTypeId) {
         for (CaveLightModel cave : allCavesMap.values()) {
             if (name.equals(cave.Name)
-                    && caveTypeId == cave.CaveType.id
+                    && caveTypeId == cave.CaveType.Id
                     && id != cave.Id) {
                 return cave.Id;
             }
@@ -121,7 +121,7 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
         int cavesCount = 0;
 
         for (CaveLightModel cave : allCavesMap.values()) {
-            if (cave.CaveType.id == caveTypeId) {
+            if (cave.CaveType.Id == caveTypeId) {
                 cavesCount++;
             }
         }
