@@ -8,6 +8,8 @@ import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,6 +25,16 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CaveArrangementModelTest {
+
+    @BeforeClass
+    public static void beforeClass() {
+        DependencyManager.init();
+    }
+
+    @AfterClass
+    public static void afterClass() {
+        DependencyManager.cleanUp();
+    }
 
     @Test
     public void createVoidCaveArrangementModel() {
@@ -645,8 +657,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         arrangement.placeBottle(origin, new CoordinatesModel(1, 1), bottle.Id);
@@ -669,8 +680,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     private CaveArrangementModel getArrangementStaggered() {
@@ -703,8 +712,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -727,8 +735,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_WHITE, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -739,8 +745,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -763,8 +768,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_ROSE, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -775,8 +778,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -799,8 +801,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_CHAMPAGNE, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -811,8 +811,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -837,8 +836,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -849,8 +846,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -875,8 +871,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -887,8 +881,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -913,8 +906,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -925,8 +916,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -951,8 +941,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -963,8 +951,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -989,8 +976,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -1001,8 +986,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -1027,8 +1011,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -1039,8 +1021,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -1065,8 +1046,6 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 
     @Test
@@ -1077,8 +1056,7 @@ public class CaveArrangementModelTest {
 
         CaveArrangementModel arrangement = getArrangementStaggered();
         when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.init();
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
@@ -1103,7 +1081,5 @@ public class CaveArrangementModelTest {
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
-
-        DependencyManager.cleanUp();
     }
 }

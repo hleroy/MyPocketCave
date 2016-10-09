@@ -7,10 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by adrie on 08/10/2016.
- */
-
 public class DependencyManager {
 
     private static Map<Class, Object> singletonMap;
@@ -49,6 +45,9 @@ public class DependencyManager {
         ensureIsInitDone();
         if (!isOverridePossible && singletonMap.containsKey(dependencyInterface)) {
             throw new IllegalArgumentException("Type " + dependencyInterface.getName() + " is already registered.");
+        }
+        if (singletonMap.containsKey(dependencyInterface)) {
+            fireOnDependencyChange(dependencyInterface);
         }
         singletonMap.put(dependencyInterface, dependencySingleton);
     }

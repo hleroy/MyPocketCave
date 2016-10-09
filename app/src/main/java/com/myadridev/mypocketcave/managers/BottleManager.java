@@ -16,16 +16,18 @@ import java.util.List;
 
 public class BottleManager {
 
+    private static boolean listenerBottleRegistered = false;
     private static IBottleStorageManager bottleStorageManager = null;
-
     private static IBottleStorageManager getBottleStorageManager() {
         if (bottleStorageManager == null) {
-            bottleStorageManager = DependencyManager.getSingleton(IBottleStorageManager.class, new OnDependencyChangeListener() {
+            bottleStorageManager = DependencyManager.getSingleton(IBottleStorageManager.class,
+                    listenerBottleRegistered ? null : new OnDependencyChangeListener() {
                 @Override
                 public void onDependencyChange() {
                     bottleStorageManager = null;
                 }
             });
+            listenerBottleRegistered = true;
         }
         return bottleStorageManager;
     }

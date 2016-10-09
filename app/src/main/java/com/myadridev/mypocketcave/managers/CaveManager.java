@@ -11,29 +11,34 @@ import java.util.List;
 
 public class CaveManager {
 
+    private static boolean listenerCavesRegistered = false;
     private static ICavesStorageManager cavesStorageManager = null;
-    private static ICaveStorageManager caveStorageManager = null;
-
     private static ICavesStorageManager getCavesStorageManager() {
         if (cavesStorageManager == null) {
-            cavesStorageManager = DependencyManager.getSingleton(ICavesStorageManager.class, new OnDependencyChangeListener() {
+            cavesStorageManager = DependencyManager.getSingleton(ICavesStorageManager.class,
+                    listenerCavesRegistered ? null : new OnDependencyChangeListener() {
                 @Override
                 public void onDependencyChange() {
                     cavesStorageManager = null;
                 }
             });
+            listenerCavesRegistered = true;
         }
         return cavesStorageManager;
     }
 
+    private static boolean listenerCaveRegistered = false;
+    private static ICaveStorageManager caveStorageManager = null;
     private static ICaveStorageManager getCaveStorageManager() {
         if (caveStorageManager == null) {
-            caveStorageManager = DependencyManager.getSingleton(ICaveStorageManager.class, new OnDependencyChangeListener() {
+            caveStorageManager = DependencyManager.getSingleton(ICaveStorageManager.class,
+                    listenerCaveRegistered ? null : new OnDependencyChangeListener() {
                 @Override
                 public void onDependencyChange() {
                     caveStorageManager = null;
                 }
             });
+            listenerCaveRegistered = true;
         }
         return caveStorageManager;
     }

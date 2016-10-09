@@ -8,16 +8,18 @@ import java.util.List;
 
 public class PatternManager {
 
+    private static boolean listenerPatternsRegistered = false;
     private static IPatternsStorageManager patternsStorageManager = null;
-
     private static IPatternsStorageManager getPatternsStorageManager() {
         if (patternsStorageManager == null) {
-            patternsStorageManager = DependencyManager.getSingleton(IPatternsStorageManager.class, new OnDependencyChangeListener() {
+            patternsStorageManager = DependencyManager.getSingleton(IPatternsStorageManager.class,
+                    listenerPatternsRegistered ? null : new OnDependencyChangeListener() {
                 @Override
                 public void onDependencyChange() {
                     patternsStorageManager = null;
                 }
             });
+            listenerPatternsRegistered = true;
         }
         return patternsStorageManager;
     }

@@ -1,8 +1,15 @@
 package com.myadridev.mypocketcave.managers;
 
-import org.junit.Assert;
+import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by adrie on 08/10/2016.
@@ -10,6 +17,10 @@ import org.junit.Test;
 public class DependencyManagerTest {
 
     private interface MyInterface {
+        String getName();
+    }
+
+    private interface MyInterface2 {
         String getName();
     }
 
@@ -40,10 +51,10 @@ public class DependencyManagerTest {
         try {
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
         } catch (IllegalStateException ex) {
-            Assert.assertTrue(true);
+            assertTrue(true);
             return;
         }
-        Assert.fail();
+        fail();
     }
 
     @Test
@@ -52,9 +63,9 @@ public class DependencyManagerTest {
             DependencyManager.init();
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
         } catch (Exception ex) {
-            Assert.fail();
+            fail();
         }
-        Assert.assertTrue(true);
+        assertTrue(true);
     }
 
     @Test
@@ -64,10 +75,10 @@ public class DependencyManagerTest {
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
             DependencyManager.registerSingleton(MyInterface.class, new MyImplB());
         } catch (IllegalArgumentException ex) {
-            Assert.assertTrue(true);
+            assertTrue(true);
             return;
         }
-        Assert.fail();
+        fail();
     }
 
     @Test
@@ -77,9 +88,9 @@ public class DependencyManagerTest {
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
             DependencyManager.registerSingleton(MyInterface.class, new MyImplB(), true);
         } catch (Exception ex) {
-            Assert.fail();
+            fail();
         }
-        Assert.assertTrue(true);
+        assertTrue(true);
     }
 
     @Test
@@ -87,10 +98,10 @@ public class DependencyManagerTest {
         try {
             MyInterface singl = DependencyManager.getSingleton(MyInterface.class, null);
         } catch (IllegalStateException ex) {
-            Assert.assertTrue(true);
+            assertTrue(true);
             return;
         }
-        Assert.fail();
+        fail();
     }
 
     @Test
@@ -99,10 +110,10 @@ public class DependencyManagerTest {
             DependencyManager.init();
             MyInterface singl = DependencyManager.getSingleton(MyInterface.class, null);
         } catch (IllegalArgumentException ex) {
-            Assert.assertTrue(true);
+            assertTrue(true);
             return;
         }
-        Assert.fail();
+        fail();
     }
 
     @Test
@@ -111,9 +122,9 @@ public class DependencyManagerTest {
             DependencyManager.init();
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
             MyInterface singl = DependencyManager.getSingleton(MyInterface.class, null);
-            Assert.assertEquals(nameImplA, singl.getName());
+            assertEquals(nameImplA, singl.getName());
         } catch (Exception ex) {
-            Assert.fail();
+            fail();
         }
     }
 
@@ -124,9 +135,70 @@ public class DependencyManagerTest {
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
             DependencyManager.registerSingleton(MyInterface.class, new MyImplB(), true);
             MyInterface singl = DependencyManager.getSingleton(MyInterface.class, null);
-            Assert.assertEquals(nameImplB, singl.getName());
+            assertEquals(nameImplB, singl.getName());
         } catch (Exception ex) {
-            Assert.fail();
+            fail();
+        }
+    }
+
+    @Test
+    public void WhenGetSingletonRegisteredWithListenerAndRegisterAgain_ThenTheListenerIsFired() {
+        try {
+            DependencyManager.init();
+            DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
+
+            final MyInterface[] singlArray = new MyInterface[1];
+
+            singlArray[0] = DependencyManager.getSingleton(MyInterface.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    singlArray[0] = null;
+                }
+            });
+            assertEquals(nameImplA, singlArray[0].getName());
+            DependencyManager.registerSingleton(MyInterface.class, new MyImplB(), true);
+            assertNull(singlArray[0]);
+            singlArray[0] = DependencyManager.getSingleton(MyInterface.class, null);
+            assertEquals(nameImplB, singlArray[0].getName());
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+
+    @Test
+    public void WhenCleanUp_ThenAllListenersAreFired() {
+        try {
+            final boolean[] listenersFired = new boolean[2];
+            DependencyManager.init();
+            DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
+            DependencyManager.registerSingleton(MyInterface2.class, new MyInterface2() {
+                @Override
+                public String getName() {
+                    return null;
+                }
+            });
+
+            DependencyManager.getSingleton(MyInterface.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    listenersFired[0] = true;
+                }
+            });
+            DependencyManager.getSingleton(MyInterface2.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    listenersFired[1] = true;
+                }
+            });
+
+            assertFalse(listenersFired[0]);
+            assertFalse(listenersFired[1]);
+
+            DependencyManager.cleanUp();
+            assertTrue(listenersFired[0]);
+            assertTrue(listenersFired[1]);
+        } catch (Exception ex) {
+            fail();
         }
     }
 }

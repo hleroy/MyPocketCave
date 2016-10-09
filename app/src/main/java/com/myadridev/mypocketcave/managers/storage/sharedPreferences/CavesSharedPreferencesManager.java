@@ -23,8 +23,6 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
     private String filename;
     private int keyCaveResourceId = R.string.store_cave;
 
-    private ISharedPreferencesManager sharedPreferencesManager = null;
-
     private CavesSharedPreferencesManager() {
         keyIndex = getSharedPreferencesManager().getStringFromResource(R.string.store_indexes);
         filename = getSharedPreferencesManager().getStringFromResource(R.string.filename_caves);
@@ -41,14 +39,18 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
         _isInitialized = true;
     }
 
+    private boolean listenerSharedPreferencesRegistered = false;
+    private ISharedPreferencesManager sharedPreferencesManager = null;
     private ISharedPreferencesManager getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
-            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class, new OnDependencyChangeListener() {
+            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class,
+                    listenerSharedPreferencesRegistered ? null : new OnDependencyChangeListener() {
                 @Override
                 public void onDependencyChange() {
                     sharedPreferencesManager = null;
                 }
             });
+            listenerSharedPreferencesRegistered = true;
         }
         return sharedPreferencesManager;
     }

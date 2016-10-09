@@ -27,7 +27,6 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     private String filename;
     private int keyBottleResourceId = R.string.store_bottle;
 
-    private ISharedPreferencesManager sharedPreferencesManager = null;
 
     private BottlesSharedPreferencesManager() {
         keyIndex = getSharedPreferencesManager().getStringFromResource(R.string.store_indexes);
@@ -45,14 +44,18 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         _isInitialized = true;
     }
 
+    private boolean listenerSharedPreferencesRegistered = false;
+    private ISharedPreferencesManager sharedPreferencesManager = null;
     private ISharedPreferencesManager getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
-            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class, new OnDependencyChangeListener() {
+            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class,
+                    listenerSharedPreferencesRegistered ? null :new OnDependencyChangeListener() {
                 @Override
                 public void onDependencyChange() {
                     sharedPreferencesManager = null;
                 }
             });
+            listenerSharedPreferencesRegistered = true;
         }
         return sharedPreferencesManager;
     }
