@@ -9,12 +9,12 @@ import static org.junit.Assert.assertTrue;
 public class CavePlaceTypeEnumTest {
 
     @Test
-    public void getByIdCavePlaceTypeEnumExisting() throws Exception {
+    public void getByIdCavePlaceTypeEnumExisting() {
         assertEquals(CavePlaceTypeEnum.NO_PLACE, CavePlaceTypeEnum.getById(CavePlaceTypeEnum.NO_PLACE.Id));
     }
 
     @Test
-    public void getByIdCavePlaceTypeEnumNonExisting() throws Exception {
+    public void getByIdCavePlaceTypeEnumNonExisting() {
         assertEquals(null, CavePlaceTypeEnum.getById(-1));
     }
 

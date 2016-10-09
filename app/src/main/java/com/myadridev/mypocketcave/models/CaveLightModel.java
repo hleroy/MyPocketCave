@@ -50,7 +50,6 @@ public class CaveLightModel implements IStorableModel, Comparable<CaveLightModel
             } else if (compareName > 0) {
                 return 1;
             } else {
-
                 return 0;
             }
         }

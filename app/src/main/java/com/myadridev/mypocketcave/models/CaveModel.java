@@ -41,7 +41,6 @@ public class CaveModel implements IStorableModel, Comparable<CaveModel> {
             } else if (compareName > 0) {
                 return 1;
             } else {
-
                 return 0;
             }
         }

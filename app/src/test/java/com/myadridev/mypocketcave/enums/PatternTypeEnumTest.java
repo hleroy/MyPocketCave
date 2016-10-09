@@ -7,12 +7,12 @@ import static org.junit.Assert.assertEquals;
 public class PatternTypeEnumTest {
 
     @Test
-    public void getByIdPatternTypeEnumExisting() throws Exception {
+    public void getByIdPatternTypeEnumExisting() {
         assertEquals(PatternTypeEnum.LINEAR, PatternTypeEnum.getById(PatternTypeEnum.LINEAR.Id));
     }
 
     @Test
-    public void getByIdPatternTypeEnumNonExisting() throws Exception {
+    public void getByIdPatternTypeEnumNonExisting() {
         assertEquals(null, PatternTypeEnum.getById(-1));
     }
 }

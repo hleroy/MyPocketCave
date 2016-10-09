@@ -4,6 +4,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
+import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
@@ -46,7 +47,12 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
     private ISharedPreferencesManager getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
-            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class);
+            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    sharedPreferencesManager = null;
+                }
+            });
         }
         return sharedPreferencesManager;
     }

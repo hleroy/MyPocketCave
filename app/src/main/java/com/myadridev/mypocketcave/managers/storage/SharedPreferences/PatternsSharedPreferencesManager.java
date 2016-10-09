@@ -3,6 +3,7 @@ package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
+import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
@@ -43,7 +44,12 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
 
     private ISharedPreferencesManager getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
-            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class);
+            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    sharedPreferencesManager = null;
+                }
+            });
         }
         return sharedPreferencesManager;
     }
@@ -97,5 +103,15 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
             dataToStoreMap.put(getSharedPreferencesManager().getStringFromResource(keyPatternResourceId, pattern.Id), pattern);
         }
         getSharedPreferencesManager().storeStringMapData(filename, dataToStoreMap);
+    }
+
+    @Override
+    public int getExistingPatternId(PatternModel pattern) {
+        for (PatternModel existingPattern : allPatternsMap.values()) {
+            if (pattern.Id != existingPattern.Id && pattern.hasSameValues(existingPattern)) {
+                return existingPattern.Id;
+            }
+        }
+        return -1;
     }
 }

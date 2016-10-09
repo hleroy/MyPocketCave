@@ -142,8 +142,9 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
                 return 2 * NumberBottlesByRow;
             case STAGGERED_ROWS:
                 return 4 * NumberBottlesByRow - (IsHorizontallyExpendable ? 0 : 2);
+            default:
+                return 0;
         }
-        return 0;
     }
 
     @JsonIgnore
@@ -153,8 +154,9 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
                 return 2 * NumberBottlesByColumn;
             case STAGGERED_ROWS:
                 return 4 * NumberBottlesByColumn - (IsVerticallyExpendable ? 0 : 2);
+            default:
+                return 0;
         }
-        return 0;
     }
 
     @Override

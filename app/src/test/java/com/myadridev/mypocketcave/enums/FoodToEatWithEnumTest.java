@@ -17,12 +17,12 @@ import static org.mockito.Mockito.when;
 public class FoodToEatWithEnumTest {
 
     @Test
-    public void getByIdFoodToEatWithEnumExisting() throws Exception {
+    public void getByIdFoodToEatWithEnumExisting() {
         assertEquals(FoodToEatWithEnum.RedMeat, FoodToEatWithEnum.getById(FoodToEatWithEnum.RedMeat.Id));
     }
 
     @Test
-    public void getByIdFoodToEatWithEnumNonExisting() throws Exception {
+    public void getByIdFoodToEatWithEnumNonExisting() {
         assertEquals(null, FoodToEatWithEnum.getById(-1));
     }
 

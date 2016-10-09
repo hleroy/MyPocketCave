@@ -7,12 +7,12 @@ import static org.junit.Assert.assertEquals;
 public class WineColorEnumTest {
 
     @Test
-    public void getByIdWineColorEnumExisting() throws Exception {
+    public void getByIdWineColorEnumExisting() {
         assertEquals(WineColorEnum.RED, WineColorEnum.getById(WineColorEnum.RED.Id));
     }
 
     @Test
-    public void getByIdWineColorEnumNonExisting() throws Exception {
+    public void getByIdWineColorEnumNonExisting() {
         assertEquals(null, WineColorEnum.getById(-1));
     }
 }

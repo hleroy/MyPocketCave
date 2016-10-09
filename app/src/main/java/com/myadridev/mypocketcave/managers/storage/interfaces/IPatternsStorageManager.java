@@ -17,4 +17,6 @@ public interface IPatternsStorageManager {
     int insertPattern(PatternModel pattern);
 
     void updateAllPatterns(List<PatternModel> patterns);
+
+    int getExistingPatternId(PatternModel pattern);
 }

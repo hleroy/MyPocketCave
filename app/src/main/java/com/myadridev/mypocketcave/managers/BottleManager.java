@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.managers;
 
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
@@ -19,7 +20,12 @@ public class BottleManager {
 
     private static IBottleStorageManager getBottleStorageManager() {
         if (bottleStorageManager == null) {
-            bottleStorageManager = DependencyManager.getSingleton(IBottleStorageManager.class);
+            bottleStorageManager = DependencyManager.getSingleton(IBottleStorageManager.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    bottleStorageManager = null;
+                }
+            });
         }
         return bottleStorageManager;
     }

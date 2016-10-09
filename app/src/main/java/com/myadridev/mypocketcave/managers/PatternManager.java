@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.managers;
 
+import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
 import com.myadridev.mypocketcave.models.PatternModel;
 
@@ -11,7 +12,12 @@ public class PatternManager {
 
     private static IPatternsStorageManager getPatternsStorageManager() {
         if (patternsStorageManager == null) {
-            patternsStorageManager = DependencyManager.getSingleton(IPatternsStorageManager.class);
+            patternsStorageManager = DependencyManager.getSingleton(IPatternsStorageManager.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    patternsStorageManager = null;
+                }
+            });
         }
         return patternsStorageManager;
     }
@@ -27,7 +33,13 @@ public class PatternManager {
     }
 
     public static int addPattern(PatternModel pattern) {
-        return getPatternsStorageManager().insertPattern(pattern);
+        int existingPatternId = getPatternsStorageManager().getExistingPatternId(pattern);
+        if (existingPatternId == -1) {
+            pattern.Id = getPatternsStorageManager().insertPattern(pattern);
+            return pattern.Id;
+        } else {
+            return existingPatternId;
+        }
     }
 
     public static void setLastUsedPattern(int patternId) {

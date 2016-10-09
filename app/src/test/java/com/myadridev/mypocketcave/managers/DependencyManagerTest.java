@@ -85,7 +85,7 @@ public class DependencyManagerTest {
     @Test
     public void WhenGetSingletonWithoutInit_ThenItThrows() {
         try {
-            MyInterface singl = DependencyManager.getSingleton(MyInterface.class);
+            MyInterface singl = DependencyManager.getSingleton(MyInterface.class, null);
         } catch (IllegalStateException ex) {
             Assert.assertTrue(true);
             return;
@@ -97,7 +97,7 @@ public class DependencyManagerTest {
     public void WhenGetSingletonNotRegistered_ThenItThrows() {
         try {
             DependencyManager.init();
-            MyInterface singl = DependencyManager.getSingleton(MyInterface.class);
+            MyInterface singl = DependencyManager.getSingleton(MyInterface.class, null);
         } catch (IllegalArgumentException ex) {
             Assert.assertTrue(true);
             return;
@@ -110,7 +110,7 @@ public class DependencyManagerTest {
         try {
             DependencyManager.init();
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
-            MyInterface singl = DependencyManager.getSingleton(MyInterface.class);
+            MyInterface singl = DependencyManager.getSingleton(MyInterface.class, null);
             Assert.assertEquals(nameImplA, singl.getName());
         } catch (Exception ex) {
             Assert.fail();
@@ -123,7 +123,7 @@ public class DependencyManagerTest {
             DependencyManager.init();
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
             DependencyManager.registerSingleton(MyInterface.class, new MyImplB(), true);
-            MyInterface singl = DependencyManager.getSingleton(MyInterface.class);
+            MyInterface singl = DependencyManager.getSingleton(MyInterface.class, null);
             Assert.assertEquals(nameImplB, singl.getName());
         } catch (Exception ex) {
             Assert.fail();

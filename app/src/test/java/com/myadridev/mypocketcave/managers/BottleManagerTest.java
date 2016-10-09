@@ -26,7 +26,7 @@
 //    }
 //
 //    @Test
-//    public void searchBottleNoCriteria() throws Exception {
+//    public void searchBottleNoCriteria() {
 //        SuggestBottleCriteria criteria = new SuggestBottleCriteria();
 //        List<SuggestBottleResultModel> suggestedBottles = BottleManager.Instance.getSuggestBottles(criteria);
 //        assertEquals(indexesBottlesCreated.size(), suggestedBottles.size());
@@ -36,7 +36,7 @@
 //    }
 //
 //    @Test
-//    public void searchBottleWineColorNotRequired() throws Exception {
+//    public void searchBottleWineColorNotRequired() {
 //        SuggestBottleCriteria criteria = new SuggestBottleCriteria();
 //        criteria.WineColor = WineColorEnum.RED;
 //        List<SuggestBottleResultModel> suggestedBottles = BottleManager.Instance.getSuggestBottles(criteria);

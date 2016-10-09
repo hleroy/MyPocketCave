@@ -2,6 +2,9 @@ package com.myadridev.mypocketcave.models;
 
 import android.support.annotation.NonNull;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(as = SuggestBottleResultModel.class)
 public class SuggestBottleResultModel implements Comparable<SuggestBottleResultModel> {
 
     public int Score;

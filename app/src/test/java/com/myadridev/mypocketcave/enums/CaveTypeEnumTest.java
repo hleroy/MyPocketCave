@@ -7,12 +7,12 @@ import static org.junit.Assert.assertEquals;
 public class CaveTypeEnumTest {
 
     @Test
-    public void getByIdCaveTypeEnumExisting() throws Exception {
+    public void getByIdCaveTypeEnumExisting() {
         assertEquals(CaveTypeEnum.BOX, CaveTypeEnum.getById(CaveTypeEnum.BOX.Id));
     }
 
     @Test
-    public void getByIdCaveTypeEnumNonExisting() throws Exception {
+    public void getByIdCaveTypeEnumNonExisting() {
         assertEquals(null, CaveTypeEnum.getById(-1));
     }
 }

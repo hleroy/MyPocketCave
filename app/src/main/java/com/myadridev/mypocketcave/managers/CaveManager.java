@@ -1,6 +1,7 @@
 package com.myadridev.mypocketcave.managers;
 
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICaveStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
 import com.myadridev.mypocketcave.models.CaveLightModel;
@@ -15,14 +16,24 @@ public class CaveManager {
 
     private static ICavesStorageManager getCavesStorageManager() {
         if (cavesStorageManager == null) {
-            cavesStorageManager = DependencyManager.getSingleton(ICavesStorageManager.class);
+            cavesStorageManager = DependencyManager.getSingleton(ICavesStorageManager.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    cavesStorageManager = null;
+                }
+            });
         }
         return cavesStorageManager;
     }
 
     private static ICaveStorageManager getCaveStorageManager() {
         if (caveStorageManager == null) {
-            caveStorageManager = DependencyManager.getSingleton(ICaveStorageManager.class);
+            caveStorageManager = DependencyManager.getSingleton(ICaveStorageManager.class, new OnDependencyChangeListener() {
+                @Override
+                public void onDependencyChange() {
+                    caveStorageManager = null;
+                }
+            });
         }
         return caveStorageManager;
     }
