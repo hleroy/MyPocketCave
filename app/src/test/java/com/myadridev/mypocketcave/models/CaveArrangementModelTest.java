@@ -20,15 +20,42 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CaveArrangementModelTest {
 
+    @Mock
+    static IBottleStorageManager mockBottleStorageManager;
+    private static final int bottleRedId = 42;
+    private static final int bottleWhiteId = 27;
+    private static final int bottleRoseId = 13;
+    private static final int bottleChampagneId = 92;
+
     @BeforeClass
     public static void beforeClass() {
         DependencyManager.init();
+
+        BottleModel bottleRed = new BottleModel();
+        bottleRed.Id = bottleRedId;
+        bottleRed.WineColor = WineColorEnum.RED;
+        BottleModel bottleWhite = new BottleModel();
+        bottleWhite.Id = bottleWhiteId;
+        bottleWhite.WineColor = WineColorEnum.WHITE;
+        BottleModel bottleRose = new BottleModel();
+        bottleRose.Id = bottleRoseId;
+        bottleRose.WineColor = WineColorEnum.ROSE;
+        BottleModel bottleChampagne = new BottleModel();
+        bottleChampagne.Id = bottleChampagneId;
+        bottleChampagne.WineColor = WineColorEnum.CHAMPAGNE;
+
+        mockBottleStorageManager = mock(IBottleStorageManager.class);
+        when(mockBottleStorageManager.getBottle(bottleRedId)).thenReturn(bottleRed);
+        when(mockBottleStorageManager.getBottle(bottleWhiteId)).thenReturn(bottleWhite);
+        when(mockBottleStorageManager.getBottle(bottleRoseId)).thenReturn(bottleRose);
+        when(mockBottleStorageManager.getBottle(bottleChampagneId)).thenReturn(bottleChampagne);
+        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
     }
 
     @AfterClass
@@ -651,32 +678,26 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedSamePatternPlaceTopRight() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
-        arrangement.placeBottle(origin, new CoordinatesModel(1, 1), bottle.Id);
+        arrangement.placeBottle(origin, new CoordinatesModel(1, 1), bottleRedId);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(1, 1));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(1, 2));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(2, 1));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(2, 2));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -701,37 +722,28 @@ public class CaveArrangementModelTest {
         return arrangement;
     }
 
-    @Mock
-    IBottleStorageManager mockBottleStorageManager;
-
     @Test
     public void placeBottleWhiteSamePatternPlaceTopLeft() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.WHITE;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
-        arrangement.placeBottle(origin, new CoordinatesModel(1, 2), bottle.Id);
+        arrangement.placeBottle(origin, new CoordinatesModel(1, 2), bottleWhiteId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(1, 1));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleWhiteId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_WHITE, topRight.PlaceType);
 
         CavePlaceModel topLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(1, 2));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleWhiteId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_WHITE, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(2, 1));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleWhiteId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_WHITE, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(2, 2));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleWhiteId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_WHITE, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -739,32 +751,26 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRoseSamePatternPlaceBottomRight() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.ROSE;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
-        arrangement.placeBottle(origin, new CoordinatesModel(2, 1), bottle.Id);
+        arrangement.placeBottle(origin, new CoordinatesModel(2, 1), bottleRoseId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(1, 1));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRoseId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_ROSE, topRight.PlaceType);
 
         CavePlaceModel topLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(1, 2));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRoseId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_ROSE, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(2, 1));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRoseId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_ROSE, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(2, 2));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRoseId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_ROSE, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -772,32 +778,26 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleChampagneSamePatternPlaceBottomLeft() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.CHAMPAGNE;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
-        arrangement.placeBottle(origin, new CoordinatesModel(2, 2), bottle.Id);
+        arrangement.placeBottle(origin, new CoordinatesModel(2, 2), bottleChampagneId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(1, 1));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleChampagneId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_CHAMPAGNE, topRight.PlaceType);
 
         CavePlaceModel topLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(1, 2));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleChampagneId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_CHAMPAGNE, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(2, 1));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleChampagneId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_CHAMPAGNE, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(2, 2));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleChampagneId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_CHAMPAGNE, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -805,34 +805,28 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedBottomPatternPlaceTopRight() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
         CoordinatesModel topCoord = new CoordinatesModel(1, 0);
         PatternModelWithBottles topPattern = arrangement.PatternMap.get(topCoord);
-        arrangement.placeBottle(origin, new CoordinatesModel(11, 3), bottle.Id);
+        arrangement.placeBottle(origin, new CoordinatesModel(11, 3), bottleRedId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(11, 3));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(11, 4));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = topPattern.PlaceMapWithBottles.get(new CoordinatesModel(0, 3));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = topPattern.PlaceMapWithBottles.get(new CoordinatesModel(0, 4));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -840,34 +834,28 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedBottomPatternPlaceTopLeft() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
         CoordinatesModel topCoord = new CoordinatesModel(1, 0);
         PatternModelWithBottles topPattern = arrangement.PatternMap.get(topCoord);
-        arrangement.placeBottle(origin, new CoordinatesModel(11, 4), bottle.Id);
+        arrangement.placeBottle(origin, new CoordinatesModel(11, 4), bottleRedId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(11, 3));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(11, 4));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = topPattern.PlaceMapWithBottles.get(new CoordinatesModel(0, 3));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = topPattern.PlaceMapWithBottles.get(new CoordinatesModel(0, 4));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -875,34 +863,28 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedLeftPatternPlaceTopRight() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
         CoordinatesModel rightCoord = new CoordinatesModel(0, 1);
         PatternModelWithBottles rightPattern = arrangement.PatternMap.get(rightCoord);
-        arrangement.placeBottle(origin, new CoordinatesModel(3, 11), bottle.Id);
+        arrangement.placeBottle(origin, new CoordinatesModel(3, 11), bottleRedId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(3, 11));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = rightPattern.PlaceMapWithBottles.get(new CoordinatesModel(3, 0));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(4, 11));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = rightPattern.PlaceMapWithBottles.get(new CoordinatesModel(4, 0));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -910,34 +892,28 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedLeftPatternPlaceBottomRight() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
         CoordinatesModel rightCoord = new CoordinatesModel(0, 1);
         PatternModelWithBottles rightPattern = arrangement.PatternMap.get(rightCoord);
-        arrangement.placeBottle(origin, new CoordinatesModel(4, 11), bottle.Id);
+        arrangement.placeBottle(origin, new CoordinatesModel(4, 11), bottleRedId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(3, 11));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = rightPattern.PlaceMapWithBottles.get(new CoordinatesModel(3, 0));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(4, 11));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = rightPattern.PlaceMapWithBottles.get(new CoordinatesModel(4, 0));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -945,34 +921,28 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedRightPatternPlaceTopLeft() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
         CoordinatesModel rightCoord = new CoordinatesModel(0, 1);
         PatternModelWithBottles rightPattern = arrangement.PatternMap.get(rightCoord);
-        arrangement.placeBottle(rightCoord, new CoordinatesModel(3, 0), bottle.Id);
+        arrangement.placeBottle(rightCoord, new CoordinatesModel(3, 0), bottleRedId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(3, 11));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = rightPattern.PlaceMapWithBottles.get(new CoordinatesModel(3, 0));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(4, 11));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = rightPattern.PlaceMapWithBottles.get(new CoordinatesModel(4, 0));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -980,34 +950,28 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedRightPatternPlaceBottomLeft() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
         CoordinatesModel rightCoord = new CoordinatesModel(0, 1);
         PatternModelWithBottles rightPattern = arrangement.PatternMap.get(rightCoord);
-        arrangement.placeBottle(rightCoord, new CoordinatesModel(4, 0), bottle.Id);
+        arrangement.placeBottle(rightCoord, new CoordinatesModel(4, 0), bottleRedId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(3, 11));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = rightPattern.PlaceMapWithBottles.get(new CoordinatesModel(3, 0));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(4, 11));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = rightPattern.PlaceMapWithBottles.get(new CoordinatesModel(4, 0));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -1015,34 +979,28 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedTopPatternPlaceBottomRight() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
         CoordinatesModel topCoord = new CoordinatesModel(1, 0);
         PatternModelWithBottles topPattern = arrangement.PatternMap.get(topCoord);
-        arrangement.placeBottle(topCoord, new CoordinatesModel(0, 3), bottle.Id);
+        arrangement.placeBottle(topCoord, new CoordinatesModel(0, 3), bottleRedId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(11, 3));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(11, 4));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = topPattern.PlaceMapWithBottles.get(new CoordinatesModel(0, 3));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = topPattern.PlaceMapWithBottles.get(new CoordinatesModel(0, 4));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);
@@ -1050,34 +1008,28 @@ public class CaveArrangementModelTest {
 
     @Test
     public void placeBottleRedTopPatternPlaceBottomLeft() {
-        BottleModel bottle = new BottleModel();
-        bottle.Id = 42;
-        bottle.WineColor = WineColorEnum.RED;
-
         CaveArrangementModel arrangement = getArrangementStaggered();
-        when(mockBottleStorageManager.getBottle(anyInt())).thenReturn(bottle);
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
 
         CoordinatesModel origin = new CoordinatesModel(0, 0);
         PatternModelWithBottles pattern = arrangement.PatternMap.get(origin);
         CoordinatesModel topCoord = new CoordinatesModel(1, 0);
         PatternModelWithBottles topPattern = arrangement.PatternMap.get(topCoord);
-        arrangement.placeBottle(topCoord, new CoordinatesModel(0, 4), bottle.Id);
+        arrangement.placeBottle(topCoord, new CoordinatesModel(0, 4), bottleRedId);
 
         CavePlaceModel topRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(11, 3));
-        assertEquals(bottle.Id, topRight.BottleId);
+        assertEquals(bottleRedId, topRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED, topRight.PlaceType);
 
         CavePlaceModel topLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(11, 4));
-        assertEquals(bottle.Id, topLeft.BottleId);
+        assertEquals(bottleRedId, topLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_TOP_LEFT_RED, topLeft.PlaceType);
 
         CavePlaceModel bottomRight = topPattern.PlaceMapWithBottles.get(new CoordinatesModel(0, 3));
-        assertEquals(bottle.Id, bottomRight.BottleId);
+        assertEquals(bottleRedId, bottomRight.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED, bottomRight.PlaceType);
 
         CavePlaceModel bottomLeft = topPattern.PlaceMapWithBottles.get(new CoordinatesModel(0, 4));
-        assertEquals(bottle.Id, bottomLeft.BottleId);
+        assertEquals(bottleRedId, bottomLeft.BottleId);
         assertEquals(CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED, bottomLeft.PlaceType);
 
         assertEquals(1, arrangement.TotalUsed);

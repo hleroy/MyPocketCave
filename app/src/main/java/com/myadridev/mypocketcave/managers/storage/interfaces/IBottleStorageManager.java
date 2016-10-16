@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.managers.storage.interfaces;
 
 import com.myadridev.mypocketcave.models.BottleModel;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,7 +25,11 @@ public interface IBottleStorageManager {
 
     int getBottlesCount();
 
+    int getBottlesCount(Collection<BottleModel> bottles);
+
     int getBottlesCount(int wineColorId);
+
+    int getBottlesCount(Collection<BottleModel> bottles, int wineColorId);
 
     String[] getDistinctPersons();
 

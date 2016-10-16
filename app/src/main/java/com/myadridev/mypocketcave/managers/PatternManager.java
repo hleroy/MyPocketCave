@@ -45,11 +45,13 @@ public class PatternManager {
     }
 
     public static void setLastUsedPattern(int patternId) {
+        PatternModel existingPattern = getPattern(patternId);
+        int order = existingPattern.Order;
         List<PatternModel> patterns = getPatterns();
         for (PatternModel pattern : patterns) {
             if (pattern.Id == patternId) {
                 pattern.Order = 1;
-            } else {
+            } else if (pattern.Order < order) {
                 pattern.Order = pattern.Order + 1;
             }
         }

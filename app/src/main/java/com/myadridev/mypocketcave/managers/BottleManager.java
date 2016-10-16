@@ -61,11 +61,7 @@ public class BottleManager {
     }
 
     public static int getBottlesCount(Collection<BottleModel> bottles) {
-        int count = 0;
-        for (BottleModel bottle : bottles) {
-            count += bottle.Stock;
-        }
-        return count;
+        return getBottleStorageManager().getBottlesCount(bottles);
     }
 
     public static int getBottlesCount(WineColorEnum wineColor) {
@@ -73,12 +69,7 @@ public class BottleManager {
     }
 
     public static int getBottlesCount(Collection<BottleModel> bottles, WineColorEnum wineColor) {
-        int count = 0;
-        for (BottleModel bottle : bottles) {
-            if (bottle.WineColor == wineColor)
-                count += bottle.Stock;
-        }
-        return count;
+        return getBottleStorageManager().getBottlesCount(bottles, wineColor.Id);
     }
 
     public static String[] getAllDistinctPersons() {
@@ -90,7 +81,7 @@ public class BottleManager {
     }
 
     public static List<SuggestBottleResultModel> getSuggestBottles(SuggestBottleCriteria searchCriteria) {
-        List<BottleModel> allBottles = getBottleStorageManager().getBottles();
+        List<BottleModel> allBottles = getBottles();
         List<SuggestBottleResultModel> suggestBottles = new ArrayList<>(allBottles.size());
 
         for (BottleModel bottle : allBottles) {
@@ -180,9 +171,7 @@ public class BottleManager {
     }
 
     public static List<BottleModel> getNonPlacedBottles() {
-        List<BottleModel> nonPlacedBottles = getBottleStorageManager().getNonPlacedBottles();
-        Collections.sort(nonPlacedBottles);
-        return nonPlacedBottles;
+        return getBottleStorageManager().getNonPlacedBottles();
     }
 
     public static void placeBottle(int bottleId) {
