@@ -4,6 +4,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
+import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
@@ -11,6 +12,7 @@ import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,7 +28,6 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     private String filename;
     private int keyBottleResourceId = R.string.store_bottle;
 
-    private ISharedPreferencesManager sharedPreferencesManager = null;
 
     private BottlesSharedPreferencesManager() {
         keyIndex = getSharedPreferencesManager().getStringFromResource(R.string.store_indexes);
@@ -44,9 +45,18 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         _isInitialized = true;
     }
 
+    private boolean listenerSharedPreferencesRegistered = false;
+    private ISharedPreferencesManager sharedPreferencesManager = null;
     private ISharedPreferencesManager getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
-            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class);
+            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class,
+                    listenerSharedPreferencesRegistered ? null : new OnDependencyChangeListener() {
+                        @Override
+                        public void onDependencyChange() {
+                            sharedPreferencesManager = null;
+                        }
+                    });
+            listenerSharedPreferencesRegistered = true;
         }
         return sharedPreferencesManager;
     }
@@ -69,7 +79,9 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
     @Override
     public List<BottleModel> getBottles() {
-        return new ArrayList<>(allBottlesMap.values());
+        ArrayList<BottleModel> bottles = new ArrayList<>(allBottlesMap.values());
+        Collections.sort(bottles);
+        return bottles;
     }
 
     @Override
@@ -122,20 +134,29 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
     @Override
     public int getBottlesCount() {
-        return getBottlesCount(WineColorEnum.ANY.Id);
+        return getBottlesCount(allBottlesMap.values(), WineColorEnum.ANY.Id);
+    }
+
+    @Override
+    public int getBottlesCount(Collection<BottleModel> bottles) {
+        return getBottlesCount(bottles, WineColorEnum.ANY.Id);
     }
 
     @Override
     public int getBottlesCount(int wineColorId) {
+        return getBottlesCount(allBottlesMap.values(), wineColorId);
+    }
+
+    @Override
+    public int getBottlesCount(Collection<BottleModel> bottles, int wineColorId) {
         int bottlesCount = 0;
         boolean isAnyBottles = wineColorId == WineColorEnum.ANY.Id;
 
-        for (BottleModel bottle : allBottlesMap.values()) {
+        for (BottleModel bottle : bottles) {
             if (isAnyBottles || bottle.WineColor.Id == wineColorId) {
                 bottlesCount += bottle.Stock;
             }
         }
-
         return bottlesCount;
     }
 
@@ -185,6 +206,7 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
             }
         }
 
+        Collections.sort(nonPlacedBottles);
         return nonPlacedBottles;
     }
 
