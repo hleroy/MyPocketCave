@@ -10,7 +10,6 @@ import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
-import com.myadridev.mypocketcave.models.PatternModel;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -80,6 +79,9 @@ public class BottlesSharedPreferencesManagerTest {
                         bottleMap.put(bottle.Id, bottle);
                         sortedBottles.removeIf(existingBottle -> existingBottle.Id == bottle.Id);
                         sortedBottles.add(bottle);
+                        bottleIds.removeIf(id -> id == bottle.Id);
+                        bottleIds.add(bottle.Id);
+                        Collections.sort(bottleIds);
                         Collections.sort(sortedBottles);
                     } else if (key.equalsIgnoreCase("indexes")) {
                         List<Integer> ids = (List<Integer>) entry.getValue();
@@ -273,7 +275,7 @@ public class BottlesSharedPreferencesManagerTest {
     @Test
     public void deleteBottle() {
         int idToRemove = 1;
-        IStorableModel oldBottle = bottleMap.get(idToRemove);
+        BottleModel oldBottle = (BottleModel) bottleMap.get(idToRemove);
 
         BottlesSharedPreferencesManager.Instance.deleteBottle(idToRemove);
 
@@ -285,7 +287,7 @@ public class BottlesSharedPreferencesManagerTest {
         bottleIds.add(idToRemove);
         Collections.sort(bottleIds);
         bottleMap.put(idToRemove, oldBottle);
-        sortedBottles.add((BottleModel) oldBottle);
+        sortedBottles.add(oldBottle);
         Collections.sort(sortedBottles);
     }
 

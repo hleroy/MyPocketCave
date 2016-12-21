@@ -79,7 +79,7 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
     @Override
     public List<BottleModel> getBottles() {
-        ArrayList<BottleModel> bottles = new ArrayList<>(allBottlesMap.values());
+        List<BottleModel> bottles = new ArrayList<>(allBottlesMap.values());
         Collections.sort(bottles);
         return bottles;
     }
@@ -91,7 +91,7 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
     @Override
     public int insertBottle(BottleModel bottle) {
-        ArrayList<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
+        List<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
         bottle.Id = StorageHelper.getNewId(ids);
         allBottlesMap.put(bottle.Id, bottle);
         ids.add(bottle.Id);
@@ -113,7 +113,7 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     @Override
     public void deleteBottle(int bottleId) {
         allBottlesMap.remove(bottleId);
-        ArrayList<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
+        List<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
         getSharedPreferencesManager().storeStringData(filename, keyIndex, ids);
         getSharedPreferencesManager().removeData(filename, getSharedPreferencesManager().getStringFromResource(keyBottleResourceId, bottleId));
     }

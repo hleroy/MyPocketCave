@@ -54,14 +54,14 @@ public class CaveManager {
     public static int addCave(CaveModel cave) {
         CaveLightModel caveLight = new CaveLightModel(cave);
         cave.Id = getCavesStorageManager().insertCave(caveLight, true);
-        getCaveStorageManager().insertCave(cave);
+        getCaveStorageManager().insertOrUpdateCave(cave);
         return cave.Id;
     }
 
     public static void editCave(CaveModel cave) {
         CaveLightModel caveLight = new CaveLightModel(cave);
         getCavesStorageManager().updateCave(caveLight);
-        getCaveStorageManager().updateCave(cave);
+        getCaveStorageManager().insertOrUpdateCave(cave);
     }
 
     public static void removeCave(CaveModel cave) {

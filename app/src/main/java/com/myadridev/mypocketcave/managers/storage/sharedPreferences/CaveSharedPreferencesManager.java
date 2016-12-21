@@ -64,19 +64,10 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
     }
 
     @Override
-    public void insertCave(CaveModel cave) {
-        insertOrUpdateCave(cave);
-    }
-
-    private void insertOrUpdateCave(CaveModel cave) {
+    public void insertOrUpdateCave(CaveModel cave) {
         allCavesMap.put(cave.Id, cave);
         getSharedPreferencesManager().storeStringData(getSharedPreferencesManager().getStringFromResource(filenameResourceId, cave.Id),
                 getSharedPreferencesManager().getStringFromResource(keyCaveResourceId), cave);
-    }
-
-    @Override
-    public void updateCave(CaveModel cave) {
-        insertOrUpdateCave(cave);
     }
 
     @Override
