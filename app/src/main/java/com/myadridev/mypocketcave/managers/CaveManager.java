@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers;
 
+import android.util.SparseArray;
+
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICaveStorageManager;
@@ -57,7 +59,16 @@ public class CaveManager {
 
     public static void removeCave(CaveModel cave) {
         getCavesStorageManager().deleteCave(cave.Id);
+        unplaceBottles(cave);
         getCaveStorageManager().deleteCave(cave);
+    }
+
+    private static void unplaceBottles(CaveModel cave) {
+        SparseArray<Float> numberPlacedBottlesByIdMap = cave.CaveArrangement.getNumberPlacedBottlesByIdMap();
+        for (int i = 0; i < numberPlacedBottlesByIdMap.size(); i++) {
+            int bottleId = numberPlacedBottlesByIdMap.keyAt(i);
+            BottleManager.updateNumberPlaced(bottleId, -(int) Math.ceil(numberPlacedBottlesByIdMap.get(bottleId)));
+        }
     }
 
     public static int getExistingCaveId(int id, String name, CaveTypeEnum caveType) {
