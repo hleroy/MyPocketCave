@@ -1,13 +1,11 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -26,6 +24,7 @@ import com.myadridev.mypocketcave.models.BottleModel;
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
     private final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
+    private final View.OnTouchListener hideKeyboardOnClick;
     protected BottleModel bottle;
     protected EditText nameView;
     protected EditText stockView;
@@ -34,18 +33,14 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected EditText commentsView;
     protected TextView foodView;
     protected Spinner millesimeView;
+    protected CoordinatorLayout coordinatorLayout;
     private boolean isFoodListOpen;
     private EditText domainView;
-    protected CoordinatorLayout coordinatorLayout;
-    private final View.OnTouchListener hideKeyboardOnClick;
 
     protected AbstractBottleEditActivity() {
-        hideKeyboardOnClick = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard();
-                return false;
-            }
+        hideKeyboardOnClick = (v, event) -> {
+            hideKeyboard();
+            return false;
         };
     }
 
@@ -90,36 +85,26 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected abstract void setCoordinatorLayout();
 
     private View.OnClickListener onFoodViewClick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isFoodListOpen) {
-                    isFoodListOpen = true;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AbstractBottleEditActivity.this);
-                    builder.setMultiChoiceItems(FoodToEatWithEnum.getAllFoodLabels(AbstractBottleEditActivity.this), foodToEatWithList, new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                            foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.this, foodToEatWithList));
-                        }
-                    });
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            isFoodListOpen = false;
-                            foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.this, foodToEatWithList));
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+        return v -> {
+            if (!isFoodListOpen) {
+                isFoodListOpen = true;
+                AlertDialog.Builder builder = new AlertDialog.Builder(AbstractBottleEditActivity.this);
+                builder.setMultiChoiceItems(FoodToEatWithEnum.getAllFoodLabels(AbstractBottleEditActivity.this), foodToEatWithList,
+                        (dialog, which, isChecked) -> foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.this, foodToEatWithList)));
+                builder.setOnDismissListener(dialog -> {
+                    isFoodListOpen = false;
+                    foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.this, foodToEatWithList));
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
-                    DisplayMetrics displaymetrics = new DisplayMetrics();
-                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-                    int width = displaymetrics.widthPixels;
-                    int height = displaymetrics.heightPixels;
+                int width = displaymetrics.widthPixels;
+                int height = displaymetrics.heightPixels;
 
-                    dialog.getWindow().setLayout(width * 95 / 100, height * 2 / 3);
-                }
+                dialog.getWindow().setLayout(width * 95 / 100, height * 2 / 3);
             }
         };
     }
@@ -170,10 +155,17 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         }
     }
 
-    protected void initBottle() {}
-    protected void saveBottle() {}
-    protected void cancelBottle() {}
-    protected void removeBottle() {}
+    protected void initBottle() {
+    }
+
+    protected void saveBottle() {
+    }
+
+    protected void cancelBottle() {
+    }
+
+    protected void removeBottle() {
+    }
 
     protected boolean setValues() {
         boolean isValid = checkValues();
@@ -209,19 +201,11 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
             noNameDialogBuilder.setCancelable(true);
             noNameDialogBuilder.setMessage(R.string.error_bottle_no_name);
-            noNameDialogBuilder.setNegativeButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            noNameDialogBuilder.setPositiveButton(R.string.global_exit, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    finish();
-                    cancelBottle();
-                }
+            noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
+            noNameDialogBuilder.setPositiveButton(R.string.global_exit, (dialog, which) -> {
+                dialog.dismiss();
+                finish();
+                cancelBottle();
             });
             noNameDialogBuilder.show();
             isErrors = true;
@@ -235,27 +219,16 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
                 AlertDialog.Builder existingBottleDialogBuilder = new AlertDialog.Builder(this);
                 existingBottleDialogBuilder.setCancelable(true);
                 existingBottleDialogBuilder.setMessage(R.string.error_bottle_already_exists);
-                existingBottleDialogBuilder.setNeutralButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
+                existingBottleDialogBuilder.setNeutralButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
+                existingBottleDialogBuilder.setNegativeButton(R.string.global_exit, (dialog, which) -> {
+                    dialog.dismiss();
+                    finish();
+                    cancelBottle();
                 });
-                existingBottleDialogBuilder.setNegativeButton(R.string.global_exit, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                        cancelBottle();
-                    }
-                });
-                existingBottleDialogBuilder.setPositiveButton(R.string.global_merge, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        removeBottle();
-                        redirectToExistingBottle(existingBottleId);
-                    }
+                existingBottleDialogBuilder.setPositiveButton(R.string.global_merge, (dialog, which) -> {
+                    dialog.dismiss();
+                    removeBottle();
+                    redirectToExistingBottle(existingBottleId);
                 });
                 existingBottleDialogBuilder.show();
                 isErrors = true;

@@ -7,9 +7,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by adrie on 08/10/2016.
- */
 public class StorageHelperTest {
 
     @Test

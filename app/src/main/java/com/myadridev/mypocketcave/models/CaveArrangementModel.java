@@ -15,14 +15,12 @@ import java.util.Map;
 @JsonSerialize(as = CaveArrangementModel.class)
 public class CaveArrangementModel {
 
-    public int Id;
-    public int TotalCapacity;
-    public int TotalUsed;
-
     @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
     @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
     public final Map<CoordinatesModel, PatternModelWithBottles> PatternMap;
-
+    public int Id;
+    public int TotalCapacity;
+    public int TotalUsed;
     public int NumberBottlesBulk;
     public int NumberBoxes;
     public int NumberBottlesPerBox;

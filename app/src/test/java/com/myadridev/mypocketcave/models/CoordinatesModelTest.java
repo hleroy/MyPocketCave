@@ -4,9 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by adrie on 09/10/2016.
- */
 public class CoordinatesModelTest {
 
     @Test

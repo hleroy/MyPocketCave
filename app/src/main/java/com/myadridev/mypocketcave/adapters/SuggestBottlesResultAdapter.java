@@ -23,12 +23,20 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
     private final Context context;
     private final List<SuggestBottleResultModel> allBottles;
     private final LayoutInflater layoutInflater;
-    private boolean isAllBottlesVisible;
-
     private final OnBottleClickListener listener;
+    private final List<OnSeeMoreClickListener> seeMoreClickListeners;
+    private boolean isAllBottlesVisible;
     private int numberBottlesAllCriteria;
 
-    private final List<OnSeeMoreClickListener> seeMoreClickListeners;
+    public SuggestBottlesResultAdapter(Context _context, List<SuggestBottleResultModel> _allBottles) {
+        context = _context;
+        allBottles = _allBottles;
+        isAllBottlesVisible = false;
+        computeVisibleBottlesCount();
+        layoutInflater = LayoutInflater.from(context);
+        listener = bottleId -> NavigationManager.navigateToBottleDetail(context, bottleId);
+        seeMoreClickListeners = new ArrayList<>();
+    }
 
     public int getNumberDisplayedBottles() {
         return isAllBottlesVisible ? allBottles.size() : numberBottlesAllCriteria;
@@ -42,21 +50,6 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
         return !isAllBottlesVisible || allBottles.size() > 0;
     }
 
-    public SuggestBottlesResultAdapter(Context _context, List<SuggestBottleResultModel> _allBottles) {
-        context = _context;
-        allBottles = _allBottles;
-        isAllBottlesVisible = false;
-        computeVisibleBottlesCount();
-        layoutInflater = LayoutInflater.from(context);
-        listener = new OnBottleClickListener() {
-            @Override
-            public void onItemClick(int bottleId) {
-                NavigationManager.navigateToBottleDetail(context, bottleId);
-            }
-        };
-        seeMoreClickListeners = new ArrayList<>();
-    }
-
     private void computeVisibleBottlesCount() {
         int count = 0;
         for (SuggestBottleResultModel bottle : allBottles) {
@@ -66,7 +59,7 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
         numberBottlesAllCriteria = count;
     }
 
-    public void seeAllBottles() {
+    private void seeAllBottles() {
         isAllBottlesVisible = true;
         notifyDataSetChanged();
     }
@@ -120,12 +113,9 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (!isAllBottlesVisible && ((numberBottlesAllCriteria == 0 && position == 0) || (position == numberBottlesAllCriteria + 1))) {
             SuggestBottleResultSeeMoreButtonViewHolder holder = (SuggestBottleResultSeeMoreButtonViewHolder) viewHolder;
-            holder.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    seeAllBottles();
-                    fireOnSeeMoreClick();
-                }
+            holder.button.setOnClickListener(view -> {
+                seeAllBottles();
+                fireOnSeeMoreClick();
             });
 
         } else if (position == 0) {
@@ -152,10 +142,6 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public interface OnSeeMoreClickListener {
-        void onClick();
-    }
-
     public void addOnSeeMoreClickListener(OnSeeMoreClickListener listener) {
         seeMoreClickListeners.add(listener);
     }
@@ -164,5 +150,9 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
         for (OnSeeMoreClickListener listener : seeMoreClickListeners) {
             listener.onClick();
         }
+    }
+
+    public interface OnSeeMoreClickListener {
+        void onClick();
     }
 }

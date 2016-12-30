@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternSelectionAdapter;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
-import com.myadridev.mypocketcave.listeners.OnSelectionPatternClickListener;
 import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.PatternModel;
 
@@ -18,9 +17,6 @@ import java.util.List;
 public class PatternSelectionActivity extends AppCompatActivity {
 
     private RecyclerView patternSelectionRecyclerView;
-
-    protected PatternSelectionActivity() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +39,9 @@ public class PatternSelectionActivity extends AppCompatActivity {
         patternSelectionRecyclerView.setLayoutManager(new GridLayoutManager(this, PatternManager.numberOfColumnsForDisplay));
         PatternSelectionAdapter patternSelectionAdapter = new PatternSelectionAdapter(this, recentPatternList);
         patternSelectionRecyclerView.setAdapter(patternSelectionAdapter);
-        patternSelectionAdapter.addOnSelectionPatternClickListener(new OnSelectionPatternClickListener() {
-            @Override
-            public void onItemClick(int patternId) {
-                PatternManager.setLastUsedPattern(patternId);
-                setResultAndFinish(RESULT_OK, patternId);
-            }
+        patternSelectionAdapter.addOnSelectionPatternClickListener(patternId -> {
+            PatternManager.setLastUsedPattern(patternId);
+            setResultAndFinish(RESULT_OK, patternId);
         });
     }
 

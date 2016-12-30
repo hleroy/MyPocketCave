@@ -4,10 +4,6 @@ import com.myadridev.mypocketcave.models.CaveLightModel;
 
 import java.util.List;
 
-/**
- * Created by adrien on 01/10/2016.
- */
-
 public interface ICavesStorageManager {
 
     List<CaveLightModel> getCaves();

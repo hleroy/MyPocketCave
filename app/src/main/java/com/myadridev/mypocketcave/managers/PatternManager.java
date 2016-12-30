@@ -8,23 +8,18 @@ import java.util.List;
 
 public class PatternManager {
 
+    public static final int numberOfColumnsForDisplay = 3;
     private static boolean listenerPatternsRegistered = false;
     private static IPatternsStorageManager patternsStorageManager = null;
+
     private static IPatternsStorageManager getPatternsStorageManager() {
         if (patternsStorageManager == null) {
             patternsStorageManager = DependencyManager.getSingleton(IPatternsStorageManager.class,
-                    listenerPatternsRegistered ? null : new OnDependencyChangeListener() {
-                @Override
-                public void onDependencyChange() {
-                    patternsStorageManager = null;
-                }
-            });
+                    listenerPatternsRegistered ? null : (OnDependencyChangeListener) () -> patternsStorageManager = null);
             listenerPatternsRegistered = true;
         }
         return patternsStorageManager;
     }
-
-    public static final int numberOfColumnsForDisplay = 3;
 
     public static List<PatternModel> getPatterns() {
         return getPatternsStorageManager().getPatterns();

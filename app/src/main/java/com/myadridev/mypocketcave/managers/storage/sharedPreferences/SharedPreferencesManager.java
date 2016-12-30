@@ -51,7 +51,7 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         String storeSet = context.getString(storeSetResourceId);
 
         SharedPreferences storedData = context.getSharedPreferences(storeFile, openMode);
-        Set<String> allDataJsonSet = storedData.getStringSet(storeSet, new HashSet<String>());
+        Set<String> allDataJsonSet = storedData.getStringSet(storeSet, new HashSet<>());
         int maxDataId = 0;
         for (String dataJson : allDataJsonSet) {
             IStorableModel data;

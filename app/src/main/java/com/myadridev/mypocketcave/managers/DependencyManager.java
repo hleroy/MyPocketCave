@@ -66,7 +66,7 @@ public class DependencyManager {
 
     private static <I> void registerDependencyChangeListener(Class<I> dependencyInterface, OnDependencyChangeListener listener) {
         if (!onDependencyChangeListenerMap.containsKey(dependencyInterface)) {
-            onDependencyChangeListenerMap.put(dependencyInterface, new ArrayList<OnDependencyChangeListener>());
+            onDependencyChangeListenerMap.put(dependencyInterface, new ArrayList<>());
         }
         onDependencyChangeListenerMap.get(dependencyInterface).add(listener);
     }

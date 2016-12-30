@@ -12,14 +12,13 @@ import java.util.List;
 public class SuggestBottleCriteria {
 
     public static int NumberOfCriteria = 5;
-
+    public final List<FoodToEatWithEnum> FoodToEatWithList;
     public WineColorEnum WineColor;
     public boolean IsWineColorRequired;
     public String Domain;
     public boolean IsDomainRequired;
     public MillesimeEnum Millesime;
     public boolean IsMillesimeRequired;
-    public final List<FoodToEatWithEnum> FoodToEatWithList;
     public boolean IsFoodRequired;
     public String PersonToShareWith;
     public boolean IsPersonRequired;

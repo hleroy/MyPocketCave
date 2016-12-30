@@ -5,10 +5,6 @@ import com.myadridev.mypocketcave.models.BottleModel;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by adrien on 01/10/2016.
- */
-
 public interface IBottleStorageManager {
 
     List<BottleModel> getBottles();

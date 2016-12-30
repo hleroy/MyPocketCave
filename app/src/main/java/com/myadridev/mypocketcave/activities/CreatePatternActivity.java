@@ -1,7 +1,6 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
@@ -11,7 +10,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -35,7 +33,7 @@ public class CreatePatternActivity extends AppCompatActivity {
     public static final int overviewScreenHeightPercent = 50;
     public static final int overviewScreenWidthMarginLeft = 8;
     public static final int overviewScreenWidthMarginRight = 8;
-
+    private final View.OnTouchListener hideKeyboardOnClick;
     private Spinner typeSpinner;
     private EditText numberBottlesByColumnEditText;
     private EditText numberBottlesByRowEditText;
@@ -45,21 +43,43 @@ public class CreatePatternActivity extends AppCompatActivity {
     private CheckBox horizontallyExpendableCheckbox;
     private TextView invertPatternTextView;
     private CheckBox invertPatternCheckbox;
-    private final View.OnTouchListener hideKeyboardOnClick;
     private PercentRelativeLayout containerLayout;
 
     private RecyclerView patternOverviewRecyclerView;
     private PatternModel pattern;
     private int screenHeight;
     private int screenWidth;
+    private CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (compoundButton, b) -> {
+        hideKeyboard();
+        updateValuesAndAdapter();
+    };
+    private AdapterView.OnItemSelectedListener patternTypeChangedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            updateValuesAndAdapter();
+        }
 
-    protected CreatePatternActivity() {
-        hideKeyboardOnClick = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard();
-                return false;
-            }
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+        }
+    };
+    private TextWatcher dispositionChangedListener = new TextWatcher() {
+
+        public void afterTextChanged(Editable s) {
+            updateValuesAndAdapter();
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+    };
+
+    public CreatePatternActivity() {
+        hideKeyboardOnClick = (v, event) -> {
+            hideKeyboard();
+            return false;
         };
     }
 
@@ -107,44 +127,12 @@ public class CreatePatternActivity extends AppCompatActivity {
         patternOverviewRecyclerView.setOnTouchListener(hideKeyboardOnClick);
     }
 
-    private CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            hideKeyboard();
-            updateValuesAndAdapter();
-        }
-    };
-
     private void updateValuesAndAdapter() {
         setVisibilityIndependantValues();
         updateFieldsVisibility();
         setVisibilityDependantValues();
         updateAdapter();
     }
-
-    private AdapterView.OnItemSelectedListener patternTypeChangedListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            updateValuesAndAdapter();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-        }
-    };
-
-    private TextWatcher dispositionChangedListener = new TextWatcher() {
-
-        public void afterTextChanged(Editable s) {
-            updateValuesAndAdapter();
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-    };
 
     private void setLayoutValues() {
         PatternTypeSpinnerAdapter patternTypeAdapter = new PatternTypeSpinnerAdapter(this);
@@ -222,18 +210,10 @@ public class CreatePatternActivity extends AppCompatActivity {
             AlertDialog.Builder IncorrectRowsColsDialogBuilder = new AlertDialog.Builder(this);
             IncorrectRowsColsDialogBuilder.setCancelable(true);
             IncorrectRowsColsDialogBuilder.setMessage(R.string.error_pattern_incorrect_rows_cols);
-            IncorrectRowsColsDialogBuilder.setNegativeButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            IncorrectRowsColsDialogBuilder.setPositiveButton(R.string.global_exit, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    setResultAndFinish(RESULT_CANCELED, -1);
-                }
+            IncorrectRowsColsDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
+            IncorrectRowsColsDialogBuilder.setPositiveButton(R.string.global_exit, (dialog, which) -> {
+                dialog.dismiss();
+                setResultAndFinish(RESULT_CANCELED, -1);
             });
             IncorrectRowsColsDialogBuilder.show();
             isErrors = true;

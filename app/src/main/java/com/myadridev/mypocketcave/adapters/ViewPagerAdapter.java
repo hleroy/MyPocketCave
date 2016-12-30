@@ -15,12 +15,13 @@ import java.util.Map;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
+    public final Map<Integer, IVisibleFragment> allFragments;
+    private final Map<Integer, Fragment> fragments;
     private Context context;
-
     public ViewPagerAdapter(FragmentManager fm, Context _context, int fragmentToDisplay) {
         super(fm);
         context = _context;
-        fragments = new HashMap(2);
+        fragments = new HashMap<>(2);
         CavesFragment cavesFragment = new CavesFragment();
         fragments.put(0, cavesFragment);
         cavesFragment.setIsDisplayedAtFirstLaunch(fragmentToDisplay == 0);
@@ -31,12 +32,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         allFragments = new HashMap<>();
         for (Map.Entry<Integer, Fragment> fragmentEntry : fragments.entrySet()) {
-            allFragments.put(fragmentEntry.getKey(), (IVisibleFragment)fragmentEntry.getValue());
+            allFragments.put(fragmentEntry.getKey(), (IVisibleFragment) fragmentEntry.getValue());
         }
     }
-
-    private final Map<Integer, Fragment> fragments;
-    public final Map<Integer, IVisibleFragment> allFragments;
 
     @Override
     public Fragment getItem(int position) {

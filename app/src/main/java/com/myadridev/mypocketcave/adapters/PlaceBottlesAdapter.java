@@ -27,13 +27,10 @@ public class PlaceBottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         context = _context;
         allBottles = _allBottles;
         layoutInflater = LayoutInflater.from(context);
-        listener = new OnBottleClickListener() {
-            @Override
-            public void onItemClick(int bottleId) {
-                if (onBottleClickListeners != null) {
-                    for (OnBottleClickListener onBottleClickListener : onBottleClickListeners) {
-                        onBottleClickListener.onItemClick(bottleId);
-                    }
+        listener = bottleId -> {
+            if (onBottleClickListeners != null) {
+                for (OnBottleClickListener onBottleClickListener : onBottleClickListeners) {
+                    onBottleClickListener.onItemClick(bottleId);
                 }
             }
         };
@@ -72,17 +69,15 @@ public class PlaceBottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-            BottleViewHolder holder = (BottleViewHolder) viewHolder;
-            BottleModel bottle = allBottles.get(position);
-            if (bottle != null) {
-                holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
-                holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
-                holder.setStockLabelViewText(context.getString(R.string.bottles_to_place, bottle.Stock - bottle.NumberPlaced));
-                int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
-                holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
-                holder.setOnItemClickListener(listener, bottle.Id);
-            }
+        BottleViewHolder holder = (BottleViewHolder) viewHolder;
+        BottleModel bottle = allBottles.get(position);
+        if (bottle != null) {
+            holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
+            holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
+            holder.setStockLabelViewText(context.getString(R.string.bottles_to_place, bottle.Stock - bottle.NumberPlaced));
+            int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
+            holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
+            holder.setOnItemClickListener(listener, bottle.Id);
+        }
     }
 }
-
-

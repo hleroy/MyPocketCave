@@ -4,10 +4,6 @@ import com.myadridev.mypocketcave.models.PatternModel;
 
 import java.util.List;
 
-/**
- * Created by adrien on 01/10/2016.
- */
-
 public interface IPatternsStorageManager {
 
     List<PatternModel> getPatterns();

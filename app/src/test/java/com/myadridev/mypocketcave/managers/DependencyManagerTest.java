@@ -11,9 +11,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-/**
- * Created by adrie on 08/10/2016.
- */
 public class DependencyManagerTest {
 
     private interface MyInterface {
@@ -149,12 +146,7 @@ public class DependencyManagerTest {
 
             final MyInterface[] singlArray = new MyInterface[1];
 
-            singlArray[0] = DependencyManager.getSingleton(MyInterface.class, new OnDependencyChangeListener() {
-                @Override
-                public void onDependencyChange() {
-                    singlArray[0] = null;
-                }
-            });
+            singlArray[0] = DependencyManager.getSingleton(MyInterface.class, () -> singlArray[0] = null);
             assertEquals(nameImplA, singlArray[0].getName());
             DependencyManager.registerSingleton(MyInterface.class, new MyImplB(), true);
             assertNull(singlArray[0]);
@@ -171,25 +163,10 @@ public class DependencyManagerTest {
             final boolean[] listenersFired = new boolean[2];
             DependencyManager.init();
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());
-            DependencyManager.registerSingleton(MyInterface2.class, new MyInterface2() {
-                @Override
-                public String getName() {
-                    return null;
-                }
-            });
+            DependencyManager.registerSingleton(MyInterface2.class, () -> null);
 
-            DependencyManager.getSingleton(MyInterface.class, new OnDependencyChangeListener() {
-                @Override
-                public void onDependencyChange() {
-                    listenersFired[0] = true;
-                }
-            });
-            DependencyManager.getSingleton(MyInterface2.class, new OnDependencyChangeListener() {
-                @Override
-                public void onDependencyChange() {
-                    listenersFired[1] = true;
-                }
-            });
+            DependencyManager.getSingleton(MyInterface.class, () -> listenersFired[0] = true);
+            DependencyManager.getSingleton(MyInterface2.class, () -> listenersFired[1] = true);
 
             assertFalse(listenersFired[0]);
             assertFalse(listenersFired[1]);

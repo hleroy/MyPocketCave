@@ -1,7 +1,6 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -20,7 +19,6 @@ import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
-import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
@@ -63,53 +61,29 @@ public class CaveDetailActivity extends AppCompatActivity {
 
     private void setupFloatingActionButtons() {
         fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_cave);
-        fabMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFloatingActionButtonsMenu();
-            }
-        });
+        fabMenu.setOnClickListener(view -> openFloatingActionButtonsMenu());
 
         fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_cave);
-        fabCloseMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeFloatingActionButtonsMenu();
-            }
-        });
+        fabCloseMenu.setOnClickListener(view -> closeFloatingActionButtonsMenu());
 
         fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_cave);
-        fabEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavigationManager.navigateToCaveEdit(CaveDetailActivity.this, cave.Id);
-                finish();
-            }
+        fabEdit.setOnClickListener(view -> {
+            NavigationManager.navigateToCaveEdit(CaveDetailActivity.this, cave.Id);
+            finish();
         });
 
         fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_cave);
-        fabDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder deleteCaveDialogBuilder = new AlertDialog.Builder(CaveDetailActivity.this);
-                deleteCaveDialogBuilder.setCancelable(true);
-                deleteCaveDialogBuilder.setMessage(R.string.cave_delete_confirmation);
-                deleteCaveDialogBuilder.setNegativeButton(R.string.global_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                deleteCaveDialogBuilder.setPositiveButton(R.string.global_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CaveManager.removeCave(cave);
-                        dialog.dismiss();
-                        finish();
-                    }
-                });
-                deleteCaveDialogBuilder.show();
-            }
+        fabDelete.setOnClickListener(view -> {
+            AlertDialog.Builder deleteCaveDialogBuilder = new AlertDialog.Builder(CaveDetailActivity.this);
+            deleteCaveDialogBuilder.setCancelable(true);
+            deleteCaveDialogBuilder.setMessage(R.string.cave_delete_confirmation);
+            deleteCaveDialogBuilder.setNegativeButton(R.string.global_no, (dialog, which) -> dialog.dismiss());
+            deleteCaveDialogBuilder.setPositiveButton(R.string.global_yes, (dialog, which) -> {
+                CaveManager.removeCave(cave);
+                dialog.dismiss();
+                finish();
+            });
+            deleteCaveDialogBuilder.show();
         });
     }
 
@@ -119,12 +93,7 @@ public class CaveDetailActivity extends AppCompatActivity {
         FloatingActionButtonHelper.hideFloatingActionButton(this, fabDelete, 2);
         FloatingActionButtonHelper.showFloatingActionButton(this, fabMenu, 0);
 
-        fabCloseMenu.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0);
-            }
-        }, 150);
+        fabCloseMenu.postDelayed(() -> FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0), 150);
     }
 
     private void openFloatingActionButtonsMenu() {
@@ -201,12 +170,9 @@ public class CaveDetailActivity extends AppCompatActivity {
                     int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight);
 
                     CaveArrangementAdapter caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth);
-                    caveArrangementAdapter.addOnValueChangedListener(new OnValueChangedListener() {
-                        @Override
-                        public void onValueChanged() {
-                            CaveManager.editCave(cave);
-                            capacityUsedView.setText(getString(R.string.cave_used_capacity, cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
-                        }
+                    caveArrangementAdapter.addOnValueChangedListener(() -> {
+                        CaveManager.editCave(cave);
+                        capacityUsedView.setText(getString(R.string.cave_used_capacity, cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
                     });
                     arrangementRecyclerView.setAdapter(caveArrangementAdapter);
                     arrangementRecyclerView.setVisibility(View.VISIBLE);

@@ -18,15 +18,11 @@ public class BottleManager {
 
     private static boolean listenerBottleRegistered = false;
     private static IBottleStorageManager bottleStorageManager = null;
+
     private static IBottleStorageManager getBottleStorageManager() {
         if (bottleStorageManager == null) {
             bottleStorageManager = DependencyManager.getSingleton(IBottleStorageManager.class,
-                    listenerBottleRegistered ? null : new OnDependencyChangeListener() {
-                @Override
-                public void onDependencyChange() {
-                    bottleStorageManager = null;
-                }
-            });
+                    listenerBottleRegistered ? null : (OnDependencyChangeListener) () -> bottleStorageManager = null);
             listenerBottleRegistered = true;
         }
         return bottleStorageManager;

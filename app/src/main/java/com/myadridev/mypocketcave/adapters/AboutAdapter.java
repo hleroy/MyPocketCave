@@ -45,35 +45,26 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
 
             switch (item.AboutFieldsEnum) {
                 case CONTACT:
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Intent.ACTION_SENDTO);
-                            intent.setData(Uri.parse(context.getString(R.string.about_mail_uri)));
-                            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{context.getString(R.string.about_mail)});
-                            intent.putExtra(Intent.EXTRA_SUBJECT, contactSubject);
-                            context.startActivity(Intent.createChooser(intent, context.getString(R.string.about_mail_client_choice_label)));
-                        }
+                    view.setOnClickListener(v -> {
+                        Intent intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse(context.getString(R.string.about_mail_uri)));
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{context.getString(R.string.about_mail)});
+                        intent.putExtra(Intent.EXTRA_SUBJECT, contactSubject);
+                        context.startActivity(Intent.createChooser(intent, context.getString(R.string.about_mail_client_choice_label)));
                     });
                     break;
                 case SOURCES:
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.about_sources_url)));
-                            context.startActivity(Intent.createChooser(browserIntent, context.getString(R.string.about_browser_choice_label)));
-                        }
+                    view.setOnClickListener(v -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.about_sources_url)));
+                        context.startActivity(Intent.createChooser(browserIntent, context.getString(R.string.about_browser_choice_label)));
                     });
                     break;
                 case LICENSE:
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AlertDialog.Builder licenseDialogBuilder = new AlertDialog.Builder(context);
-                            licenseDialogBuilder.setTitle(context.getString(R.string.about_license));
-                            licenseDialogBuilder.setMessage(context.getString(R.string.about_license_detail));
-                            licenseDialogBuilder.show();
-                        }
+                    view.setOnClickListener(v -> {
+                        AlertDialog.Builder licenseDialogBuilder = new AlertDialog.Builder(context);
+                        licenseDialogBuilder.setTitle(context.getString(R.string.about_license));
+                        licenseDialogBuilder.setMessage(context.getString(R.string.about_license_detail));
+                        licenseDialogBuilder.show();
                     });
                     break;
                 default:

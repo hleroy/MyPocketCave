@@ -26,12 +26,7 @@ public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         context = _context;
         allCaves = _allCaves;
         layoutInflater = LayoutInflater.from(context);
-        listener = new OnCaveClickListener() {
-            @Override
-            public void onItemClick(int caveId) {
-                NavigationManager.navigateToCaveDetail(context, caveId);
-            }
-        };
+        listener = caveId -> NavigationManager.navigateToCaveDetail(context, caveId);
     }
 
     @Override
@@ -60,16 +55,14 @@ public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-            CaveViewHolder holder = (CaveViewHolder) viewHolder;
+        CaveViewHolder holder = (CaveViewHolder) viewHolder;
         CaveLightModel cave = allCaves.get(position);
-            if (cave != null) {
-                holder.setLabelViewText(cave.Name);
-                int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
-                holder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);
-                holder.setUsedLabelViewText(context.getString(R.string.cave_used_capacity, cave.TotalUsed, cave.TotalCapacity));
-                holder.setOnItemClickListener(listener, cave.Id);
-            }
+        if (cave != null) {
+            holder.setLabelViewText(cave.Name);
+            int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
+            holder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);
+            holder.setUsedLabelViewText(context.getString(R.string.cave_used_capacity, cave.TotalUsed, cave.TotalCapacity));
+            holder.setOnItemClickListener(listener, cave.Id);
+        }
     }
 }
-
-

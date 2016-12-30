@@ -14,6 +14,9 @@ import java.util.Map;
 @JsonSerialize(as = PatternModel.class)
 public class PatternModel implements IStorableModel, Comparable<PatternModel> {
 
+    @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
+    @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
+    public final Map<CoordinatesModel, CavePlaceTypeEnum> PlaceMap;
     public int Id;
     public PatternTypeEnum Type;
     public int NumberBottlesByColumn;
@@ -22,10 +25,6 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
     public boolean IsVerticallyExpendable;
     public boolean IsInverted;
     public int Order;
-
-    @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
-    public final Map<CoordinatesModel, CavePlaceTypeEnum> PlaceMap;
 
     public PatternModel() {
         PlaceMap = new HashMap<>();

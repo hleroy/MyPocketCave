@@ -109,9 +109,11 @@
     <string name="title_edit_cave">Edit the cave</string>
     <string name="error_cave_no_name">A cave name is needed</string>
     <string name="cave_delete_confirmation" >Do we remove it? The bottles placed in it will not be placed anymore</string>
+    <string name="global_stay_and_fix">Stay here and fix it</string>
     <string name="global_stay">Stay here</string>
     <string name="global_cancel">Cancel</string>
     <string name="global_exit">Exit</string>
+    <string name="global_exit_confirmation">Do we exit and go opening the bottles ?</string>
     <string name="pattern_type_linear">Linear</string>
     <string name="pattern_type_staggered_rows">In staggered rows</string>
     <string name="pattern_type_free">Free</string>

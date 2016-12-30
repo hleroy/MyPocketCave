@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.activities;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabAddCave;
 
     private boolean isPaused;
+    private int currentVisibleFragment;
 
     public MainActivity() {
         isPaused = false;
@@ -77,45 +79,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupFloatingActionButtons() {
         fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_main);
-        fabMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFloatingActionButtonsMenu();
-            }
-        });
+        fabMenu.setOnClickListener(view -> openFloatingActionButtonsMenu());
 
         fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_main);
-        fabCloseMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeFloatingActionButtonsMenu();
-            }
-        });
+        fabCloseMenu.setOnClickListener(view -> closeFloatingActionButtonsMenu());
 
         fabSuggestBottle = (FloatingActionButton) findViewById(R.id.fab_suggest_bottle);
-        fabSuggestBottle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavigationManager.navigateToSuggestBottleSearch(MainActivity.this);
-            }
-        });
+        fabSuggestBottle.setOnClickListener(view -> NavigationManager.navigateToSuggestBottleSearch(MainActivity.this));
 
         fabAddBottle = (FloatingActionButton) findViewById(R.id.fab_add_bottle);
-        fabAddBottle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // create new bottle
-                NavigationManager.navigateToBottleCreate(MainActivity.this);
-            }
+        fabAddBottle.setOnClickListener(view -> {
+            // create new bottle
+            NavigationManager.navigateToBottleCreate(MainActivity.this);
         });
 
         fabAddCave = (FloatingActionButton) findViewById(R.id.fab_add_cave);
-        fabAddCave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // create new cave
-                NavigationManager.navigateToCaveCreate(MainActivity.this);
-            }
+        fabAddCave.setOnClickListener(view -> {
+            // create new cave
+            NavigationManager.navigateToCaveCreate(MainActivity.this);
         });
     }
 
@@ -126,12 +107,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButtonHelper.hideFloatingActionButton(this, fabAddBottle, 3);
         FloatingActionButtonHelper.showFloatingActionButton(this, fabMenu, 0);
 
-        fabCloseMenu.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0);
-            }
-        }, 150);
+        fabCloseMenu.postDelayed(() -> FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0), 150);
     }
 
     private void openFloatingActionButtonsMenu() {
@@ -155,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
         fabAddCave.setVisibility(View.INVISIBLE);
         fabAddCave.setClickable(false);
     }
-
-    private int currentVisibleFragment;
 
     private void changeVisibleFab(int selectedTab) {
         if (fabCloseMenu.getVisibility() == View.VISIBLE) {
@@ -204,5 +178,18 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(this);
+        deleteBottleDialogBuilder.setCancelable(true);
+        deleteBottleDialogBuilder.setMessage(R.string.global_exit_confirmation);
+        deleteBottleDialogBuilder.setNegativeButton(R.string.global_stay, (dialog, which) -> dialog.dismiss());
+        deleteBottleDialogBuilder.setPositiveButton(R.string.global_exit, (dialog, which) -> {
+            dialog.dismiss();
+            finish();
+        });
+        deleteBottleDialogBuilder.show();
     }
 }

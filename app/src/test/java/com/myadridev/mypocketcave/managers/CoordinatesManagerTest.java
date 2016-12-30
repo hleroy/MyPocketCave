@@ -13,9 +13,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by adrie on 09/10/2016.
- */
 public class CoordinatesManagerTest {
 
     @Test

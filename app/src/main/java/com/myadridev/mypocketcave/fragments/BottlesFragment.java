@@ -52,27 +52,21 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
         bottlesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         bottlesCountLabelView = (TextView) rootView.findViewById(R.id.bottles_count);
-        bottlesCountLabelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
-                bottlesCountLabelView.setVisibility(View.GONE);
+        bottlesCountLabelView.setOnClickListener(v -> {
+            bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
+            bottlesCountLabelView.setVisibility(View.GONE);
 
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-                params.addRule(RelativeLayout.ABOVE, R.id.bottles_count_detail);
-            }
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
+            params.addRule(RelativeLayout.ABOVE, R.id.bottles_count_detail);
         });
 
         bottlesCountDetailLabelView = (TextView) rootView.findViewById(R.id.bottles_count_detail);
-        bottlesCountDetailLabelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottlesCountDetailLabelView.setVisibility(View.GONE);
-                bottlesCountLabelView.setVisibility(View.VISIBLE);
+        bottlesCountDetailLabelView.setOnClickListener(v -> {
+            bottlesCountDetailLabelView.setVisibility(View.GONE);
+            bottlesCountLabelView.setVisibility(View.VISIBLE);
 
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-                params.addRule(RelativeLayout.ABOVE, R.id.bottles_count);
-            }
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
+            params.addRule(RelativeLayout.ABOVE, R.id.bottles_count);
         });
 
         setIsVisible(isDisplayedAtFirstLaunch);

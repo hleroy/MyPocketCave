@@ -1,7 +1,6 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -9,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -32,28 +30,24 @@ import com.myadridev.mypocketcave.models.PatternModelWithBottles;
 
 public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
+    private final View.OnTouchListener hideKeyboardOnClick;
+    public int OldClickedPatternId;
+    public CoordinatesModel ClickedPatternCoordinates;
     protected CaveModel cave;
     protected EditText nameView;
     protected Spinner caveTypeView;
     protected CoordinatorLayout coordinatorLayout;
-    private final View.OnTouchListener hideKeyboardOnClick;
     private TextView arrangementView;
     private EditText bulkBottlesNumberView;
     private EditText boxesNumberView;
     private EditText boxesBottlesNumberView;
     private RecyclerView caveArrangementRecyclerView;
-
-    public int OldClickedPatternId;
-    public CoordinatesModel ClickedPatternCoordinates;
     private CaveArrangementAdapter caveArrangementAdapter;
 
     protected AbstractCaveEditActivity() {
-        hideKeyboardOnClick = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard();
-                return false;
-            }
+        hideKeyboardOnClick = (v, event) -> {
+            hideKeyboard();
+            return false;
         };
     }
 
@@ -262,19 +256,11 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
             noNameDialogBuilder.setCancelable(true);
             noNameDialogBuilder.setMessage(R.string.error_cave_no_name);
-            noNameDialogBuilder.setNegativeButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            noNameDialogBuilder.setPositiveButton(R.string.global_exit, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    finish();
-                    cancelCave();
-                }
+            noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
+            noNameDialogBuilder.setPositiveButton(R.string.global_exit, (dialog, which) -> {
+                dialog.dismiss();
+                finish();
+                cancelCave();
             });
             noNameDialogBuilder.show();
             isErrors = true;
@@ -286,27 +272,16 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 AlertDialog.Builder existingCaveDialogBuilder = new AlertDialog.Builder(this);
                 existingCaveDialogBuilder.setCancelable(true);
                 existingCaveDialogBuilder.setMessage(R.string.error_cave_already_exists);
-                existingCaveDialogBuilder.setNeutralButton(R.string.global_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
+                existingCaveDialogBuilder.setNeutralButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
+                existingCaveDialogBuilder.setNegativeButton(R.string.global_exit, (dialog, which) -> {
+                    dialog.dismiss();
+                    finish();
+                    cancelCave();
                 });
-                existingCaveDialogBuilder.setNegativeButton(R.string.global_exit, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                        cancelCave();
-                    }
-                });
-                existingCaveDialogBuilder.setPositiveButton(R.string.global_merge, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        removeCave();
-                        redirectToExistingCave(existingCaveId);
-                    }
+                existingCaveDialogBuilder.setPositiveButton(R.string.global_merge, (dialog, which) -> {
+                    dialog.dismiss();
+                    removeCave();
+                    redirectToExistingCave(existingCaveId);
                 });
                 existingCaveDialogBuilder.show();
                 isErrors = true;

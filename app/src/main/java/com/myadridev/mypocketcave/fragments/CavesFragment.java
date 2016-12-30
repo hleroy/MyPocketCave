@@ -97,27 +97,21 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
         cavesRecyclerView.setLayoutManager(new GridAutofitLayoutManager(getActivity(), (int) getResources().getDimension(R.dimen.cave_image_size_large)));
 
         cavesCountLabelView = (TextView) rootView.findViewById(R.id.caves_count);
-        cavesCountLabelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cavesCountDetailLabelView.setVisibility(View.VISIBLE);
-                cavesCountLabelView.setVisibility(View.GONE);
+        cavesCountLabelView.setOnClickListener(v -> {
+            cavesCountDetailLabelView.setVisibility(View.VISIBLE);
+            cavesCountLabelView.setVisibility(View.GONE);
 
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cavesRecyclerView.getLayoutParams();
-                params.addRule(RelativeLayout.ABOVE, R.id.caves_count_detail);
-            }
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cavesRecyclerView.getLayoutParams();
+            params.addRule(RelativeLayout.ABOVE, R.id.caves_count_detail);
         });
 
         cavesCountDetailLabelView = (TextView) rootView.findViewById(R.id.caves_count_detail);
-        cavesCountDetailLabelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cavesCountDetailLabelView.setVisibility(View.GONE);
-                cavesCountLabelView.setVisibility(View.VISIBLE);
+        cavesCountDetailLabelView.setOnClickListener(v -> {
+            cavesCountDetailLabelView.setVisibility(View.GONE);
+            cavesCountLabelView.setVisibility(View.VISIBLE);
 
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cavesRecyclerView.getLayoutParams();
-                params.addRule(RelativeLayout.ABOVE, R.id.caves_count);
-            }
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cavesRecyclerView.getLayoutParams();
+            params.addRule(RelativeLayout.ABOVE, R.id.caves_count);
         });
 
         setIsVisible(isDisplayedAtFirstLaunch);

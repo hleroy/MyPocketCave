@@ -48,27 +48,21 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         bottlesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         bottlesCountLabelView = (TextView) findViewById(R.id.suggest_bottle_result_bottles_count);
-        bottlesCountLabelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
-                bottlesCountLabelView.setVisibility(View.GONE);
+        bottlesCountLabelView.setOnClickListener(v -> {
+            bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
+            bottlesCountLabelView.setVisibility(View.GONE);
 
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-                params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count_detail);
-            }
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
+            params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count_detail);
         });
 
         bottlesCountDetailLabelView = (TextView) findViewById(R.id.suggest_bottle_result_bottles_count_detail);
-        bottlesCountDetailLabelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottlesCountDetailLabelView.setVisibility(View.GONE);
-                bottlesCountLabelView.setVisibility(View.VISIBLE);
+        bottlesCountDetailLabelView.setOnClickListener(v -> {
+            bottlesCountDetailLabelView.setVisibility(View.GONE);
+            bottlesCountLabelView.setVisibility(View.VISIBLE);
 
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-                params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count);
-            }
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
+            params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count);
         });
 
         Bundle bundle = getIntent().getExtras();
@@ -82,12 +76,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
             e.printStackTrace();
 
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_technical), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    snackbar.dismiss();
-                }
-            });
+            snackbar.setAction(getString(R.string.error_ok), v -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             return;
@@ -96,12 +85,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         allBottles = BottleManager.getSuggestBottles(searchCriteria);
 
         bottlesResultAdapter = new SuggestBottlesResultAdapter(this, allBottles);
-        bottlesResultAdapter.addOnSeeMoreClickListener(new SuggestBottlesResultAdapter.OnSeeMoreClickListener() {
-            @Override
-            public void onClick() {
-                setVisibility(bottlesResultAdapter);
-            }
-        });
+        bottlesResultAdapter.addOnSeeMoreClickListener(() -> setVisibility(bottlesResultAdapter));
         bottlesRecyclerView.setAdapter(bottlesResultAdapter);
 
         setVisibility(bottlesResultAdapter);

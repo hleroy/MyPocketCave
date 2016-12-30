@@ -12,7 +12,6 @@ import com.myadridev.mypocketcave.activities.CaveDetailActivity;
 import com.myadridev.mypocketcave.adapters.viewHolders.AddPatternViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.NoPatternViewHolder;
-import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
 import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
@@ -37,9 +36,8 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final int nbRows;
     private final int nbCols;
     private final int totalWidth;
-    private int itemWidth;
-
     private final List<OnValueChangedListener> onValueChangedListeners;
+    private int itemWidth;
 
     public CaveArrangementAdapter(AbstractCaveEditActivity activity, CaveArrangementModel _caveArrangement, int nbRows, int nbCols, int totalWidth) {
         editActivity = activity;
@@ -50,13 +48,10 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.totalWidth = totalWidth;
         layoutInflater = LayoutInflater.from(editActivity);
         isIndividualPlacesClickable = false;
-        listener = new OnPatternClickListener() {
-            @Override
-            public void onPatternClick(CoordinatesModel coordinates) {
-                editActivity.OldClickedPatternId = caveArangement.PatternMap.containsKey(coordinates) ? caveArangement.PatternMap.get(coordinates).Id : -1;
-                editActivity.ClickedPatternCoordinates = coordinates;
-                NavigationManager.navigateToPatternSelection(editActivity);
-            }
+        listener = coordinates -> {
+            editActivity.OldClickedPatternId = caveArangement.PatternMap.containsKey(coordinates) ? caveArangement.PatternMap.get(coordinates).Id : -1;
+            editActivity.ClickedPatternCoordinates = coordinates;
+            NavigationManager.navigateToPatternSelection(editActivity);
         };
         onValueChangedListeners = new ArrayList<>();
     }
@@ -156,16 +151,13 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         patternAdapter = new PatternAdapter(detailActivity, patternWithBottles.PlaceMapWithBottles,
                                 new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
                                 true, itemWidth, itemWidth, coordinates);
-                        patternAdapter.addOnBottlePlacedClickListener(new OnBottlePlacedClickListener() {
-                            @Override
-                            public void onBottlePlaced(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId) {
-                                caveArangement.placeBottle(patternCoordinates, coordinates, bottleId);
-                                BottleManager.placeBottle(bottleId);
-                                for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
-                                    onValueChangedListener.onValueChanged();
-                                }
-                                notifyDataSetChanged();
+                        patternAdapter.addOnBottlePlacedClickListener((patternCoordinates, coordinates1, bottleId) -> {
+                            caveArangement.placeBottle(patternCoordinates, coordinates1, bottleId);
+                            BottleManager.placeBottle(bottleId);
+                            for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
+                                onValueChangedListener.onValueChanged();
                             }
+                            notifyDataSetChanged();
                         });
                         holder.hideClickableSpace();
                     } else {

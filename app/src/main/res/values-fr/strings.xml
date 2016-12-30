@@ -101,7 +101,7 @@
     <string name="title_create_cave">Ajouter une cave</string>
     <string name="title_edit_cave">Modifier la cave</string>
     <string name="global_cancel">Annuler</string>
-    <string name="global_stay">Rester ici</string>
+    <string name="global_stay_and_fix">Rester ici et corriger ça</string>
     <string name="global_exit">Quitter</string>
     <string name="pattern_type_free">Libre</string>
     <string name="pattern_type_linear">Linéaire</string>
@@ -127,4 +127,6 @@
     <string name="bottles_to_place">%1$d à placer</string>
     <string name="title_place_bottle">Placer une bouteille</string>
     <string name="bottles_placed">%1$d placées dans les caves</string>
+    <string name="global_stay">Rester ici</string>
+    <string name="global_exit_confirmation">On part d\'ici et on va ouvrir les bouteilles ?</string>
 </resources>

@@ -9,9 +9,6 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by adrie on 09/10/2016.
- */
 public class SuggestBottleCriteriaTest {
 
     @Test

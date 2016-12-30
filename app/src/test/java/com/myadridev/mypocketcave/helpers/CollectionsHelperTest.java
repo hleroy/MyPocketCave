@@ -10,9 +10,6 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by adrie on 08/10/2016.
- */
 public class CollectionsHelperTest {
 
     private Map<Integer, String> dataMap;

@@ -1,7 +1,6 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -60,53 +59,29 @@ public class BottleDetailActivity extends AppCompatActivity {
 
     private void setupFloatingActionButtons() {
         fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_bottle);
-        fabMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFloatingActionButtonsMenu();
-            }
-        });
+        fabMenu.setOnClickListener(view -> openFloatingActionButtonsMenu());
 
         fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_bottle);
-        fabCloseMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeFloatingActionButtonsMenu();
-            }
-        });
+        fabCloseMenu.setOnClickListener(view -> closeFloatingActionButtonsMenu());
 
         fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_bottle);
-        fabEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavigationManager.navigateToBottleEdit(BottleDetailActivity.this, bottle.Id);
-                finish();
-            }
+        fabEdit.setOnClickListener(view -> {
+            NavigationManager.navigateToBottleEdit(BottleDetailActivity.this, bottle.Id);
+            finish();
         });
 
         fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_bottle);
-        fabDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(BottleDetailActivity.this);
-                deleteBottleDialogBuilder.setCancelable(true);
-                deleteBottleDialogBuilder.setMessage(R.string.bottle_delete_confirmation);
-                deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        BottleManager.removeBottle(bottle.Id);
-                        dialog.dismiss();
-                        finish();
-                    }
-                });
-                deleteBottleDialogBuilder.show();
-            }
+        fabDelete.setOnClickListener(view -> {
+            AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(BottleDetailActivity.this);
+            deleteBottleDialogBuilder.setCancelable(true);
+            deleteBottleDialogBuilder.setMessage(R.string.bottle_delete_confirmation);
+            deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (dialog, which) -> dialog.dismiss());
+            deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (dialog, which) -> {
+                BottleManager.removeBottle(bottle.Id);
+                dialog.dismiss();
+                finish();
+            });
+            deleteBottleDialogBuilder.show();
         });
     }
 
@@ -116,12 +91,7 @@ public class BottleDetailActivity extends AppCompatActivity {
         FloatingActionButtonHelper.hideFloatingActionButton(this, fabDelete, 2);
         FloatingActionButtonHelper.showFloatingActionButton(this, fabMenu, 0);
 
-        fabCloseMenu.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0);
-            }
-        }, 150);
+        fabCloseMenu.postDelayed(() -> FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0), 150);
     }
 
     private void openFloatingActionButtonsMenu() {

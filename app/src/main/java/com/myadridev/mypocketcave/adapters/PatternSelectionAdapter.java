@@ -35,16 +35,13 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         activity = _activity;
         patternList = _patternList;
         layoutInflater = LayoutInflater.from(activity);
-        listener = new OnSelectionPatternClickListener() {
-            @Override
-            public void onItemClick(int patternId) {
-                if (patternId == -1) {
-                    NavigationManager.navigateToCreatePattern(activity);
-                } else {
-                    if (listeners != null) {
-                        for (OnSelectionPatternClickListener listener : listeners) {
-                            listener.onItemClick(patternId);
-                        }
+        listener = patternId -> {
+            if (patternId == -1) {
+                NavigationManager.navigateToCreatePattern(activity);
+            } else {
+                if (listeners != null) {
+                    for (OnSelectionPatternClickListener listener1 : listeners) {
+                        listener1.onItemClick(patternId);
                     }
                 }
             }
@@ -128,5 +125,3 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 }
-
-

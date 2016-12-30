@@ -6,10 +6,6 @@ import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.Map;
 
-/**
- * Created by adrien on 01/10/2016.
- */
-
 public interface ISharedPreferencesManager {
 
     int loadStoredDataMap(int storeFileResourceId, int storeSetResourceId, Class<? extends IStorableModel> dataType, Map<Integer, IStorableModel> dataMap);
