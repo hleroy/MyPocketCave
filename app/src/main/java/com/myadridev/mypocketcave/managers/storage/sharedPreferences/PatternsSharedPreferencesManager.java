@@ -23,6 +23,8 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
     private String keyIndex;
     private String filename;
     private int keyPatternResourceId = R.string.store_pattern;
+    private boolean listenerSharedPreferencesRegistered = false;
+    private ISharedPreferencesManager sharedPreferencesManager = null;
 
     private PatternsSharedPreferencesManager() {
         keyIndex = getSharedPreferencesManager().getStringFromResource(R.string.store_indexes);
@@ -40,17 +42,10 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         _isInitialized = true;
     }
 
-    private boolean listenerSharedPreferencesRegistered = false;
-    private ISharedPreferencesManager sharedPreferencesManager = null;
     private ISharedPreferencesManager getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
             sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class,
-                    listenerSharedPreferencesRegistered ? null : new OnDependencyChangeListener() {
-                @Override
-                public void onDependencyChange() {
-                    sharedPreferencesManager = null;
-                }
-            });
+                    listenerSharedPreferencesRegistered ? null : (OnDependencyChangeListener) () -> sharedPreferencesManager = null);
             listenerSharedPreferencesRegistered = true;
         }
         return sharedPreferencesManager;
