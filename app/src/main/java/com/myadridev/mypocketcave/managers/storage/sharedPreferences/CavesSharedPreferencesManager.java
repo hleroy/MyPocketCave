@@ -10,6 +10,7 @@ import com.myadridev.mypocketcave.models.CaveLightModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,9 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
 
     @Override
     public List<CaveLightModel> getCaves() {
-        return new ArrayList<>(allCavesMap.values());
+        List<CaveLightModel> caves = new ArrayList<>(allCavesMap.values());
+        Collections.sort(caves);
+        return caves;
     }
 
     @Override

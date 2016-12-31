@@ -54,7 +54,10 @@
     <string name="about_version_prefix">v</string>
     <string name="title_about">A propos</string>
     <string name="bottle_domain">Domaine</string>
-    <string name="bottles_count">Total : %1$d bouteilles</string>
+    <plurals name="bottles_count">
+        <item quantity="one">Total : %1$d bouteille</item>
+        <item quantity="other">Total : %1$d bouteilles</item>
+    </plurals>
     <string name="bottles_count_detail">Rouge\u00A0:\u00A0%1$d, Blanc\u00A0:\u00A0%2$d, Rosé\u00A0:\u00A0%3$d, Champagne\u00A0:\u00A0%4$d</string>
     <string name="error_bottle_no_name">Un nom de bouteille est nécessaire</string>
     <string name="error_ok">Ok</string>
@@ -70,16 +73,25 @@
     <string name="millesime_none">Tout millésime</string>
     <string name="millesime_less_than_two"><![CDATA[<]]> 3 ans</string>
     <string name="millesime_over_ten"><![CDATA[>]]> 10 ans</string>
-    <string name="millesime_six_to_ten">6 - 10 ans</string>
-    <string name="millesime_three_to_five">3 - 5 ans</string>
+    <string name="millesime_six_to_ten">6 – 10 ans</string>
+    <string name="millesime_three_to_five">3 – 5 ans</string>
     <string name="food_none">A boire avec n\'importe quoi</string>
     <string name="error_technical">Il y a eu une erreur technique, essayez à nouveau\u00A0!</string>
     <string name="title_suggest_bottle_result">Propose-moi une bouteille</string>
     <string name="suggest_bottle_result_show_more">Voir plus (pas tous les critères)</string>
     <string name="suggest_bottle_result_no_bottles">Aucune bouteille correspondante\u00A0!</string>
-    <string name="bottle_result_all_criteria_number_label">%1$d résultats (tous les critères)</string>
-    <string name="bottle_result_not_all_criteria_number_label">%1$d résultats (pas tous les critères)</string>
-    <string name="bottle_number_label">%1$d référence(s)</string>
+    <plurals name="bottle_result_not_all_criteria_number_label">
+        <item quantity="one">%1$d résultat (pas tous les critères)</item>
+        <item quantity="other">%1$d résultats (pas tous les critères)</item>
+    </plurals>
+    <plurals name="bottle_result_all_criteria_number_label">
+        <item quantity="one">%1$d résultat (tous les critères)</item>
+        <item quantity="other">%1$d résultats (tous les critères)</item>
+    </plurals>
+    <plurals name="bottle_number_label">
+        <item quantity="one">%1$d référence</item>
+        <item quantity="other">%1$d références</item>
+    </plurals>
     <string name="error_suggest_domain">Pas de domaine mais coché comme requis</string>
     <string name="error_suggest_food">Rien à manger avec mais coché comme requis</string>
     <string name="error_suggest_millesime">Pas de millésime mais coché comme requis</string>
@@ -90,9 +102,15 @@
     <string name="cave_type_bulk">Stockage en vrac</string>
     <string name="cave_type_fridge">Cave réfrigérée</string>
     <string name="cave_type_rack">Casiers à bouteilles</string>
-    <string name="caves_count">Total: %1$d caves</string>
+    <plurals name="caves_count">
+        <item quantity="one">Total: %1$d cave</item>
+        <item quantity="other">Total: %1$d caves</item>
+    </plurals>
     <string name="caves_count_detail">Vrac:\u00A0%1$d, Caisses:\u00A0%2$d, Cave:\u00A0%3$d, Casiers:\u00A0%4$d</string>
-    <string name="cave_used_capacity">%1$d bt. / %2$d places</string>
+    <plurals name="cave_used_capacity">
+        <item quantity="one">%1$d bt. / %2$d place</item>
+        <item quantity="other">%1$d bt. / %2$d places</item>
+    </plurals>
     <string name="error_cave_already_exists">Une cave similaire existe (même nom et type). Que faire\u00A0?</string>
     <string name="error_cave_go">C\'est parti\u00A0!</string>
     <string name="cave_name">Nom de la cave</string>
@@ -107,9 +125,18 @@
     <string name="pattern_type_linear">Linéaire</string>
     <string name="pattern_type_staggered_rows">En quinconce</string>
     <string name="cave_arrangement">Disposition</string>
-    <string name="cave_bulk_bottles_number_detail">%1$d bouteilles</string>
-    <string name="cave_boxes_number_detail">%1$d caisses</string>
-    <string name="cave_boxes_bottles_number_detail">%1$d bouteilles par caisse</string>
+    <plurals name="cave_bulk_bottles_number_detail">
+        <item quantity="one">%1$d bouteille</item>
+        <item quantity="other">%1$d bouteilles</item>
+    </plurals>
+    <plurals name="cave_boxes_number_detail">
+        <item quantity="one">%1$d caisse</item>
+        <item quantity="other">%1$d caisses</item>
+    </plurals>
+    <plurals name="cave_boxes_bottles_number_detail">
+        <item quantity="one">%1$d bouteille par caisse</item>
+        <item quantity="other">%1$d bouteilles par caisse</item>
+    </plurals>
     <string name="cave_boxes_bottles_number_edit">Nombre de bouteilles par caisse</string>
     <string name="cave_boxes_number_edit">Nombre de caisses</string>
     <string name="cave_bulk_bottles_number_edit">Nombre de bouteilles</string>

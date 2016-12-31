@@ -2,7 +2,6 @@ package com.myadridev.mypocketcave.models;
 
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
-import android.util.SparseArray;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -28,11 +27,11 @@ public class CaveArrangementModel {
     public int NumberBottlesBulk;
     public int NumberBoxes;
     public int NumberBottlesPerBox;
-    private SparseArray<Float> numberPlacedBottlesByIdMap;
+    private Map<Integer, Float> numberPlacedBottlesByIdMap;
 
     public CaveArrangementModel() {
         PatternMap = new HashMap<>();
-        numberPlacedBottlesByIdMap = new SparseArray<>();
+        numberPlacedBottlesByIdMap = new HashMap<>();
     }
 
     public CaveArrangementModel(CaveArrangementModel caveArrangement) {
@@ -43,25 +42,19 @@ public class CaveArrangementModel {
         NumberBottlesBulk = caveArrangement.NumberBottlesBulk;
         NumberBoxes = caveArrangement.NumberBoxes;
         NumberBottlesPerBox = caveArrangement.NumberBottlesPerBox;
-        numberPlacedBottlesByIdMap = new SparseArray<>();
-
-        for (int i = 0; i < caveArrangement.numberPlacedBottlesByIdMap.size(); i++) {
-            int bottleId = caveArrangement.numberPlacedBottlesByIdMap.keyAt(i);
-            numberPlacedBottlesByIdMap.put(bottleId, caveArrangement.numberPlacedBottlesByIdMap.get(bottleId));
-        }
+        numberPlacedBottlesByIdMap = new HashMap<>(caveArrangement.numberPlacedBottlesByIdMap);
     }
 
-    public SparseArray<Float> getNumberPlacedBottlesByIdMap() {
+    public Map<Integer, Float> getNumberPlacedBottlesByIdMap() {
         if (numberPlacedBottlesByIdMap.size() > 0) {
             return numberPlacedBottlesByIdMap;
         } else {
-            SparseArray<Float> numberPlacedBottlesByIdMap = new SparseArray<>();
+            Map<Integer, Float> numberPlacedBottlesByIdMap = new HashMap<>();
             for (PatternModelWithBottles pattern : PatternMap.values()) {
-                for (int i = 0; i < pattern.NumberPlacedBottlesByIdMap.size(); i++) {
-                    int bottleId = pattern.NumberPlacedBottlesByIdMap.keyAt(i);
-                    float numberPlaced = pattern.NumberPlacedBottlesByIdMap.get(bottleId);
-                    int existingIndex = numberPlacedBottlesByIdMap.indexOfKey(bottleId);
-                    float oldNumberPlaced = existingIndex >= 0 ? numberPlacedBottlesByIdMap.get(bottleId) : 0f;
+                for (Map.Entry<Integer, Float> patternNumberEntry : pattern.NumberPlacedBottlesByIdMap.entrySet()) {
+                    int bottleId = patternNumberEntry.getKey();
+                    float numberPlaced = patternNumberEntry.getValue();
+                    float oldNumberPlaced = numberPlacedBottlesByIdMap.containsKey(bottleId) ? numberPlacedBottlesByIdMap.get(bottleId) : 0f;
                     numberPlacedBottlesByIdMap.put(bottleId, oldNumberPlaced + numberPlaced);
                 }
             }
@@ -335,8 +328,7 @@ public class CaveArrangementModel {
     private void updateNumberPlaced(BottleModel bottle, float numberPlaces, List<PatternModelWithBottles> notNullPatterns) {
         float floatNumberOfBottlesToAdd = 1f / numberPlaces;
         for (PatternModelWithBottles pat : notNullPatterns) {
-            Float numberPlaced = pat.NumberPlacedBottlesByIdMap.get(bottle.Id);
-            float oldNumber = numberPlaced != null ? numberPlaced : 0f;
+            float oldNumber = pat.NumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? pat.NumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
             pat.NumberPlacedBottlesByIdMap.put(bottle.Id, oldNumber + floatNumberOfBottlesToAdd);
         }
     }

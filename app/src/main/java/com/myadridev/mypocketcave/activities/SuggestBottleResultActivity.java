@@ -104,7 +104,8 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
             params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count);
 
             bottlesCountLabelView.setVisibility(View.VISIBLE);
-            bottlesCountLabelView.setText(getString(R.string.bottles_count, getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible())));
+            int bottlesCount = getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible());
+            bottlesCountLabelView.setText(getResources().getQuantityString(R.plurals.bottles_count, bottlesCount, bottlesCount));
 
             bottlesCountDetailLabelView.setVisibility(View.GONE);
             bottlesCountDetailLabelView.setText(getString(R.string.bottles_count_detail,

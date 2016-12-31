@@ -67,7 +67,8 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position == 0) {
             BottleNumberViewHolder holder = (BottleNumberViewHolder) viewHolder;
-            holder.setLabelViewText(context.getString(R.string.bottle_number_label, allBottles.size()));
+            int numberBottles = allBottles.size();
+            holder.setLabelViewText(context.getResources().getQuantityString(R.plurals.bottle_number_label, numberBottles, numberBottles));
         } else {
             BottleViewHolder holder = (BottleViewHolder) viewHolder;
             BottleModel bottle = allBottles.get(position - 1);

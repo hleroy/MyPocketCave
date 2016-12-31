@@ -23,10 +23,10 @@
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="@string/caves_count"
+        android:text="caves_count"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_widthPercent="66%"/>
+        app:layout_widthPercent="66%" />
 
     <TextView
         android:id="@+id/caves_count_detail"

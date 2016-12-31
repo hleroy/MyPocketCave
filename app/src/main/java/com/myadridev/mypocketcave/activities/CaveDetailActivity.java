@@ -138,11 +138,12 @@ public class CaveDetailActivity extends AppCompatActivity {
             caveTypeIconView.setImageDrawable(ContextCompat.getDrawable(this, caveTypeDrawableId));
         }
         caveTypeView.setText(cave.CaveType.StringResourceId);
-        capacityUsedView.setText(getString(R.string.cave_used_capacity, cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+        capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
+                cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
         switch (cave.CaveType) {
             case BULK:
                 bulkBottlesNumberView.setVisibility(View.VISIBLE);
-                bulkBottlesNumberView.setText(getString(R.string.cave_bulk_bottles_number_detail, cave.CaveArrangement.NumberBottlesBulk));
+                bulkBottlesNumberView.setText(getResources().getQuantityString(R.plurals.cave_bulk_bottles_number_detail, cave.CaveArrangement.NumberBottlesBulk, cave.CaveArrangement.NumberBottlesBulk));
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
                 arrangementRecyclerView.setVisibility(View.GONE);
@@ -150,9 +151,10 @@ public class CaveDetailActivity extends AppCompatActivity {
             case BOX:
                 bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.VISIBLE);
-                boxesNumberView.setText(getString(R.string.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes));
+                boxesNumberView.setText(getResources().getQuantityString(R.plurals.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes, cave.CaveArrangement.NumberBoxes));
                 boxesBottlesNumberView.setVisibility(View.VISIBLE);
-                boxesBottlesNumberView.setText(getString(R.string.cave_boxes_bottles_number_detail, cave.CaveArrangement.NumberBottlesPerBox));
+                boxesBottlesNumberView.setText(getResources().getQuantityString(R.plurals.cave_boxes_bottles_number_detail,
+                        cave.CaveArrangement.NumberBottlesPerBox, cave.CaveArrangement.NumberBottlesPerBox));
                 arrangementRecyclerView.setVisibility(View.GONE);
                 break;
             case RACK:
@@ -172,7 +174,8 @@ public class CaveDetailActivity extends AppCompatActivity {
                     CaveArrangementAdapter caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth);
                     caveArrangementAdapter.addOnValueChangedListener(() -> {
                         CaveManager.editCave(cave);
-                        capacityUsedView.setText(getString(R.string.cave_used_capacity, cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+                        capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
+                                cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
                     });
                     arrangementRecyclerView.setAdapter(caveArrangementAdapter);
                     arrangementRecyclerView.setVisibility(View.VISIBLE);

@@ -1,7 +1,5 @@
 package com.myadridev.mypocketcave.models;
 
-import android.util.SparseArray;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -17,17 +15,17 @@ public class PatternModelWithBottles extends PatternModel {
     public int PatternWithBottlesId;
 
     // number is float because a bottle can be on 2 patterns at the same time
-    public SparseArray<Float> NumberPlacedBottlesByIdMap;
+    public Map<Integer, Float> NumberPlacedBottlesByIdMap;
 
     public PatternModelWithBottles() {
         PlaceMapWithBottles = new HashMap<>();
-        NumberPlacedBottlesByIdMap = new SparseArray<>();
+        NumberPlacedBottlesByIdMap = new HashMap<>();
     }
 
     public PatternModelWithBottles(PatternModel pattern) {
         super(pattern);
         PlaceMapWithBottles = getPlaceMapForDisplay();
-        NumberPlacedBottlesByIdMap = new SparseArray<>();
+        NumberPlacedBottlesByIdMap = new HashMap<>();
     }
 
     public void setClickablePlaces() {

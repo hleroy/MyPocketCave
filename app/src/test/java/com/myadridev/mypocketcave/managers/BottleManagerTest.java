@@ -45,8 +45,8 @@ public class BottleManagerTest {
     private static void createSearchBottleSet() {
         bottles = new ArrayList<>();
         List<List<FoodToEatWithEnum>> foods = new ArrayList<>();
-        foods.add(new ArrayList<FoodToEatWithEnum>());
-        foods.add(new ArrayList<FoodToEatWithEnum>());
+        foods.add(new ArrayList<>());
+        foods.add(new ArrayList<>());
         foods.get(1).add(FoodToEatWithEnum.PorkProduct);
         foods.get(1).add(FoodToEatWithEnum.Fish);
 

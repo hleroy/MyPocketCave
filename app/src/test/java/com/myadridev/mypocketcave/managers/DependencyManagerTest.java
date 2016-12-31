@@ -1,7 +1,5 @@
 package com.myadridev.mypocketcave.managers;
 
-import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
-
 import org.junit.Before;
 import org.junit.Test;
 

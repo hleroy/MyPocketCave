@@ -72,7 +72,8 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
             params.addRule(RelativeLayout.ABOVE, R.id.caves_count);
 
             cavesCountLabelView.setVisibility(View.VISIBLE);
-            cavesCountLabelView.setText(getString(R.string.caves_count, CaveManager.getCavesCount()));
+            int cavesCount = CaveManager.getCavesCount();
+            cavesCountLabelView.setText(getResources().getQuantityString(R.plurals.caves_count, cavesCount, cavesCount));
 
             cavesCountDetailLabelView.setVisibility(View.GONE);
             cavesCountDetailLabelView.setText(getString(R.string.caves_count_detail,

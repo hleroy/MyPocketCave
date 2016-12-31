@@ -44,7 +44,7 @@
         android:layout_marginRight="@dimen/horizontal_margin_between_elements"
         android:layout_marginStart="@dimen/horizontal_margin_between_elements"
         android:gravity="center"
-        android:text="@string/cave_used_capacity"
+        android:text="cave_used_capacity"
         android:textSize="@dimen/text_size_small"
         android:textStyle="italic" />
 

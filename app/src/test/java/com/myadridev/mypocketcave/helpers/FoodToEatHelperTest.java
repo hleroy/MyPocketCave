@@ -15,7 +15,7 @@ import org.mockito.stubbing.Answer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +50,7 @@ public class FoodToEatHelperTest {
                 if (isAtLeastOneFood) {
                     expectedSb.append(foodSeparator);
                 }
-                expectedSb.append(fakeOutput + FoodToEatWithEnum.getById(i).StringResourceId);
+                expectedSb.append(fakeOutput).append(FoodToEatWithEnum.getById(i).StringResourceId);
                 isAtLeastOneFood = true;
             }
         }
@@ -72,7 +72,7 @@ public class FoodToEatHelperTest {
                 if (isAtLeastOneFood) {
                     expectedSb.append(foodSeparator);
                 }
-                expectedSb.append(fakeOutput + food.StringResourceId);
+                expectedSb.append(fakeOutput).append(food.StringResourceId);
                 isAtLeastOneFood = true;
             }
         }

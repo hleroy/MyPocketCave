@@ -104,7 +104,8 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
             params.addRule(RelativeLayout.ABOVE, R.id.bottles_count);
 
             bottlesCountLabelView.setVisibility(View.VISIBLE);
-            bottlesCountLabelView.setText(getString(R.string.bottles_count, BottleManager.getBottlesCount()));
+            int bottlesCount = BottleManager.getBottlesCount();
+            bottlesCountLabelView.setText(getResources().getQuantityString(R.plurals.bottles_count, bottlesCount, bottlesCount));
 
             bottlesCountDetailLabelView.setVisibility(View.GONE);
             bottlesCountDetailLabelView.setText(getString(R.string.bottles_count_detail,

@@ -11,6 +11,7 @@ import com.myadridev.mypocketcave.models.IStorableModel;
 import com.myadridev.mypocketcave.models.PatternModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,9 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
 
     @Override
     public List<PatternModel> getPatterns() {
-        return new ArrayList<>(allPatternsMap.values());
+        List<PatternModel> patterns = new ArrayList<>(allPatternsMap.values());
+        Collections.sort(patterns);
+        return patterns;
     }
 
     @Override

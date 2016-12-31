@@ -46,7 +46,7 @@ public class PatternManager {
         for (PatternModel pattern : patterns) {
             if (pattern.Id == patternId) {
                 pattern.Order = 1;
-            } else if (pattern.Order < order) {
+            } else if (pattern.Order <= order) {
                 pattern.Order = pattern.Order + 1;
             }
         }

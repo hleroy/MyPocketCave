@@ -22,7 +22,10 @@
     <string name="bottle_edit_person">Who to share it with</string>
     <string name="bottle_name">Name of the bottle</string>
     <string name="bottle_stock">Stock</string>
-    <string name="bottles_count">Total: %1$d bottles</string>
+    <plurals name="bottles_count">
+        <item quantity="one">Total: %1$d bottle</item>
+        <item quantity="other">Total: %1$d bottles</item>
+    </plurals>
     <string name="bottles_count_detail">Red:\u00A0%1$d, White:\u00A0%2$d, Rosé:\u00A0%3$d, Champagne:\u00A0%4$d</string>
     <string name="bottles_stock">%1$d in stock</string>
     <string name="error_bottle_already_exists">There is the same bottle in the cave (same domain, color, name and millesime). What de we do?</string>
@@ -84,9 +87,18 @@
     <string name="title_suggest_bottle_result">Suggest me a bottle</string>
     <string name="suggest_bottle_result_no_bottles">No matching bottle!</string>
     <string name="suggest_bottle_result_show_more">See more (not all the criteria)</string>
-    <string name="bottle_result_not_all_criteria_number_label">%1$d results (not all criteria)</string>
-    <string name="bottle_result_all_criteria_number_label">%1$d results (all criteria)</string>
-    <string name="bottle_number_label" >%1$d reference(s)</string>
+    <plurals name="bottle_result_not_all_criteria_number_label">
+        <item quantity="one">%1$d result (not all criteria)</item>
+        <item quantity="other">%1$d results (not all criteria)</item>
+    </plurals>
+    <plurals name="bottle_result_all_criteria_number_label">
+        <item quantity="one">%1$d result (all criteria)</item>
+        <item quantity="other">%1$d results (all criteria)</item>
+    </plurals>
+    <plurals name="bottle_number_label">
+        <item quantity="one">%1$d reference</item>
+        <item quantity="other">%1$d references</item>
+    </plurals>
     <string name="error_suggest_wine_color">No wine color but checked as required</string>
     <string name="error_suggest_domain">No domain but checked as required</string>
     <string name="error_suggest_millesime">No millesime but checked as required</string>
@@ -97,11 +109,17 @@
     <string name="cave_type_box">Boxes</string>
     <string name="cave_type_fridge">Fridge cave</string>
     <string name="cave_type_rack">Bottle racks</string>
-    <string name="caves_count">Total: %1$d caves</string>
+    <plurals name="caves_count">
+        <item quantity="one">Total: %1$d cave</item>
+        <item quantity="other">Total: %1$d caves</item>
+    </plurals>
     <string name="caves_count_detail">Bulk:\u00A0%1$d, Boxes:\u00A0%2$d, Fridge:\u00A0%3$d, Rack:\u00A0%4$d</string>
     <string name="filename_caves" translatable="false">caves</string>
     <string name="store_caves" translatable="false">caves</string>
-    <string name="cave_used_capacity">%1$d bt. / %2$d places</string>
+    <plurals name="cave_used_capacity">
+        <item quantity="one">%1$d bt. / %2$d place</item>
+        <item quantity="other">%1$d bt. / %2$d places</item>
+    </plurals>
     <string name="cave_name">Name of the cave</string>
     <string name="error_cave_already_exists">There exists a similar cave (same name and type). What de we do?</string>
     <string name="error_cave_go">Let\'s go!</string>
@@ -118,9 +136,18 @@
     <string name="pattern_type_staggered_rows">In staggered rows</string>
     <string name="pattern_type_free">Free</string>
     <string name="cave_arrangement">Arrangement</string>
-    <string name="cave_bulk_bottles_number_detail">%1$d bottles</string>
-    <string name="cave_boxes_number_detail">%1$d boxes</string>
-    <string name="cave_boxes_bottles_number_detail">%1$d bottles per box</string>
+    <plurals name="cave_bulk_bottles_number_detail">
+        <item quantity="one">%1$d bottle</item>
+        <item quantity="other">%1$d bottles</item>
+    </plurals>
+    <plurals name="cave_boxes_number_detail">
+        <item quantity="one">%1$d box</item>
+        <item quantity="other">%1$d boxes</item>
+    </plurals>
+    <plurals name="cave_boxes_bottles_number_detail">
+        <item quantity="one">%1$d bottle per box</item>
+        <item quantity="other">%1$d bottles per box</item>
+    </plurals>
     <string name="cave_bulk_bottles_number_edit">Number of bottles</string>
     <string name="cave_boxes_number_edit">Number of boxes</string>
     <string name="cave_boxes_bottles_number_edit">Number of bottles per box</string>

@@ -24,10 +24,10 @@
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="@string/bottles_count"
+        android:text="bottles_count"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_widthPercent="66%"/>
+        app:layout_widthPercent="66%" />
 
     <TextView
         android:id="@+id/bottles_count_detail"

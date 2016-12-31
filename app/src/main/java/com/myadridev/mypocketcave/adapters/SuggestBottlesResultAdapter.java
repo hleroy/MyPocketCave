@@ -120,10 +120,11 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
 
         } else if (position == 0) {
             BottleNumberViewHolder holder = (BottleNumberViewHolder) viewHolder;
-            holder.setLabelViewText(context.getString(R.string.bottle_result_all_criteria_number_label, numberBottlesAllCriteria));
+            holder.setLabelViewText(context.getResources().getQuantityString(R.plurals.bottle_result_all_criteria_number_label, numberBottlesAllCriteria, numberBottlesAllCriteria));
         } else if (isAllBottlesVisible && position == numberBottlesAllCriteria + 1) {
             BottleNumberViewHolder holder = (BottleNumberViewHolder) viewHolder;
-            holder.setLabelViewText(context.getString(R.string.bottle_result_not_all_criteria_number_label, allBottles.size() - numberBottlesAllCriteria));
+            int bottleResults = allBottles.size() - numberBottlesAllCriteria;
+            holder.setLabelViewText(context.getResources().getQuantityString(R.plurals.bottle_result_not_all_criteria_number_label, bottleResults, bottleResults));
         } else if (isAllBottlesVisible && position > numberBottlesAllCriteria + 1) {
             BindBottleViewHolder((BottleViewHolder) viewHolder, allBottles.get(position - 2));
         } else if (position <= numberBottlesAllCriteria) {
