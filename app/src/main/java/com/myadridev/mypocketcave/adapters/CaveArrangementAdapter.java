@@ -139,38 +139,38 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
 
         if (caveArangement.PatternMap.containsKey(coordinates)) {
-            CaveArrangementViewHolder holder = (CaveArrangementViewHolder) viewHolder;
             PatternModelWithBottles patternWithBottles = caveArangement.PatternMap.get(coordinates);
-            if (patternWithBottles != null) {
-                int numberRowsGridLayout = patternWithBottles.getNumberRowsGridLayout();
-                int numberColumnsGridLayout = patternWithBottles.getNumberColumnsGridLayout();
-                if (numberRowsGridLayout > 0) {
-                    PatternAdapter patternAdapter;
-                    if (isIndividualPlacesClickable) {
-                        holder.setPatternViewLayoutManager(new GridLayoutManager(detailActivity, numberColumnsGridLayout));
-                        patternAdapter = new PatternAdapter(detailActivity, patternWithBottles.PlaceMapWithBottles,
-                                new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                                true, itemWidth, itemWidth, coordinates);
-                        patternAdapter.addOnBottlePlacedClickListener((patternCoordinates, coordinates1, bottleId) -> {
-                            caveArangement.placeBottle(patternCoordinates, coordinates1, bottleId);
-                            BottleManager.placeBottle(bottleId);
-                            for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
-                                onValueChangedListener.onValueChanged();
-                            }
-                            notifyDataSetChanged();
-                        });
-                        holder.hideClickableSpace();
-                    } else {
-                        holder.setPatternViewLayoutManager(new GridLayoutManager(editActivity, numberColumnsGridLayout));
-                        patternAdapter = new PatternAdapter(editActivity, patternWithBottles.PlaceMapWithBottles,
-                                new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                                false, itemWidth, itemWidth, null);
-                        holder.setOnItemClickListener(listener, coordinates);
-                        holder.setClickableSpaceDimensions(itemWidth, itemWidth);
+            if (patternWithBottles == null) return;
+
+            CaveArrangementViewHolder holder = (CaveArrangementViewHolder) viewHolder;
+            int numberRowsGridLayout = patternWithBottles.getNumberRowsGridLayout();
+            if (numberRowsGridLayout <= 0) return;
+
+            int numberColumnsGridLayout = patternWithBottles.getNumberColumnsGridLayout();
+            PatternAdapter patternAdapter;
+            if (isIndividualPlacesClickable) {
+                holder.setPatternViewLayoutManager(new GridLayoutManager(detailActivity, numberColumnsGridLayout));
+                patternAdapter = new PatternAdapter(detailActivity, patternWithBottles.PlaceMapWithBottles,
+                        new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
+                        true, itemWidth, itemWidth, coordinates);
+                patternAdapter.addOnBottlePlacedClickListener((patternCoordinates, coordinates1, bottleId) -> {
+                    caveArangement.placeBottle(patternCoordinates, coordinates1, bottleId);
+                    BottleManager.placeBottle(bottleId);
+                    for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
+                        onValueChangedListener.onValueChanged();
                     }
-                    holder.setPatternViewAdapter(patternAdapter);
-                }
+                    notifyDataSetChanged();
+                });
+                holder.hideClickableSpace();
+            } else {
+                holder.setPatternViewLayoutManager(new GridLayoutManager(editActivity, numberColumnsGridLayout));
+                patternAdapter = new PatternAdapter(editActivity, patternWithBottles.PlaceMapWithBottles,
+                        new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
+                        false, itemWidth, itemWidth, null);
+                holder.setOnItemClickListener(listener, coordinates);
+                holder.setClickableSpaceDimensions(itemWidth, itemWidth);
             }
+            holder.setPatternViewAdapter(patternAdapter);
         } else if (!isIndividualPlacesClickable && isAddPattern(coordinates)) {
             AddPatternViewHolder holder = (AddPatternViewHolder) viewHolder;
             Picasso.with(editActivity).load(R.drawable.add).resize(itemWidth / 2, itemWidth / 2).into(holder.getImageView());
