@@ -22,12 +22,11 @@
             android:name=".activities.MainActivity"
             android:label="@string/title_main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BottleDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BottleEditActivity"
             android:label="@string/title_edit_bottle"
@@ -51,7 +50,7 @@
         <activity
             android:name=".activities.CaveDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CaveEditActivity"
             android:label="@string/title_edit_cave"

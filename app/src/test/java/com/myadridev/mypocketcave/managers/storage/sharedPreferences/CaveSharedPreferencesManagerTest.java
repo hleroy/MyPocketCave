@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
@@ -17,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
+import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
@@ -32,6 +34,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyMapOf;
 import static org.mockito.Matchers.anyString;
@@ -48,24 +51,20 @@ public class CaveSharedPreferencesManagerTest {
     private static List<CaveModel> sortedCaves;
     private static List<Integer> caveIds;
 
+    @Mock
+    Context context;
+
     @BeforeClass
     public static void beforeClass() {
         initBottleMap();
         DependencyManager.init();
-        ISharedPreferencesManager mockSharedPreferencesManager = mock(ISharedPreferencesManager.class);
 
-        when(mockSharedPreferencesManager.getStringFromResource(eq(R.string.store_cave_key))).thenReturn("cave");
-        when(mockSharedPreferencesManager.getStringFromResource(eq(R.string.store_cave), anyInt())).thenAnswer(new Answer<String>() {
-            @Override
-            public String answer(InvocationOnMock invocation) {
-                return "cave_" + (int) invocation.getArguments()[1];
-            }
-        });
+        ISharedPreferencesManager mockSharedPreferencesManager = mock(ISharedPreferencesManager.class);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                String fileName = (String) invocation.getArguments()[0];
-                Map<String, Object> dataMap = (Map<String, Object>) invocation.getArguments()[1];
+                String fileName = (String) invocation.getArguments()[1];
+                Map<String, Object> dataMap = (Map<String, Object>) invocation.getArguments()[2];
                 for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
                     String key = entry.getKey();
                     if (key.equalsIgnoreCase("cave") && fileName.startsWith("cave_")) {
@@ -81,26 +80,27 @@ public class CaveSharedPreferencesManagerTest {
                 }
                 return null;
             }
-        }).when(mockSharedPreferencesManager).storeStringMapData(anyString(), anyMapOf(String.class, Object.class));
+        }).when(mockSharedPreferencesManager).storeStringMapData(any(Context.class), anyString(), anyMapOf(String.class, Object.class));
 
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 Object[] arguments = invocation.getArguments();
-                String storeFilename = (String) arguments[0];
-                String key = (String) arguments[1];
-                Object dataToStore = arguments[2];
+                Context context = (Context) arguments[0];
+                String storeFilename = (String) arguments[1];
+                String key = (String) arguments[2];
+                Object dataToStore = arguments[3];
                 Map<String, Object> dataToStoreMap = new HashMap<>(1);
                 dataToStoreMap.put(key, dataToStore);
-                mockSharedPreferencesManager.storeStringMapData(storeFilename, dataToStoreMap);
+                mockSharedPreferencesManager.storeStringMapData(context, storeFilename, dataToStoreMap);
                 return null;
             }
-        }).when(mockSharedPreferencesManager).storeStringData(anyString(), anyString(), Matchers.anyObject());
+        }).when(mockSharedPreferencesManager).storeStringData(any(Context.class), anyString(), anyString(), Matchers.anyObject());
 
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                String key = (String) invocation.getArguments()[0];
+                String key = (String) invocation.getArguments()[1];
                 if (key.startsWith("cave_")) {
                     int caveId = Integer.parseInt(key.substring(5, key.length()));
                     caveIds.removeIf(id -> id == caveId);
@@ -109,13 +109,13 @@ public class CaveSharedPreferencesManagerTest {
                 }
                 return null;
             }
-        }).when(mockSharedPreferencesManager).delete(anyString());
+        }).when(mockSharedPreferencesManager).delete(any(Context.class), anyString());
 
-        when(mockSharedPreferencesManager.loadStoredData(anyString(), eq(R.string.store_cave_key), eq(CaveModel.class)))
+        when(mockSharedPreferencesManager.loadStoredData(any(Context.class), anyString(), eq(R.string.store_cave_key), eq(CaveModel.class)))
                 .thenAnswer(new Answer<CaveModel>() {
                     @Override
                     public CaveModel answer(InvocationOnMock invocation) throws Throwable {
-                        String fileName = (String) invocation.getArguments()[0];
+                        String fileName = (String) invocation.getArguments()[1];
                         if (fileName.startsWith("cave_")) {
                             int caveId = Integer.parseInt(fileName.substring(5, fileName.length()));
                             return caveMap.containsKey(caveId) ? (CaveModel) caveMap.get(caveId) : null;
@@ -157,19 +157,26 @@ public class CaveSharedPreferencesManagerTest {
 
     @Before
     public void before() {
+        when(context.getString(eq(R.string.store_cave_key))).thenReturn("cave");
+        when(context.getString(eq(R.string.store_cave), anyInt())).thenAnswer(new Answer<String>() {
+            @Override
+            public String answer(InvocationOnMock invocation) {
+                return "cave_" + (int) invocation.getArguments()[1];
+            }
+        });
         CaveSharedPreferencesManager.Init();
         assertTrue(CaveSharedPreferencesManager.IsInitialized());
     }
 
     @Test
     public void getCaveWhenNoCave() {
-        CaveModel outputCave = CaveSharedPreferencesManager.Instance.getCave(-1);
+        CaveModel outputCave = CaveSharedPreferencesManager.Instance.getCave(context, -1);
         assertNull(outputCave);
     }
 
     @Test
     public void getCaveWhenCaveExists() {
-        CaveModel outputCave = CaveSharedPreferencesManager.Instance.getCave(1);
+        CaveModel outputCave = CaveSharedPreferencesManager.Instance.getCave(context, 1);
         CaveModel expectedCave = (CaveModel) caveMap.get(1);
         assertNotNull(outputCave);
         assertEquals(expectedCave, outputCave);
@@ -193,7 +200,7 @@ public class CaveSharedPreferencesManagerTest {
         assertFalse(caveMap.containsKey(newCaveId));
         assertTrue(sortedCaves.parallelStream().noneMatch(cave -> cave.Id == newCaveId));
 
-        CaveSharedPreferencesManager.Instance.insertOrUpdateCave(newCave);
+        CaveSharedPreferencesManager.Instance.insertOrUpdateCave(context, newCave);
 
         assertTrue(caveIds.contains(newCaveId));
         assertTrue(caveMap.containsKey(newCaveId));
@@ -216,7 +223,7 @@ public class CaveSharedPreferencesManagerTest {
         int idToRemove = 1;
         CaveModel oldCave = (CaveModel) caveMap.get(idToRemove);
 
-        CaveSharedPreferencesManager.Instance.deleteCave(oldCave);
+        CaveSharedPreferencesManager.Instance.deleteCave(context, oldCave);
 
         assertFalse(caveIds.contains(idToRemove));
         assertTrue(sortedCaves.parallelStream().noneMatch(cave -> cave.Id == idToRemove));

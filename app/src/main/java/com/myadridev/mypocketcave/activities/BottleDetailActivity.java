@@ -78,7 +78,7 @@ public class BottleDetailActivity extends AppCompatActivity {
             deleteBottleDialogBuilder.setMessage(R.string.bottle_delete_confirmation);
             deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
             deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
-                BottleManager.removeBottle(bottle.Id);
+                BottleManager.removeBottle(this, bottle.Id);
                 dialog.dismiss();
                 finish();
             });

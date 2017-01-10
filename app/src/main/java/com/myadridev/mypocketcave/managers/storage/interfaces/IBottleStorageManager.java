@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers.storage.interfaces;
 
+import android.content.Context;
+
 import com.myadridev.mypocketcave.models.BottleModel;
 
 import java.util.Collection;
@@ -11,11 +13,11 @@ public interface IBottleStorageManager {
 
     BottleModel getBottle(int bottleId);
 
-    int insertBottle(BottleModel bottle);
+    int insertBottle(Context context, BottleModel bottle);
 
-    void updateBottle(BottleModel bottle);
+    void updateBottle(Context context, BottleModel bottle);
 
-    void deleteBottle(int bottleId);
+    void deleteBottle(Context context, int bottleId);
 
     int getExistingBottleId(int id, String name, String domain, int wineColorId, int millesime);
 
@@ -33,7 +35,7 @@ public interface IBottleStorageManager {
 
     List<BottleModel> getNonPlacedBottles();
 
-    void updateNumberPlaced(int bottleId, int increment);
+    void updateNumberPlaced(Context context, int bottleId, int increment);
 
-    void drinkBottle(int bottleId);
+    void drinkBottle(Context context, int bottleId);
 }

@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers;
 
+import android.content.Context;
+
 import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
 import com.myadridev.mypocketcave.models.PatternModel;
 
@@ -28,6 +30,9 @@ public class PatternManagerTest {
     @Mock
     IPatternsStorageManager mockPatternsStorageManager;
 
+    @Mock
+    private Context context;
+
     private List<PatternModel> patterns;
 
     @Before
@@ -47,6 +52,7 @@ public class PatternManagerTest {
         patterns.add(pattern3);
 
         DependencyManager.init();
+
         when(mockPatternsStorageManager.getPatterns()).thenAnswer(new Answer<List<PatternModel>>() {
             @Override
             public List<PatternModel> answer(InvocationOnMock invocation) {
@@ -70,7 +76,7 @@ public class PatternManagerTest {
                 return id == 42 ? 42 : -1;
             }
         });
-        when(mockPatternsStorageManager.insertPattern(any(PatternModel.class))).thenReturn(17);
+        when(mockPatternsStorageManager.insertPattern(any(Context.class), any(PatternModel.class))).thenReturn(17);
         DependencyManager.registerSingleton(IPatternsStorageManager.class, mockPatternsStorageManager, true);
     }
 
@@ -98,20 +104,20 @@ public class PatternManagerTest {
     public void addExistingPattern() {
         PatternModel pattern42 = new PatternModel();
         pattern42.Id = 42;
-        int res = PatternManager.addPattern(pattern42);
+        int res = PatternManager.addPattern(context, pattern42);
         assertEquals(42, res);
     }
 
     @Test
     public void addNonExistingPattern() {
         PatternModel pattern2 = new PatternModel();
-        int res2 = PatternManager.addPattern(pattern2);
+        int res2 = PatternManager.addPattern(context, pattern2);
         assertEquals(17, res2);
     }
 
     @Test
     public void setLastUsedPattern() {
-        PatternManager.setLastUsedPattern(2);
+        PatternManager.setLastUsedPattern(context, 2);
         for (PatternModel pattern : patterns) {
             switch (pattern.Id) {
                 case 1:

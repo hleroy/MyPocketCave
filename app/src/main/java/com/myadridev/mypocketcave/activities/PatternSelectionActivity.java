@@ -40,7 +40,7 @@ public class PatternSelectionActivity extends AppCompatActivity {
         PatternSelectionAdapter patternSelectionAdapter = new PatternSelectionAdapter(this, recentPatternList);
         patternSelectionRecyclerView.setAdapter(patternSelectionAdapter);
         patternSelectionAdapter.addOnSelectionPatternClickListener((int patternId) -> {
-            PatternManager.setLastUsedPattern(patternId);
+            PatternManager.setLastUsedPattern(this, patternId);
             setResultAndFinish(RESULT_OK, patternId);
         });
     }

@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
 
+import android.content.Context;
+
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
@@ -45,9 +47,9 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
     }
 
     @Override
-    public CaveModel getCave(int caveId) {
+    public CaveModel getCave(Context context, int caveId) {
         if (!allCavesMap.containsKey(caveId)) {
-            IStorableModel caveAsStorableModel = getSharedPreferencesManager().loadStoredData(getSharedPreferencesManager().getStringFromResource(filenameResourceId, caveId),
+            IStorableModel caveAsStorableModel = getSharedPreferencesManager().loadStoredData(context, context.getString(filenameResourceId, caveId),
                     keyCaveResourceId, CaveModel.class);
 
             if (caveAsStorableModel != null && caveAsStorableModel instanceof CaveModel) {
@@ -59,14 +61,14 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
     }
 
     @Override
-    public void insertOrUpdateCave(CaveModel cave) {
+    public void insertOrUpdateCave(Context context, CaveModel cave) {
         allCavesMap.put(cave.Id, cave);
-        getSharedPreferencesManager().storeStringData(getSharedPreferencesManager().getStringFromResource(filenameResourceId, cave.Id),
-                getSharedPreferencesManager().getStringFromResource(keyCaveResourceId), cave);
+        getSharedPreferencesManager().storeStringData(context, context.getString(filenameResourceId, cave.Id),
+                context.getString(keyCaveResourceId), cave);
     }
 
     @Override
-    public void deleteCave(CaveModel cave) {
-        getSharedPreferencesManager().delete(getSharedPreferencesManager().getStringFromResource(filenameResourceId, cave.Id));
+    public void deleteCave(Context context, CaveModel cave) {
+        getSharedPreferencesManager().delete(context, context.getString(filenameResourceId, cave.Id));
     }
 }

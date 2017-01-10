@@ -1,14 +1,12 @@
 package com.myadridev.mypocketcave.helpers;
 
-import android.support.annotation.NonNull;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CollectionsHelperTest {
 

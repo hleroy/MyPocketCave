@@ -3,7 +3,6 @@ package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,13 +22,11 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
 
     public static SharedPreferencesManager Instance;
     private static boolean _isInitialized;
-    private final Context context;
     private final int openMode = Context.MODE_PRIVATE;
     private ObjectMapper jsonMapper = new ObjectMapper();
     private String sharedPreferencesFolder;
 
-    private SharedPreferencesManager(Context _context) {
-        context = _context;
+    private SharedPreferencesManager(Context context) {
         sharedPreferencesFolder = context.getFilesDir().getParent() + File.separator + "shared_prefs" + File.separator;
     }
 
@@ -42,11 +39,7 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         _isInitialized = true;
     }
 
-    public String getStringFromResource(@StringRes int resourceId, Object... formatArgs) {
-        return context.getString(resourceId, formatArgs);
-    }
-
-    public int loadStoredDataMap(int storeFileResourceId, int storeSetResourceId, Class<? extends IStorableModel> dataType, Map<Integer, IStorableModel> dataMap) {
+    public int loadStoredDataMap(Context context, int storeFileResourceId, int storeSetResourceId, Class<? extends IStorableModel> dataType, Map<Integer, IStorableModel> dataMap) {
         String storeFile = context.getString(storeFileResourceId);
         String storeSet = context.getString(storeSetResourceId);
 
@@ -71,7 +64,7 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         return maxDataId;
     }
 
-    public void storeData(int storeFileResourceId, int storeSetResourceId, Map<Integer, ? extends IStorableModel> dataMap) {
+    public void storeData(Context context, int storeFileResourceId, int storeSetResourceId, Map<Integer, ? extends IStorableModel> dataMap) {
         String storeFile = context.getString(storeFileResourceId);
         String storeSet = context.getString(storeSetResourceId);
         Map<Integer, String> dataJsonMap = serializeData(dataMap);
@@ -86,10 +79,9 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         editor.apply();
     }
 
-    public void delete(String filename) {
+    public void delete(Context context, String filename) {
         SharedPreferences settings = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
-        // here we want the file to be deleted immediately
-        settings.edit().clear().commit();
+        settings.edit().clear().apply();
         File settingsFile = new File(sharedPreferencesFolder + filename);
         if (settingsFile.exists()) {
             settingsFile.delete();
@@ -111,13 +103,13 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         return serializedData;
     }
 
-    public void storeStringData(String storeFilename, String key, Object dataToStore) {
+    public void storeStringData(Context context, String storeFilename, String key, Object dataToStore) {
         Map<String, Object> dataToStoreMap = new HashMap<>(1);
         dataToStoreMap.put(key, dataToStore);
-        storeStringMapData(storeFilename, dataToStoreMap);
+        storeStringMapData(context, storeFilename, dataToStoreMap);
     }
 
-    public void storeStringMapData(String storeFilename, Map<String, Object> dataToStoreMap) {
+    public void storeStringMapData(Context context, String storeFilename, Map<String, Object> dataToStoreMap) {
         SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
         SharedPreferences.Editor editor = storedData.edit();
 
@@ -132,14 +124,14 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         editor.apply();
     }
 
-    public void removeData(String storeFilename, String key) {
+    public void removeData(Context context, String storeFilename, String key) {
         SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
         SharedPreferences.Editor editor = storedData.edit();
         editor.remove(key);
         editor.apply();
     }
 
-    public Map<Integer, IStorableModel> loadStoredDataMap(String storeFilename, String keyIndex, int keyDetailResourceId, Class<? extends IStorableModel> dataType) {
+    public Map<Integer, IStorableModel> loadStoredDataMap(Context context, String storeFilename, String keyIndex, int keyDetailResourceId, Class<? extends IStorableModel> dataType) {
         Map<Integer, IStorableModel> dataMap = new HashMap<>();
         SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
         String indexListJson = storedData.getString(keyIndex, "");
@@ -173,7 +165,7 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         return dataMap;
     }
 
-    public IStorableModel loadStoredData(String storeFilename, int keyResourceId, Class<? extends IStorableModel> dataType) {
+    public IStorableModel loadStoredData(Context context, String storeFilename, int keyResourceId, Class<? extends IStorableModel> dataType) {
         SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
 
         String keyDetail = context.getString(keyResourceId);

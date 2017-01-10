@@ -33,7 +33,7 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
 
     @Override
     protected void saveCave() {
-        CaveManager.editCave(cave);
+        CaveManager.editCave(this, cave);
         NavigationManager.navigateToCaveDetail(this, cave.Id);
     }
 
@@ -44,17 +44,17 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
 
     @Override
     protected void removeCave() {
-        CaveManager.removeCave(cave);
+        CaveManager.removeCave(this, cave);
     }
 
     @Override
     protected void redirectToExistingCave(int existingCaveId) {
-        CaveManager.removeCave(cave);
+        CaveManager.removeCave(this, cave);
         NavigationManager.navigateToCaveDetail(this, existingCaveId);
         finish();
     }
 
     private void refreshCave() {
-        cave = new CaveModel(CaveManager.getCave(caveId));
+        cave = new CaveModel(CaveManager.getCave(this, caveId));
     }
 }

@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers;
 
+import android.content.Context;
+
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
@@ -36,16 +38,16 @@ public class BottleManager {
         return getBottleStorageManager().getBottle(bottleId);
     }
 
-    public static int addBottle(BottleModel bottle) {
-        return getBottleStorageManager().insertBottle(bottle);
+    public static int addBottle(Context context, BottleModel bottle) {
+        return getBottleStorageManager().insertBottle(context, bottle);
     }
 
-    public static void editBottle(BottleModel bottle) {
-        getBottleStorageManager().updateBottle(bottle);
+    public static void editBottle(Context context, BottleModel bottle) {
+        getBottleStorageManager().updateBottle(context, bottle);
     }
 
-    public static void removeBottle(int bottleId) {
-        getBottleStorageManager().deleteBottle(bottleId);
+    public static void removeBottle(Context context, int bottleId) {
+        getBottleStorageManager().deleteBottle(context, bottleId);
     }
 
     public static int getExistingBottleId(int id, String name, String domain, WineColorEnum wineColor, int millesime) {
@@ -170,16 +172,16 @@ public class BottleManager {
         return getBottleStorageManager().getNonPlacedBottles();
     }
 
-    public static void placeBottle(int bottleId) {
-        updateNumberPlaced(bottleId, 1);
+    public static void placeBottle(Context context, int bottleId) {
+        updateNumberPlaced(context, bottleId, 1);
     }
 
-    public static void drinkBottle(int bottleId) {
-        getBottleStorageManager().drinkBottle(bottleId);
-        updateNumberPlaced(bottleId, -1);
+    public static void drinkBottle(Context context, int bottleId) {
+        getBottleStorageManager().drinkBottle(context, bottleId);
+        updateNumberPlaced(context, bottleId, -1);
     }
 
-    public static void updateNumberPlaced(int bottleId, int increment) {
-        getBottleStorageManager().updateNumberPlaced(bottleId, increment);
+    public static void updateNumberPlaced(Context context, int bottleId, int increment) {
+        getBottleStorageManager().updateNumberPlaced(context, bottleId, increment);
     }
 }

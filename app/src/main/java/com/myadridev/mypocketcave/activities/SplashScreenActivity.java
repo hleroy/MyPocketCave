@@ -60,7 +60,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                         // Bottles
                         if (!BottlesSharedPreferencesManager.IsInitialized()) {
-                            BottlesSharedPreferencesManager.Init();
+                            BottlesSharedPreferencesManager.Init(SplashScreenActivity.this);
                         }
                         DependencyManager.registerSingleton(IBottleStorageManager.class, BottlesSharedPreferencesManager.Instance);
                         step++;
@@ -70,7 +70,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         splashImageView.setImageDrawable(ContextCompat.getDrawable(SplashScreenActivity.this, R.mipmap.splash_2));
                         // Caves
                         if (!CavesSharedPreferencesManager.IsInitialized()) {
-                            CavesSharedPreferencesManager.Init();
+                            CavesSharedPreferencesManager.Init(SplashScreenActivity.this);
                         }
                         DependencyManager.registerSingleton(ICavesStorageManager.class, CavesSharedPreferencesManager.Instance);
                         step++;
@@ -80,7 +80,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         splashImageView.setImageDrawable(ContextCompat.getDrawable(SplashScreenActivity.this, R.mipmap.splash_3));
                         // Patterns
                         if (!PatternsSharedPreferencesManager.IsInitialized()) {
-                            PatternsSharedPreferencesManager.Init();
+                            PatternsSharedPreferencesManager.Init(SplashScreenActivity.this);
                         }
                         DependencyManager.registerSingleton(IPatternsStorageManager.class, PatternsSharedPreferencesManager.Instance);
                         step++;

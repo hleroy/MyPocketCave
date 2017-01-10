@@ -28,7 +28,7 @@ public class CaveCreateActivity extends AbstractCaveEditActivity {
 
     @Override
     protected void saveCave() {
-        cave.Id = CaveManager.addCave(cave);
+        cave.Id = CaveManager.addCave(this, cave);
         NavigationManager.navigateToCaveDetail(this, cave.Id);
     }
 

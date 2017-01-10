@@ -33,7 +33,7 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
 
     @Override
     protected void saveBottle() {
-        BottleManager.editBottle(bottle);
+        BottleManager.editBottle(this, bottle);
         NavigationManager.navigateToBottleDetail(this, bottle.Id);
     }
 
@@ -44,7 +44,7 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
 
     @Override
     protected void removeBottle() {
-        BottleManager.removeBottle(bottle.Id);
+        BottleManager.removeBottle(this, bottle.Id);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
 
     @Override
     protected void redirectToExistingBottle(int existingBottleId) {
-        BottleManager.removeBottle(bottle.Id);
+        BottleManager.removeBottle(this, bottle.Id);
         NavigationManager.navigateToBottleDetail(this, existingBottleId);
         finish();
     }

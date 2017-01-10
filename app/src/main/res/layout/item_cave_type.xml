@@ -8,10 +8,10 @@
         android:id="@+id/cave_type_image"
         android:layout_width="@dimen/bottle_icon_size"
         android:layout_height="@dimen/bottle_icon_size"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
         android:src="@drawable/cave_fridge" />
 
     <TextView

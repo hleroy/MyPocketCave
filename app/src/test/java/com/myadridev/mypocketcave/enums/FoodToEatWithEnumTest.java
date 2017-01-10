@@ -16,6 +16,9 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class FoodToEatWithEnumTest {
 
+    @Mock
+    Context mockContext;
+
     @Test
     public void getByIdFoodToEatWithEnumExisting() {
         assertEquals(FoodToEatWithEnum.RedMeat, FoodToEatWithEnum.getById(FoodToEatWithEnum.RedMeat.Id));
@@ -25,9 +28,6 @@ public class FoodToEatWithEnumTest {
     public void getByIdFoodToEatWithEnumNonExisting() {
         assertEquals(null, FoodToEatWithEnum.getById(-1));
     }
-
-    @Mock
-    Context mockContext;
 
     @Test
     public void getAllFoodLabels() {

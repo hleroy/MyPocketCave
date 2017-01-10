@@ -8,9 +8,9 @@
         android:id="@+id/bottle_result_see_more_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_button"
-        android:layout_gravity="center"
         android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin_button"
         android:background="@color/colorPrimary"
         android:text="@string/suggest_bottle_result_show_more"
         android:textColor="@android:color/white" />

@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers;
 
+import android.content.Context;
+
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
 import com.myadridev.mypocketcave.models.PatternModel;
@@ -29,17 +31,17 @@ public class PatternManager {
         return getPatternsStorageManager().getPattern(patternId);
     }
 
-    public static int addPattern(PatternModel pattern) {
+    public static int addPattern(Context context, PatternModel pattern) {
         int existingPatternId = getPatternsStorageManager().getExistingPatternId(pattern);
         if (existingPatternId == -1) {
-            pattern.Id = getPatternsStorageManager().insertPattern(pattern);
+            pattern.Id = getPatternsStorageManager().insertPattern(context, pattern);
             return pattern.Id;
         } else {
             return existingPatternId;
         }
     }
 
-    public static void setLastUsedPattern(int patternId) {
+    public static void setLastUsedPattern(Context context, int patternId) {
         PatternModel existingPattern = getPattern(patternId);
         int order = existingPattern.Order;
         List<PatternModel> patterns = getPatterns();
@@ -50,6 +52,6 @@ public class PatternManager {
                 pattern.Order = pattern.Order + 1;
             }
         }
-        getPatternsStorageManager().updateAllPatterns(patterns);
+        getPatternsStorageManager().updateAllPatterns(context, patterns);
     }
 }

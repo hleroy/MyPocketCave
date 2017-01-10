@@ -22,11 +22,10 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class FoodToEatHelperTest {
 
-    @Mock
-    Context mockContext;
-
     private final String fakeOutput = "fake";
     private final String foodSeparator = ", ";
+    @Mock
+    Context mockContext;
 
     @Before
     public void before() {

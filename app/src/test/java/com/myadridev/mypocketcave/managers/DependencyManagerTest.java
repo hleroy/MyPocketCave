@@ -11,30 +11,8 @@ import static org.junit.Assert.fail;
 
 public class DependencyManagerTest {
 
-    private interface MyInterface {
-        String getName();
-    }
-
-    private interface MyInterface2 {
-        String getName();
-    }
-
     private static final String nameImplA = "nameA";
     private static final String nameImplB = "nameB";
-
-    private class MyImplA implements MyInterface {
-        @Override
-        public String getName() {
-            return nameImplA;
-        }
-    }
-
-    private class MyImplB implements MyInterface {
-        @Override
-        public String getName() {
-            return nameImplB;
-        }
-    }
 
     @Before
     public void before() {
@@ -174,6 +152,28 @@ public class DependencyManagerTest {
             assertTrue(listenersFired[1]);
         } catch (Exception ex) {
             fail();
+        }
+    }
+
+    private interface MyInterface {
+        String getName();
+    }
+
+    private interface MyInterface2 {
+        String getName();
+    }
+
+    private class MyImplA implements MyInterface {
+        @Override
+        public String getName() {
+            return nameImplA;
+        }
+    }
+
+    private class MyImplB implements MyInterface {
+        @Override
+        public String getName() {
+            return nameImplB;
         }
     }
 }

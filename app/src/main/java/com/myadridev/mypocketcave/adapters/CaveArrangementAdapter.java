@@ -155,7 +155,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         true, itemWidth, itemWidth, coordinates);
                 patternAdapter.addOnBottlePlacedClickListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates1, int bottleId) -> {
                     caveArangement.placeBottle(patternCoordinates, coordinates1, bottleId);
-                    BottleManager.placeBottle(bottleId);
+                    BottleManager.placeBottle(detailActivity, bottleId);
                     for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
                         onValueChangedListener.onValueChanged();
                     }
@@ -163,7 +163,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 });
                 patternAdapter.addOnBottleDrunkClickListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates1, int bottleId) -> {
                     caveArangement.unplaceBottle(patternCoordinates, coordinates1, bottleId);
-                    BottleManager.drinkBottle(bottleId);
+                    BottleManager.drinkBottle(detailActivity, bottleId);
                     for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
                         onValueChangedListener.onValueChanged();
                     }
@@ -171,7 +171,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 });
                 patternAdapter.addOnBottleUnplacedClickListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates1, int bottleId) -> {
                     caveArangement.unplaceBottle(patternCoordinates, coordinates1, bottleId);
-                    BottleManager.updateNumberPlaced(bottleId, -1);
+                    BottleManager.updateNumberPlaced(detailActivity, bottleId, -1);
                     for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
                         onValueChangedListener.onValueChanged();
                     }

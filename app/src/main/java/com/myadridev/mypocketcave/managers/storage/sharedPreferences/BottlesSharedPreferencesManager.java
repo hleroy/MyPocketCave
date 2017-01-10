@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
 
+import android.content.Context;
+
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
@@ -30,19 +32,19 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     private boolean listenerSharedPreferencesRegistered = false;
     private ISharedPreferencesManager sharedPreferencesManager = null;
 
-    private BottlesSharedPreferencesManager() {
-        keyIndex = getSharedPreferencesManager().getStringFromResource(R.string.store_indexes);
-        filename = getSharedPreferencesManager().getStringFromResource(R.string.filename_bottles);
+    private BottlesSharedPreferencesManager(Context context) {
+        keyIndex = context.getString(R.string.store_indexes);
+        filename = context.getString(R.string.filename_bottles);
 
-        loadAllBottles();
+        loadAllBottles(context);
     }
 
     public static boolean IsInitialized() {
         return _isInitialized;
     }
 
-    public static void Init() {
-        Instance = new BottlesSharedPreferencesManager();
+    public static void Init(Context context) {
+        Instance = new BottlesSharedPreferencesManager(context);
         _isInitialized = true;
     }
 
@@ -55,8 +57,8 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return sharedPreferencesManager;
     }
 
-    private void loadAllBottles() {
-        Map<Integer, IStorableModel> allBottlesAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(filename, keyIndex, keyBottleResourceId, BottleModel.class);
+    private void loadAllBottles(Context context) {
+        Map<Integer, IStorableModel> allBottlesAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(context, filename, keyIndex, keyBottleResourceId, BottleModel.class);
 
         if (allBottlesAsStorableModel == null) {
             allBottlesMap = new HashMap<>();
@@ -84,7 +86,7 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     }
 
     @Override
-    public int insertBottle(BottleModel bottle) {
+    public int insertBottle(Context context, BottleModel bottle) {
         List<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
         bottle.Id = StorageHelper.getNewId(ids);
         allBottlesMap.put(bottle.Id, bottle);
@@ -92,24 +94,24 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
         Map<String, Object> dataToStoreMap = new HashMap<>(2);
         dataToStoreMap.put(keyIndex, ids);
-        dataToStoreMap.put(getSharedPreferencesManager().getStringFromResource(keyBottleResourceId, bottle.Id), bottle);
+        dataToStoreMap.put(context.getString(keyBottleResourceId, bottle.Id), bottle);
 
-        getSharedPreferencesManager().storeStringMapData(filename, dataToStoreMap);
+        getSharedPreferencesManager().storeStringMapData(context, filename, dataToStoreMap);
         return bottle.Id;
     }
 
     @Override
-    public void updateBottle(BottleModel bottle) {
+    public void updateBottle(Context context, BottleModel bottle) {
         allBottlesMap.put(bottle.Id, bottle);
-        getSharedPreferencesManager().storeStringData(filename, getSharedPreferencesManager().getStringFromResource(keyBottleResourceId, bottle.Id), bottle);
+        getSharedPreferencesManager().storeStringData(context, filename, context.getString(keyBottleResourceId, bottle.Id), bottle);
     }
 
     @Override
-    public void deleteBottle(int bottleId) {
+    public void deleteBottle(Context context, int bottleId) {
         allBottlesMap.remove(bottleId);
         List<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
-        getSharedPreferencesManager().storeStringData(filename, keyIndex, ids);
-        getSharedPreferencesManager().removeData(filename, getSharedPreferencesManager().getStringFromResource(keyBottleResourceId, bottleId));
+        getSharedPreferencesManager().storeStringData(context, filename, keyIndex, ids);
+        getSharedPreferencesManager().removeData(context, filename, context.getString(keyBottleResourceId, bottleId));
     }
 
     @Override
@@ -205,16 +207,16 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     }
 
     @Override
-    public void drinkBottle(int bottleId) {
+    public void drinkBottle(Context context, int bottleId) {
         BottleModel bottle = getBottle(bottleId);
         bottle.Stock -= 1;
-        updateBottle(bottle);
+        updateBottle(context, bottle);
     }
 
     @Override
-    public void updateNumberPlaced(int bottleId, int increment) {
+    public void updateNumberPlaced(Context context, int bottleId, int increment) {
         BottleModel bottle = getBottle(bottleId);
         bottle.NumberPlaced += increment;
-        updateBottle(bottle);
+        updateBottle(context, bottle);
     }
 }

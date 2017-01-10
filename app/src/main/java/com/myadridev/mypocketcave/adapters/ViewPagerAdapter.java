@@ -18,6 +18,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public final Map<Integer, IVisibleFragment> allFragments;
     private final Map<Integer, Fragment> fragments;
     private Context context;
+
     public ViewPagerAdapter(FragmentManager fm, Context _context, int fragmentToDisplay) {
         super(fm);
         context = _context;

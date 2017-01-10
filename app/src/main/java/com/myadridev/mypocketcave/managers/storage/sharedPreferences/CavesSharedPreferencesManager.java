@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
 
+import android.content.Context;
+
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
@@ -26,19 +28,19 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
     private boolean listenerSharedPreferencesRegistered = false;
     private ISharedPreferencesManager sharedPreferencesManager = null;
 
-    private CavesSharedPreferencesManager() {
-        keyIndex = getSharedPreferencesManager().getStringFromResource(R.string.store_indexes);
-        filename = getSharedPreferencesManager().getStringFromResource(R.string.filename_caves);
+    private CavesSharedPreferencesManager(Context context) {
+        keyIndex = context.getString(R.string.store_indexes);
+        filename = context.getString(R.string.filename_caves);
 
-        loadAllCaves();
+        loadAllCaves(context);
     }
 
     public static boolean IsInitialized() {
         return _isInitialized;
     }
 
-    public static void Init() {
-        Instance = new CavesSharedPreferencesManager();
+    public static void Init(Context context) {
+        Instance = new CavesSharedPreferencesManager(context);
         _isInitialized = true;
     }
 
@@ -51,8 +53,8 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
         return sharedPreferencesManager;
     }
 
-    private void loadAllCaves() {
-        Map<Integer, IStorableModel> allCavesAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(filename, keyIndex, keyCaveResourceId, CaveLightModel.class);
+    private void loadAllCaves(Context context) {
+        Map<Integer, IStorableModel> allCavesAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(context, filename, keyIndex, keyCaveResourceId, CaveLightModel.class);
 
         if (allCavesAsStorableModel == null) {
             allCavesMap = new HashMap<>();
@@ -75,7 +77,7 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
     }
 
     @Override
-    public int insertCave(CaveLightModel cave, boolean needsNewId) {
+    public int insertCave(Context context, CaveLightModel cave, boolean needsNewId) {
         ArrayList<Integer> ids = new ArrayList<>(allCavesMap.keySet());
         if (needsNewId) {
             cave.Id = StorageHelper.getNewId(ids);
@@ -85,24 +87,24 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
 
         Map<String, Object> dataToStoreMap = new HashMap<>(2);
         dataToStoreMap.put(keyIndex, ids);
-        dataToStoreMap.put(getSharedPreferencesManager().getStringFromResource(keyCaveResourceId, cave.Id), cave);
+        dataToStoreMap.put(context.getString(keyCaveResourceId, cave.Id), cave);
 
-        getSharedPreferencesManager().storeStringMapData(filename, dataToStoreMap);
+        getSharedPreferencesManager().storeStringMapData(context, filename, dataToStoreMap);
         return cave.Id;
     }
 
     @Override
-    public void updateCave(CaveLightModel cave) {
+    public void updateCave(Context context, CaveLightModel cave) {
         allCavesMap.put(cave.Id, cave);
-        getSharedPreferencesManager().storeStringData(filename, getSharedPreferencesManager().getStringFromResource(keyCaveResourceId, cave.Id), cave);
+        getSharedPreferencesManager().storeStringData(context, filename, context.getString(keyCaveResourceId, cave.Id), cave);
     }
 
     @Override
-    public void deleteCave(int caveId) {
+    public void deleteCave(Context context, int caveId) {
         allCavesMap.remove(caveId);
         ArrayList<Integer> ids = new ArrayList<>(allCavesMap.keySet());
-        getSharedPreferencesManager().storeStringData(filename, keyIndex, ids);
-        getSharedPreferencesManager().removeData(filename, getSharedPreferencesManager().getStringFromResource(keyCaveResourceId, caveId));
+        getSharedPreferencesManager().storeStringData(context, filename, keyIndex, ids);
+        getSharedPreferencesManager().removeData(context, filename, context.getString(keyCaveResourceId, caveId));
     }
 
     @Override

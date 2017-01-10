@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
@@ -17,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
+import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
@@ -33,6 +35,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyMapOf;
 import static org.mockito.Matchers.anyString;
@@ -49,29 +52,25 @@ public class BottlesSharedPreferencesManagerTest {
     private static List<BottleModel> sortedBottles;
     private static List<Integer> bottleIds;
 
+    @Mock
+    Context context;
+
     @BeforeClass
     public static void beforeClass() {
         initBottleMap();
         DependencyManager.init();
+
         ISharedPreferencesManager mockSharedPreferencesManager = mock(ISharedPreferencesManager.class);
-        when(mockSharedPreferencesManager.loadStoredDataMap(anyString(), anyString(), anyInt(), eq(BottleModel.class))).thenAnswer(new Answer<Map<Integer, IStorableModel>>() {
+        when(mockSharedPreferencesManager.loadStoredDataMap(any(Context.class), anyString(), anyString(), anyInt(), eq(BottleModel.class))).thenAnswer(new Answer<Map<Integer, IStorableModel>>() {
             @Override
             public Map<Integer, IStorableModel> answer(InvocationOnMock invocation) {
                 return bottleMap;
             }
         });
-        when(mockSharedPreferencesManager.getStringFromResource(eq(R.string.store_indexes))).thenReturn("indexes");
-        when(mockSharedPreferencesManager.getStringFromResource(eq(R.string.filename_bottles))).thenReturn("bottles");
-        when(mockSharedPreferencesManager.getStringFromResource(eq(R.string.store_bottle), anyInt())).thenAnswer(new Answer<String>() {
-            @Override
-            public String answer(InvocationOnMock invocation) {
-                return "bottle_" + (int) invocation.getArguments()[1];
-            }
-        });
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                Map<String, Object> dataMap = (Map<String, Object>) invocation.getArguments()[1];
+                Map<String, Object> dataMap = (Map<String, Object>) invocation.getArguments()[2];
                 for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
                     String key = entry.getKey();
                     if (key.startsWith("bottle_")) {
@@ -92,26 +91,27 @@ public class BottlesSharedPreferencesManagerTest {
                 }
                 return null;
             }
-        }).when(mockSharedPreferencesManager).storeStringMapData(eq("bottles"), anyMapOf(String.class, Object.class));
+        }).when(mockSharedPreferencesManager).storeStringMapData(any(Context.class), eq("bottles"), anyMapOf(String.class, Object.class));
 
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 Object[] arguments = invocation.getArguments();
-                String storeFilename = (String) arguments[0];
-                String key = (String) arguments[1];
-                Object dataToStore = arguments[2];
+                Context context = (Context) arguments[0];
+                String storeFilename = (String) arguments[1];
+                String key = (String) arguments[2];
+                Object dataToStore = arguments[3];
                 Map<String, Object> dataToStoreMap = new HashMap<>(1);
                 dataToStoreMap.put(key, dataToStore);
-                mockSharedPreferencesManager.storeStringMapData(storeFilename, dataToStoreMap);
+                mockSharedPreferencesManager.storeStringMapData(context, storeFilename, dataToStoreMap);
                 return null;
             }
-        }).when(mockSharedPreferencesManager).storeStringData(anyString(), anyString(), Matchers.anyObject());
+        }).when(mockSharedPreferencesManager).storeStringData(any(Context.class), anyString(), anyString(), Matchers.anyObject());
 
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                String key = (String) invocation.getArguments()[1];
+                String key = (String) invocation.getArguments()[2];
                 if (key.startsWith("bottle_")) {
                     int bottleId = Integer.parseInt(key.substring(7, key.length()));
                     sortedBottles.removeIf(bottle -> bottle.Id == bottleId);
@@ -119,7 +119,7 @@ public class BottlesSharedPreferencesManagerTest {
                 }
                 return null;
             }
-        }).when(mockSharedPreferencesManager).removeData(eq("bottles"), anyString());
+        }).when(mockSharedPreferencesManager).removeData(any(Context.class), eq("bottles"), anyString());
         DependencyManager.registerSingleton(ISharedPreferencesManager.class, mockSharedPreferencesManager, true);
     }
 
@@ -176,7 +176,15 @@ public class BottlesSharedPreferencesManagerTest {
 
     @Before
     public void before() {
-        BottlesSharedPreferencesManager.Init();
+        when(context.getString(eq(R.string.store_indexes))).thenReturn("indexes");
+        when(context.getString(eq(R.string.filename_bottles))).thenReturn("bottles");
+        when(context.getString(eq(R.string.store_bottle), anyInt())).thenAnswer(new Answer<String>() {
+            @Override
+            public String answer(InvocationOnMock invocation) {
+                return "bottle_" + (int) invocation.getArguments()[1];
+            }
+        });
+        BottlesSharedPreferencesManager.Init(context);
         assertTrue(BottlesSharedPreferencesManager.IsInitialized());
     }
 
@@ -220,7 +228,7 @@ public class BottlesSharedPreferencesManagerTest {
         assertFalse(bottleMap.containsKey(expectedBottleId));
         assertTrue(sortedBottles.parallelStream().noneMatch(bottle -> bottle.Id == expectedBottleId));
 
-        int outputBottleId = BottlesSharedPreferencesManager.Instance.insertBottle(newBottle);
+        int outputBottleId = BottlesSharedPreferencesManager.Instance.insertBottle(context, newBottle);
 
         assertEquals(expectedBottleId, outputBottleId);
         assertEquals(expectedBottleId, newBottle.Id);
@@ -255,7 +263,7 @@ public class BottlesSharedPreferencesManagerTest {
 
         IStorableModel oldBottle = bottleMap.get(updatedBottle.Id);
 
-        BottlesSharedPreferencesManager.Instance.updateBottle(updatedBottle);
+        BottlesSharedPreferencesManager.Instance.updateBottle(context, updatedBottle);
 
         assertTrue(bottleIds.contains(updatedBottle.Id));
         assertTrue(bottleMap.containsKey(updatedBottle.Id));
@@ -277,7 +285,7 @@ public class BottlesSharedPreferencesManagerTest {
         int idToRemove = 1;
         BottleModel oldBottle = (BottleModel) bottleMap.get(idToRemove);
 
-        BottlesSharedPreferencesManager.Instance.deleteBottle(idToRemove);
+        BottlesSharedPreferencesManager.Instance.deleteBottle(context, idToRemove);
 
         assertFalse(bottleIds.contains(idToRemove));
         assertTrue(sortedBottles.parallelStream().noneMatch(bottle -> bottle.Id == idToRemove));
@@ -370,7 +378,7 @@ public class BottlesSharedPreferencesManagerTest {
 
         int size = expectedNonPlaced.size();
         assertEquals(size, nonPlacedBottles.size());
-        for (int i = 0 ; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             assertEquals(expectedNonPlaced.get(i), nonPlacedBottles.get(i));
         }
     }
@@ -381,7 +389,7 @@ public class BottlesSharedPreferencesManagerTest {
         BottleModel bottleToUpdate = (BottleModel) bottleMap.get(bottleId);
         int numberPlacedBefore = bottleToUpdate.NumberPlaced;
         int increment = -1;
-        BottlesSharedPreferencesManager.Instance.updateNumberPlaced(bottleId, increment);
+        BottlesSharedPreferencesManager.Instance.updateNumberPlaced(context, bottleId, increment);
         int numberPlacedAfter = bottleToUpdate.NumberPlaced;
         assertEquals(numberPlacedBefore + increment, numberPlacedAfter);
     }

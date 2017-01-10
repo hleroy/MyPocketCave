@@ -126,7 +126,7 @@
     <string name="title_create_cave">Add a cave</string>
     <string name="title_edit_cave">Edit the cave</string>
     <string name="error_cave_no_name">A cave name is needed</string>
-    <string name="cave_delete_confirmation" >Do we remove it? The bottles placed in it will not be placed anymore</string>
+    <string name="cave_delete_confirmation">Do we remove it? The bottles placed in it will not be placed anymore</string>
     <string name="global_stay_and_fix">Stay here and fix it</string>
     <string name="global_stay">Stay here</string>
     <string name="global_cancel">Cancel</string>
@@ -173,12 +173,12 @@
     <string name="see_bottle_detail">See detail</string>
     <string name="drink_bottle">Drink !</string>
     <string name="unplace_bottle">Remove this bottle from here</string>
-    <string name="title_drink" >Drink this bottle now ?</string>
-    <string name="message_drink" >Really ?</string>
-    <string name="drink_ok" >Yes, drink it !</string>
-    <string name="drink_no" >Later</string>
-    <string name="title_unplace" >Remove this bottle from here ?</string>
-    <string name="message_unplace" >Really ?</string>
-    <string name="unplace_ok" >Yes !</string>
-    <string name="unplace_no" >No</string>
+    <string name="title_drink">Drink this bottle now ?</string>
+    <string name="message_drink">Really ?</string>
+    <string name="drink_ok">Yes, drink it !</string>
+    <string name="drink_no">Later</string>
+    <string name="title_unplace">Remove this bottle from here ?</string>
+    <string name="message_unplace">Really ?</string>
+    <string name="unplace_ok">Yes !</string>
+    <string name="unplace_no">No</string>
 </resources>

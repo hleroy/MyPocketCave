@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.managers;
 
+import android.content.Context;
+
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICaveStorageManager;
@@ -39,32 +41,32 @@ public class CaveManager {
         return getCavesStorageManager().getCaves();
     }
 
-    public static CaveModel getCave(int caveId) {
-        return getCaveStorageManager().getCave(caveId);
+    public static CaveModel getCave(Context context, int caveId) {
+        return getCaveStorageManager().getCave(context, caveId);
     }
 
-    public static int addCave(CaveModel cave) {
+    public static int addCave(Context context, CaveModel cave) {
         CaveLightModel caveLight = new CaveLightModel(cave);
-        cave.Id = getCavesStorageManager().insertCave(caveLight, true);
-        getCaveStorageManager().insertOrUpdateCave(cave);
+        cave.Id = getCavesStorageManager().insertCave(context, caveLight, true);
+        getCaveStorageManager().insertOrUpdateCave(context, cave);
         return cave.Id;
     }
 
-    public static void editCave(CaveModel cave) {
+    public static void editCave(Context context, CaveModel cave) {
         CaveLightModel caveLight = new CaveLightModel(cave);
-        getCavesStorageManager().updateCave(caveLight);
-        getCaveStorageManager().insertOrUpdateCave(cave);
+        getCavesStorageManager().updateCave(context, caveLight);
+        getCaveStorageManager().insertOrUpdateCave(context, cave);
     }
 
-    public static void removeCave(CaveModel cave) {
-        getCavesStorageManager().deleteCave(cave.Id);
-        unplaceBottles(cave);
-        getCaveStorageManager().deleteCave(cave);
+    public static void removeCave(Context context, CaveModel cave) {
+        getCavesStorageManager().deleteCave(context, cave.Id);
+        unplaceBottles(context, cave);
+        getCaveStorageManager().deleteCave(context, cave);
     }
 
-    private static void unplaceBottles(CaveModel cave) {
+    private static void unplaceBottles(Context context, CaveModel cave) {
         for (Map.Entry<Integer, Float> numberPlacedBottleEntry : cave.CaveArrangement.getNumberPlacedBottlesByIdMap().entrySet()) {
-            BottleManager.updateNumberPlaced(numberPlacedBottleEntry.getKey(), -(int) Math.ceil(numberPlacedBottleEntry.getValue()));
+            BottleManager.updateNumberPlaced(context, numberPlacedBottleEntry.getKey(), -(int) Math.ceil(numberPlacedBottleEntry.getValue()));
         }
     }
 

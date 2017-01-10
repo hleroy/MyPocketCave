@@ -80,7 +80,7 @@ public class CaveDetailActivity extends AppCompatActivity {
             deleteCaveDialogBuilder.setMessage(R.string.cave_delete_confirmation);
             deleteCaveDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
             deleteCaveDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
-                CaveManager.removeCave(cave);
+                CaveManager.removeCave(this, cave);
                 dialog.dismiss();
                 finish();
             });
@@ -174,7 +174,7 @@ public class CaveDetailActivity extends AppCompatActivity {
 
                     CaveArrangementAdapter caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth);
                     caveArrangementAdapter.addOnValueChangedListener(() -> {
-                        CaveManager.editCave(cave);
+                        CaveManager.editCave(this, cave);
                         capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
                                 cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
                     });
@@ -213,6 +213,6 @@ public class CaveDetailActivity extends AppCompatActivity {
     }
 
     private void refreshCave(int caveId) {
-        cave = CaveManager.getCave(caveId);
+        cave = CaveManager.getCave(this, caveId);
     }
 }

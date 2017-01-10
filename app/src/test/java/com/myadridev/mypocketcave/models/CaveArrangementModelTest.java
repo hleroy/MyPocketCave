@@ -26,12 +26,12 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CaveArrangementModelTest {
 
-    @Mock
-    static IBottleStorageManager mockBottleStorageManager;
     private static final int bottleRedId = 42;
     private static final int bottleWhiteId = 27;
     private static final int bottleRoseId = 13;
     private static final int bottleChampagneId = 92;
+    @Mock
+    static IBottleStorageManager mockBottleStorageManager;
 
     @BeforeClass
     public static void beforeClass() {

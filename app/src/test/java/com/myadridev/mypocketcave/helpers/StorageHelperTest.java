@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class StorageHelperTest {
 
@@ -17,7 +17,7 @@ public class StorageHelperTest {
         ids.add(3);
         ids.add(4);
         ids.add(5);
-        assertEquals(6,StorageHelper.getNewId(ids));
+        assertEquals(6, StorageHelper.getNewId(ids));
     }
 
     @Test
@@ -28,6 +28,6 @@ public class StorageHelperTest {
         ids.add(3);
         ids.add(5);
         ids.add(7);
-        assertEquals(4,StorageHelper.getNewId(ids));
+        assertEquals(4, StorageHelper.getNewId(ids));
     }
 }
