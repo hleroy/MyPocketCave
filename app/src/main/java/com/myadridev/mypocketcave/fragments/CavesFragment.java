@@ -98,7 +98,7 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
         cavesRecyclerView.setLayoutManager(new GridAutofitLayoutManager(getActivity(), (int) getResources().getDimension(R.dimen.cave_image_size_large)));
 
         cavesCountLabelView = (TextView) rootView.findViewById(R.id.caves_count);
-        cavesCountLabelView.setOnClickListener(v -> {
+        cavesCountLabelView.setOnClickListener((View v) -> {
             cavesCountDetailLabelView.setVisibility(View.VISIBLE);
             cavesCountLabelView.setVisibility(View.GONE);
 
@@ -107,7 +107,7 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
         });
 
         cavesCountDetailLabelView = (TextView) rootView.findViewById(R.id.caves_count_detail);
-        cavesCountDetailLabelView.setOnClickListener(v -> {
+        cavesCountDetailLabelView.setOnClickListener((View v) -> {
             cavesCountDetailLabelView.setVisibility(View.GONE);
             cavesCountLabelView.setVisibility(View.VISIBLE);
 

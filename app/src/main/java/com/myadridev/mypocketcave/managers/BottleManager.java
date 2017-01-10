@@ -175,6 +175,7 @@ public class BottleManager {
     }
 
     public static void drinkBottle(int bottleId) {
+        getBottleStorageManager().drinkBottle(bottleId);
         updateNumberPlaced(bottleId, -1);
     }
 

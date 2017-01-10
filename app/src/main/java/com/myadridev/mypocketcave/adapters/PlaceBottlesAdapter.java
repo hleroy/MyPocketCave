@@ -27,7 +27,7 @@ public class PlaceBottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         context = _context;
         allBottles = _allBottles;
         layoutInflater = LayoutInflater.from(context);
-        listener = bottleId -> {
+        listener = (int bottleId) -> {
             if (onBottleClickListeners != null) {
                 for (OnBottleClickListener onBottleClickListener : onBottleClickListeners) {
                     onBottleClickListener.onItemClick(bottleId);

@@ -52,7 +52,7 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
         bottlesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         bottlesCountLabelView = (TextView) rootView.findViewById(R.id.bottles_count);
-        bottlesCountLabelView.setOnClickListener(v -> {
+        bottlesCountLabelView.setOnClickListener((View v) -> {
             bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
             bottlesCountLabelView.setVisibility(View.GONE);
 
@@ -61,7 +61,7 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
         });
 
         bottlesCountDetailLabelView = (TextView) rootView.findViewById(R.id.bottles_count_detail);
-        bottlesCountDetailLabelView.setOnClickListener(v -> {
+        bottlesCountDetailLabelView.setOnClickListener((View v) -> {
             bottlesCountDetailLabelView.setVisibility(View.GONE);
             bottlesCountLabelView.setVisibility(View.VISIBLE);
 

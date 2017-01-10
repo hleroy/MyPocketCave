@@ -1,11 +1,13 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -38,7 +40,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     private EditText domainView;
 
     protected AbstractBottleEditActivity() {
-        hideKeyboardOnClick = (v, event) -> {
+        hideKeyboardOnClick = (View v, MotionEvent event) -> {
             hideKeyboard();
             return false;
         };
@@ -85,13 +87,13 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected abstract void setCoordinatorLayout();
 
     private View.OnClickListener onFoodViewClick() {
-        return v -> {
+        return (View v) -> {
             if (!isFoodListOpen) {
                 isFoodListOpen = true;
                 AlertDialog.Builder builder = new AlertDialog.Builder(AbstractBottleEditActivity.this);
                 builder.setMultiChoiceItems(FoodToEatWithEnum.getAllFoodLabels(AbstractBottleEditActivity.this), foodToEatWithList,
-                        (dialog, which, isChecked) -> foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.this, foodToEatWithList)));
-                builder.setOnDismissListener(dialog -> {
+                        (DialogInterface dialog, int which, boolean isChecked) -> foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.this, foodToEatWithList)));
+                builder.setOnDismissListener((DialogInterface dialog) -> {
                     isFoodListOpen = false;
                     foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.this, foodToEatWithList));
                 });
@@ -201,8 +203,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
             noNameDialogBuilder.setCancelable(true);
             noNameDialogBuilder.setMessage(R.string.error_bottle_no_name);
-            noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
-            noNameDialogBuilder.setPositiveButton(R.string.global_exit, (dialog, which) -> {
+            noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
+            noNameDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
                 dialog.dismiss();
                 finish();
                 cancelBottle();
@@ -219,13 +221,13 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
                 AlertDialog.Builder existingBottleDialogBuilder = new AlertDialog.Builder(this);
                 existingBottleDialogBuilder.setCancelable(true);
                 existingBottleDialogBuilder.setMessage(R.string.error_bottle_already_exists);
-                existingBottleDialogBuilder.setNeutralButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
-                existingBottleDialogBuilder.setNegativeButton(R.string.global_exit, (dialog, which) -> {
+                existingBottleDialogBuilder.setNeutralButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
+                existingBottleDialogBuilder.setNegativeButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
                     dialog.dismiss();
                     finish();
                     cancelBottle();
                 });
-                existingBottleDialogBuilder.setPositiveButton(R.string.global_merge, (dialog, which) -> {
+                existingBottleDialogBuilder.setPositiveButton(R.string.global_merge, (DialogInterface dialog, int which) -> {
                     dialog.dismiss();
                     removeBottle();
                     redirectToExistingBottle(existingBottleId);

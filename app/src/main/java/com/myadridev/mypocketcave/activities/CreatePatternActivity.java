@@ -1,6 +1,7 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -49,7 +51,7 @@ public class CreatePatternActivity extends AppCompatActivity {
     private PatternModel pattern;
     private int screenHeight;
     private int screenWidth;
-    private CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (compoundButton, b) -> {
+    private CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (CompoundButton compoundButton, boolean b) -> {
         hideKeyboard();
         updateValuesAndAdapter();
     };
@@ -77,7 +79,7 @@ public class CreatePatternActivity extends AppCompatActivity {
     };
 
     public CreatePatternActivity() {
-        hideKeyboardOnClick = (v, event) -> {
+        hideKeyboardOnClick = (View v, MotionEvent event) -> {
             hideKeyboard();
             return false;
         };
@@ -210,8 +212,8 @@ public class CreatePatternActivity extends AppCompatActivity {
             AlertDialog.Builder IncorrectRowsColsDialogBuilder = new AlertDialog.Builder(this);
             IncorrectRowsColsDialogBuilder.setCancelable(true);
             IncorrectRowsColsDialogBuilder.setMessage(R.string.error_pattern_incorrect_rows_cols);
-            IncorrectRowsColsDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
-            IncorrectRowsColsDialogBuilder.setPositiveButton(R.string.global_exit, (dialog, which) -> {
+            IncorrectRowsColsDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
+            IncorrectRowsColsDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
                 dialog.dismiss();
                 setResultAndFinish(RESULT_CANCELED, -1);
             });

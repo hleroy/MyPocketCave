@@ -39,7 +39,7 @@ public class PatternSelectionActivity extends AppCompatActivity {
         patternSelectionRecyclerView.setLayoutManager(new GridLayoutManager(this, PatternManager.numberOfColumnsForDisplay));
         PatternSelectionAdapter patternSelectionAdapter = new PatternSelectionAdapter(this, recentPatternList);
         patternSelectionRecyclerView.setAdapter(patternSelectionAdapter);
-        patternSelectionAdapter.addOnSelectionPatternClickListener(patternId -> {
+        patternSelectionAdapter.addOnSelectionPatternClickListener((int patternId) -> {
             PatternManager.setLastUsedPattern(patternId);
             setResultAndFinish(RESULT_OK, patternId);
         });

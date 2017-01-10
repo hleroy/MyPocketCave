@@ -1,6 +1,7 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -79,22 +80,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupFloatingActionButtons() {
         fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_main);
-        fabMenu.setOnClickListener(view -> openFloatingActionButtonsMenu());
+        fabMenu.setOnClickListener((View view) -> openFloatingActionButtonsMenu());
 
         fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_main);
-        fabCloseMenu.setOnClickListener(view -> closeFloatingActionButtonsMenu());
+        fabCloseMenu.setOnClickListener((View view) -> closeFloatingActionButtonsMenu());
 
         fabSuggestBottle = (FloatingActionButton) findViewById(R.id.fab_suggest_bottle);
-        fabSuggestBottle.setOnClickListener(view -> NavigationManager.navigateToSuggestBottleSearch(MainActivity.this));
+        fabSuggestBottle.setOnClickListener((View view) -> NavigationManager.navigateToSuggestBottleSearch(MainActivity.this));
 
         fabAddBottle = (FloatingActionButton) findViewById(R.id.fab_add_bottle);
-        fabAddBottle.setOnClickListener(view -> {
+        fabAddBottle.setOnClickListener((View view) -> {
             // create new bottle
             NavigationManager.navigateToBottleCreate(MainActivity.this);
         });
 
         fabAddCave = (FloatingActionButton) findViewById(R.id.fab_add_cave);
-        fabAddCave.setOnClickListener(view -> {
+        fabAddCave.setOnClickListener((View view) -> {
             // create new cave
             NavigationManager.navigateToCaveCreate(MainActivity.this);
         });
@@ -185,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(this);
         deleteBottleDialogBuilder.setCancelable(true);
         deleteBottleDialogBuilder.setMessage(R.string.global_exit_confirmation);
-        deleteBottleDialogBuilder.setNegativeButton(R.string.global_stay, (dialog, which) -> dialog.dismiss());
-        deleteBottleDialogBuilder.setPositiveButton(R.string.global_exit, (dialog, which) -> {
+        deleteBottleDialogBuilder.setNegativeButton(R.string.global_stay, (DialogInterface dialog, int which) -> dialog.dismiss());
+        deleteBottleDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
             dialog.dismiss();
             finish();
         });

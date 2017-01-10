@@ -181,148 +181,149 @@ public class CaveArrangementModel {
         }
     }
 
-    public void placeBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId) {
-        updateBottleWhenPlaced(patternCoordinates, coordinates, bottleId, true);
+    public void unplaceBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId) {
+        updateBottle(patternCoordinates, coordinates, bottleId, false, true);
     }
 
-    private void updateBottleWhenPlaced(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId, boolean incrementBottleUsedQuantity) {
+    public void placeBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId) {
+        updateBottle(patternCoordinates, coordinates, bottleId, true, true);
+    }
+
+    private void updateBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId, boolean isAddBottle, boolean updateBottleUsedQuantity) {
         PatternModelWithBottles pattern = PatternMap.get(patternCoordinates);
         CavePlaceModel cavePlace = pattern.PlaceMapWithBottles.get(coordinates);
 
         BottleModel bottle = BottleManager.getBottle(bottleId);
 
-        switch (cavePlace.PlaceType) {
-            case PLACE_BOTTOM_LEFT:
-                placeBottomLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle);
-                break;
-            case PLACE_BOTTOM_RIGHT:
-                placeBottomRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle);
-                break;
-            case PLACE_TOP_LEFT:
-                placeTopLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle);
-                break;
-            case PLACE_TOP_RIGHT:
-                placeTopRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle);
-                break;
-            default:
-                return;
+        if (cavePlace.PlaceType.isBottomLeft()) {
+            updateBottomLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
+        } else if (cavePlace.PlaceType.isBottomRight()) {
+            updateBottomRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
+        } else if (cavePlace.PlaceType.isTopLeft()) {
+            updateTopLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
+        } else if (cavePlace.PlaceType.isTopRight()) {
+            updateTopRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
         }
 
-        if (incrementBottleUsedQuantity) {
-            TotalUsed++;
+        if (updateBottleUsedQuantity) {
+            if (isAddBottle) {
+                TotalUsed++;
+            } else {
+                TotalUsed--;
+            }
         }
     }
 
-    private void placeTopRightBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle) {
+    private void updateTopRightBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle, boolean isAddBottle) {
         int numberPlaces = 1;
-        updateCavePlace(cavePlace, bottle);
+        updateCavePlace(cavePlace, bottle, isAddBottle);
         List<PatternModelWithBottles> notNullPatterns = new ArrayList<>();
         notNullPatterns.add(pattern);
 
         Pair<CavePlaceModel, PatternModelWithBottles> rightPlaceAndPattern = getRightPlaceAndPattern(patternCoordinates, coordinates);
         if (rightPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(rightPlaceAndPattern.first, bottle);
+            updateCavePlace(rightPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(rightPlaceAndPattern.second);
         }
         Pair<CavePlaceModel, PatternModelWithBottles> topPlaceAndPattern = getTopPlaceAndPattern(patternCoordinates, coordinates);
         if (topPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(topPlaceAndPattern.first, bottle);
+            updateCavePlace(topPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(topPlaceAndPattern.second);
         }
         Pair<CavePlaceModel, PatternModelWithBottles> topRightPlaceAndPattern = getTopRightPlaceAndPattern(patternCoordinates, coordinates);
         if (topRightPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(topRightPlaceAndPattern.first, bottle);
+            updateCavePlace(topRightPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(topRightPlaceAndPattern.second);
         }
 
-        updateNumberPlaced(bottle, numberPlaces, notNullPatterns);
+        updateNumberPlaced(bottle, numberPlaces * (isAddBottle ? 1 : -1), notNullPatterns);
     }
 
-    private void placeTopLeftBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle) {
+    private void updateTopLeftBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle, boolean isAddBottle) {
         int numberPlaces = 1;
-        updateCavePlace(cavePlace, bottle);
+        updateCavePlace(cavePlace, bottle, isAddBottle);
         List<PatternModelWithBottles> notNullPatterns = new ArrayList<>();
         notNullPatterns.add(pattern);
 
         Pair<CavePlaceModel, PatternModelWithBottles> leftPlaceAndPattern = getLeftPlaceAndPattern(patternCoordinates, coordinates);
         if (leftPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(leftPlaceAndPattern.first, bottle);
+            updateCavePlace(leftPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(leftPlaceAndPattern.second);
         }
         Pair<CavePlaceModel, PatternModelWithBottles> topPlaceAndPattern = getTopPlaceAndPattern(patternCoordinates, coordinates);
         if (topPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(topPlaceAndPattern.first, bottle);
+            updateCavePlace(topPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(topPlaceAndPattern.second);
         }
         Pair<CavePlaceModel, PatternModelWithBottles> topLeftPlaceAndPattern = getTopLeftPlaceAndPattern(patternCoordinates, coordinates);
         if (topLeftPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(topLeftPlaceAndPattern.first, bottle);
+            updateCavePlace(topLeftPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(topLeftPlaceAndPattern.second);
         }
 
-        updateNumberPlaced(bottle, numberPlaces, notNullPatterns);
+        updateNumberPlaced(bottle, numberPlaces * (isAddBottle ? 1 : -1), notNullPatterns);
     }
 
-    private void placeBottomRightBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle) {
+    private void updateBottomRightBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle, boolean isAddBottle) {
         int numberPlaces = 1;
-        updateCavePlace(cavePlace, bottle);
+        updateCavePlace(cavePlace, bottle, isAddBottle);
         List<PatternModelWithBottles> notNullPatterns = new ArrayList<>();
         notNullPatterns.add(pattern);
 
         Pair<CavePlaceModel, PatternModelWithBottles> rightPlaceAndPattern = getRightPlaceAndPattern(patternCoordinates, coordinates);
         if (rightPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(rightPlaceAndPattern.first, bottle);
+            updateCavePlace(rightPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(rightPlaceAndPattern.second);
         }
         Pair<CavePlaceModel, PatternModelWithBottles> bottomPlaceAndPattern = getBottomPlaceAndPattern(patternCoordinates, coordinates);
         if (bottomPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(bottomPlaceAndPattern.first, bottle);
+            updateCavePlace(bottomPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(bottomPlaceAndPattern.second);
         }
         Pair<CavePlaceModel, PatternModelWithBottles> bottomRightPlaceAndPattern = getBottomRightPlaceAndPattern(patternCoordinates, coordinates);
         if (bottomRightPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(bottomRightPlaceAndPattern.first, bottle);
+            updateCavePlace(bottomRightPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(bottomRightPlaceAndPattern.second);
         }
 
-        updateNumberPlaced(bottle, numberPlaces, notNullPatterns);
+        updateNumberPlaced(bottle, numberPlaces * (isAddBottle ? 1 : -1), notNullPatterns);
     }
 
-    private void placeBottomLeftBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle) {
+    private void updateBottomLeftBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle, boolean isAddBottle) {
         int numberPlaces = 1;
-        updateCavePlace(cavePlace, bottle);
+        updateCavePlace(cavePlace, bottle, isAddBottle);
         List<PatternModelWithBottles> notNullPatterns = new ArrayList<>();
         notNullPatterns.add(pattern);
 
         Pair<CavePlaceModel, PatternModelWithBottles> leftPlaceAndPattern = getLeftPlaceAndPattern(patternCoordinates, coordinates);
         if (leftPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(leftPlaceAndPattern.first, bottle);
+            updateCavePlace(leftPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(leftPlaceAndPattern.second);
         }
         Pair<CavePlaceModel, PatternModelWithBottles> bottomPlaceAndPattern = getBottomPlaceAndPattern(patternCoordinates, coordinates);
         if (bottomPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(bottomPlaceAndPattern.first, bottle);
+            updateCavePlace(bottomPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(bottomPlaceAndPattern.second);
         }
         Pair<CavePlaceModel, PatternModelWithBottles> bottomLeftPlaceAndPattern = getBottomLeftPlaceAndPattern(patternCoordinates, coordinates);
         if (bottomLeftPlaceAndPattern != null) {
             numberPlaces++;
-            updateCavePlace(bottomLeftPlaceAndPattern.first, bottle);
+            updateCavePlace(bottomLeftPlaceAndPattern.first, bottle, isAddBottle);
             notNullPatterns.add(bottomLeftPlaceAndPattern.second);
         }
 
-        updateNumberPlaced(bottle, numberPlaces, notNullPatterns);
+        updateNumberPlaced(bottle, numberPlaces * (isAddBottle ? 1 : -1), notNullPatterns);
     }
 
     private void updateNumberPlaced(BottleModel bottle, float numberPlaces, List<PatternModelWithBottles> notNullPatterns) {
@@ -333,10 +334,10 @@ public class CaveArrangementModel {
         }
     }
 
-    private void updateCavePlace(CavePlaceModel cavePlaceToUpdate, BottleModel bottle) {
+    private void updateCavePlace(CavePlaceModel cavePlaceToUpdate, BottleModel bottle, boolean isAddBottle) {
         if (cavePlaceToUpdate == null) return;
-        cavePlaceToUpdate.BottleId = bottle.Id;
-        cavePlaceToUpdate.PlaceType = getPlaceTypeByTypeAndColor(cavePlaceToUpdate.PlaceType, bottle.WineColor);
+        cavePlaceToUpdate.BottleId = isAddBottle ? bottle.Id : -1;
+        cavePlaceToUpdate.PlaceType = isAddBottle ? getPlaceTypeByTypeAndColor(cavePlaceToUpdate.PlaceType, bottle.WineColor) : getEmptyPlaceType(cavePlaceToUpdate.PlaceType);
     }
 
     @Nullable
@@ -552,61 +553,72 @@ public class CaveArrangementModel {
     }
 
     private CavePlaceTypeEnum getPlaceTypeByTypeAndColor(CavePlaceTypeEnum placeType, WineColorEnum wineColor) {
-        switch (wineColor) {
-            case RED:
-                switch (placeType) {
-                    case PLACE_BOTTOM_LEFT:
-                        return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED;
-                    case PLACE_BOTTOM_RIGHT:
-                        return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED;
-                    case PLACE_TOP_LEFT:
-                        return CavePlaceTypeEnum.PLACE_TOP_LEFT_RED;
-                    case PLACE_TOP_RIGHT:
-                        return CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED;
-                    default:
-                        return placeType;
-                }
-            case WHITE:
-                switch (placeType) {
-                    case PLACE_BOTTOM_LEFT:
-                        return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_WHITE;
-                    case PLACE_BOTTOM_RIGHT:
-                        return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_WHITE;
-                    case PLACE_TOP_LEFT:
-                        return CavePlaceTypeEnum.PLACE_TOP_LEFT_WHITE;
-                    case PLACE_TOP_RIGHT:
-                        return CavePlaceTypeEnum.PLACE_TOP_RIGHT_WHITE;
-                    default:
-                        return placeType;
-                }
-            case ROSE:
-                switch (placeType) {
-                    case PLACE_BOTTOM_LEFT:
-                        return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_ROSE;
-                    case PLACE_BOTTOM_RIGHT:
-                        return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_ROSE;
-                    case PLACE_TOP_LEFT:
-                        return CavePlaceTypeEnum.PLACE_TOP_LEFT_ROSE;
-                    case PLACE_TOP_RIGHT:
-                        return CavePlaceTypeEnum.PLACE_TOP_RIGHT_ROSE;
-                    default:
-                        return placeType;
-                }
-            case CHAMPAGNE:
-                switch (placeType) {
-                    case PLACE_BOTTOM_LEFT:
-                        return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_CHAMPAGNE;
-                    case PLACE_BOTTOM_RIGHT:
-                        return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_CHAMPAGNE;
-                    case PLACE_TOP_LEFT:
-                        return CavePlaceTypeEnum.PLACE_TOP_LEFT_CHAMPAGNE;
-                    case PLACE_TOP_RIGHT:
-                        return CavePlaceTypeEnum.PLACE_TOP_RIGHT_CHAMPAGNE;
-                    default:
-                        return placeType;
-                }
-            default:
-                return placeType;
+        if (placeType.isBottomLeft()) {
+            switch (wineColor) {
+                case RED:
+                    return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED;
+                case WHITE:
+                    return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_WHITE;
+                case ROSE:
+                    return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_ROSE;
+                case CHAMPAGNE:
+                    return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_CHAMPAGNE;
+                default:
+                    return placeType;
+            }
+        } else if (placeType.isBottomRight()) {
+            switch (wineColor) {
+                case RED:
+                    return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED;
+                case WHITE:
+                    return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_WHITE;
+                case ROSE:
+                    return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_ROSE;
+                case CHAMPAGNE:
+                    return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_CHAMPAGNE;
+                default:
+                    return placeType;
+            }
+        } else if (placeType.isTopLeft()) {
+            switch (wineColor) {
+                case RED:
+                    return CavePlaceTypeEnum.PLACE_TOP_LEFT_RED;
+                case WHITE:
+                    return CavePlaceTypeEnum.PLACE_TOP_LEFT_WHITE;
+                case ROSE:
+                    return CavePlaceTypeEnum.PLACE_TOP_LEFT_ROSE;
+                case CHAMPAGNE:
+                    return CavePlaceTypeEnum.PLACE_TOP_LEFT_CHAMPAGNE;
+                default:
+                    return placeType;
+            }
+        } else if (placeType.isTopRight()) {
+            switch (wineColor) {
+                case RED:
+                    return CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED;
+                case WHITE:
+                    return CavePlaceTypeEnum.PLACE_TOP_RIGHT_WHITE;
+                case ROSE:
+                    return CavePlaceTypeEnum.PLACE_TOP_RIGHT_ROSE;
+                case CHAMPAGNE:
+                    return CavePlaceTypeEnum.PLACE_TOP_RIGHT_CHAMPAGNE;
+                default:
+                    return placeType;
+            }
         }
+        return placeType;
+    }
+
+    private CavePlaceTypeEnum getEmptyPlaceType(CavePlaceTypeEnum placeType) {
+        if (placeType.isBottomLeft()) {
+            return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT;
+        } else if (placeType.isBottomRight()) {
+            return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT;
+        } else if (placeType.isTopLeft()) {
+            return CavePlaceTypeEnum.PLACE_TOP_LEFT;
+        } else if (placeType.isTopRight()) {
+            return CavePlaceTypeEnum.PLACE_TOP_RIGHT;
+        }
+        return placeType;
     }
 }

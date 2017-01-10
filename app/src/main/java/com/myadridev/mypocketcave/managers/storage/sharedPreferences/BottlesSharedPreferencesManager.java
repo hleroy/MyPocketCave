@@ -205,6 +205,13 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     }
 
     @Override
+    public void drinkBottle(int bottleId) {
+        BottleModel bottle = getBottle(bottleId);
+        bottle.Stock -= 1;
+        updateBottle(bottle);
+    }
+
+    @Override
     public void updateNumberPlaced(int bottleId, int increment) {
         BottleModel bottle = getBottle(bottleId);
         bottle.NumberPlaced += increment;

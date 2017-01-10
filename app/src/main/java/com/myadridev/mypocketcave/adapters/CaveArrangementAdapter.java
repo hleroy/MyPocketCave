@@ -48,7 +48,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.totalWidth = totalWidth;
         layoutInflater = LayoutInflater.from(editActivity);
         isIndividualPlacesClickable = false;
-        listener = coordinates -> {
+        listener = (CoordinatesModel coordinates) -> {
             editActivity.OldClickedPatternId = caveArangement.PatternMap.containsKey(coordinates) ? caveArangement.PatternMap.get(coordinates).Id : -1;
             editActivity.ClickedPatternCoordinates = coordinates;
             NavigationManager.navigateToPatternSelection(editActivity);
@@ -153,9 +153,25 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 patternAdapter = new PatternAdapter(detailActivity, patternWithBottles.PlaceMapWithBottles,
                         new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
                         true, itemWidth, itemWidth, coordinates);
-                patternAdapter.addOnBottlePlacedClickListener((patternCoordinates, coordinates1, bottleId) -> {
+                patternAdapter.addOnBottlePlacedClickListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates1, int bottleId) -> {
                     caveArangement.placeBottle(patternCoordinates, coordinates1, bottleId);
                     BottleManager.placeBottle(bottleId);
+                    for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
+                        onValueChangedListener.onValueChanged();
+                    }
+                    notifyDataSetChanged();
+                });
+                patternAdapter.addOnBottleDrunkClickListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates1, int bottleId) -> {
+                    caveArangement.unplaceBottle(patternCoordinates, coordinates1, bottleId);
+                    BottleManager.drinkBottle(bottleId);
+                    for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
+                        onValueChangedListener.onValueChanged();
+                    }
+                    notifyDataSetChanged();
+                });
+                patternAdapter.addOnBottleUnplacedClickListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates1, int bottleId) -> {
+                    caveArangement.unplaceBottle(patternCoordinates, coordinates1, bottleId);
+                    BottleManager.updateNumberPlaced(bottleId, -1);
                     for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
                         onValueChangedListener.onValueChanged();
                     }

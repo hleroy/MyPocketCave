@@ -170,4 +170,15 @@
     <string name="store_cave" translatable="false">cave_%1$d</string>
     <string name="store_pattern" translatable="false">pattern_%1$d</string>
     <string name="store_cave_key" translatable="false">cave</string>
+    <string name="see_bottle_detail">See detail</string>
+    <string name="drink_bottle">Drink !</string>
+    <string name="unplace_bottle">Remove this bottle from here</string>
+    <string name="title_drink" >Drink this bottle now ?</string>
+    <string name="message_drink" >Really ?</string>
+    <string name="drink_ok" >Yes, drink it !</string>
+    <string name="drink_no" >Later</string>
+    <string name="title_unplace" >Remove this bottle from here ?</string>
+    <string name="message_unplace" >Really ?</string>
+    <string name="unplace_ok" >Yes !</string>
+    <string name="unplace_no" >No</string>
 </resources>

@@ -48,7 +48,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         bottlesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         bottlesCountLabelView = (TextView) findViewById(R.id.suggest_bottle_result_bottles_count);
-        bottlesCountLabelView.setOnClickListener(v -> {
+        bottlesCountLabelView.setOnClickListener((View v) -> {
             bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
             bottlesCountLabelView.setVisibility(View.GONE);
 
@@ -57,7 +57,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         });
 
         bottlesCountDetailLabelView = (TextView) findViewById(R.id.suggest_bottle_result_bottles_count_detail);
-        bottlesCountDetailLabelView.setOnClickListener(v -> {
+        bottlesCountDetailLabelView.setOnClickListener((View v) -> {
             bottlesCountDetailLabelView.setVisibility(View.GONE);
             bottlesCountLabelView.setVisibility(View.VISIBLE);
 
@@ -76,7 +76,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
             e.printStackTrace();
 
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_technical), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), v -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             return;

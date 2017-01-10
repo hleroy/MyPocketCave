@@ -1,6 +1,7 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -59,24 +60,24 @@ public class BottleDetailActivity extends AppCompatActivity {
 
     private void setupFloatingActionButtons() {
         fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_bottle);
-        fabMenu.setOnClickListener(view -> openFloatingActionButtonsMenu());
+        fabMenu.setOnClickListener((View view) -> openFloatingActionButtonsMenu());
 
         fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_bottle);
-        fabCloseMenu.setOnClickListener(view -> closeFloatingActionButtonsMenu());
+        fabCloseMenu.setOnClickListener((View view) -> closeFloatingActionButtonsMenu());
 
         fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_bottle);
-        fabEdit.setOnClickListener(view -> {
+        fabEdit.setOnClickListener((View view) -> {
             NavigationManager.navigateToBottleEdit(BottleDetailActivity.this, bottle.Id);
             finish();
         });
 
         fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_bottle);
-        fabDelete.setOnClickListener(view -> {
+        fabDelete.setOnClickListener((View view) -> {
             AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(BottleDetailActivity.this);
             deleteBottleDialogBuilder.setCancelable(true);
             deleteBottleDialogBuilder.setMessage(R.string.bottle_delete_confirmation);
-            deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (dialog, which) -> dialog.dismiss());
-            deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (dialog, which) -> {
+            deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
+            deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
                 BottleManager.removeBottle(bottle.Id);
                 dialog.dismiss();
                 finish();

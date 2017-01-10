@@ -27,7 +27,7 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         context = _context;
         allBottles = _allBottles;
         layoutInflater = LayoutInflater.from(context);
-        listener = bottleId -> NavigationManager.navigateToBottleDetail(context, bottleId);
+        listener = (int bottleId) -> NavigationManager.navigateToBottleDetail(context, bottleId);
     }
 
     @Override

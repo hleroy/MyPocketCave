@@ -34,4 +34,6 @@ public interface IBottleStorageManager {
     List<BottleModel> getNonPlacedBottles();
 
     void updateNumberPlaced(int bottleId, int increment);
+
+    void drinkBottle(int bottleId);
 }

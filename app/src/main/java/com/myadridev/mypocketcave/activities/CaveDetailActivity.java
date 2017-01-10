@@ -1,6 +1,7 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -61,24 +62,24 @@ public class CaveDetailActivity extends AppCompatActivity {
 
     private void setupFloatingActionButtons() {
         fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_cave);
-        fabMenu.setOnClickListener(view -> openFloatingActionButtonsMenu());
+        fabMenu.setOnClickListener((View view) -> openFloatingActionButtonsMenu());
 
         fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_cave);
-        fabCloseMenu.setOnClickListener(view -> closeFloatingActionButtonsMenu());
+        fabCloseMenu.setOnClickListener((View view) -> closeFloatingActionButtonsMenu());
 
         fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_cave);
-        fabEdit.setOnClickListener(view -> {
+        fabEdit.setOnClickListener((View view) -> {
             NavigationManager.navigateToCaveEdit(CaveDetailActivity.this, cave.Id);
             finish();
         });
 
         fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_cave);
-        fabDelete.setOnClickListener(view -> {
+        fabDelete.setOnClickListener((View view) -> {
             AlertDialog.Builder deleteCaveDialogBuilder = new AlertDialog.Builder(CaveDetailActivity.this);
             deleteCaveDialogBuilder.setCancelable(true);
             deleteCaveDialogBuilder.setMessage(R.string.cave_delete_confirmation);
-            deleteCaveDialogBuilder.setNegativeButton(R.string.global_no, (dialog, which) -> dialog.dismiss());
-            deleteCaveDialogBuilder.setPositiveButton(R.string.global_yes, (dialog, which) -> {
+            deleteCaveDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
+            deleteCaveDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
                 CaveManager.removeCave(cave);
                 dialog.dismiss();
                 finish();

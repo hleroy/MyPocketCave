@@ -156,4 +156,15 @@
     <string name="bottles_placed">%1$d placées dans les caves</string>
     <string name="global_stay">Rester ici</string>
     <string name="global_exit_confirmation">On part d\'ici et on va ouvrir les bouteilles ?</string>
+    <string name="unplace_bottle">Retirer cette bouteille d\'ici</string>
+    <string name="see_bottle_detail">Voir le détail</string>
+    <string name="drink_bottle">Boire !</string>
+    <string name="drink_no">Plus tard</string>
+    <string name="drink_ok">Oui, on la bois !</string>
+    <string name="message_drink">Vraiment ?</string>
+    <string name="title_drink">Boire cette bouteille maintenant ?</string>
+    <string name="title_unplace">Retirer cette bouteille d\'ici ?</string>
+    <string name="unplace_no">Non</string>
+    <string name="unplace_ok">Oui !</string>
+    <string name="message_unplace">Vraiment ?</string>
 </resources>

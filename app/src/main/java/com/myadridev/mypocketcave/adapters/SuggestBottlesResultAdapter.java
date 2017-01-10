@@ -34,7 +34,7 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
         isAllBottlesVisible = false;
         computeVisibleBottlesCount();
         layoutInflater = LayoutInflater.from(context);
-        listener = bottleId -> NavigationManager.navigateToBottleDetail(context, bottleId);
+        listener = (int bottleId) -> NavigationManager.navigateToBottleDetail(context, bottleId);
         seeMoreClickListeners = new ArrayList<>();
     }
 
@@ -113,7 +113,7 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (!isAllBottlesVisible && ((numberBottlesAllCriteria == 0 && position == 0) || (position == numberBottlesAllCriteria + 1))) {
             SuggestBottleResultSeeMoreButtonViewHolder holder = (SuggestBottleResultSeeMoreButtonViewHolder) viewHolder;
-            holder.button.setOnClickListener(view -> {
+            holder.button.setOnClickListener((View view) -> {
                 seeAllBottles();
                 fireOnSeeMoreClick();
             });

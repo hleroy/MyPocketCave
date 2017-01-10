@@ -35,7 +35,7 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         activity = _activity;
         patternList = _patternList;
         layoutInflater = LayoutInflater.from(activity);
-        listener = patternId -> {
+        listener = (int patternId) -> {
             if (patternId == -1) {
                 NavigationManager.navigateToCreatePattern(activity);
             } else {

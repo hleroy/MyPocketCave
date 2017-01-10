@@ -26,7 +26,7 @@ public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         context = _context;
         allCaves = _allCaves;
         layoutInflater = LayoutInflater.from(context);
-        listener = caveId -> NavigationManager.navigateToCaveDetail(context, caveId);
+        listener = (int caveId) -> NavigationManager.navigateToCaveDetail(context, caveId);
     }
 
     @Override

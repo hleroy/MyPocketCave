@@ -1,6 +1,7 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -8,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -45,7 +47,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private CaveArrangementAdapter caveArrangementAdapter;
 
     protected AbstractCaveEditActivity() {
-        hideKeyboardOnClick = (v, event) -> {
+        hideKeyboardOnClick = (View v, MotionEvent event) -> {
             hideKeyboard();
             return false;
         };
@@ -256,8 +258,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
             noNameDialogBuilder.setCancelable(true);
             noNameDialogBuilder.setMessage(R.string.error_cave_no_name);
-            noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
-            noNameDialogBuilder.setPositiveButton(R.string.global_exit, (dialog, which) -> {
+            noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
+            noNameDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
                 dialog.dismiss();
                 finish();
                 cancelCave();
@@ -272,13 +274,13 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 AlertDialog.Builder existingCaveDialogBuilder = new AlertDialog.Builder(this);
                 existingCaveDialogBuilder.setCancelable(true);
                 existingCaveDialogBuilder.setMessage(R.string.error_cave_already_exists);
-                existingCaveDialogBuilder.setNeutralButton(R.string.global_stay_and_fix, (dialog, which) -> dialog.dismiss());
-                existingCaveDialogBuilder.setNegativeButton(R.string.global_exit, (dialog, which) -> {
+                existingCaveDialogBuilder.setNeutralButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
+                existingCaveDialogBuilder.setNegativeButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
                     dialog.dismiss();
                     finish();
                     cancelCave();
                 });
-                existingCaveDialogBuilder.setPositiveButton(R.string.global_merge, (dialog, which) -> {
+                existingCaveDialogBuilder.setPositiveButton(R.string.global_merge, (DialogInterface dialog, int which) -> {
                     dialog.dismiss();
                     removeCave();
                     redirectToExistingCave(existingCaveId);
