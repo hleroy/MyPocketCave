@@ -181,4 +181,6 @@
     <string name="message_unplace">Really ?</string>
     <string name="unplace_ok">Yes !</string>
     <string name="unplace_no">No</string>
+    <string name="error_bottle_not_enough" >Stock is not correct : more bottles are already placed in the caves</string>
+    <string name="bottle_delete_error_some_placed" >Some bottles are placed in the caves, please remove them before</string>
 </resources>

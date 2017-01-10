@@ -167,4 +167,6 @@
     <string name="unplace_no">Non</string>
     <string name="unplace_ok">Oui !</string>
     <string name="message_unplace">Vraiment ?</string>
+    <string name="error_bottle_not_enough">Le stock n\'est pas correct : davantage de bouteilles sont déjà placées dans les caves</string>
+    <string name="bottle_delete_error_some_placed">Certaines bouteilles sont dans des caves, merci de les retirer pour supprimer la référence</string>
 </resources>

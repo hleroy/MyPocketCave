@@ -198,6 +198,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         boolean isErrors = false;
 
         String name = nameView.getText().toString();
+        String stockString = stockView.getText().toString();
+        int stock = stockString.isEmpty() ? 0 : Integer.valueOf(stockString);
 
         if (name.isEmpty()) {
             AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
@@ -206,10 +208,22 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
             noNameDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
                 dialog.dismiss();
+                AbstractBottleEditActivity.this.finish();
+                AbstractBottleEditActivity.this.cancelBottle();
+            });
+            noNameDialogBuilder.show();
+            isErrors = true;
+        } else if (stock < bottle.NumberPlaced) {
+            AlertDialog.Builder notEnoughBottlesDialogBuilder = new AlertDialog.Builder(this);
+            notEnoughBottlesDialogBuilder.setCancelable(true);
+            notEnoughBottlesDialogBuilder.setMessage(R.string.error_bottle_not_enough);
+            notEnoughBottlesDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
+            notEnoughBottlesDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
+                dialog.dismiss();
                 finish();
                 cancelBottle();
             });
-            noNameDialogBuilder.show();
+            notEnoughBottlesDialogBuilder.show();
             isErrors = true;
         } else {
             String domain = domainView.getText().toString();

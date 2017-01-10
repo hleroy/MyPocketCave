@@ -73,16 +73,26 @@ public class BottleDetailActivity extends AppCompatActivity {
 
         fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete_bottle);
         fabDelete.setOnClickListener((View view) -> {
-            AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(BottleDetailActivity.this);
-            deleteBottleDialogBuilder.setCancelable(true);
-            deleteBottleDialogBuilder.setMessage(R.string.bottle_delete_confirmation);
-            deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
-            deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
-                BottleManager.removeBottle(this, bottle.Id);
-                dialog.dismiss();
-                finish();
-            });
-            deleteBottleDialogBuilder.show();
+            if (bottle.NumberPlaced > 0) {
+                AlertDialog.Builder errorDeleteBottleDialogBuilder = new AlertDialog.Builder(BottleDetailActivity.this);
+                errorDeleteBottleDialogBuilder.setCancelable(true);
+                errorDeleteBottleDialogBuilder.setMessage(R.string.bottle_delete_error_some_placed);
+                errorDeleteBottleDialogBuilder.setNegativeButton(R.string.error_ok, (DialogInterface dialog, int which) -> dialog.dismiss());
+                errorDeleteBottleDialogBuilder.setOnDismissListener((DialogInterface dialog) -> closeFloatingActionButtonsMenu());
+                errorDeleteBottleDialogBuilder.show();
+            } else {
+                AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(BottleDetailActivity.this);
+                deleteBottleDialogBuilder.setCancelable(true);
+                deleteBottleDialogBuilder.setMessage(R.string.bottle_delete_confirmation);
+                deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
+                deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
+                    BottleManager.removeBottle(this, bottle.Id);
+                    dialog.dismiss();
+                    finish();
+                });
+                deleteBottleDialogBuilder.setOnDismissListener((DialogInterface dialog) -> closeFloatingActionButtonsMenu());
+                deleteBottleDialogBuilder.show();
+            }
         });
     }
 

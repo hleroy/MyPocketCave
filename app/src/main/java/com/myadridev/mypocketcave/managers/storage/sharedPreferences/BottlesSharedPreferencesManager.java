@@ -209,14 +209,14 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     @Override
     public void drinkBottle(Context context, int bottleId) {
         BottleModel bottle = getBottle(bottleId);
-        bottle.Stock -= 1;
+        bottle.Stock = Math.max(0, bottle.Stock - 1);
         updateBottle(context, bottle);
     }
 
     @Override
     public void updateNumberPlaced(Context context, int bottleId, int increment) {
         BottleModel bottle = getBottle(bottleId);
-        bottle.NumberPlaced += increment;
+        bottle.NumberPlaced = Math.max(0, bottle.NumberPlaced + increment);
         updateBottle(context, bottle);
     }
 }

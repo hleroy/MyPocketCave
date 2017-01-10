@@ -84,6 +84,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 dialog.dismiss();
                 finish();
             });
+            deleteCaveDialogBuilder.setOnDismissListener((DialogInterface dialog) -> closeFloatingActionButtonsMenu());
             deleteCaveDialogBuilder.show();
         });
     }
