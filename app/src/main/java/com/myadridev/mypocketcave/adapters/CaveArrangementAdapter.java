@@ -39,6 +39,8 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final List<OnValueChangedListener> onValueChangedListeners;
     private int itemWidth;
 
+    private int bottleIdInHighlight;
+
     public CaveArrangementAdapter(AbstractCaveEditActivity activity, CaveArrangementModel _caveArrangement, int nbRows, int nbCols, int totalWidth) {
         editActivity = activity;
         detailActivity = null;
@@ -54,9 +56,10 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             NavigationManager.navigateToPatternSelection(editActivity);
         };
         onValueChangedListeners = new ArrayList<>();
+        this.bottleIdInHighlight = -1;
     }
 
-    public CaveArrangementAdapter(CaveDetailActivity activity, CaveArrangementModel _caveArangement, int nbRows, int nbCols, int totalWidth) {
+    public CaveArrangementAdapter(CaveDetailActivity activity, CaveArrangementModel _caveArangement, int nbRows, int nbCols, int totalWidth, int bottleIdInHighlight) {
         detailActivity = activity;
         editActivity = null;
         caveArangement = _caveArangement;
@@ -67,6 +70,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         isIndividualPlacesClickable = true;
         listener = null;
         onValueChangedListeners = new ArrayList<>();
+        this.bottleIdInHighlight = bottleIdInHighlight;
     }
 
     public void addOnValueChangedListener(OnValueChangedListener onValueChangedListener) {
@@ -152,7 +156,8 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 holder.setPatternViewLayoutManager(new GridLayoutManager(detailActivity, numberColumnsGridLayout));
                 patternAdapter = new PatternAdapter(detailActivity, patternWithBottles.PlaceMapWithBottles,
                         new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                        true, itemWidth, itemWidth, coordinates);
+                        true, itemWidth, itemWidth, coordinates, bottleIdInHighlight);
+
                 patternAdapter.addOnBottlePlacedClickListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates1, int bottleId) -> {
                     caveArangement.placeBottle(patternCoordinates, coordinates1, bottleId);
                     BottleManager.placeBottle(detailActivity, bottleId);
@@ -177,6 +182,9 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                     notifyDataSetChanged();
                 });
+
+                patternAdapter.addonSetHighlightlistener(this::setBottleIdInHighlight);
+                patternAdapter.addOnResetHighlightlisteners((View v) -> resetBottleIdInHighlight());
                 holder.hideClickableSpace();
             } else {
                 holder.setPatternViewLayoutManager(new GridLayoutManager(editActivity, numberColumnsGridLayout));
@@ -192,6 +200,18 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Picasso.with(editActivity).load(R.drawable.add).resize(itemWidth / 2, itemWidth / 2).into(holder.getImageView());
             holder.setOnItemClickListener(listener, coordinates);
         }
+    }
+
+    private void setBottleIdInHighlight(int bottleIdInHighlight) {
+        this.bottleIdInHighlight = bottleIdInHighlight;
+        notifyDataSetChanged();
+        if (detailActivity != null) {
+            detailActivity.BottleIdInHighlight = bottleIdInHighlight;
+        }
+    }
+
+    private void resetBottleIdInHighlight() {
+        setBottleIdInHighlight(-1);
     }
 
     private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {

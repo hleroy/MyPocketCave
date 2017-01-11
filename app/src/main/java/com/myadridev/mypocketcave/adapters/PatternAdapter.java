@@ -11,6 +11,7 @@ import com.myadridev.mypocketcave.adapters.viewHolders.PatternPlaceViewHolder;
 import com.myadridev.mypocketcave.dialogs.PlaceBottleAlertDialog;
 import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
+import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
@@ -35,33 +36,43 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int totalHeight;
     private final int numberRows;
     private final int numberCols;
+    private List<View.OnClickListener> onResetHighlightlisteners;
+    private List<OnBottleClickListener> onSetHighlightlisteners;
     private List<OnBottlePlacedClickListener> onBottlePlacedClickListeners;
     private List<OnBottleDrunkClickListener> onBottleDrunkClickListeners;
     private List<OnBottleUnplacedClickListener> onBottleUnplacedClickListeners;
     private CoordinatesModel patternCoordinates;
 
-    public PatternAdapter(Activity _activity, Map<CoordinatesModel, CavePlaceModel> _patternPlace, CoordinatesModel maxRawCol,
-                          boolean _isClickable, int _totalWidth, int _totalHeight, CoordinatesModel patternCoordinates) {
-        this.activity = _activity;
-        patternPlace = _patternPlace;
-        numberRows = maxRawCol.Row;
-        numberCols = maxRawCol.Col;
+    private final int bottleIdInHighlight;
+
+    public PatternAdapter(Activity activity, Map<CoordinatesModel, CavePlaceModel> patternPlace, CoordinatesModel maxRawCol,
+                          boolean isClickable, int totalWidth, int totalHeight, CoordinatesModel patternCoordinates) {
+        this(activity, patternPlace, maxRawCol, isClickable, totalWidth, totalHeight, patternCoordinates, -1);
+    }
+
+    public PatternAdapter(Activity activity, Map<CoordinatesModel, CavePlaceModel> patternPlace, CoordinatesModel maxRawCol,
+                          boolean isClickable, int totalWidth, int totalHeight, CoordinatesModel patternCoordinates, int bottleIdInHighlight) {
+        this.activity = activity;
+        this.patternPlace = patternPlace;
+        this.numberRows = maxRawCol.Row;
+        this.numberCols = maxRawCol.Col;
+        this.totalWidth = totalWidth;
+        this.totalHeight = totalHeight;
         this.patternCoordinates = patternCoordinates;
-        isClickable = _isClickable;
-        layoutInflater = LayoutInflater.from(activity);
+        this.bottleIdInHighlight = bottleIdInHighlight;
+        this.isClickable = isClickable;
+        layoutInflater = LayoutInflater.from(this.activity);
         listener = (CoordinatesModel patternCoordinates1, CoordinatesModel coordinates) -> {
-            CavePlaceModel cavePlace = patternPlace.get(coordinates);
+            CavePlaceModel cavePlace = this.patternPlace.get(coordinates);
             if (cavePlace.BottleId != -1) {
-                SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(activity, cavePlace.BottleId, patternCoordinates1, coordinates,
-                        onBottleDrunkClickListeners, onBottleUnplacedClickListeners);
+                SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(this.activity, cavePlace.BottleId, patternCoordinates1, coordinates,
+                        onBottleDrunkClickListeners, onBottleUnplacedClickListeners, bottleIdInHighlight == cavePlace.BottleId, onSetHighlightlisteners);
                 alertDialog.show();
             } else {
-                PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(activity, patternCoordinates1, coordinates, onBottlePlacedClickListeners);
+                PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(this.activity, patternCoordinates1, coordinates, onBottlePlacedClickListeners);
                 alertDialog.show();
             }
         };
-        totalWidth = _totalWidth;
-        totalHeight = _totalHeight;
     }
 
     public void addOnBottleUnplacedClickListener(OnBottleUnplacedClickListener onBottleUnplacedClickListener) {
@@ -83,6 +94,20 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             onBottlePlacedClickListeners = new ArrayList<>();
         }
         onBottlePlacedClickListeners.add(onBottlePlacedClickListener);
+    }
+
+    public void addonSetHighlightlistener(OnBottleClickListener onSetHighlightlistener) {
+        if (onSetHighlightlisteners == null) {
+            onSetHighlightlisteners = new ArrayList<>();
+        }
+        onSetHighlightlisteners.add(onSetHighlightlistener);
+    }
+
+    public void addOnResetHighlightlisteners(View.OnClickListener onResetHighlightlistener) {
+        if (onResetHighlightlisteners == null) {
+            onResetHighlightlisteners = new ArrayList<>();
+        }
+        onResetHighlightlisteners.add(onResetHighlightlistener);
     }
 
     @Override
@@ -134,8 +159,32 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.setClickable(false);
             }
+
+            if (bottleIdInHighlight != -1) {
+                setHighlightProperties(holder, cavePlace.BottleId == bottleIdInHighlight);
+            } else {
+                holder.resetHighlight();
+            }
         } else {
             holder.setPlaceTypeViewImageDrawable(null);
+            if (bottleIdInHighlight != -1) {
+                setHighlightProperties(holder, false);
+            } else {
+                holder.resetHighlight();
+            }
+        }
+    }
+
+    private void setHighlightProperties(PatternPlaceViewHolder holder, boolean isHighlight) {
+        holder.setHighlight(isHighlight);
+        if (!isHighlight) {
+            holder.setResetHighlightClickListener((View v) -> {
+                if (onResetHighlightlisteners != null) {
+                    for (View.OnClickListener onResetHighlightlistener : onResetHighlightlisteners) {
+                        onResetHighlightlistener.onClick(v);
+                    }
+                }
+            });
         }
     }
 

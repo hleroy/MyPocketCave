@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
@@ -22,7 +23,8 @@ import java.util.List;
 public class SeeBottleAlertDialog extends AlertDialog {
 
     public SeeBottleAlertDialog(Activity activity, int bottleId, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates,
-                                final List<OnBottleDrunkClickListener> onBottleDrunkClickListeners, final List<OnBottleUnplacedClickListener> onBottleUnplacedClickListeners) {
+                                final List<OnBottleDrunkClickListener> onBottleDrunkClickListeners, final List<OnBottleUnplacedClickListener> onBottleUnplacedClickListeners,
+                                boolean isHighlighted, final List<OnBottleClickListener> onBottleHighlightClickListeners) {
         super(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -36,6 +38,7 @@ public class SeeBottleAlertDialog extends AlertDialog {
         TextView seeDetailView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_see_detail);
         TextView drinkView = (TextView) dialogView.findViewById(R.id.alert_drink_bottle);
         TextView unplaceView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_unplace_bottle);
+        TextView highlightView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_highlight_bottle);
 
         BottleModel bottle = BottleManager.getBottle(bottleId);
         if (bottle == null) {
@@ -93,6 +96,20 @@ public class SeeBottleAlertDialog extends AlertDialog {
                 // cleaning up
                 drinkAlertDialogBuilder.show();
             });
+
+            if (isHighlighted) {
+                highlightView.setVisibility(View.GONE);
+            } else {
+                highlightView.setVisibility(View.VISIBLE);
+                highlightView.setOnClickListener((View v) -> {
+                    if (onBottleHighlightClickListeners != null) {
+                        for (OnBottleClickListener onBottleHighlightClickListener : onBottleHighlightClickListeners) {
+                            onBottleHighlightClickListener.onItemClick(bottleId);
+                        }
+                    }
+                    dismiss();
+                });
+            }
         }
     }
 }

@@ -189,4 +189,5 @@
     <string name="bottle_delete_error_some_placed">Some bottles are placed in the caves, please remove them before</string>
     <string name="no_caves_with_bottle">This bottle is not placed in any caves</string>
     <string name="title_see_caves">See caves with this bottle</string>
+    <string name="highlight_bottle">Highlight this bottle</string>
 </resources>

@@ -84,7 +84,7 @@ public class NavigationManager {
     public static void navigateToCaveDetail(Context context, int caveId, int bottleId) {
         Bundle bundle = new Bundle();
         bundle.putInt("caveId", caveId);
-        bundle.putInt("bottleId", bottleId);
+        bundle.putInt("bottleIdInHighlight", bottleId);
         Intent intent = new Intent(context, CaveDetailActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);

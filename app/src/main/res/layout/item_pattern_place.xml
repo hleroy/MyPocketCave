@@ -1,7 +1,39 @@
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pattern_place_image"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:scaleType="fitXY"
-    android:src="@drawable/place_type_place" />
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/pattern_place_grey_under"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/pattern_place_image"
+        android:layout_alignEnd="@+id/pattern_place_image"
+        android:layout_alignStart="@+id/pattern_place_image"
+        android:layout_alignTop="@+id/pattern_place_image"
+        android:layout_gravity="center"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        android:src="@drawable/black" />
+
+    <ImageView
+        android:id="@+id/pattern_place_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/place_type_place" />
+
+    <ImageView
+        android:id="@+id/pattern_place_grey_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/pattern_place_image"
+        android:layout_alignEnd="@id/pattern_place_image"
+        android:layout_alignStart="@id/pattern_place_image"
+        android:layout_alignTop="@id/pattern_place_image"
+        android:layout_gravity="center"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        android:src="@drawable/black" />
+
+</RelativeLayout>

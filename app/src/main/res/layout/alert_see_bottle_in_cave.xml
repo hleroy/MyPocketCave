@@ -11,30 +11,39 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/alert_see_bottle_see_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/alert_drink_bottle"
-        android:padding="10dp"
-        android:text="@string/see_bottle_detail"
-        android:textSize="18sp" />
-
-    <TextView
         android:id="@+id/alert_drink_bottle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/alert_see_bottle_detail"
+        android:layout_below="@id/alert_see_bottle_detail"
         android:padding="10dp"
         android:text="@string/drink_bottle"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/alert_see_bottle_see_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alert_drink_bottle"
+        android:padding="10dp"
+        android:text="@string/see_bottle_detail"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/alert_see_bottle_unplace_bottle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/alert_see_bottle_see_detail"
+        android:layout_below="@id/alert_see_bottle_see_detail"
         android:padding="10dp"
         android:text="@string/unplace_bottle"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/alert_see_bottle_highlight_bottle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alert_see_bottle_unplace_bottle"
+        android:padding="10dp"
+        android:text="@string/highlight_bottle"
         android:textSize="18sp" />
 
 </android.support.percent.PercentRelativeLayout>

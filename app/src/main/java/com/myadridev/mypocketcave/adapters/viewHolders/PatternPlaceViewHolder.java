@@ -11,15 +11,21 @@ import com.myadridev.mypocketcave.models.CoordinatesModel;
 
 public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
     private final ImageView placeTypeView;
+    private final ImageView greyOverView;
+    private final ImageView greyUnderView;
 
-    private PatternPlaceViewHolder(View itemView, ImageView placeTypeView) {
+    private PatternPlaceViewHolder(View itemView, ImageView placeTypeView, ImageView greyOverView, ImageView greyUnderView) {
         super(itemView);
         this.placeTypeView = placeTypeView;
+        this.greyOverView = greyOverView;
+        this.greyUnderView = greyUnderView;
     }
 
     public static PatternPlaceViewHolder newInstance(View parent) {
         ImageView placeTypeView = (ImageView) parent.findViewById(R.id.pattern_place_image);
-        return new PatternPlaceViewHolder(parent, placeTypeView);
+        ImageView greyOverView = (ImageView) parent.findViewById(R.id.pattern_place_grey_over);
+        ImageView greyUnderView = (ImageView) parent.findViewById(R.id.pattern_place_grey_under);
+        return new PatternPlaceViewHolder(parent, placeTypeView, greyOverView, greyUnderView);
     }
 
     public void setPlaceTypeViewImageDrawable(Drawable placeTypeViewDrawable) {
@@ -31,15 +37,29 @@ public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setOnItemClickListener(final OnPlaceClickListener listener, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates) {
-        placeTypeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onPlaceClick(patternCoordinates, coordinates);
-            }
-        });
+        placeTypeView.setOnClickListener((View v) -> listener.onPlaceClick(patternCoordinates, coordinates));
+    }
+
+    public void setResetHighlightClickListener(final View.OnClickListener listener) {
+        greyOverView.setOnClickListener(listener);
     }
 
     public void setClickable(boolean isClickable) {
         placeTypeView.setClickable(isClickable);
+    }
+
+    public void setHighlight(boolean isHighlight) {
+        if (isHighlight) {
+            greyOverView.setVisibility(View.INVISIBLE);
+            greyUnderView.setVisibility(View.VISIBLE);
+        } else {
+            greyOverView.setVisibility(View.VISIBLE);
+            greyUnderView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void resetHighlight() {
+        greyOverView.setVisibility(View.INVISIBLE);
+        greyUnderView.setVisibility(View.INVISIBLE);
     }
 }

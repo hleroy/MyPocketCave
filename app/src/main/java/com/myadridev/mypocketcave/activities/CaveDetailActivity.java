@@ -37,12 +37,15 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView boxesNumberView;
     private TextView boxesBottlesNumberView;
     private RecyclerView arrangementRecyclerView;
+    private CaveArrangementAdapter caveArrangementAdapter;
 
     private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
     private int caveId;
+
+    public int BottleIdInHighlight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,8 @@ public class CaveDetailActivity extends AppCompatActivity {
 
         setupFloatingActionButtons();
         setupFloatingActionButtonsVisibility();
+
+        BottleIdInHighlight = bundle.getInt("bottleIdInHighlight", -1);
     }
 
     private void setupFloatingActionButtons() {
@@ -178,7 +183,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                     int marginLeftRight = (int) getResources().getDimension(R.dimen.horizontal_big_margin_between_elements);
                     int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight);
 
-                    CaveArrangementAdapter caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth);
+                    caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth, BottleIdInHighlight);
                     caveArrangementAdapter.addOnValueChangedListener(() -> {
                         CaveManager.editCave(this, cave);
                         capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
