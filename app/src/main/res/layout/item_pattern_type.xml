@@ -11,7 +11,6 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
         android:src="@drawable/pattern_type_staggered_rows" />
 
     <TextView
@@ -21,7 +20,6 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_toEndOf="@id/pattern_type_icon"
-        android:layout_toRightOf="@id/pattern_type_icon"
         android:text="Pattern type"
         android:textSize="@dimen/text_size" />
 

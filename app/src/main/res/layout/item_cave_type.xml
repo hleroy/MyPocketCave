@@ -11,7 +11,6 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginRight="@dimen/horizontal_margin_between_elements"
         android:src="@drawable/cave_fridge" />
 
     <TextView
@@ -21,7 +20,6 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_toEndOf="@id/cave_type_image"
-        android:layout_toRightOf="@id/cave_type_image"
         android:text="Type"
         android:textSize="@dimen/text_size" />
 

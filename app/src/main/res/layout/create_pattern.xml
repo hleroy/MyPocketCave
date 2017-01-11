@@ -14,13 +14,10 @@
             android:id="@+id/create_pattern_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
             android:spinnerMode="dropdown" />
@@ -29,12 +26,9 @@
             android:id="@+id/create_pattern_number_bottles_by_column"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@id/create_pattern_type"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
             android:gravity="center"
             android:hint="@string/create_pattern_number_bottles_by_column"
@@ -47,11 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_below="@id/create_pattern_type"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-            android:layout_marginLeft="@dimen/horizontal_margin_between_elements"
-            android:layout_marginRight="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
             android:gravity="center"
             android:hint="@string/create_pattern_number_bottles_by_row"
@@ -66,8 +57,6 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_margin_between_elements"
             android:text="@string/create_pattern_vertically_expendable"
@@ -81,8 +70,7 @@
             android:layout_alignTop="@id/create_pattern_vertically_expendable"
             android:layout_below="@id/create_pattern_number_bottles_by_row"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/create_pattern_vertically_expendable"
-            android:layout_toRightOf="@id/create_pattern_vertically_expendable" />
+            android:layout_toEndOf="@id/create_pattern_vertically_expendable" />
 
         <TextView
             android:id="@+id/create_pattern_horizontally_expendable"
@@ -92,8 +80,6 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_margin_between_elements"
             android:text="@string/create_pattern_horizontally_expendable"
@@ -107,8 +93,7 @@
             android:layout_alignTop="@id/create_pattern_horizontally_expendable"
             android:layout_below="@id/create_pattern_number_bottles_by_row"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/create_pattern_horizontally_expendable"
-            android:layout_toRightOf="@id/create_pattern_horizontally_expendable" />
+            android:layout_toEndOf="@id/create_pattern_horizontally_expendable" />
 
         <TextView
             android:id="@+id/create_pattern_inverted"
@@ -118,8 +103,6 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_margin_between_elements"
             android:text="@string/create_pattern_invert"
@@ -133,8 +116,7 @@
             android:layout_alignTop="@id/create_pattern_inverted"
             android:layout_below="@id/create_pattern_horizontally_expendable"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/create_pattern_inverted"
-            android:layout_toRightOf="@id/create_pattern_inverted" />
+            android:layout_toEndOf="@id/create_pattern_inverted" />
 
         <TextView
             android:id="@+id/create_pattern_overview"
@@ -144,8 +126,6 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_margin_between_elements"
             android:text="@string/create_pattern_overview"
@@ -159,8 +139,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginLeft="@dimen/horizontal_big_margin_between_elements"
-            android:layout_marginRight="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_margin_between_elements" />
 
