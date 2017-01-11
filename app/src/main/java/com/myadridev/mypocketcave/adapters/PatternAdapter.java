@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.PatternPlaceViewHolder;
+import com.myadridev.mypocketcave.dialogs.PlaceBottleAlertDialog;
+import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;

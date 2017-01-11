@@ -55,4 +55,8 @@ public class CaveModel implements IStorableModel, Comparable<CaveModel> {
     public boolean isValid() {
         return CaveType != null && Name != null && CaveArrangement != null;
     }
+
+    public int getNumberBottles(int bottleId) {
+        return CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottleId) ? CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottleId) : 0;
+    }
 }

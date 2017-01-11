@@ -111,6 +111,10 @@
         <item quantity="one">%1$d bt. / %2$d place</item>
         <item quantity="other">%1$d bt. / %2$d places</item>
     </plurals>
+    <plurals name="cave_number_bottles">
+        <item quantity="one">%1$d bouteille</item>
+        <item quantity="other">%1$d bouteilles</item>
+    </plurals>
     <string name="error_cave_already_exists">Une cave similaire existe (même nom et type). Que faire\u00A0?</string>
     <string name="error_cave_go">C\'est parti\u00A0!</string>
     <string name="cave_name">Nom de la cave</string>
@@ -169,4 +173,6 @@
     <string name="message_unplace">Vraiment ?</string>
     <string name="error_bottle_not_enough">Le stock n\'est pas correct : davantage de bouteilles sont déjà placées dans les caves</string>
     <string name="bottle_delete_error_some_placed">Certaines bouteilles sont dans des caves, merci de les retirer pour supprimer la référence</string>
+    <string name="no_caves_with_bottle">Cette bouteille n\'est placée dans aucune cave</string>
+    <string name="title_see_caves">Voir les caves avec cette bouteille</string>
 </resources>

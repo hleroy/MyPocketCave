@@ -15,17 +15,17 @@ public class PatternModelWithBottles extends PatternModel {
     public int PatternWithBottlesId;
 
     // number is float because a bottle can be on 2 patterns at the same time
-    public Map<Integer, Float> NumberPlacedBottlesByIdMap;
+    public Map<Integer, Float> FloatNumberPlacedBottlesByIdMap;
 
     public PatternModelWithBottles() {
         PlaceMapWithBottles = new HashMap<>();
-        NumberPlacedBottlesByIdMap = new HashMap<>();
+        FloatNumberPlacedBottlesByIdMap = new HashMap<>();
     }
 
     public PatternModelWithBottles(PatternModel pattern) {
         super(pattern);
         PlaceMapWithBottles = getPlaceMapForDisplay();
-        NumberPlacedBottlesByIdMap = new HashMap<>();
+        FloatNumberPlacedBottlesByIdMap = new HashMap<>();
     }
 
     public void setClickablePlaces() {

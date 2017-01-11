@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.adapters;
+package com.myadridev.mypocketcave.dialogs;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.adapters.PlaceBottlesAdapter;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.models.BottleModel;

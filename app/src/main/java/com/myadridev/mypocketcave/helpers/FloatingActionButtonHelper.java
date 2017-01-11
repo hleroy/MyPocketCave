@@ -29,8 +29,6 @@ public class FloatingActionButtonHelper {
 
     private static Animation getShowFab(Activity activity, int position) {
         switch (position) {
-            case 0:
-                return AnimationUtils.loadAnimation(activity.getApplication(), R.anim.fab_show_0);
             case 1:
                 return AnimationUtils.loadAnimation(activity.getApplication(), R.anim.fab_show_1);
             case 2:
@@ -47,8 +45,10 @@ public class FloatingActionButtonHelper {
             setFloatingActionButtonNewPositionAfterHide(fab, position);
         }
         fab.startAnimation(getHideFab(activity, position));
-        fab.setClickable(false);
-        fab.setVisibility(View.INVISIBLE);
+        if (position != 0) {
+            fab.setClickable(false);
+            fab.setVisibility(View.INVISIBLE);
+        }
     }
 
     public static void setFloatingActionButtonNewPositionAfterHide(FloatingActionButton fab, int position) {
@@ -69,8 +69,6 @@ public class FloatingActionButtonHelper {
 
     private static Animation getHideFab(Activity activity, int position) {
         switch (position) {
-            case 0:
-                return AnimationUtils.loadAnimation(activity.getApplication(), R.anim.fab_hide_0);
             case 1:
                 return AnimationUtils.loadAnimation(activity.getApplication(), R.anim.fab_hide_1);
             case 2:

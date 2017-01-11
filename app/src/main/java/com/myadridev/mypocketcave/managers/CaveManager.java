@@ -65,7 +65,7 @@ public class CaveManager {
     }
 
     private static void unplaceBottles(Context context, CaveModel cave) {
-        for (Map.Entry<Integer, Float> numberPlacedBottleEntry : cave.CaveArrangement.getNumberPlacedBottlesByIdMap().entrySet()) {
+        for (Map.Entry<Integer, Float> numberPlacedBottleEntry : cave.CaveArrangement.getFloatNumberPlacedBottlesByIdMap().entrySet()) {
             BottleManager.updateNumberPlaced(context, numberPlacedBottleEntry.getKey(), -(int) Math.ceil(numberPlacedBottleEntry.getValue()));
         }
     }
@@ -80,5 +80,9 @@ public class CaveManager {
 
     public static int getCavesCount(CaveTypeEnum caveType) {
         return getCavesStorageManager().getCavesCount(caveType.Id);
+    }
+
+    public static List<CaveLightModel> getCavesWithBottle(int bottleId) {
+        return getCaveStorageManager().getCavesWithBottle(bottleId);
     }
 }

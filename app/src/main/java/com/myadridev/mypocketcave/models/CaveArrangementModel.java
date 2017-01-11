@@ -21,17 +21,19 @@ public class CaveArrangementModel {
     @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
     @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
     public final Map<CoordinatesModel, PatternModelWithBottles> PatternMap;
+    public final Map<Integer, Integer> IntNumberPlacedBottlesByIdMap;
     public int Id;
     public int TotalCapacity;
     public int TotalUsed;
     public int NumberBottlesBulk;
     public int NumberBoxes;
     public int NumberBottlesPerBox;
-    private Map<Integer, Float> numberPlacedBottlesByIdMap;
+    private Map<Integer, Float> floatNumberPlacedBottlesByIdMap;
 
     public CaveArrangementModel() {
         PatternMap = new HashMap<>();
-        numberPlacedBottlesByIdMap = new HashMap<>();
+        floatNumberPlacedBottlesByIdMap = new HashMap<>();
+        IntNumberPlacedBottlesByIdMap = new HashMap<>();
     }
 
     public CaveArrangementModel(CaveArrangementModel caveArrangement) {
@@ -42,16 +44,17 @@ public class CaveArrangementModel {
         NumberBottlesBulk = caveArrangement.NumberBottlesBulk;
         NumberBoxes = caveArrangement.NumberBoxes;
         NumberBottlesPerBox = caveArrangement.NumberBottlesPerBox;
-        numberPlacedBottlesByIdMap = new HashMap<>(caveArrangement.numberPlacedBottlesByIdMap);
+        floatNumberPlacedBottlesByIdMap = new HashMap<>(caveArrangement.floatNumberPlacedBottlesByIdMap);
+        IntNumberPlacedBottlesByIdMap = new HashMap<>(caveArrangement.IntNumberPlacedBottlesByIdMap);
     }
 
-    public Map<Integer, Float> getNumberPlacedBottlesByIdMap() {
-        if (numberPlacedBottlesByIdMap.size() > 0) {
-            return numberPlacedBottlesByIdMap;
+    public Map<Integer, Float> getFloatNumberPlacedBottlesByIdMap() {
+        if (floatNumberPlacedBottlesByIdMap.size() > 0) {
+            return floatNumberPlacedBottlesByIdMap;
         } else {
             Map<Integer, Float> numberPlacedBottlesByIdMap = new HashMap<>();
             for (PatternModelWithBottles pattern : PatternMap.values()) {
-                for (Map.Entry<Integer, Float> patternNumberEntry : pattern.NumberPlacedBottlesByIdMap.entrySet()) {
+                for (Map.Entry<Integer, Float> patternNumberEntry : pattern.FloatNumberPlacedBottlesByIdMap.entrySet()) {
                     int bottleId = patternNumberEntry.getKey();
                     float numberPlaced = patternNumberEntry.getValue();
                     float oldNumberPlaced = numberPlacedBottlesByIdMap.containsKey(bottleId) ? numberPlacedBottlesByIdMap.get(bottleId) : 0f;
@@ -239,7 +242,8 @@ public class CaveArrangementModel {
             notNullPatterns.add(topRightPlaceAndPattern.second);
         }
 
-        updateNumberPlaced(bottle, numberPlaces * (isAddBottle ? 1 : -1), notNullPatterns);
+        int sign = isAddBottle ? 1 : -1;
+        updateNumberPlaced(bottle, notNullPatterns, numberPlaces * sign, sign);
     }
 
     private void updateTopLeftBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle, boolean isAddBottle) {
@@ -267,7 +271,8 @@ public class CaveArrangementModel {
             notNullPatterns.add(topLeftPlaceAndPattern.second);
         }
 
-        updateNumberPlaced(bottle, numberPlaces * (isAddBottle ? 1 : -1), notNullPatterns);
+        int sign = isAddBottle ? 1 : -1;
+        updateNumberPlaced(bottle, notNullPatterns, numberPlaces * sign, sign);
     }
 
     private void updateBottomRightBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle, boolean isAddBottle) {
@@ -295,7 +300,8 @@ public class CaveArrangementModel {
             notNullPatterns.add(bottomRightPlaceAndPattern.second);
         }
 
-        updateNumberPlaced(bottle, numberPlaces * (isAddBottle ? 1 : -1), notNullPatterns);
+        int sign = isAddBottle ? 1 : -1;
+        updateNumberPlaced(bottle, notNullPatterns, numberPlaces * sign, sign);
     }
 
     private void updateBottomLeftBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, PatternModelWithBottles pattern, CavePlaceModel cavePlace, BottleModel bottle, boolean isAddBottle) {
@@ -323,15 +329,18 @@ public class CaveArrangementModel {
             notNullPatterns.add(bottomLeftPlaceAndPattern.second);
         }
 
-        updateNumberPlaced(bottle, numberPlaces * (isAddBottle ? 1 : -1), notNullPatterns);
+        int sign = isAddBottle ? 1 : -1;
+        updateNumberPlaced(bottle, notNullPatterns, numberPlaces * sign, sign);
     }
 
-    private void updateNumberPlaced(BottleModel bottle, float numberPlaces, List<PatternModelWithBottles> notNullPatterns) {
+    private void updateNumberPlaced(BottleModel bottle, List<PatternModelWithBottles> notNullPatterns, float numberPlaces, int intNumberOfBottlesToAdd) {
         float floatNumberOfBottlesToAdd = 1f / numberPlaces;
         for (PatternModelWithBottles pat : notNullPatterns) {
-            float oldNumber = pat.NumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? pat.NumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
-            pat.NumberPlacedBottlesByIdMap.put(bottle.Id, oldNumber + floatNumberOfBottlesToAdd);
+            float oldNumberFloat = pat.FloatNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? pat.FloatNumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
+            pat.FloatNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberFloat + floatNumberOfBottlesToAdd);
         }
+        int oldNumberInt = IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0;
+        IntNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberInt + intNumberOfBottlesToAdd);
     }
 
     private void updateCavePlace(CavePlaceModel cavePlaceToUpdate, BottleModel bottle, boolean isAddBottle) {

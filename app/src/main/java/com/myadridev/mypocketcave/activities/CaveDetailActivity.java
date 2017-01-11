@@ -38,8 +38,8 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView boxesBottlesNumberView;
     private RecyclerView arrangementRecyclerView;
 
+    private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
-    private FloatingActionButton fabCloseMenu;
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
     private int caveId;
@@ -62,10 +62,13 @@ public class CaveDetailActivity extends AppCompatActivity {
 
     private void setupFloatingActionButtons() {
         fabMenu = (FloatingActionButton) findViewById(R.id.fab_menu_cave);
-        fabMenu.setOnClickListener((View view) -> openFloatingActionButtonsMenu());
-
-        fabCloseMenu = (FloatingActionButton) findViewById(R.id.fab_close_menu_cave);
-        fabCloseMenu.setOnClickListener((View view) -> closeFloatingActionButtonsMenu());
+        fabMenu.setOnClickListener((View view) -> {
+            if (isMenuOpened) {
+                closeFloatingActionButtonsMenu();
+            } else {
+                openFloatingActionButtonsMenu();
+            }
+        });
 
         fabEdit = (FloatingActionButton) findViewById(R.id.fab_edit_cave);
         fabEdit.setOnClickListener((View view) -> {
@@ -90,27 +93,29 @@ public class CaveDetailActivity extends AppCompatActivity {
     }
 
     private void closeFloatingActionButtonsMenu() {
-        FloatingActionButtonHelper.hideFloatingActionButton(this, fabCloseMenu, 0);
         FloatingActionButtonHelper.hideFloatingActionButton(this, fabEdit, 1);
         FloatingActionButtonHelper.hideFloatingActionButton(this, fabDelete, 2);
-        FloatingActionButtonHelper.showFloatingActionButton(this, fabMenu, 0);
 
-        fabCloseMenu.postDelayed(() -> FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabCloseMenu, 0), 150);
+        FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabMenu, 0);
+        fabMenu.setSize(FloatingActionButton.SIZE_NORMAL);
+        fabMenu.setImageResource(R.drawable.menu);
+        isMenuOpened = !isMenuOpened;
     }
 
     private void openFloatingActionButtonsMenu() {
-        FloatingActionButtonHelper.showFloatingActionButton(this, fabCloseMenu, 0);
         FloatingActionButtonHelper.showFloatingActionButton(this, fabEdit, 1);
         FloatingActionButtonHelper.showFloatingActionButton(this, fabDelete, 2);
+
         FloatingActionButtonHelper.hideFloatingActionButton(this, fabMenu, 0);
-        FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterShow(fabCloseMenu, 0);
+        fabMenu.setSize(FloatingActionButton.SIZE_MINI);
+        fabMenu.setImageResource(R.drawable.close);
+        fabMenu.postDelayed(() -> FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterShow(fabMenu, 0), 20);
+        isMenuOpened = !isMenuOpened;
     }
 
     private void setupFloatingActionButtonsVisibility() {
         fabMenu.setVisibility(View.VISIBLE);
         fabMenu.setClickable(true);
-        fabCloseMenu.setVisibility(View.INVISIBLE);
-        fabCloseMenu.setClickable(false);
         fabEdit.setVisibility(View.INVISIBLE);
         fabEdit.setClickable(false);
         fabDelete.setVisibility(View.INVISIBLE);

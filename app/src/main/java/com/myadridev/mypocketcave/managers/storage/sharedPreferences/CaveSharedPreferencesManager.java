@@ -8,10 +8,14 @@ import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICaveStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.models.CaveLightModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CaveSharedPreferencesManager implements ICaveStorageManager {
@@ -70,5 +74,25 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
     @Override
     public void deleteCave(Context context, CaveModel cave) {
         getSharedPreferencesManager().delete(context, context.getString(filenameResourceId, cave.Id));
+    }
+
+    @Override
+    public List<CaveLightModel> getCavesWithBottle(int bottleId) {
+        List<CaveLightModel> cavesWithBottle = new ArrayList<>(allCavesMap.size());
+
+        for (CaveModel cave : allCavesMap.values()) {
+            int numberBottlesInTheCave = cave.getNumberBottles(bottleId);
+            if (numberBottlesInTheCave > 0) {
+                CaveLightModel caveLight = new CaveLightModel();
+                caveLight.Id = cave.Id;
+                caveLight.Name = cave.Name;
+                caveLight.CaveType = cave.CaveType;
+                caveLight.TotalUsed = numberBottlesInTheCave;
+                cavesWithBottle.add(caveLight);
+            }
+        }
+
+        Collections.sort(cavesWithBottle);
+        return cavesWithBottle;
     }
 }
