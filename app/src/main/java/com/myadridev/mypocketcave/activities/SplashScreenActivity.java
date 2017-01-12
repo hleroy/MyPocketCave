@@ -90,7 +90,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         splashImageView.setImageDrawable(ContextCompat.getDrawable(SplashScreenActivity.this, R.mipmap.splash_4));
                         // Cave
                         if (!CaveSharedPreferencesManager.IsInitialized()) {
-                            CaveSharedPreferencesManager.Init();
+                            CaveSharedPreferencesManager.Init(SplashScreenActivity.this);
                         }
                         DependencyManager.registerSingleton(ICaveStorageManager.class, CaveSharedPreferencesManager.Instance);
                         step++;

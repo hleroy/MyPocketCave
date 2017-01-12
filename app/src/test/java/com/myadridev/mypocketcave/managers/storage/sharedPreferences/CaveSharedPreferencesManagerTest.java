@@ -7,8 +7,10 @@ import android.support.annotation.RequiresApi;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.managers.DependencyManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.models.CaveArrangementModel;
+import com.myadridev.mypocketcave.models.CaveLightModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
@@ -58,6 +60,20 @@ public class CaveSharedPreferencesManagerTest {
     public static void beforeClass() {
         initBottleMap();
         DependencyManager.init();
+
+        ICavesStorageManager mockCavesStorageManager = mock(ICavesStorageManager.class);
+        when(mockCavesStorageManager.getCaves())
+                .thenAnswer(new Answer<List<CaveLightModel>>() {
+                    @Override
+                    public List<CaveLightModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ArrayList<CaveLightModel> caveLightModels = new ArrayList<>();
+                        for (CaveModel cave : sortedCaves) {
+                            caveLightModels.add(new CaveLightModel(cave));
+                        }
+                        return caveLightModels;
+                    }
+                });
+        DependencyManager.registerSingleton(ICavesStorageManager.class, mockCavesStorageManager, true);
 
         ISharedPreferencesManager mockSharedPreferencesManager = mock(ISharedPreferencesManager.class);
         doAnswer(new Answer<Void>() {
@@ -164,7 +180,7 @@ public class CaveSharedPreferencesManagerTest {
                 return "cave_" + (int) invocation.getArguments()[1];
             }
         });
-        CaveSharedPreferencesManager.Init();
+        CaveSharedPreferencesManager.Init(context);
         assertTrue(CaveSharedPreferencesManager.IsInitialized());
     }
 

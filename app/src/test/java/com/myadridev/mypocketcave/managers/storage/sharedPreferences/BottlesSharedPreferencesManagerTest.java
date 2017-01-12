@@ -344,11 +344,11 @@ public class BottlesSharedPreferencesManagerTest {
         int size = expectedDistinctPersonsList.size();
         String[] expectedDistinctPersons = new String[size];
         expectedDistinctPersonsList.toArray(expectedDistinctPersons);
-        String[] distinctPersons = BottlesSharedPreferencesManager.Instance.getDistinctPersons();
+        List<String> distinctPersons = BottlesSharedPreferencesManager.Instance.getDistinctPersons();
 
-        assertEquals(size, distinctPersons.length);
+        assertEquals(size, distinctPersons.size());
         for (int i = 0; i < size; i++) {
-            assertEquals(expectedDistinctPersons[i], distinctPersons[i]);
+            assertEquals(expectedDistinctPersons[i], distinctPersons.get(i));
         }
     }
 
@@ -362,11 +362,11 @@ public class BottlesSharedPreferencesManagerTest {
         int size = expectedDistinctDomainsList.size();
         String[] expectedDistinctDomains = new String[size];
         expectedDistinctDomainsList.toArray(expectedDistinctDomains);
-        String[] distinctDomains = BottlesSharedPreferencesManager.Instance.getDistinctDomains();
+        List<String> distinctDomains = BottlesSharedPreferencesManager.Instance.getDistinctDomains();
 
-        assertEquals(size, distinctDomains.length);
+        assertEquals(size, distinctDomains.size());
         for (int i = 0; i < size; i++) {
-            assertEquals(expectedDistinctDomains[i], distinctDomains[i]);
+            assertEquals(expectedDistinctDomains[i], distinctDomains.get(i));
         }
     }
 

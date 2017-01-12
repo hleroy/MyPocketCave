@@ -4,7 +4,9 @@ import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.MillesimeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
 import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.CaveLightModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
 
@@ -40,6 +42,16 @@ public class BottleManagerTest {
             }
         });
         DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
+
+        ICavesStorageManager mockCavesStorageManager = mock(ICavesStorageManager.class);
+        when(mockCavesStorageManager.getCaves())
+                .thenAnswer(new Answer<List<CaveLightModel>>() {
+                    @Override
+                    public List<CaveLightModel> answer(InvocationOnMock invocation) throws Throwable {
+                        return new ArrayList<>();
+                    }
+                });
+        DependencyManager.registerSingleton(ICavesStorageManager.class, mockCavesStorageManager, true);
     }
 
     private static void createSearchBottleSet() {
@@ -96,7 +108,7 @@ public class BottleManagerTest {
 
         assertEquals(bottles.size(), suggestBottles.size());
         for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(5, suggestBottle.Score);
+            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
     }
@@ -111,7 +123,7 @@ public class BottleManagerTest {
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
         for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(5, suggestBottle.Score);
+            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             assertEquals(searchCriteria.Domain, suggestBottle.Bottle.Domain);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
@@ -127,7 +139,7 @@ public class BottleManagerTest {
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
         for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(5, suggestBottle.Score);
+            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             assertEquals(searchCriteria.WineColor, suggestBottle.Bottle.WineColor);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
@@ -142,7 +154,7 @@ public class BottleManagerTest {
         List<SuggestBottleResultModel> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
         assertEquals(bottles.size() / 4, suggestBottles.size());
         for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(5, suggestBottle.Score);
+            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             assertTrue(suggestBottle.Bottle.Millesime <= currentYear);
             assertTrue(suggestBottle.Bottle.Millesime >= currentYear - 2);
             assertTrue(bottles.contains(suggestBottle.Bottle));
@@ -152,7 +164,7 @@ public class BottleManagerTest {
         suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
         assertEquals(bottles.size() / 4, suggestBottles.size());
         for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(5, suggestBottle.Score);
+            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             assertTrue(suggestBottle.Bottle.Millesime <= currentYear - 3);
             assertTrue(suggestBottle.Bottle.Millesime >= currentYear - 5);
             assertTrue(bottles.contains(suggestBottle.Bottle));
@@ -162,7 +174,7 @@ public class BottleManagerTest {
         suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
         assertEquals(bottles.size() / 2, suggestBottles.size());
         for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(5, suggestBottle.Score);
+            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             assertTrue(suggestBottle.Bottle.Millesime <= currentYear - 6);
             assertTrue(suggestBottle.Bottle.Millesime >= currentYear - 10);
             assertTrue(bottles.contains(suggestBottle.Bottle));
@@ -187,7 +199,7 @@ public class BottleManagerTest {
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
         for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(5, suggestBottle.Score);
+            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             assertTrue(suggestBottle.Bottle.FoodToEatWithList.contains(FoodToEatWithEnum.PorkProduct)
                     || suggestBottle.Bottle.FoodToEatWithList.contains(FoodToEatWithEnum.Dessert));
             assertTrue(bottles.contains(suggestBottle.Bottle));
@@ -204,7 +216,7 @@ public class BottleManagerTest {
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
         for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(5, suggestBottle.Score);
+            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             assertEquals(searchCriteria.PersonToShareWith, suggestBottle.Bottle.PersonToShareWith);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
@@ -224,9 +236,9 @@ public class BottleManagerTest {
             assertEquals(searchCriteria.WineColor, suggestBottle.Bottle.WineColor);
             assertTrue(bottles.contains(suggestBottle.Bottle));
             if (suggestBottle.Bottle.Millesime <= currentYear - 3 && suggestBottle.Bottle.Millesime >= currentYear - 5) {
-                assertEquals(5, suggestBottle.Score);
+                assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
             } else {
-                assertEquals(4, suggestBottle.Score);
+                assertEquals(SuggestBottleCriteria.NumberOfCriteria - 1, suggestBottle.Score);
             }
         }
     }

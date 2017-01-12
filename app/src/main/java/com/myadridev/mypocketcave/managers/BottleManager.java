@@ -174,7 +174,7 @@ public class BottleManager {
 
     private static int computeCaveScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
         if (searchCriteria.Cave == null) {
-            return 0;
+            return 1;
         }
         return CaveManager.isBottleInTheCave(bottle.Id, searchCriteria.Cave.Id) ? 1 : 0;
     }
