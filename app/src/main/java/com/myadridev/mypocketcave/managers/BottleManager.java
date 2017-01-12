@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class BottleManager {
 
@@ -32,6 +33,17 @@ public class BottleManager {
 
     public static List<BottleModel> getBottles() {
         return getBottleStorageManager().getBottles();
+    }
+
+    public static List<BottleModel> getBottles(Set<Integer> bottleIds) {
+        List<BottleModel> allBottles = getBottles();
+        List<BottleModel> bottles = new ArrayList<>(allBottles.size());
+        for (BottleModel bottle : allBottles) {
+            if (bottleIds.contains(bottle.Id)) {
+                bottles.add(bottle);
+            }
+        }
+        return bottles;
     }
 
     public static BottleModel getBottle(int bottleId) {
@@ -183,8 +195,12 @@ public class BottleManager {
         return getBottleStorageManager().getNonPlacedBottles();
     }
 
+    public static void placeBottle(Context context, int bottleId, int quantity) {
+        updateNumberPlaced(context, bottleId, quantity);
+    }
+
     public static void placeBottle(Context context, int bottleId) {
-        updateNumberPlaced(context, bottleId, 1);
+        placeBottle(context, bottleId, 1);
     }
 
     public static void drinkBottle(Context context, int bottleId) {

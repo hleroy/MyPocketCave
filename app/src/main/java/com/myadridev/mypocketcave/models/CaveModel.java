@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.managers.BottleManager;
+
+import java.util.List;
 
 @JsonSerialize(as = CaveModel.class)
 public class CaveModel implements IStorableModel, Comparable<CaveModel> {
@@ -58,5 +61,9 @@ public class CaveModel implements IStorableModel, Comparable<CaveModel> {
 
     public int getNumberBottles(int bottleId) {
         return CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottleId) ? CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottleId) : 0;
+    }
+
+    public List<BottleModel> getBottles() {
+        return BottleManager.getBottles(CaveArrangement.IntNumberPlacedBottlesByIdMap.keySet());
     }
 }

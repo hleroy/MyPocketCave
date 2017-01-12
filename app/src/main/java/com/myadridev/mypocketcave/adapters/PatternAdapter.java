@@ -13,7 +13,7 @@ import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
-import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
+import com.myadridev.mypocketcave.listeners.OnBottlePlacedWithCoordinatesClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
@@ -39,7 +39,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int bottleIdInHighlight;
     private List<View.OnClickListener> onResetHighlightlisteners;
     private List<OnBottleClickListener> onSetHighlightlisteners;
-    private List<OnBottlePlacedClickListener> onBottlePlacedClickListeners;
+    private List<OnBottlePlacedWithCoordinatesClickListener> onBottlePlacedWithCoordinatesClickListeners;
     private List<OnBottleDrunkClickListener> onBottleDrunkClickListeners;
     private List<OnBottleUnplacedClickListener> onBottleUnplacedClickListeners;
     private CoordinatesModel patternCoordinates;
@@ -68,7 +68,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         onBottleDrunkClickListeners, onBottleUnplacedClickListeners, bottleIdInHighlight == cavePlace.BottleId, onSetHighlightlisteners);
                 alertDialog.show();
             } else {
-                PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(this.activity, patternCoordinates1, coordinates, onBottlePlacedClickListeners);
+                PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(this.activity, patternCoordinates1, coordinates, onBottlePlacedWithCoordinatesClickListeners);
                 alertDialog.show();
             }
         };
@@ -88,11 +88,11 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         onBottleDrunkClickListeners.add(onBottleDrunkClickListener);
     }
 
-    public void addOnBottlePlacedClickListener(OnBottlePlacedClickListener onBottlePlacedClickListener) {
-        if (onBottlePlacedClickListeners == null) {
-            onBottlePlacedClickListeners = new ArrayList<>();
+    public void addOnBottlePlacedClickListener(OnBottlePlacedWithCoordinatesClickListener onBottlePlacedWithCoordinatesClickListener) {
+        if (onBottlePlacedWithCoordinatesClickListeners == null) {
+            onBottlePlacedWithCoordinatesClickListeners = new ArrayList<>();
         }
-        onBottlePlacedClickListeners.add(onBottlePlacedClickListener);
+        onBottlePlacedWithCoordinatesClickListeners.add(onBottlePlacedWithCoordinatesClickListener);
     }
 
     public void addonSetHighlightlistener(OnBottleClickListener onSetHighlightlistener) {

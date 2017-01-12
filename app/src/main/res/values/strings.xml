@@ -140,10 +140,6 @@
     <string name="pattern_type_staggered_rows">In staggered rows</string>
     <string name="pattern_type_free">Free</string>
     <string name="cave_arrangement">Arrangement</string>
-    <plurals name="cave_bulk_bottles_number_detail">
-        <item quantity="one">%1$d bottle</item>
-        <item quantity="other">%1$d bottles</item>
-    </plurals>
     <plurals name="cave_boxes_number_detail">
         <item quantity="one">%1$d box</item>
         <item quantity="other">%1$d boxes</item>
@@ -192,4 +188,7 @@
     <string name="highlight_bottle">Highlight this bottle</string>
     <string name="error_suggest_cave">No cave but checked as required</string>
     <string name="suggest_bottle_cave_none" >Any cave</string>
+    <string name="bottles_here" >%1$d here</string>
+    <string name="place_bottle_label">Place bottle…</string>
+    <string name="place_bottle_quantity">How many ?</string>
 </resources>

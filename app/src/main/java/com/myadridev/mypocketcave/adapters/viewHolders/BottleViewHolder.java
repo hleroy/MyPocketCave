@@ -48,11 +48,6 @@ public class BottleViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setOnItemClickListener(final OnBottleClickListener listener, final int bottleId) {
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(bottleId);
-            }
-        });
+        itemView.setOnClickListener((View v) -> listener.onItemClick(bottleId));
     }
 }

@@ -188,8 +188,30 @@ public class CaveArrangementModel {
         updateBottle(patternCoordinates, coordinates, bottleId, false, true);
     }
 
+    public void unplaceBottle(int bottleId, int quantity) {
+        updateBottle(bottleId, quantity, false, true);
+    }
+
+    public void placeBottle(int bottleId, int quantity) {
+        updateBottle(bottleId, quantity, true, true);
+    }
+
     public void placeBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId) {
         updateBottle(patternCoordinates, coordinates, bottleId, true, true);
+    }
+
+    private void updateBottle(int bottleId, int quantity, boolean isAddBottle, boolean updateBottleUsedQuantity) {
+        BottleModel bottle = BottleManager.getBottle(bottleId);
+        int sign = isAddBottle ? 1 : -1;
+        updateNumberPlaced(bottle, sign * quantity);
+
+        if (updateBottleUsedQuantity) {
+            if (isAddBottle) {
+                TotalUsed += quantity;
+            } else {
+                TotalUsed -= quantity;
+            }
+        }
     }
 
     private void updateBottle(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId, boolean isAddBottle, boolean updateBottleUsedQuantity) {
@@ -339,6 +361,13 @@ public class CaveArrangementModel {
             float oldNumberFloat = pat.FloatNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? pat.FloatNumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
             pat.FloatNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberFloat + floatNumberOfBottlesToAdd);
         }
+        int oldNumberInt = IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0;
+        IntNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberInt + intNumberOfBottlesToAdd);
+    }
+
+    private void updateNumberPlaced(BottleModel bottle, int intNumberOfBottlesToAdd) {
+        float oldNumberFloat = floatNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? floatNumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
+        floatNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberFloat + intNumberOfBottlesToAdd);
         int oldNumberInt = IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0;
         IntNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberInt + intNumberOfBottlesToAdd);
     }

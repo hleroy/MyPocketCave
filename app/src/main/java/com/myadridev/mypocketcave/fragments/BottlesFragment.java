@@ -120,7 +120,8 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
     }
 
     private void createAdapter() {
-        bottlesAdapter = new BottlesAdapter(getContext(), allBottles, true, this::setHolderPropertiesFromBottle);
+        bottlesAdapter = new BottlesAdapter(getActivity(), allBottles, true, 0);
+        bottlesAdapter.setOnBottleBindListener(this::setHolderPropertiesFromBottle);
         bottlesAdapter.addOnBottleClickListener((int bottleId) -> NavigationManager.navigateToBottleDetail(getActivity(), bottleId));
         bottlesRecyclerView.setAdapter(bottlesAdapter);
     }

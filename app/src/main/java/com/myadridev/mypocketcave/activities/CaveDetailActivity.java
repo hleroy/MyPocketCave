@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -16,13 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.adapters.BottlesAdapter;
 import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
+import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
+import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
+import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 
@@ -34,11 +39,11 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView caveTypeView;
     private TextView capacityUsedView;
     private Toolbar toolbar;
-    private TextView bulkBottlesNumberView;
     private TextView boxesNumberView;
     private TextView boxesBottlesNumberView;
     private RecyclerView arrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
+    private BottlesAdapter bottlesAdapter;
     private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
     private FloatingActionButton fabEdit;
@@ -135,7 +140,6 @@ public class CaveDetailActivity extends AppCompatActivity {
         caveTypeIconView = (ImageView) findViewById(R.id.cave_detail_type_icon);
         caveTypeView = (TextView) findViewById(R.id.cave_detail_type);
         capacityUsedView = (TextView) findViewById(R.id.cave_detail_capacity_used_total);
-        bulkBottlesNumberView = (TextView) findViewById(R.id.cave_detail_bulk_bottles_number);
         boxesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_number);
         boxesBottlesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_bottles_number);
         arrangementRecyclerView = (RecyclerView) findViewById(R.id.cave_detail_arrangement_pattern);
@@ -152,14 +156,26 @@ public class CaveDetailActivity extends AppCompatActivity {
                 cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
         switch (cave.CaveType) {
             case BULK:
-                bulkBottlesNumberView.setVisibility(View.VISIBLE);
-                bulkBottlesNumberView.setText(getResources().getQuantityString(R.plurals.cave_bulk_bottles_number_detail, cave.CaveArrangement.NumberBottlesBulk, cave.CaveArrangement.NumberBottlesBulk));
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
-                arrangementRecyclerView.setVisibility(View.GONE);
+                arrangementRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                bottlesAdapter = new BottlesAdapter(this, cave.getBottles(), true, cave.CaveArrangement.TotalCapacity - cave.CaveArrangement.TotalUsed);
+                bottlesAdapter.setOnBottleBindListener(this::setHolderPropertiesFromBottle);
+                bottlesAdapter.addOnBottleClickListener((int bottleId) -> NavigationManager.navigateToBottleDetail(this, bottleId)); // TODO
+                bottlesAdapter.addOnBottlePlacedClickListener((int bottleId, int quantity) -> {
+                    cave.CaveArrangement.placeBottle(bottleId, quantity);
+                    BottleManager.placeBottle(this, bottleId, quantity);
+                    bottlesAdapter.MaxBottleToPlace -= quantity;
+                    CaveManager.editCave(this, cave);
+                    capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
+                            cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+                    bottlesAdapter.setBottles(cave.getBottles());
+                });
+                arrangementRecyclerView.setAdapter(bottlesAdapter);
+                arrangementRecyclerView.setVisibility(View.VISIBLE);
                 break;
             case BOX:
-                bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.VISIBLE);
                 boxesNumberView.setText(getResources().getQuantityString(R.plurals.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes, cave.CaveArrangement.NumberBoxes));
                 boxesBottlesNumberView.setVisibility(View.VISIBLE);
@@ -169,7 +185,6 @@ public class CaveDetailActivity extends AppCompatActivity {
                 break;
             case RACK:
             case FRIDGE:
-                bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.GONE);
                 boxesBottlesNumberView.setVisibility(View.GONE);
 
@@ -194,6 +209,15 @@ public class CaveDetailActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void setHolderPropertiesFromBottle(BottleViewHolder holder, BottleModel bottle) {
+        holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
+        holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
+        holder.setStockLabelViewText(getString(R.string.bottles_here,
+                cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0));
+        int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
+        holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(this, wineColorDrawableId) : null);
     }
 
     @Override

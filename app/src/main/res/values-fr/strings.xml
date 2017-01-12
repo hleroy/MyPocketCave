@@ -129,10 +129,6 @@
     <string name="pattern_type_linear">Linéaire</string>
     <string name="pattern_type_staggered_rows">En quinconce</string>
     <string name="cave_arrangement">Disposition</string>
-    <plurals name="cave_bulk_bottles_number_detail">
-        <item quantity="one">%1$d bouteille</item>
-        <item quantity="other">%1$d bouteilles</item>
-    </plurals>
     <plurals name="cave_boxes_number_detail">
         <item quantity="one">%1$d caisse</item>
         <item quantity="other">%1$d caisses</item>
@@ -178,4 +174,7 @@
     <string name="highlight_bottle">Mettre en valeur cette bouteille</string>
     <string name="error_suggest_cave">Pas de cave mais coché comme requis</string>
     <string name="suggest_bottle_cave_none">N\'importe quelle cave</string>
+    <string name="bottles_here">%1$d ici</string>
+    <string name="place_bottle_label">Placer une bouteille…</string>
+    <string name="place_bottle_quantity">Combien ?</string>
 </resources>
