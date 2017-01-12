@@ -20,13 +20,13 @@ public class DomainSpinnerAdapter implements SpinnerAdapter {
     private final boolean containsNone;
     private List<String> allDifferentDomainsWithNone;
 
-    public DomainSpinnerAdapter(Context _context, boolean _containsNone) {
-        context = _context;
-        layoutInflater = LayoutInflater.from(context);
-        containsNone = _containsNone;
+    public DomainSpinnerAdapter(Context context, boolean containsNone) {
+        this.context = context;
+        layoutInflater = LayoutInflater.from(this.context);
+        this.containsNone = containsNone;
 
         allDifferentDomainsWithNone = BottleManager.getAllDistinctDomains();
-        allDifferentDomainsWithNone.add(0, context.getString(R.string.suggest_bottle_domain_none));
+        allDifferentDomainsWithNone.add(0, this.context.getString(R.string.suggest_bottle_domain_none));
     }
 
     @Override

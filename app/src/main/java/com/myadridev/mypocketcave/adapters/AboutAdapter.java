@@ -21,12 +21,12 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
     private Context context;
     private String contactSubject;
 
-    public AboutAdapter(Context _context, int resource, List<AboutItem> items, String _contactSubject) {
-        super(_context, resource, items);
+    public AboutAdapter(Context context, int resource, List<AboutItem> items, String contactSubject) {
+        super(context, resource, items);
 
-        context = _context;
-        layoutInflater = LayoutInflater.from(context);
-        contactSubject = _contactSubject;
+        this.context = context;
+        layoutInflater = LayoutInflater.from(this.context);
+        this.contactSubject = contactSubject;
     }
 
     @NonNull

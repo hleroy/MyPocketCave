@@ -31,13 +31,13 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private int itemWidth;
     private int numberOfColumnsForDisplay = PatternManager.numberOfColumnsForDisplay;
 
-    public PatternSelectionAdapter(PatternSelectionActivity _activity, List<PatternModel> _patternList) {
-        activity = _activity;
-        patternList = _patternList;
-        layoutInflater = LayoutInflater.from(activity);
+    public PatternSelectionAdapter(PatternSelectionActivity activity, List<PatternModel> patternList) {
+        this.activity = activity;
+        this.patternList = patternList;
+        layoutInflater = LayoutInflater.from(this.activity);
         listener = (int patternId) -> {
             if (patternId == -1) {
-                NavigationManager.navigateToCreatePattern(activity);
+                NavigationManager.navigateToCreatePattern(this.activity);
             } else {
                 if (listeners != null) {
                     for (OnSelectionPatternClickListener listener1 : listeners) {

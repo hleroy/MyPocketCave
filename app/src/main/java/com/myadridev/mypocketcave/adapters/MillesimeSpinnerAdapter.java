@@ -17,10 +17,10 @@ public class MillesimeSpinnerAdapter implements SpinnerAdapter {
     private final LayoutInflater layoutInflater;
     private final boolean containsNone;
 
-    public MillesimeSpinnerAdapter(Context _context, boolean _containsNone) {
-        context = _context;
-        layoutInflater = LayoutInflater.from(context);
-        containsNone = _containsNone;
+    public MillesimeSpinnerAdapter(Context context, boolean containsNone) {
+        this.context = context;
+        layoutInflater = LayoutInflater.from(this.context);
+        this.containsNone = containsNone;
     }
 
     @Override

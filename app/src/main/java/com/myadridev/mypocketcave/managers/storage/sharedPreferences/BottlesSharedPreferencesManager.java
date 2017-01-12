@@ -24,7 +24,7 @@ import java.util.Map;
 public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
     public static BottlesSharedPreferencesManager Instance;
-    private static boolean _isInitialized;
+    private static boolean isInitialized;
     private Map<Integer, BottleModel> allBottlesMap;
     private String keyIndex;
     private String filename;
@@ -40,12 +40,12 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     }
 
     public static boolean IsInitialized() {
-        return _isInitialized;
+        return isInitialized;
     }
 
     public static void Init(Context context) {
         Instance = new BottlesSharedPreferencesManager(context);
-        _isInitialized = true;
+        isInitialized = true;
     }
 
     private ISharedPreferencesManager getSharedPreferencesManager() {

@@ -18,9 +18,9 @@ public class MillesimeAdapter implements SpinnerAdapter {
     private final Context context;
     private final LayoutInflater layoutInflater;
 
-    public MillesimeAdapter(Context _context) {
-        context = _context;
-        layoutInflater = LayoutInflater.from(context);
+    public MillesimeAdapter(Context context) {
+        this.context = context;
+        layoutInflater = LayoutInflater.from(this.context);
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 

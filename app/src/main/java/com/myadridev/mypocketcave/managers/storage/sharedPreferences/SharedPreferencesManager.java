@@ -21,7 +21,7 @@ import java.util.Set;
 public class SharedPreferencesManager implements ISharedPreferencesManager {
 
     public static SharedPreferencesManager Instance;
-    private static boolean _isInitialized;
+    private static boolean isInitialized;
     private final int openMode = Context.MODE_PRIVATE;
     private ObjectMapper jsonMapper = new ObjectMapper();
     private String sharedPreferencesFolder;
@@ -31,12 +31,12 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
     }
 
     public static boolean IsInitialized() {
-        return _isInitialized;
+        return isInitialized;
     }
 
     public static void Init(Context context) {
         Instance = new SharedPreferencesManager(context);
-        _isInitialized = true;
+        isInitialized = true;
     }
 
     public int loadStoredDataMap(Context context, int storeFileResourceId, int storeSetResourceId, Class<? extends IStorableModel> dataType, Map<Integer, IStorableModel> dataMap) {

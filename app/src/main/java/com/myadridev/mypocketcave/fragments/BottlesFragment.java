@@ -76,16 +76,16 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
         return rootView;
     }
 
-    public void setIsVisible(boolean _isVisible) {
-        boolean oldIsVisible = isVisible;
-        isVisible = _isVisible;
-        if (!oldIsVisible && isVisible) {
+    public void setIsVisible(boolean isVisible) {
+        boolean oldIsVisible = this.isVisible;
+        this.isVisible = isVisible;
+        if (!oldIsVisible && this.isVisible) {
             refreshBottles();
             createAdapter();
             LinearLayoutManager layoutManager = (LinearLayoutManager) bottlesRecyclerView.getLayoutManager();
             layoutManager.scrollToPosition(firstVisibleItemPosition);
         }
-        if (oldIsVisible && !isVisible) {
+        if (oldIsVisible && !this.isVisible) {
             LinearLayoutManager layoutManager = (LinearLayoutManager) bottlesRecyclerView.getLayoutManager();
             firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
         }

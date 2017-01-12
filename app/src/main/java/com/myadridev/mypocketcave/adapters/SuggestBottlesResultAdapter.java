@@ -21,25 +21,25 @@ import java.util.List;
 
 public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
-    private final List<SuggestBottleResultModel> allBottles;
+    private final List<SuggestBottleResultModel> bottles;
     private final LayoutInflater layoutInflater;
     private final OnBottleClickListener listener;
     private final List<OnSeeMoreClickListener> seeMoreClickListeners;
     private boolean isAllBottlesVisible;
     private int numberBottlesAllCriteria;
 
-    public SuggestBottlesResultAdapter(Context _context, List<SuggestBottleResultModel> _allBottles) {
-        context = _context;
-        allBottles = _allBottles;
+    public SuggestBottlesResultAdapter(Context context, List<SuggestBottleResultModel> bottles) {
+        this.context = context;
+        this.bottles = bottles;
         isAllBottlesVisible = false;
         computeVisibleBottlesCount();
-        layoutInflater = LayoutInflater.from(context);
-        listener = (int bottleId) -> NavigationManager.navigateToBottleDetail(context, bottleId);
+        layoutInflater = LayoutInflater.from(this.context);
+        listener = (int bottleId) -> NavigationManager.navigateToBottleDetail(this.context, bottleId);
         seeMoreClickListeners = new ArrayList<>();
     }
 
     public int getNumberDisplayedBottles() {
-        return isAllBottlesVisible ? allBottles.size() : numberBottlesAllCriteria;
+        return isAllBottlesVisible ? bottles.size() : numberBottlesAllCriteria;
     }
 
     public boolean getIsAllBottlesVisible() {
@@ -47,12 +47,12 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     public boolean isRecyclerViewDisplayed() {
-        return !isAllBottlesVisible || allBottles.size() > 0;
+        return !isAllBottlesVisible || bottles.size() > 0;
     }
 
     private void computeVisibleBottlesCount() {
         int count = 0;
-        for (SuggestBottleResultModel bottle : allBottles) {
+        for (SuggestBottleResultModel bottle : bottles) {
             if (bottle.Score == SuggestBottleCriteria.NumberOfCriteria)
                 count++;
         }
@@ -67,7 +67,7 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public int getItemCount() {
         if (isAllBottlesVisible) {
-            int allBottleSize = allBottles.size();
+            int allBottleSize = bottles.size();
             return allBottleSize == 0 ? 0 : allBottleSize + 2;
         } else {
             return numberBottlesAllCriteria == 0 ? 1 : numberBottlesAllCriteria + 2;
@@ -123,12 +123,12 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
             holder.setLabelViewText(context.getResources().getQuantityString(R.plurals.bottle_result_all_criteria_number_label, numberBottlesAllCriteria, numberBottlesAllCriteria));
         } else if (isAllBottlesVisible && position == numberBottlesAllCriteria + 1) {
             BottleNumberViewHolder holder = (BottleNumberViewHolder) viewHolder;
-            int bottleResults = allBottles.size() - numberBottlesAllCriteria;
+            int bottleResults = bottles.size() - numberBottlesAllCriteria;
             holder.setLabelViewText(context.getResources().getQuantityString(R.plurals.bottle_result_not_all_criteria_number_label, bottleResults, bottleResults));
         } else if (isAllBottlesVisible && position > numberBottlesAllCriteria + 1) {
-            BindBottleViewHolder((BottleViewHolder) viewHolder, allBottles.get(position - 2));
+            BindBottleViewHolder((BottleViewHolder) viewHolder, bottles.get(position - 2));
         } else if (position <= numberBottlesAllCriteria) {
-            BindBottleViewHolder((BottleViewHolder) viewHolder, allBottles.get(position - 1));
+            BindBottleViewHolder((BottleViewHolder) viewHolder, bottles.get(position - 1));
         }
     }
 

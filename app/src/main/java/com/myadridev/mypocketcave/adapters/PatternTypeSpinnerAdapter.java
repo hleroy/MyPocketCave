@@ -17,9 +17,9 @@ public class PatternTypeSpinnerAdapter implements SpinnerAdapter {
     private final Context context;
     private final LayoutInflater layoutInflater;
 
-    public PatternTypeSpinnerAdapter(Context _context) {
-        context = _context;
-        layoutInflater = LayoutInflater.from(context);
+    public PatternTypeSpinnerAdapter(Context context) {
+        this.context = context;
+        layoutInflater = LayoutInflater.from(this.context);
     }
 
     @Override

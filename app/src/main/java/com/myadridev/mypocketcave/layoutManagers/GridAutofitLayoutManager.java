@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 
 public class GridAutofitLayoutManager extends GridLayoutManager {
 
-    private int _columnWidth;
-    private boolean _columnWidthChanged = true;
+    private int columnWidth;
+    private boolean columnWidthChanged = true;
 
     public GridAutofitLayoutManager(Context context, int columnWidth) {
         // Initially set spanCount to 1, will be changed automatically later.
@@ -16,19 +16,19 @@ public class GridAutofitLayoutManager extends GridLayoutManager {
     }
 
     private void setColumnWidth(int newColumnWidth) {
-        if (newColumnWidth > 0 && newColumnWidth != _columnWidth) {
-            _columnWidth = newColumnWidth;
-            _columnWidthChanged = true;
+        if (newColumnWidth > 0 && newColumnWidth != columnWidth) {
+            columnWidth = newColumnWidth;
+            columnWidthChanged = true;
         }
     }
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if (_columnWidthChanged && _columnWidth > 0) {
+        if (columnWidthChanged && columnWidth > 0) {
             int totalSpace = getWidth() - getPaddingRight() - getPaddingLeft();
-            int spanCount = Math.max(1, totalSpace / _columnWidth);
+            int spanCount = Math.max(1, totalSpace / columnWidth);
             setSpanCount(spanCount);
-            _columnWidthChanged = false;
+            columnWidthChanged = false;
         }
         super.onLayoutChildren(recycler, state);
     }

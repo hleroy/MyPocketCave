@@ -20,13 +20,13 @@ public class PersonSpinnerAdapter implements SpinnerAdapter {
     private final boolean containsNone;
     private List<String> allDifferentPersonsWithNone;
 
-    public PersonSpinnerAdapter(Context _context, boolean _containsNone) {
-        context = _context;
-        layoutInflater = LayoutInflater.from(context);
-        containsNone = _containsNone;
+    public PersonSpinnerAdapter(Context context, boolean containsNone) {
+        this.context = context;
+        layoutInflater = LayoutInflater.from(this.context);
+        this.containsNone = containsNone;
 
         allDifferentPersonsWithNone = BottleManager.getAllDistinctPersons();
-        allDifferentPersonsWithNone.add(0,context.getString(R.string.suggest_bottle_person_none));
+        allDifferentPersonsWithNone.add(0, this.context.getString(R.string.suggest_bottle_person_none));
     }
 
     @Override

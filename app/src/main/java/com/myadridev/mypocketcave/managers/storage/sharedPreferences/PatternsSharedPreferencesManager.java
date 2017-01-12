@@ -21,7 +21,7 @@ import java.util.Map;
 public class PatternsSharedPreferencesManager implements IPatternsStorageManager {
 
     public static PatternsSharedPreferencesManager Instance;
-    private static boolean _isInitialized;
+    private static boolean isInitialized;
     private Map<Integer, PatternModel> allPatternsMap;
     private String keyIndex;
     private String filename;
@@ -37,12 +37,12 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
     }
 
     public static boolean IsInitialized() {
-        return _isInitialized;
+        return isInitialized;
     }
 
     public static void Init(Context context) {
         Instance = new PatternsSharedPreferencesManager(context);
-        _isInitialized = true;
+        isInitialized = true;
     }
 
     private ISharedPreferencesManager getSharedPreferencesManager() {

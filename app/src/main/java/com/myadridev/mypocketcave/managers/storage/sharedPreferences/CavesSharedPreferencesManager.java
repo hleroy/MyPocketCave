@@ -20,7 +20,7 @@ import java.util.Map;
 public class CavesSharedPreferencesManager implements ICavesStorageManager {
 
     public static CavesSharedPreferencesManager Instance;
-    private static boolean _isInitialized;
+    private static boolean isInitialized;
     private Map<Integer, CaveLightModel> allCavesMap;
     private String keyIndex;
     private String filename;
@@ -36,12 +36,12 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
     }
 
     public static boolean IsInitialized() {
-        return _isInitialized;
+        return isInitialized;
     }
 
     public static void Init(Context context) {
         Instance = new CavesSharedPreferencesManager(context);
-        _isInitialized = true;
+        isInitialized = true;
     }
 
     private ISharedPreferencesManager getSharedPreferencesManager() {

@@ -19,9 +19,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     private final Map<Integer, Fragment> fragments;
     private Context context;
 
-    public ViewPagerAdapter(FragmentManager fm, Context _context, int fragmentToDisplay) {
+    public ViewPagerAdapter(FragmentManager fm, Context context, int fragmentToDisplay) {
         super(fm);
-        context = _context;
+        this.context = context;
         fragments = new HashMap<>(2);
         CavesFragment cavesFragment = new CavesFragment();
         fragments.put(0, cavesFragment);

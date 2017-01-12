@@ -44,16 +44,16 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
         isDisplayedAtFirstLaunch = isDisplayed;
     }
 
-    public void setIsVisible(boolean _isVisible) {
-        boolean oldIsVisible = isVisible;
-        isVisible = _isVisible;
-        if (!oldIsVisible && isVisible) {
+    public void setIsVisible(boolean isVisible) {
+        boolean oldIsVisible = this.isVisible;
+        this.isVisible = isVisible;
+        if (!oldIsVisible && this.isVisible) {
             refreshCaves();
             createAdapter();
             GridAutofitLayoutManager layoutManager = (GridAutofitLayoutManager) cavesRecyclerView.getLayoutManager();
             layoutManager.scrollToPosition(firstVisibleItemPosition);
         }
-        if (oldIsVisible && !isVisible) {
+        if (oldIsVisible && !this.isVisible) {
             GridAutofitLayoutManager layoutManager = (GridAutofitLayoutManager) cavesRecyclerView.getLayoutManager();
             firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
         }

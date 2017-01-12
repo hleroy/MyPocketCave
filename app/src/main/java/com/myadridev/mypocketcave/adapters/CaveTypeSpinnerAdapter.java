@@ -18,10 +18,10 @@ public class CaveTypeSpinnerAdapter implements SpinnerAdapter {
     private final LayoutInflater layoutInflater;
     private final boolean containsNone;
 
-    public CaveTypeSpinnerAdapter(Context _context, boolean _containsNone) {
-        context = _context;
-        layoutInflater = LayoutInflater.from(context);
-        containsNone = _containsNone;
+    public CaveTypeSpinnerAdapter(Context context, boolean containsNone) {
+        this.context = context;
+        layoutInflater = LayoutInflater.from(this.context);
+        this.containsNone = containsNone;
     }
 
     @Override
