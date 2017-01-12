@@ -28,6 +28,7 @@ import com.myadridev.mypocketcave.models.CoordinatesModel;
 
 public class CaveDetailActivity extends AppCompatActivity {
 
+    public int BottleIdInHighlight;
     private CaveModel cave;
     private ImageView caveTypeIconView;
     private TextView caveTypeView;
@@ -38,14 +39,11 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView boxesBottlesNumberView;
     private RecyclerView arrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
-
     private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
     private int caveId;
-
-    public int BottleIdInHighlight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

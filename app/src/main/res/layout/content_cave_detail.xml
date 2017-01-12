@@ -69,6 +69,8 @@
             android:text="@string/cave_arrangement"
             android:textSize="@dimen/text_size_big" />
 
+        <!-- BULK -->
+
         <TextView
             android:id="@+id/cave_detail_bulk_bottles_number"
             android:layout_width="wrap_content"
@@ -81,6 +83,10 @@
             android:layout_marginTop="@dimen/vertical_margin_between_elements"
             android:text="cave_bulk_bottles_number_detail"
             android:textSize="@dimen/text_size" />
+
+        <!-- END BULK -->
+
+        <!-- BOXES -->
 
         <TextView
             android:id="@+id/cave_detail_boxes_number"
@@ -108,6 +114,10 @@
             android:text="cave_boxes_bottles_number_detail"
             android:textSize="@dimen/text_size" />
 
+        <!-- END BOXES -->
+
+        <!-- PATTERN or BOXES -->
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/cave_detail_arrangement_pattern"
             android:layout_width="match_parent"
@@ -118,6 +128,8 @@
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_margin_between_elements" />
+
+        <!-- END PATTERN -->
 
     </android.support.percent.PercentRelativeLayout>
 

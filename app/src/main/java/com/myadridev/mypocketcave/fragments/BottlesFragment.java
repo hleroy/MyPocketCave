@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +13,10 @@ import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.BottlesAdapter;
+import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.BottleManager;
+import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 
 import java.util.ArrayList;
@@ -117,7 +120,16 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
     }
 
     private void createAdapter() {
-        bottlesAdapter = new BottlesAdapter(getContext(), allBottles);
+        bottlesAdapter = new BottlesAdapter(getContext(), allBottles, true, this::setHolderPropertiesFromBottle);
+        bottlesAdapter.addOnBottleClickListener((int bottleId) -> NavigationManager.navigateToBottleDetail(getActivity(), bottleId));
         bottlesRecyclerView.setAdapter(bottlesAdapter);
+    }
+
+    private void setHolderPropertiesFromBottle(BottleViewHolder holder, BottleModel bottle) {
+        holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
+        holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
+        holder.setStockLabelViewText(getActivity().getString(R.string.bottles_stock, bottle.Stock));
+        int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
+        holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(getActivity(), wineColorDrawableId) : null);
     }
 }
