@@ -70,11 +70,11 @@ public class BottleManager {
         return getBottleStorageManager().getBottlesCount(bottles, wineColor.Id);
     }
 
-    public static String[] getAllDistinctPersons() {
+    public static List<String> getAllDistinctPersons() {
         return getBottleStorageManager().getDistinctPersons();
     }
 
-    public static String[] getAllDistinctDomains() {
+    public static List<String> getAllDistinctDomains() {
         return getBottleStorageManager().getDistinctDomains();
     }
 
@@ -103,10 +103,14 @@ public class BottleManager {
             if (searchCriteria.IsPersonRequired && personScore == 0) {
                 continue;
             }
+            int caveScore = computeCaveScore(bottle, searchCriteria);
+            if (searchCriteria.IsCaveRequired && caveScore == 0) {
+                continue;
+            }
 
             SuggestBottleResultModel suggestedBottle = new SuggestBottleResultModel();
             suggestedBottle.Bottle = bottle;
-            suggestedBottle.Score = wineColorScore + domainScore + millesimeScore + foodScore + personScore;
+            suggestedBottle.Score = wineColorScore + domainScore + millesimeScore + foodScore + personScore + caveScore;
 
             suggestBottles.add(suggestedBottle);
         }
@@ -166,6 +170,13 @@ public class BottleManager {
             return 1;
         if (searchCriteria.PersonToShareWith.equalsIgnoreCase(bottle.PersonToShareWith)) return 1;
         return 0;
+    }
+
+    private static int computeCaveScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+        if (searchCriteria.Cave == null) {
+            return 0;
+        }
+        return CaveManager.isBottleInTheCave(bottle.Id, searchCriteria.Cave.Id) ? 1 : 0;
     }
 
     public static List<BottleModel> getNonPlacedBottles() {

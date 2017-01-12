@@ -95,4 +95,13 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
         Collections.sort(cavesWithBottle);
         return cavesWithBottle;
     }
+
+    @Override
+    public boolean isBottleInTheCave(int bottleId, int caveId) {
+        if (allCavesMap.containsKey(caveId)) {
+            CaveModel cave = allCavesMap.get(caveId);
+            return cave.getNumberBottles(bottleId) > 0;
+        }
+        return false;
+    }
 }

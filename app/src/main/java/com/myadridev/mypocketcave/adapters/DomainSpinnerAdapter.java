@@ -11,22 +11,22 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.DomainViewHolder;
 import com.myadridev.mypocketcave.managers.BottleManager;
 
+import java.util.List;
+
 public class DomainSpinnerAdapter implements SpinnerAdapter {
 
     private final Context context;
     private final LayoutInflater layoutInflater;
     private final boolean containsNone;
-    private String[] allDifferentDomainsWithNone;
+    private List<String> allDifferentDomainsWithNone;
 
     public DomainSpinnerAdapter(Context _context, boolean _containsNone) {
         context = _context;
         layoutInflater = LayoutInflater.from(context);
         containsNone = _containsNone;
 
-        String[] allDifferentDomains = BottleManager.getAllDistinctDomains();
-        allDifferentDomainsWithNone = new String[allDifferentDomains.length + 1];
-        allDifferentDomainsWithNone[0] = context.getString(R.string.suggest_bottle_domain_none);
-        System.arraycopy(allDifferentDomains, 0, allDifferentDomainsWithNone, 1, allDifferentDomains.length);
+        allDifferentDomainsWithNone = BottleManager.getAllDistinctDomains();
+        allDifferentDomainsWithNone.add(0, context.getString(R.string.suggest_bottle_domain_none));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class DomainSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (DomainViewHolder) convertView.getTag();
         }
 
-        String person = allDifferentDomainsWithNone[position];
+        String person = allDifferentDomainsWithNone.get(position);
         viewHolder.setLabelViewText(person);
 
         return convertView;
@@ -57,12 +57,13 @@ public class DomainSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return containsNone ? allDifferentDomainsWithNone.length : allDifferentDomainsWithNone.length - 1;
+        int size = allDifferentDomainsWithNone.size();
+        return containsNone ? size : size - 1;
     }
 
     @Override
     public Object getItem(int position) {
-        return allDifferentDomainsWithNone[position];
+        return allDifferentDomainsWithNone.get(position);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class DomainSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (DomainViewHolder) convertView.getTag();
         }
 
-        String person = allDifferentDomainsWithNone[position];
+        String person = allDifferentDomainsWithNone.get(position);
         viewHolder.setLabelViewText(person);
 
         return convertView;

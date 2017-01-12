@@ -176,4 +176,6 @@
     <string name="no_caves_with_bottle">Cette bouteille n\'est placée dans aucune cave</string>
     <string name="title_see_caves">Voir les caves avec cette bouteille</string>
     <string name="highlight_bottle">Mettre en valeur cette bouteille</string>
+    <string name="error_suggest_cave">Pas de cave mais coché comme requis</string>
+    <string name="suggest_bottle_cave_none">N\'importe quelle cave</string>
 </resources>

@@ -11,22 +11,22 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.PersonViewHolder;
 import com.myadridev.mypocketcave.managers.BottleManager;
 
+import java.util.List;
+
 public class PersonSpinnerAdapter implements SpinnerAdapter {
 
     private final Context context;
     private final LayoutInflater layoutInflater;
     private final boolean containsNone;
-    private String[] allDifferentPersonsWithNone;
+    private List<String> allDifferentPersonsWithNone;
 
     public PersonSpinnerAdapter(Context _context, boolean _containsNone) {
         context = _context;
         layoutInflater = LayoutInflater.from(context);
         containsNone = _containsNone;
 
-        String[] allDifferentPersons = BottleManager.getAllDistinctPersons();
-        allDifferentPersonsWithNone = new String[allDifferentPersons.length + 1];
-        allDifferentPersonsWithNone[0] = context.getString(R.string.suggest_bottle_person_none);
-        System.arraycopy(allDifferentPersons, 0, allDifferentPersonsWithNone, 1, allDifferentPersons.length);
+        allDifferentPersonsWithNone = BottleManager.getAllDistinctPersons();
+        allDifferentPersonsWithNone.add(0,context.getString(R.string.suggest_bottle_person_none));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PersonSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (PersonViewHolder) convertView.getTag();
         }
 
-        String person = allDifferentPersonsWithNone[position];
+        String person = allDifferentPersonsWithNone.get(position);
         viewHolder.setLabelViewText(person);
 
         return convertView;
@@ -57,12 +57,13 @@ public class PersonSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return containsNone ? allDifferentPersonsWithNone.length : allDifferentPersonsWithNone.length - 1;
+        int size = allDifferentPersonsWithNone.size();
+        return containsNone ? size : size - 1;
     }
 
     @Override
     public Object getItem(int position) {
-        return allDifferentPersonsWithNone[position];
+        return allDifferentPersonsWithNone.get(position);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class PersonSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (PersonViewHolder) convertView.getTag();
         }
 
-        String person = allDifferentPersonsWithNone[position];
+        String person = allDifferentPersonsWithNone.get(position);
         viewHolder.setLabelViewText(person);
 
         return convertView;

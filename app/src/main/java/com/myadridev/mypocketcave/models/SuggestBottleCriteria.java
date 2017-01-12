@@ -11,7 +11,7 @@ import java.util.List;
 @JsonSerialize(as = SuggestBottleCriteria.class)
 public class SuggestBottleCriteria {
 
-    public static int NumberOfCriteria = 5;
+    public static int NumberOfCriteria = 6;
     public final List<FoodToEatWithEnum> FoodToEatWithList;
     public WineColorEnum WineColor;
     public boolean IsWineColorRequired;
@@ -22,6 +22,8 @@ public class SuggestBottleCriteria {
     public boolean IsFoodRequired;
     public String PersonToShareWith;
     public boolean IsPersonRequired;
+    public CaveLightModel Cave;
+    public boolean IsCaveRequired;
 
     public SuggestBottleCriteria() {
         WineColor = WineColorEnum.ANY;
@@ -34,5 +36,7 @@ public class SuggestBottleCriteria {
         IsFoodRequired = false;
         PersonToShareWith = "";
         IsPersonRequired = false;
+        Cave = null;
+        IsWineColorRequired = false;
     }
 }

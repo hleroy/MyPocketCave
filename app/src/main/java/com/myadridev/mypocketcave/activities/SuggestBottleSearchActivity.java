@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.adapters.CaveSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.DomainSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.MillesimeSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.PersonSpinnerAdapter;
@@ -24,6 +25,7 @@ import com.myadridev.mypocketcave.enums.MillesimeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
+import com.myadridev.mypocketcave.models.CaveLightModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 
 public class SuggestBottleSearchActivity extends AppCompatActivity {
@@ -39,6 +41,8 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
     private CheckBox foodCheckBox;
     private Spinner personSpinner;
     private CheckBox personCheckBox;
+    private Spinner caveSpinner;
+    private CheckBox caveCheckBox;
     private Button searchButton;
     private CoordinatorLayout coordinatorLayout;
 
@@ -75,6 +79,9 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
 
         personSpinner = (Spinner) findViewById(R.id.suggest_bottle_search_person);
         personCheckBox = (CheckBox) findViewById(R.id.suggest_bottle_search_person_must_have);
+
+        caveSpinner = (Spinner) findViewById(R.id.suggest_bottle_search_cave);
+        caveCheckBox = (CheckBox) findViewById(R.id.suggest_bottle_search_cave_must_have);
 
         searchButton = (Button) findViewById(R.id.suggest_bottle_search_button);
         searchButton.setOnClickListener(onSearchButtonClick());
@@ -122,6 +129,8 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
             searchCriteria.IsFoodRequired = foodCheckBox.isChecked();
             searchCriteria.PersonToShareWith = personSpinner.getSelectedItemPosition() != 0 ? (String) personSpinner.getSelectedItem() : "";
             searchCriteria.IsPersonRequired = personCheckBox.isChecked();
+            searchCriteria.Cave = (CaveLightModel) caveSpinner.getSelectedItem();
+            searchCriteria.IsCaveRequired = caveCheckBox.isChecked();
 
             if (checkCriteria(searchCriteria)) {
                 if (!NavigationManager.navigateToSuggestBottleResult(SuggestBottleSearchActivity.this, searchCriteria)) {
@@ -166,6 +175,12 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
+        } else if (searchCriteria.IsCaveRequired && searchCriteria.Cave == null) {
+            final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_suggest_cave), Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+            snackbar.show();
+            isErrors = true;
         }
         return !isErrors;
     }
@@ -182,5 +197,8 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
 
         PersonSpinnerAdapter personSpinnerAdapter = new PersonSpinnerAdapter(this, true);
         personSpinner.setAdapter(personSpinnerAdapter);
+
+        CaveSpinnerAdapter caveSpinnerAdapter = new CaveSpinnerAdapter(this);
+        caveSpinner.setAdapter(caveSpinnerAdapter);
     }
 }

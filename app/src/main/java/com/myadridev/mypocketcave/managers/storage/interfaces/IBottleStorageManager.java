@@ -29,9 +29,9 @@ public interface IBottleStorageManager {
 
     int getBottlesCount(Collection<BottleModel> bottles, int wineColorId);
 
-    String[] getDistinctPersons();
+    List<String> getDistinctPersons();
 
-    String[] getDistinctDomains();
+    List<String> getDistinctDomains();
 
     List<BottleModel> getNonPlacedBottles();
 

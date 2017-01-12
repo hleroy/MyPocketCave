@@ -85,4 +85,8 @@ public class CaveManager {
     public static List<CaveLightModel> getCavesWithBottle(int bottleId) {
         return getCaveStorageManager().getCavesWithBottle(bottleId);
     }
+
+    public static boolean isBottleInTheCave(int bottleId, int caveId) {
+        return getCaveStorageManager().isBottleInTheCave(bottleId, caveId);
+    }
 }

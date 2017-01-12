@@ -16,4 +16,6 @@ public interface ICaveStorageManager {
     void deleteCave(Context context, CaveModel cave);
 
     List<CaveLightModel> getCavesWithBottle(int bottleId);
+
+    boolean isBottleInTheCave(int bottleId, int caveId);
 }

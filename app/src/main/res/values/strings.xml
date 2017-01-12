@@ -190,4 +190,6 @@
     <string name="no_caves_with_bottle">This bottle is not placed in any caves</string>
     <string name="title_see_caves">See caves with this bottle</string>
     <string name="highlight_bottle">Highlight this bottle</string>
+    <string name="error_suggest_cave">No cave but checked as required</string>
+    <string name="suggest_bottle_cave_none" >Any cave</string>
 </resources>

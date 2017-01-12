@@ -157,39 +157,33 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     }
 
     @Override
-    public String[] getDistinctPersons() {
+    public List<String> getDistinctPersons() {
         HashSet<String> distinctPersonsSet = new HashSet<>(allBottlesMap.size());
-        int size = 0;
 
         for (BottleModel bottle : allBottlesMap.values()) {
-            if (!bottle.PersonToShareWith.isEmpty() && distinctPersonsSet.add(bottle.PersonToShareWith)) {
-                size++;
+            if (!bottle.PersonToShareWith.isEmpty()) {
+                distinctPersonsSet.add(bottle.PersonToShareWith);
             }
         }
 
         List<String> distinctPersonsList = new ArrayList<>(distinctPersonsSet);
         Collections.sort(distinctPersonsList);
-        String[] distinctPersonsArray = new String[size];
-        distinctPersonsList.toArray(distinctPersonsArray);
-        return distinctPersonsArray;
+        return distinctPersonsList;
     }
 
     @Override
-    public String[] getDistinctDomains() {
+    public List<String> getDistinctDomains() {
         HashSet<String> distinctDomainsSet = new HashSet<>(allBottlesMap.size());
-        int size = 0;
 
         for (BottleModel bottle : allBottlesMap.values()) {
-            if (!bottle.Domain.isEmpty() && distinctDomainsSet.add(bottle.Domain)) {
-                size++;
+            if (!bottle.Domain.isEmpty()) {
+                distinctDomainsSet.add(bottle.Domain);
             }
         }
 
         List<String> distinctDomainsList = new ArrayList<>(distinctDomainsSet);
         Collections.sort(distinctDomainsList);
-        String[] distinctDomainsArray = new String[size];
-        distinctDomainsList.toArray(distinctDomainsArray);
-        return distinctDomainsArray;
+        return distinctDomainsList;
     }
 
     @Override
