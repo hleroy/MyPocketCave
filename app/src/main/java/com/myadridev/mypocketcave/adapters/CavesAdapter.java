@@ -1,7 +1,6 @@
 package com.myadridev.mypocketcave.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,24 +8,41 @@ import android.view.ViewGroup;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
+import com.myadridev.mypocketcave.listeners.OnCaveBindListener;
 import com.myadridev.mypocketcave.listeners.OnCaveClickListener;
-import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveLightModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
-    private final List<CaveLightModel> allCaves;
+    private final List<CaveLightModel> caves;
     private final LayoutInflater layoutInflater;
 
     private final OnCaveClickListener listener;
+    private final OnCaveBindListener onCaveBindListener;
+    private List<OnCaveClickListener> onCaveClickListeners;
 
-    public CavesAdapter(Context _context, List<CaveLightModel> _allCaves) {
-        context = _context;
-        allCaves = _allCaves;
-        layoutInflater = LayoutInflater.from(context);
-        listener = (int caveId) -> NavigationManager.navigateToCaveDetail(context, caveId);
+    public CavesAdapter(Context context, List<CaveLightModel> caves, OnCaveBindListener onCaveBindListener) {
+        this.context = context;
+        this.caves = caves;
+        this.onCaveBindListener = onCaveBindListener;
+        layoutInflater = LayoutInflater.from(this.context);
+        listener = (int caveId) -> {
+            if (onCaveClickListeners != null) {
+                for (OnCaveClickListener onCaveClickListener : onCaveClickListeners) {
+                    onCaveClickListener.onItemClick(caveId);
+                }
+            }
+        };
+    }
+
+    public void addOnCaveClickListener(OnCaveClickListener onCaveClickListener) {
+        if (onCaveClickListeners == null) {
+            onCaveClickListeners = new ArrayList<>();
+        }
+        onCaveClickListeners.add(onCaveClickListener);
     }
 
     @Override
@@ -37,7 +53,7 @@ public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return allCaves.size();
+        return caves.size();
     }
 
     @Override
@@ -56,12 +72,9 @@ public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         CaveViewHolder holder = (CaveViewHolder) viewHolder;
-        CaveLightModel cave = allCaves.get(position);
+        CaveLightModel cave = caves.get(position);
         if (cave != null) {
-            holder.setLabelViewText(cave.Name);
-            int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
-            holder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);
-            holder.setUsedLabelViewText(context.getResources().getQuantityString(R.plurals.cave_used_capacity, cave.TotalCapacity, cave.TotalUsed, cave.TotalCapacity));
+            onCaveBindListener.onCaveBind(holder, cave);
             holder.setOnItemClickListener(listener, cave.Id);
         }
     }

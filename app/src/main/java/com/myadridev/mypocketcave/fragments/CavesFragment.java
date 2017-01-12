@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.CavesAdapter;
+import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
+import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveLightModel;
 
 import java.util.Collections;
@@ -85,8 +88,16 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
     }
 
     private void createAdapter() {
-        cavesAdapter = new CavesAdapter(getContext(), allCaves);
+        cavesAdapter = new CavesAdapter(getContext(), allCaves, this::setHolderPropertiesFromCave);
+        cavesAdapter.addOnCaveClickListener((int caveId) -> NavigationManager.navigateToCaveDetail(getActivity(), caveId));
         cavesRecyclerView.setAdapter(cavesAdapter);
+    }
+
+    private void setHolderPropertiesFromCave(CaveViewHolder holder, CaveLightModel cave) {
+        holder.setLabelViewText(cave.Name);
+        int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
+        holder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(getActivity(), caveTypeDrawableId) : null);
+        holder.setUsedLabelViewText(getActivity().getResources().getQuantityString(R.plurals.cave_used_capacity, cave.TotalCapacity, cave.TotalUsed, cave.TotalCapacity));
     }
 
     @Override
