@@ -234,7 +234,8 @@ public class CaveDetailActivity extends AppCompatActivity {
                     int nbRows = maxRowCol.Row + 1;
                     arrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
                     int marginLeftRight = (int) getResources().getDimension(R.dimen.horizontal_big_margin_between_elements);
-                    int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight);
+                    int activityMarginLeftRight = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
+                    int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight) - (2 * activityMarginLeftRight);
 
                     caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth, BottleIdInHighlight);
                     caveArrangementAdapter.addOnValueChangedListener(() -> {

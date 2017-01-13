@@ -3,7 +3,7 @@ package com.myadridev.mypocketcave.enums;
 import com.myadridev.mypocketcave.R;
 
 public enum CavePlaceTypeEnum {
-    NO_PLACE(0, -1),
+    NO_PLACE(0, R.drawable.white),
     PLACE_BOTTOM_RIGHT(1, R.drawable.place_type_bottom_right),
     PLACE_BOTTOM_LEFT(2, R.drawable.place_type_bottom_left),
     PLACE_TOP_RIGHT(3, R.drawable.place_type_top_right),
