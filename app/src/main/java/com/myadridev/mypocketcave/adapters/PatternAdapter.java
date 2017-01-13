@@ -13,7 +13,7 @@ import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
-import com.myadridev.mypocketcave.listeners.OnBottlePlacedWithCoordinatesClickListener;
+import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
@@ -39,7 +39,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int bottleIdInHighlight;
     private List<View.OnClickListener> onResetHighlightlisteners;
     private List<OnBottleClickListener> onSetHighlightlisteners;
-    private List<OnBottlePlacedWithCoordinatesClickListener> onBottlePlacedWithCoordinatesClickListeners;
+    private List<OnBottlePlacedClickListener> onBottlePlacedClickListeners;
     private List<OnBottleDrunkClickListener> onBottleDrunkClickListeners;
     private List<OnBottleUnplacedClickListener> onBottleUnplacedClickListeners;
     private CoordinatesModel patternCoordinates;
@@ -65,10 +65,10 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             CavePlaceModel cavePlace = this.patternPlace.get(coordinates);
             if (cavePlace.BottleId != -1) {
                 SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(this.activity, cavePlace.BottleId, patternCoordinates1, coordinates,
-                        onBottleDrunkClickListeners, onBottleUnplacedClickListeners, bottleIdInHighlight == cavePlace.BottleId, onSetHighlightlisteners);
+                        onBottleDrunkClickListeners, onBottleUnplacedClickListeners, bottleIdInHighlight, onSetHighlightlisteners);
                 alertDialog.show();
             } else {
-                PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(this.activity, patternCoordinates1, coordinates, onBottlePlacedWithCoordinatesClickListeners);
+                PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(this.activity, patternCoordinates1, coordinates, onBottlePlacedClickListeners, 1);
                 alertDialog.show();
             }
         };
@@ -88,11 +88,11 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         onBottleDrunkClickListeners.add(onBottleDrunkClickListener);
     }
 
-    public void addOnBottlePlacedClickListener(OnBottlePlacedWithCoordinatesClickListener onBottlePlacedWithCoordinatesClickListener) {
-        if (onBottlePlacedWithCoordinatesClickListeners == null) {
-            onBottlePlacedWithCoordinatesClickListeners = new ArrayList<>();
+    public void addOnBottlePlacedClickListener(OnBottlePlacedClickListener onBottlePlacedClickListener) {
+        if (onBottlePlacedClickListeners == null) {
+            onBottlePlacedClickListeners = new ArrayList<>();
         }
-        onBottlePlacedWithCoordinatesClickListeners.add(onBottlePlacedWithCoordinatesClickListener);
+        onBottlePlacedClickListeners.add(onBottlePlacedClickListener);
     }
 
     public void addonSetHighlightlistener(OnBottleClickListener onSetHighlightlistener) {

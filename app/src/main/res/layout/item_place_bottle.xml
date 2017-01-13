@@ -1,8 +1,45 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:padding="10dp"
-    android:text="@string/place_bottle_label"
-    android:textSize="@dimen/text_size"
-    android:textStyle="italic" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/place_bottle_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/place_bottle_image"
+            android:layout_width="@dimen/bottle_icon_size"
+            android:layout_height="@dimen/bottle_icon_size"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:src="@drawable/add" />
+
+        <TextView
+            android:id="@+id/place_bottle_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_toEndOf="@id/place_bottle_image"
+            android:text="@string/place_bottle_label"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="italic" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/place_bottle_grey_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/place_bottle_content"
+        android:layout_alignEnd="@id/place_bottle_content"
+        android:layout_alignStart="@id/place_bottle_content"
+        android:layout_alignTop="@id/place_bottle_content"
+        android:layout_gravity="center"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        android:src="@drawable/black" />
+
+</RelativeLayout>

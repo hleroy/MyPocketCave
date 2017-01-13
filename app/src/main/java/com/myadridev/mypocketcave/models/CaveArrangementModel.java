@@ -359,17 +359,37 @@ public class CaveArrangementModel {
         float floatNumberOfBottlesToAdd = 1f / numberPlaces;
         for (PatternModelWithBottles pat : notNullPatterns) {
             float oldNumberFloat = pat.FloatNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? pat.FloatNumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
-            pat.FloatNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberFloat + floatNumberOfBottlesToAdd);
+            float newNumberFloat = oldNumberFloat + floatNumberOfBottlesToAdd;
+            if (newNumberFloat == 0) {
+                pat.FloatNumberPlacedBottlesByIdMap.remove(bottle.Id);
+            } else {
+                pat.FloatNumberPlacedBottlesByIdMap.put(bottle.Id, newNumberFloat);
+            }
         }
         int oldNumberInt = IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0;
-        IntNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberInt + intNumberOfBottlesToAdd);
+        int newNumberInt = oldNumberInt + intNumberOfBottlesToAdd;
+        if (newNumberInt == 0) {
+            IntNumberPlacedBottlesByIdMap.remove(bottle.Id);
+        } else {
+            IntNumberPlacedBottlesByIdMap.put(bottle.Id, newNumberInt);
+        }
     }
 
     private void updateNumberPlaced(BottleModel bottle, int intNumberOfBottlesToAdd) {
         float oldNumberFloat = floatNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? floatNumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
-        floatNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberFloat + intNumberOfBottlesToAdd);
+        float newNumberFloat = oldNumberFloat + intNumberOfBottlesToAdd;
+        if (newNumberFloat == 0) {
+            floatNumberPlacedBottlesByIdMap.remove(bottle.Id);
+        } else {
+            floatNumberPlacedBottlesByIdMap.put(bottle.Id, newNumberFloat);
+        }
         int oldNumberInt = IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0;
-        IntNumberPlacedBottlesByIdMap.put(bottle.Id, oldNumberInt + intNumberOfBottlesToAdd);
+        int newNumberInt = oldNumberInt + intNumberOfBottlesToAdd;
+        if (newNumberInt == 0) {
+            IntNumberPlacedBottlesByIdMap.remove(bottle.Id);
+        } else {
+            IntNumberPlacedBottlesByIdMap.put(bottle.Id, newNumberInt);
+        }
     }
 
     private void updateCavePlace(CavePlaceModel cavePlaceToUpdate, BottleModel bottle, boolean isAddBottle) {

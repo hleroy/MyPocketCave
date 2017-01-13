@@ -201,9 +201,9 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
     }
 
     @Override
-    public void drinkBottle(Context context, int bottleId) {
+    public void drinkBottle(Context context, int bottleId, int quantity) {
         BottleModel bottle = getBottle(bottleId);
-        bottle.Stock = Math.max(0, bottle.Stock - 1);
+        bottle.Stock = Math.max(0, bottle.Stock - quantity);
         updateBottle(context, bottle);
     }
 

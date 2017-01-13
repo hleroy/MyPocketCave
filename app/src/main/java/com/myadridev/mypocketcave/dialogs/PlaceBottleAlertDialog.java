@@ -16,7 +16,6 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.BottlesAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
-import com.myadridev.mypocketcave.listeners.OnBottlePlacedWithCoordinatesClickListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
@@ -26,7 +25,8 @@ import java.util.List;
 public class PlaceBottleAlertDialog extends AlertDialog {
     private final Activity activity;
 
-    public PlaceBottleAlertDialog(Activity activity, final List<OnBottlePlacedClickListener> onBottlePlacedClickListeners, int maxBottleToPlace) {
+    public PlaceBottleAlertDialog(Activity activity, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates,
+                                  final List<OnBottlePlacedClickListener> onBottlePlacedClickListeners, int maxBottleToPlace) {
         super(activity);
 
         this.activity = activity;
@@ -52,90 +52,49 @@ public class PlaceBottleAlertDialog extends AlertDialog {
             BottlesAdapter bottlesAdapter = new BottlesAdapter(activity, nonPlacedBottles, false, 0);
             bottlesAdapter.setOnBottleBindListener(this::setHolderPropertiesFromBottle);
             bottlesAdapter.addOnBottleClickListener((int bottleId) -> {
-                AlertDialog.Builder numberRemindersDialogBuilder = new AlertDialog.Builder(activity);
+                if (patternCoordinates == null) {
+                    AlertDialog.Builder numberRemindersDialogBuilder = new AlertDialog.Builder(activity);
 
-                View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
-                final NumberPicker numberPicker = (NumberPicker) numberPickerView.findViewById(R.id.number_picker);
-                numberPicker.setMinValue(1);
-                BottleModel bottle = BottleManager.getBottle(bottleId);
-                numberPicker.setMaxValue(Math.min(maxBottleToPlace, bottle.Stock - bottle.NumberPlaced));
-                numberPicker.setValue(1);
-                numberPicker.setWrapSelectorWheel(false);
+                    View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
+                    final NumberPicker numberPicker = (NumberPicker) numberPickerView.findViewById(R.id.number_picker);
+                    numberPicker.setMinValue(1);
+                    BottleModel bottle = BottleManager.getBottle(bottleId);
+                    numberPicker.setMaxValue(Math.min(maxBottleToPlace, bottle.Stock - bottle.NumberPlaced));
+                    numberPicker.setValue(1);
+                    numberPicker.setWrapSelectorWheel(false);
 
-                numberRemindersDialogBuilder.setTitle(activity.getString(R.string.place_bottle_quantity));
-                numberRemindersDialogBuilder.setView(numberPickerView);
-                numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.error_ok),
-                        (DialogInterface dialog, int index) -> {
-                            bottleIdToPlace[0] = bottleId;
-                            quantityToPlace[0] = numberPicker.getValue();
-                            dialog.dismiss();
-                        });
-                numberRemindersDialogBuilder.setNegativeButton(activity.getString(R.string.global_cancel), (DialogInterface dialog, int index) -> dialog.dismiss());
-                numberRemindersDialogBuilder.setOnDismissListener((DialogInterface dialog) -> dismiss());
+                    numberRemindersDialogBuilder.setTitle(activity.getString(R.string.place_bottle_quantity));
+                    numberRemindersDialogBuilder.setView(numberPickerView);
+                    numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.error_ok),
+                            (DialogInterface dialog, int index) -> {
+                                bottleIdToPlace[0] = bottleId;
+                                quantityToPlace[0] = numberPicker.getValue();
+                                dialog.dismiss();
+                            });
+                    numberRemindersDialogBuilder.setNegativeButton(activity.getString(R.string.global_cancel), (DialogInterface dialog, int index) -> dialog.dismiss());
+                    numberRemindersDialogBuilder.setOnDismissListener((DialogInterface dialog) -> dismiss());
 
-                final AlertDialog numberRemindersDialog = numberRemindersDialogBuilder.create();
-                numberRemindersDialog.show();
+                    final AlertDialog numberRemindersDialog = numberRemindersDialogBuilder.create();
+                    numberRemindersDialog.show();
+                } else {
+                    bottleIdToPlace[0] = bottleId;
+                    quantityToPlace[0] = 1;
+                    dismiss();
+                }
             });
             bottlesRecyclerView.setAdapter(bottlesAdapter);
         }
-        setOnDismissListener(getOnDismissListener(onBottlePlacedClickListeners, bottleIdToPlace, quantityToPlace));
-    }
-
-    public PlaceBottleAlertDialog(Activity activity, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates,
-                                  final List<OnBottlePlacedWithCoordinatesClickListener> onBottlePlacedWithCoordinatesClickListeners) {
-        super(activity);
-
-        this.activity = activity;
-        setTitle(R.string.title_place_bottle);
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.alert_add_bottle_to_cave, null);
-        setView(dialogView);
-
-        TextView noBottlesView = (TextView) dialogView.findViewById(R.id.alert_add_bottle_no_bottles_label);
-        RecyclerView bottlesRecyclerView = (RecyclerView) dialogView.findViewById(R.id.alert_add_bottle_bottles_recyclerview);
-
-        List<BottleModel> nonPlacedBottles = BottleManager.getNonPlacedBottles();
-        final int[] bottleIdToPlace = {-1};
-        if (nonPlacedBottles.isEmpty()) {
-            noBottlesView.setVisibility(View.VISIBLE);
-            bottlesRecyclerView.setVisibility(View.GONE);
-        } else {
-            noBottlesView.setVisibility(View.GONE);
-            bottlesRecyclerView.setVisibility(View.VISIBLE);
-
-            bottlesRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-            BottlesAdapter bottlesAdapter = new BottlesAdapter(activity, nonPlacedBottles, false, 0);
-            bottlesAdapter.setOnBottleBindListener(this::setHolderPropertiesFromBottle);
-            bottlesAdapter.addOnBottleClickListener((int bottleId) -> {
-                bottleIdToPlace[0] = bottleId;
-                dismiss();
-            });
-            bottlesRecyclerView.setAdapter(bottlesAdapter);
-        }
-        setOnDismissListener(getOnDismissListenerWithCoordinates(patternCoordinates, coordinates, onBottlePlacedWithCoordinatesClickListeners, bottleIdToPlace));
+        setOnDismissListener(getOnDismissListener(onBottlePlacedClickListeners, bottleIdToPlace, quantityToPlace, patternCoordinates, coordinates));
     }
 
     @NonNull
-    private OnDismissListener getOnDismissListener(List<OnBottlePlacedClickListener> onBottlePlacedClickListeners, int[] bottleIdToPlace, int[] quantityToPlace) {
+    private OnDismissListener getOnDismissListener(List<OnBottlePlacedClickListener> onBottlePlacedClickListeners, int[] bottleIdToPlace, int[] quantityToPlace,
+                                                   CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         return (DialogInterface dialog) -> {
             if (bottleIdToPlace[0] != -1) {
                 if (onBottlePlacedClickListeners != null) {
                     for (OnBottlePlacedClickListener onBottlePlacedClickListener : onBottlePlacedClickListeners) {
-                        onBottlePlacedClickListener.onBottlePlaced(bottleIdToPlace[0], quantityToPlace[0]);
-                    }
-                }
-            }
-        };
-    }
-
-    @NonNull
-    private OnDismissListener getOnDismissListenerWithCoordinates(CoordinatesModel patternCoordinates, CoordinatesModel coordinates,
-                                                                  List<OnBottlePlacedWithCoordinatesClickListener> onBottlePlacedWithCoordinatesClickListeners, int[] bottleIdToPlace) {
-        return (DialogInterface dialog) -> {
-            if (bottleIdToPlace[0] != -1) {
-                if (onBottlePlacedWithCoordinatesClickListeners != null) {
-                    for (OnBottlePlacedWithCoordinatesClickListener onBottlePlacedWithCoordinatesClickListener : onBottlePlacedWithCoordinatesClickListeners) {
-                        onBottlePlacedWithCoordinatesClickListener.onBottlePlaced(patternCoordinates, coordinates, bottleIdToPlace[0]);
+                        onBottlePlacedClickListener.onBottlePlaced(bottleIdToPlace[0], quantityToPlace[0], patternCoordinates, coordinates);
                     }
                 }
             }

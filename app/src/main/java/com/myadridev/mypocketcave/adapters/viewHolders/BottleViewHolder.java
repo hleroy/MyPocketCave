@@ -14,13 +14,15 @@ public class BottleViewHolder extends RecyclerView.ViewHolder {
     private final TextView labelView;
     private final TextView millesimeView;
     private final TextView stockLabelView;
+    private final ImageView greyOverView;
 
-    private BottleViewHolder(View itemView, ImageView colorView, TextView labelView, TextView millesimeView, TextView stockLabelView) {
+    private BottleViewHolder(View itemView, ImageView colorView, TextView labelView, TextView millesimeView, TextView stockLabelView, ImageView greyOverView) {
         super(itemView);
         this.colorView = colorView;
         this.labelView = labelView;
         this.millesimeView = millesimeView;
         this.stockLabelView = stockLabelView;
+        this.greyOverView = greyOverView;
     }
 
     public static BottleViewHolder newInstance(View parent) {
@@ -28,7 +30,8 @@ public class BottleViewHolder extends RecyclerView.ViewHolder {
         TextView labelView = (TextView) parent.findViewById(R.id.bottle_label);
         TextView millesimeView = (TextView) parent.findViewById(R.id.bottle_millesime);
         TextView stockLabelView = (TextView) parent.findViewById(R.id.bottle_stock_label);
-        return new BottleViewHolder(parent, colorView, labelView, millesimeView, stockLabelView);
+        ImageView greyOverView = (ImageView) parent.findViewById(R.id.bottle_grey_over);
+        return new BottleViewHolder(parent, colorView, labelView, millesimeView, stockLabelView, greyOverView);
     }
 
     public void setColorViewImageDrawable(Drawable colorViewDrawable) {
@@ -49,5 +52,21 @@ public class BottleViewHolder extends RecyclerView.ViewHolder {
 
     public void setOnItemClickListener(final OnBottleClickListener listener, final int bottleId) {
         itemView.setOnClickListener((View v) -> listener.onItemClick(bottleId));
+    }
+
+    public void setResetHighlightClickListener(final View.OnClickListener listener) {
+        greyOverView.setOnClickListener(listener);
+    }
+
+    public void setHighlight(boolean isHighlight) {
+        if (isHighlight) {
+            greyOverView.setVisibility(View.INVISIBLE);
+        } else {
+            greyOverView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void resetHighlight() {
+        greyOverView.setVisibility(View.INVISIBLE);
     }
 }

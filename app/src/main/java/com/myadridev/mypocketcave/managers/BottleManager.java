@@ -203,9 +203,13 @@ public class BottleManager {
         placeBottle(context, bottleId, 1);
     }
 
+    public static void drinkBottle(Context context, int bottleId, int quantity) {
+        getBottleStorageManager().drinkBottle(context, bottleId, quantity);
+        updateNumberPlaced(context, bottleId, -1 * quantity);
+    }
+
     public static void drinkBottle(Context context, int bottleId) {
-        getBottleStorageManager().drinkBottle(context, bottleId);
-        updateNumberPlaced(context, bottleId, -1);
+        drinkBottle(context, bottleId, 1);
     }
 
     public static void updateNumberPlaced(Context context, int bottleId, int increment) {

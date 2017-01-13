@@ -10,9 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:padding="10dp"
+        android:gravity="center"
+        android:padding="5dp"
         android:text="42 résultats (tous les critères)"
-        android:textSize="@dimen/text_size"
+        android:textSize="@dimen/text_size_small"
         android:textStyle="bold" />
 
 </RelativeLayout>

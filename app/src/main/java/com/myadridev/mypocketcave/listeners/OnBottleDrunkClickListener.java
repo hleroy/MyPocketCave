@@ -4,5 +4,5 @@ import com.myadridev.mypocketcave.models.CoordinatesModel;
 
 public interface OnBottleDrunkClickListener {
 
-    void onBottleDrunk(CoordinatesModel patternCoordinates, CoordinatesModel coordinates, int bottleId);
+    void onBottleDrunk(int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates);
 }

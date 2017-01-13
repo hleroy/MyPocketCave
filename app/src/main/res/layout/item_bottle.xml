@@ -1,56 +1,76 @@
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp"
     tools:context=".activities.MainActivity">
 
-    <ImageView
-        android:id="@+id/bottle_color"
-        android:layout_width="@dimen/bottle_icon_size_large"
-        android:layout_height="@dimen/bottle_icon_size_large"
-        android:layout_centerVertical="true"
-        android:src="@drawable/wine_rose"
-        app:layout_widthPercent="10%" />
-
-    <TextView
-        android:id="@+id/bottle_label"
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/bottle_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:layout_toEndOf="@id/bottle_color"
-        android:text="@string/bottle_name"
-        android:textSize="@dimen/text_size"
-        app:layout_widthPercent="40%" />
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/bottle_millesime"
+        <ImageView
+            android:id="@+id/bottle_color"
+            android:layout_width="@dimen/bottle_icon_size_large"
+            android:layout_height="@dimen/bottle_icon_size_large"
+            android:layout_centerVertical="true"
+            android:src="@drawable/wine_rose"
+            app:layout_widthPercent="10%" />
+
+        <TextView
+            android:id="@+id/bottle_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_toEndOf="@id/bottle_color"
+            android:text="@string/bottle_name"
+            android:textSize="@dimen/text_size"
+            app:layout_widthPercent="40%" />
+
+        <TextView
+            android:id="@+id/bottle_millesime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_toEndOf="@id/bottle_label"
+            android:gravity="center"
+            android:text="2012"
+            android:textSize="@dimen/text_size"
+            app:layout_widthPercent="14%" />
+
+        <TextView
+            android:id="@+id/bottle_stock_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/bottle_millesime"
+            android:gravity="center_vertical|end"
+            android:text="@string/bottles_stock"
+            android:textSize="@dimen/text_size"
+            android:textStyle="italic"
+            app:layout_marginEndPercent="0%"
+            app:layout_widthPercent="34%" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <ImageView
+        android:id="@+id/bottle_grey_over"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:layout_toEndOf="@id/bottle_label"
-        android:gravity="center"
-        android:text="2012"
-        android:textSize="@dimen/text_size"
-        app:layout_widthPercent="14%" />
+        android:layout_alignBottom="@id/bottle_content"
+        android:layout_alignEnd="@id/bottle_content"
+        android:layout_alignStart="@id/bottle_content"
+        android:layout_alignTop="@id/bottle_content"
+        android:layout_gravity="center"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        android:src="@drawable/black" />
 
-    <TextView
-        android:id="@+id/bottle_stock_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/bottle_millesime"
-        android:gravity="center_vertical|end"
-        android:text="@string/bottles_stock"
-        android:textSize="@dimen/text_size"
-        android:textStyle="italic"
-        app:layout_marginEndPercent="0%"
-        app:layout_widthPercent="34%" />
-
-</android.support.percent.PercentRelativeLayout>
+</RelativeLayout>

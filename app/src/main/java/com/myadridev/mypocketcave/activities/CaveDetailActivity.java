@@ -20,9 +20,13 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.BottlesAdapter;
 import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
+import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
 import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
+import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
+import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
+import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
@@ -30,6 +34,8 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
+
+import java.util.Collections;
 
 public class CaveDetailActivity extends AppCompatActivity {
 
@@ -49,6 +55,9 @@ public class CaveDetailActivity extends AppCompatActivity {
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
     private int caveId;
+    private OnBottleClickListener onSetHighlightlistener;
+    private OnBottleDrunkClickListener onBottleDrunkClickListener;
+    private OnBottleUnplacedClickListener onBottleUnplacedClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,10 +169,37 @@ public class CaveDetailActivity extends AppCompatActivity {
                 boxesBottlesNumberView.setVisibility(View.GONE);
                 arrangementRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-                bottlesAdapter = new BottlesAdapter(this, cave.getBottles(), true, cave.CaveArrangement.TotalCapacity - cave.CaveArrangement.TotalUsed);
+                bottlesAdapter = new BottlesAdapter(this, cave.getBottles(), true, cave.CaveArrangement.TotalCapacity - cave.CaveArrangement.TotalUsed, BottleIdInHighlight);
                 bottlesAdapter.setOnBottleBindListener(this::setHolderPropertiesFromBottle);
-                bottlesAdapter.addOnBottleClickListener((int bottleId) -> NavigationManager.navigateToBottleDetail(this, bottleId)); // TODO
-                bottlesAdapter.addOnBottlePlacedClickListener((int bottleId, int quantity) -> {
+                onBottleDrunkClickListener = (int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+                    cave.CaveArrangement.unplaceBottle(bottleId, quantity);
+                    BottleManager.drinkBottle(this, bottleId, quantity);
+                    bottlesAdapter.MaxBottleToPlace += quantity;
+                    CaveManager.editCave(this, cave);
+                    capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
+                            cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+                    bottlesAdapter.setBottles(cave.getBottles());
+                };
+                onBottleUnplacedClickListener = (int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+                    cave.CaveArrangement.unplaceBottle(bottleId, quantity);
+                    BottleManager.updateNumberPlaced(this, bottleId, -1 * quantity);
+                    bottlesAdapter.MaxBottleToPlace += quantity;
+                    CaveManager.editCave(this, cave);
+                    capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
+                            cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+                    bottlesAdapter.setBottles(cave.getBottles());
+                };
+                onSetHighlightlistener = (int bottleId) -> {
+                    BottleIdInHighlight = bottleId;
+                    bottlesAdapter.setBottleIdInHighlight(BottleIdInHighlight);
+                };
+                bottlesAdapter.addOnBottleClickListener((int bottleId) -> {
+                    SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(this, bottleId, null, null,
+                            Collections.singletonList(onBottleDrunkClickListener), Collections.singletonList(onBottleUnplacedClickListener),
+                            BottleIdInHighlight, Collections.singletonList(onSetHighlightlistener));
+                    alertDialog.show();
+                });
+                bottlesAdapter.addOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
                     cave.CaveArrangement.placeBottle(bottleId, quantity);
                     BottleManager.placeBottle(this, bottleId, quantity);
                     bottlesAdapter.MaxBottleToPlace -= quantity;
@@ -171,6 +207,10 @@ public class CaveDetailActivity extends AppCompatActivity {
                     capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
                             cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
                     bottlesAdapter.setBottles(cave.getBottles());
+                });
+                bottlesAdapter.addOnResetHighlightlisteners((View v) -> {
+                    BottleIdInHighlight = -1;
+                    bottlesAdapter.setBottleIdInHighlight(BottleIdInHighlight);
                 });
                 arrangementRecyclerView.setAdapter(bottlesAdapter);
                 arrangementRecyclerView.setVisibility(View.VISIBLE);

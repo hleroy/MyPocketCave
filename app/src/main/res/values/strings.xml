@@ -187,8 +187,8 @@
     <string name="title_see_caves">See caves with this bottle</string>
     <string name="highlight_bottle">Highlight this bottle</string>
     <string name="error_suggest_cave">No cave but checked as required</string>
-    <string name="suggest_bottle_cave_none" >Any cave</string>
-    <string name="bottles_here" >%1$d here</string>
-    <string name="place_bottle_label">Place bottle…</string>
+    <string name="suggest_bottle_cave_none">Any cave</string>
+    <string name="bottles_here">%1$d here</string>
+    <string name="place_bottle_label">Place a bottle…</string>
     <string name="place_bottle_quantity">How many ?</string>
 </resources>
