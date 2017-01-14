@@ -23,10 +23,13 @@ import java.util.List;
 
 public class SeeBottleAlertDialog extends AlertDialog {
 
+    private final int maxBottlesToUnplace;
+
     public SeeBottleAlertDialog(Activity activity, int bottleId, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates,
                                 final List<OnBottleDrunkClickListener> onBottleDrunkClickListeners, final List<OnBottleUnplacedClickListener> onBottleUnplacedClickListeners,
-                                int bottleIdInHighlight, final List<OnBottleClickListener> onBottleHighlightClickListeners) {
+                                int bottleIdInHighlight, final List<OnBottleClickListener> onBottleHighlightClickListeners, int maxBottlesToUnplace) {
         super(activity);
+        this.maxBottlesToUnplace = maxBottlesToUnplace;
 
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.alert_see_bottle_in_cave, null);
@@ -63,7 +66,7 @@ public class SeeBottleAlertDialog extends AlertDialog {
                     View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
                     final NumberPicker numberPicker = (NumberPicker) numberPickerView.findViewById(R.id.number_picker);
                     numberPicker.setMinValue(1);
-                    numberPicker.setMaxValue(bottle.NumberPlaced);
+                    numberPicker.setMaxValue(Math.min(bottle.NumberPlaced, this.maxBottlesToUnplace));
                     numberPicker.setValue(1);
                     numberPicker.setWrapSelectorWheel(false);
 
@@ -116,7 +119,7 @@ public class SeeBottleAlertDialog extends AlertDialog {
                     View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
                     final NumberPicker numberPicker = (NumberPicker) numberPickerView.findViewById(R.id.number_picker);
                     numberPicker.setMinValue(1);
-                    numberPicker.setMaxValue(bottle.NumberPlaced);
+                    numberPicker.setMaxValue(Math.min(bottle.NumberPlaced, this.maxBottlesToUnplace));
                     numberPicker.setValue(1);
                     numberPicker.setWrapSelectorWheel(false);
 

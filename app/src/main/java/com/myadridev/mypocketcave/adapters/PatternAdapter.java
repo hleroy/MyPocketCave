@@ -65,7 +65,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             CavePlaceModel cavePlace = this.patternPlace.get(coordinates);
             if (cavePlace.BottleId != -1) {
                 SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(this.activity, cavePlace.BottleId, patternCoordinates1, coordinates,
-                        onBottleDrunkClickListeners, onBottleUnplacedClickListeners, bottleIdInHighlight, onSetHighlightlisteners);
+                        onBottleDrunkClickListeners, onBottleUnplacedClickListeners, bottleIdInHighlight, onSetHighlightlisteners, 0);
                 alertDialog.show();
             } else {
                 PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(this.activity, patternCoordinates1, coordinates, onBottlePlacedClickListeners, 1);

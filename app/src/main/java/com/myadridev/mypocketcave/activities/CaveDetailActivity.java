@@ -195,7 +195,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 bottlesAdapter.addOnBottleClickListener((int bottleId) -> {
                     SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(this, bottleId, null, null,
                             Collections.singletonList(onBottleDrunkClickListener), Collections.singletonList(onBottleUnplacedClickListener),
-                            BottleIdInHighlight, Collections.singletonList(onSetHighlightlistener));
+                            BottleIdInHighlight, Collections.singletonList(onSetHighlightlistener), cave.getNumberBottles(bottleId));
                     alertDialog.show();
                 });
                 bottlesAdapter.addOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
