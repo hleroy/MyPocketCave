@@ -72,9 +72,6 @@ public class CaveDetailActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         caveId = bundle.getInt("caveId");
 
-        setupFloatingActionButtons();
-        setupFloatingActionButtonsVisibility();
-
         BottleIdInHighlight = bundle.getInt("bottleIdInHighlight", -1);
     }
 
@@ -144,6 +141,7 @@ public class CaveDetailActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setLayout();
+        setupFloatingActionButtons();
     }
 
     private void setLayout() {
@@ -272,6 +270,7 @@ public class CaveDetailActivity extends AppCompatActivity {
         refreshCave(cave == null ? caveId : cave.Id);
         refreshActionBar();
         setLayoutValues();
+        setupFloatingActionButtonsVisibility();
     }
 
     @Override

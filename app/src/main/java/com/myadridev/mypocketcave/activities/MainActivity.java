@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         setupFloatingActionButtons();
-        setupFloatingActionButtonsVisibility();
     }
 
     private void setupFloatingActionButtons() {
@@ -162,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setupFloatingActionButtonsVisibility();
         if (isPaused) {
             viewPagerAdapter.allFragments.get(currentVisibleFragment).setIsVisible(true);
             isPaused = false;

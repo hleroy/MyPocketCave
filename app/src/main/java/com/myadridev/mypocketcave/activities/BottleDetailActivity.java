@@ -55,9 +55,6 @@ public class BottleDetailActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         refreshBottle(bundle.getInt("bottleId"));
-
-        setupFloatingActionButtons();
-        setupFloatingActionButtonsVisibility();
     }
 
     private void setupFloatingActionButtons() {
@@ -147,6 +144,7 @@ public class BottleDetailActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setLayout();
+        setupFloatingActionButtons();
     }
 
     private void setLayout() {
@@ -182,6 +180,7 @@ public class BottleDetailActivity extends AppCompatActivity {
         refreshBottle();
         refreshActionBar();
         setLayoutValues();
+        setupFloatingActionButtonsVisibility();
     }
 
     @Override
