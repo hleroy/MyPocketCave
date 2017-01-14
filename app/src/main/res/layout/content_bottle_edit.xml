@@ -20,6 +20,17 @@
         android:imeOptions="actionNext"
         android:inputType="textCapSentences" />
 
+    <Spinner
+        android:id="@+id/bottle_edit_millesime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/bottle_edit_name"
+        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+        android:spinnerMode="dropdown"
+        app:layout_widthPercent="50%" />
+
     <EditText
         android:id="@+id/bottle_edit_domain"
         android:layout_width="wrap_content"
@@ -30,24 +41,13 @@
         android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
         android:layout_marginStart="@dimen/horizontal_margin_between_elements"
         android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+        android:layout_alignBottom="@id/bottle_edit_millesime"
+        android:layout_alignTop="@id/bottle_edit_millesime"
+        android:layout_toStartOf="@id/bottle_edit_millesime"
         android:hint="@string/bottle_domain"
         android:imeOptions="actionNext"
         android:inputType="textCapSentences"
-        app:layout_widthPercent="45%" />
-
-    <Spinner
-        android:id="@+id/bottle_edit_millesime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/bottle_edit_domain"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@id/bottle_edit_domain"
-        android:layout_below="@id/bottle_edit_name"
-        android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:layout_toEndOf="@id/bottle_edit_domain"
-        android:spinnerMode="dropdown"
-        app:layout_widthPercent="55%" />
+        app:layout_widthPercent="50%" />
 
     <Spinner
         android:id="@+id/bottle_edit_wine_color"
@@ -60,7 +60,7 @@
         android:layout_marginStart="@dimen/horizontal_margin_between_elements"
         android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
         android:spinnerMode="dropdown"
-        app:layout_widthPercent="50%" />
+        app:layout_widthPercent="65%" />
 
     <EditText
         android:id="@+id/bottle_edit_stock"
