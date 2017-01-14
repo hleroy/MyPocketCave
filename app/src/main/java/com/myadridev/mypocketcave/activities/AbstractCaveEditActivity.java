@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -20,17 +22,24 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.CaveTypeSpinnerAdapter;
+import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.PatternModel;
 import com.myadridev.mypocketcave.models.PatternModelWithBottles;
 
 public abstract class AbstractCaveEditActivity extends AppCompatActivity {
+
+    public static final int overviewScreenHeightPercent = 50;
+    public static final int overviewScreenWidthMarginLeft = 8;
+    public static final int overviewScreenWidthMarginRight = 8;
 
     private final View.OnTouchListener hideKeyboardOnClick;
     public int OldClickedPatternId;
@@ -41,8 +50,16 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected CoordinatorLayout coordinatorLayout;
     private TextView arrangementView;
     private EditText bulkBottlesNumberView;
+
     private EditText boxesNumberView;
-    private EditText boxesBottlesNumberView;
+    private EditText boxesPatternNumberBottlesByColumnView;
+    private EditText boxesPatternNumberBottlesByRowView;
+    private TextView boxesOverviewView;
+    private RecyclerView boxesOverviewRecyclerView;
+    private PatternModel pattern;
+    private int screenHeight;
+    private int screenWidth;
+
     private RecyclerView caveArrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
 
@@ -79,8 +96,15 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         arrangementView = (TextView) findViewById(R.id.cave_edit_arrangement);
         arrangementView.setOnTouchListener(hideKeyboardOnClick);
         bulkBottlesNumberView = (EditText) findViewById(R.id.cave_edit_bulk_bottles_number);
+
         boxesNumberView = (EditText) findViewById(R.id.cave_edit_boxes_number);
-        boxesBottlesNumberView = (EditText) findViewById(R.id.cave_edit_boxes_bottles_number);
+        boxesPatternNumberBottlesByColumnView = (EditText) findViewById(R.id.cave_edit_pattern_number_bottles_by_column);
+        boxesPatternNumberBottlesByColumnView.addTextChangedListener(dispositionChangedListener);
+        boxesPatternNumberBottlesByRowView = (EditText) findViewById(R.id.cave_edit_pattern_number_bottles_by_row);
+        boxesPatternNumberBottlesByRowView.addTextChangedListener(dispositionChangedListener);
+        boxesOverviewView = (TextView) findViewById(R.id.cave_edit_pattern_overview);
+        boxesOverviewRecyclerView = (RecyclerView) findViewById(R.id.cave_edit_pattern_overview_recyclerview);
+
         caveArrangementRecyclerView = (RecyclerView) findViewById(R.id.cave_edit_arrangement_patterns);
         caveArrangementRecyclerView.setOnTouchListener(hideKeyboardOnClick);
     }
@@ -118,30 +142,92 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                     bulkBottlesNumberView.setText(String.valueOf(cave.CaveArrangement.NumberBottlesBulk));
                 }
                 boxesNumberView.setVisibility(View.GONE);
-                boxesBottlesNumberView.setVisibility(View.GONE);
+                boxesPatternNumberBottlesByColumnView.setVisibility(View.GONE);
+                boxesPatternNumberBottlesByRowView.setVisibility(View.GONE);
+                boxesOverviewView.setVisibility(View.GONE);
+                boxesOverviewRecyclerView.setVisibility(View.GONE);
                 caveArrangementRecyclerView.setVisibility(View.GONE);
                 break;
             case BOX:
                 bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.VISIBLE);
-                boxesBottlesNumberView.setVisibility(View.VISIBLE);
+                boxesPatternNumberBottlesByColumnView.setVisibility(View.VISIBLE);
+                boxesPatternNumberBottlesByRowView.setVisibility(View.VISIBLE);
+                boxesOverviewView.setVisibility(View.VISIBLE);
+                boxesOverviewRecyclerView.setVisibility(View.VISIBLE);
                 caveArrangementRecyclerView.setVisibility(View.GONE);
+                updateValuesAndAdapter();
                 if (cave.Id > 0) {
                     boxesNumberView.setText(String.valueOf(cave.CaveArrangement.NumberBoxes));
-                    boxesBottlesNumberView.setText(String.valueOf(cave.CaveArrangement.NumberBottlesPerBox));
+                    boxesPatternNumberBottlesByColumnView.setText(String.valueOf(cave.CaveArrangement.BoxesNumberBottlesByColumn));
+                    boxesPatternNumberBottlesByRowView.setText(String.valueOf(cave.CaveArrangement.BoxesNumberBottlesByRow));
                 }
                 break;
             case RACK:
             case FRIDGE:
                 bulkBottlesNumberView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.GONE);
-                boxesBottlesNumberView.setVisibility(View.GONE);
+                boxesPatternNumberBottlesByColumnView.setVisibility(View.GONE);
+                boxesPatternNumberBottlesByRowView.setVisibility(View.GONE);
+                boxesOverviewView.setVisibility(View.GONE);
+                boxesOverviewRecyclerView.setVisibility(View.GONE);
                 caveArrangementRecyclerView.setVisibility(View.VISIBLE);
 
                 createAdapter();
                 caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
                 break;
         }
+    }
+
+    private TextWatcher dispositionChangedListener = new TextWatcher() {
+
+        public void afterTextChanged(Editable s) {
+            updateValuesAndAdapter();
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+    };
+
+    private void updateValuesAndAdapter() {
+        setBoxesPatternValues();
+        updateAdapter();
+    }
+
+    private void setBoxesPatternValues() {
+        pattern = new PatternModel();
+        pattern.Type = PatternTypeEnum.LINEAR;
+        String NumberBottlesByColumnString = boxesPatternNumberBottlesByColumnView.getText().toString();
+        pattern.NumberBottlesByColumn = NumberBottlesByColumnString.isEmpty() ? 0 : Integer.valueOf(NumberBottlesByColumnString);
+        String NumberBottlesByRowString = boxesPatternNumberBottlesByRowView.getText().toString();
+        pattern.NumberBottlesByRow = NumberBottlesByRowString.isEmpty() ? 0 : Integer.valueOf(NumberBottlesByRowString);
+        pattern.computePlacesMap();
+    }
+
+    private void updateAdapter() {
+        if (pattern.NumberBottlesByRow == 0 || pattern.NumberBottlesByColumn == 0) {
+            return;
+        }
+        PatternAdapter patternAdapter = createBoxesPatternAdapter();
+        boxesOverviewRecyclerView.setLayoutManager(new GridLayoutManager(this, pattern.getNumberColumnsGridLayout()));
+        boxesOverviewRecyclerView.setAdapter(patternAdapter);
+    }
+
+    private PatternAdapter createBoxesPatternAdapter() {
+        if (screenHeight == 0 || screenWidth == 0) {
+            setScreenDimensions();
+        }
+        return new PatternAdapter(this, pattern.getPlaceMapForDisplay(), new CoordinatesModel(pattern.getNumberRowsGridLayout(), pattern.getNumberColumnsGridLayout()),
+                false, screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight,
+                (screenHeight * overviewScreenHeightPercent / 100), null);
+    }
+
+    private void setScreenDimensions() {
+        screenHeight = ScreenHelper.getScreenHeight(this);
+        screenWidth = ScreenHelper.getScreenWidth(this);
     }
 
     private void createAdapter() {
@@ -220,7 +306,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 String NumberBottlesBulk = bulkBottlesNumberView.getText().toString();
                 cave.CaveArrangement.NumberBottlesBulk = NumberBottlesBulk.isEmpty() ? 0 : Integer.valueOf(NumberBottlesBulk);
                 cave.CaveArrangement.NumberBoxes = 0;
-                cave.CaveArrangement.NumberBottlesPerBox = 0;
+                cave.CaveArrangement.BoxesNumberBottlesByColumn = 0;
+                cave.CaveArrangement.BoxesNumberBottlesByRow = 0;
                 cave.CaveArrangement.PatternMap.clear();
                 cave.CaveArrangement.computeTotalCapacityWithBulk();
                 break;
@@ -228,16 +315,21 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cave.CaveArrangement.NumberBottlesBulk = 0;
                 String NumberBoxes = boxesNumberView.getText().toString();
                 cave.CaveArrangement.NumberBoxes = NumberBoxes.isEmpty() ? 0 : Integer.valueOf(NumberBoxes);
-                String NumberBottlesPerBox = boxesBottlesNumberView.getText().toString();
-                cave.CaveArrangement.NumberBottlesPerBox = NumberBottlesPerBox.isEmpty() ? 0 : Integer.valueOf(NumberBottlesPerBox);
-                cave.CaveArrangement.PatternMap.clear();
+                String boxesNumberBottlesByColumn = boxesPatternNumberBottlesByColumnView.getText().toString();
+                cave.CaveArrangement.BoxesNumberBottlesByColumn = boxesNumberBottlesByColumn.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByColumn);
+                String boxesNumberBottlesByRow = boxesPatternNumberBottlesByRowView.getText().toString();
+                cave.CaveArrangement.BoxesNumberBottlesByRow = boxesNumberBottlesByRow.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByRow);
+                int patternId = PatternManager.addPattern(this, pattern);
+                cave.CaveArrangement.setPatternMapWithBoxes(patternId);
+                cave.CaveArrangement.setClickablePlaces();
                 cave.CaveArrangement.computeTotalCapacityWithBoxes();
                 break;
             case FRIDGE:
             case RACK:
                 cave.CaveArrangement.NumberBottlesBulk = 0;
                 cave.CaveArrangement.NumberBoxes = 0;
-                cave.CaveArrangement.NumberBottlesPerBox = 0;
+                cave.CaveArrangement.BoxesNumberBottlesByColumn = 0;
+                cave.CaveArrangement.BoxesNumberBottlesByRow = 0;
                 cave.CaveArrangement.movePatternMapToLeft();
                 cave.CaveArrangement.setClickablePlaces();
                 cave.CaveArrangement.computeTotalCapacityWithPattern();
@@ -265,6 +357,18 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cancelCave();
             });
             noNameDialogBuilder.show();
+            isErrors = true;
+        } else if (pattern != null && (pattern.NumberBottlesByColumn == 0 || pattern.NumberBottlesByRow == 0)) {
+            AlertDialog.Builder IncorrectRowsColsDialogBuilder = new AlertDialog.Builder(this);
+            IncorrectRowsColsDialogBuilder.setCancelable(true);
+            IncorrectRowsColsDialogBuilder.setMessage(R.string.error_pattern_incorrect_rows_cols);
+            IncorrectRowsColsDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
+            IncorrectRowsColsDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
+                dialog.dismiss();
+                finish();
+                cancelCave();
+            });
+            IncorrectRowsColsDialogBuilder.show();
             isErrors = true;
         } else {
             CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();

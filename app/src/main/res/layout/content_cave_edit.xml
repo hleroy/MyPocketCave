@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -58,6 +59,8 @@
             android:imeOptions="actionNext"
             android:inputType="number" />
 
+        <!-- BOXES -->
+
         <EditText
             android:id="@+id/cave_edit_boxes_number"
             android:layout_width="wrap_content"
@@ -71,22 +74,64 @@
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/cave_edit_boxes_bottles_number"
+            android:id="@+id/cave_edit_pattern_number_bottles_by_column"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_below="@id/cave_edit_boxes_number"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
             android:gravity="center"
-            android:hint="@string/cave_boxes_bottles_number_edit"
+            android:hint="@string/create_pattern_number_bottles_by_column"
             android:imeOptions="actionNext"
-            android:inputType="number" />
+            android:inputType="number"
+            app:layout_widthPercent="45%" />
+
+        <EditText
+            android:id="@+id/cave_edit_pattern_number_bottles_by_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/cave_edit_boxes_number"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:gravity="center"
+            android:hint="@string/create_pattern_number_bottles_by_row"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            app:layout_widthPercent="45%" />
+
+        <TextView
+            android:id="@+id/cave_edit_pattern_overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_pattern_number_bottles_by_column"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements"
+            android:text="@string/cave_edit_box_pattern_overview"
+            android:textSize="@dimen/text_size_big" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cave_edit_pattern_overview_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_pattern_overview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements" />
+
+        <!-- END BOXES -->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/cave_edit_arrangement_patterns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cave_edit_boxes_bottles_number"
+            android:layout_below="@id/cave_edit_pattern_overview_recyclerview"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"

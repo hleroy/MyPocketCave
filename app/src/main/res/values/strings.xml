@@ -161,12 +161,16 @@
     <string name="create_pattern_vertically_expendable">Is vertically expendable</string>
     <string name="create_pattern_horizontally_expendable">Is horizontally expendable</string>
     <string name="create_pattern_overview">Pattern overview</string>
+    <string name="cave_edit_box_pattern_overview">Pattern overview of the boxes</string>
     <string name="create_pattern_invert">Invert pattern</string>
     <string name="error_pattern_incorrect_rows_cols">Number of bottles by row and column should be greater than 0</string>
     <string name="no_bottles_to_add">All bottles are already in caves, great !</string>
     <string name="bottles_to_place">%1$d to place</string>
     <string name="title_place_bottle">Place a bottle</string>
-    <string name="bottles_placed">%1$d placed in the caves</string>
+    <plurals name="bottles_placed">
+        <item quantity="one">%1$d placed in the caves</item>
+        <item quantity="other">%1$d placed in the caves</item>
+    </plurals>
     <string name="store_cave" translatable="false">cave_%1$d</string>
     <string name="store_pattern" translatable="false">pattern_%1$d</string>
     <string name="store_cave_key" translatable="false">cave</string>

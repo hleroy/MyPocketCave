@@ -148,12 +148,16 @@
     <string name="create_pattern_horizontally_expendable">Extensible horizontallement</string>
     <string name="create_pattern_vertically_expendable">Extensible verticallement</string>
     <string name="create_pattern_overview">Aperçu du motif</string>
+    <string name="cave_edit_box_pattern_overview">Aperçu du motif de la caisse</string>
     <string name="create_pattern_invert">Inverser le motif</string>
     <string name="error_pattern_incorrect_rows_cols">Le nombre de bouteilles par ligne et par colonne doivent être supérieurs à 0</string>
     <string name="no_bottles_to_add">Toutes les bouteilles sont déjà dans les caves, bien joué !</string>
     <string name="bottles_to_place">%1$d à placer</string>
     <string name="title_place_bottle">Placer une bouteille</string>
-    <string name="bottles_placed">%1$d placées dans les caves</string>
+    <plurals name="bottles_placed">
+        <item quantity="one">%1$d placée dans les caves</item>
+        <item quantity="other">%1$d placées dans les caves</item>
+    </plurals>
     <string name="global_stay">Rester ici</string>
     <string name="global_exit_confirmation">On part d\'ici et on va ouvrir les bouteilles ?</string>
     <string name="unplace_bottle">Retirer cette bouteille d\'ici</string>

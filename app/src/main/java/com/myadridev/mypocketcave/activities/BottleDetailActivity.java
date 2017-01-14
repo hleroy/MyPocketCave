@@ -164,7 +164,7 @@ public class BottleDetailActivity extends AppCompatActivity {
     private void setLayoutValues() {
         domainView.setText(bottle.Domain);
         stockView.setText(getString(R.string.bottles_stock, bottle.Stock));
-        placedView.setText(getString(R.string.bottles_placed, bottle.NumberPlaced));
+        placedView.setText(getResources().getQuantityString(R.plurals.bottles_placed, bottle.NumberPlaced, bottle.NumberPlaced));
         int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
         if (wineColorDrawableId != -1) {
             wineColorIconView.setImageDrawable(ContextCompat.getDrawable(this, wineColorDrawableId));

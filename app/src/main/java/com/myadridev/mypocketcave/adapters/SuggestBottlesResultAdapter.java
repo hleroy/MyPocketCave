@@ -140,6 +140,7 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
             int wineColorDrawableId = bottle.Bottle.WineColor.DrawableResourceId;
             viewHolder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
             viewHolder.setOnItemClickListener(listener, bottle.Bottle.Id);
+            viewHolder.resetHighlight();
         }
     }
 

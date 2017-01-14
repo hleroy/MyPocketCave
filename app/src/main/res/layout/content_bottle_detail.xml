@@ -99,7 +99,7 @@
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
             android:gravity="center"
-            android:text="@string/bottles_placed"
+            android:text="bottles placed"
             android:textSize="@dimen/text_size" />
 
         <TextView

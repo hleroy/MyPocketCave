@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.BottlesAdapter;
 import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
+import com.myadridev.mypocketcave.adapters.SimpleDividerItemDecoration;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
 import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
@@ -46,7 +47,6 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView capacityUsedView;
     private Toolbar toolbar;
     private TextView boxesNumberView;
-    private TextView boxesBottlesNumberView;
     private RecyclerView arrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
     private BottlesAdapter bottlesAdapter;
@@ -58,6 +58,7 @@ public class CaveDetailActivity extends AppCompatActivity {
     private OnBottleClickListener onSetHighlightlistener;
     private OnBottleDrunkClickListener onBottleDrunkClickListener;
     private OnBottleUnplacedClickListener onBottleUnplacedClickListener;
+    private SimpleDividerItemDecoration dividerItemDecoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +151,6 @@ public class CaveDetailActivity extends AppCompatActivity {
         caveTypeView = (TextView) findViewById(R.id.cave_detail_type);
         capacityUsedView = (TextView) findViewById(R.id.cave_detail_capacity_used_total);
         boxesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_number);
-        boxesBottlesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_bottles_number);
         arrangementRecyclerView = (RecyclerView) findViewById(R.id.cave_detail_arrangement_pattern);
         CompatibilityHelper.setNestedScrollEnable(arrangementRecyclerView, false);
     }
@@ -166,7 +166,6 @@ public class CaveDetailActivity extends AppCompatActivity {
         switch (cave.CaveType) {
             case BULK:
                 boxesNumberView.setVisibility(View.GONE);
-                boxesBottlesNumberView.setVisibility(View.GONE);
                 arrangementRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
                 bottlesAdapter = new BottlesAdapter(this, cave.getBottles(), true, cave.CaveArrangement.TotalCapacity - cave.CaveArrangement.TotalUsed, BottleIdInHighlight);
@@ -218,37 +217,42 @@ public class CaveDetailActivity extends AppCompatActivity {
             case BOX:
                 boxesNumberView.setVisibility(View.VISIBLE);
                 boxesNumberView.setText(getResources().getQuantityString(R.plurals.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes, cave.CaveArrangement.NumberBoxes));
-                boxesBottlesNumberView.setVisibility(View.VISIBLE);
-                boxesBottlesNumberView.setText(getResources().getQuantityString(R.plurals.cave_boxes_bottles_number_detail,
-                        cave.CaveArrangement.NumberBottlesPerBox, cave.CaveArrangement.NumberBottlesPerBox));
-                arrangementRecyclerView.setVisibility(View.GONE);
+                setCaveArrangement(true);
                 break;
             case RACK:
             case FRIDGE:
                 boxesNumberView.setVisibility(View.GONE);
-                boxesBottlesNumberView.setVisibility(View.GONE);
-
-                CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
-                if (maxRowCol.Col >= 0) {
-                    int nbCols = maxRowCol.Col + 1;
-                    int nbRows = maxRowCol.Row + 1;
-                    arrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
-                    int marginLeftRight = (int) getResources().getDimension(R.dimen.horizontal_big_margin_between_elements);
-                    int activityMarginLeftRight = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
-                    int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight) - (2 * activityMarginLeftRight);
-
-                    caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth, BottleIdInHighlight);
-                    caveArrangementAdapter.addOnValueChangedListener(() -> {
-                        CaveManager.editCave(this, cave);
-                        capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
-                                cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
-                    });
-                    arrangementRecyclerView.setAdapter(caveArrangementAdapter);
-                    arrangementRecyclerView.setVisibility(View.VISIBLE);
-                } else {
-                    arrangementRecyclerView.setVisibility(View.GONE);
-                }
+                setCaveArrangement(false);
                 break;
+        }
+    }
+
+    private void setCaveArrangement(boolean hasBorders) {
+        CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
+        if (maxRowCol.Col >= 0) {
+            int nbCols = maxRowCol.Col + 1;
+            int nbRows = maxRowCol.Row + 1;
+            arrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
+            int marginLeftRight = (int) getResources().getDimension(R.dimen.horizontal_big_margin_between_elements);
+            int activityMarginLeftRight = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
+            int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight) - (2 * activityMarginLeftRight);
+
+            if (hasBorders) {
+                dividerItemDecoration = new SimpleDividerItemDecoration(this);
+                arrangementRecyclerView.addItemDecoration(dividerItemDecoration);
+            } else if (dividerItemDecoration != null) {
+                arrangementRecyclerView.removeItemDecoration(dividerItemDecoration);
+            }
+            caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth, BottleIdInHighlight);
+            caveArrangementAdapter.addOnValueChangedListener(() -> {
+                CaveManager.editCave(this, cave);
+                capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
+                        cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+            });
+            arrangementRecyclerView.setAdapter(caveArrangementAdapter);
+            arrangementRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            arrangementRecyclerView.setVisibility(View.GONE);
         }
     }
 

@@ -9,6 +9,7 @@ import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
+import com.myadridev.mypocketcave.managers.PatternManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,8 @@ public class CaveArrangementModel {
     public int TotalUsed;
     public int NumberBottlesBulk;
     public int NumberBoxes;
-    public int NumberBottlesPerBox;
+    public int BoxesNumberBottlesByColumn;
+    public int BoxesNumberBottlesByRow;
     private Map<Integer, Float> floatNumberPlacedBottlesByIdMap;
 
     public CaveArrangementModel() {
@@ -43,7 +45,8 @@ public class CaveArrangementModel {
         PatternMap = new HashMap<>(caveArrangement.PatternMap);
         NumberBottlesBulk = caveArrangement.NumberBottlesBulk;
         NumberBoxes = caveArrangement.NumberBoxes;
-        NumberBottlesPerBox = caveArrangement.NumberBottlesPerBox;
+        BoxesNumberBottlesByColumn = caveArrangement.BoxesNumberBottlesByColumn;
+        BoxesNumberBottlesByRow = caveArrangement.BoxesNumberBottlesByRow;
         floatNumberPlacedBottlesByIdMap = new HashMap<>(caveArrangement.floatNumberPlacedBottlesByIdMap);
         IntNumberPlacedBottlesByIdMap = new HashMap<>(caveArrangement.IntNumberPlacedBottlesByIdMap);
     }
@@ -70,7 +73,7 @@ public class CaveArrangementModel {
     }
 
     public void computeTotalCapacityWithBoxes() {
-        TotalCapacity = NumberBottlesPerBox * NumberBoxes;
+        TotalCapacity = BoxesNumberBottlesByColumn * BoxesNumberBottlesByRow * NumberBoxes;
     }
 
     public void computeTotalCapacityWithPattern() {
@@ -678,5 +681,13 @@ public class CaveArrangementModel {
             return CavePlaceTypeEnum.PLACE_TOP_RIGHT;
         }
         return placeType;
+    }
+
+    public void setPatternMapWithBoxes(int patternId) {
+        PatternMap.clear();
+        PatternModel pattern = PatternManager.getPattern(patternId);
+        for (int i = 0; i < NumberBoxes; i++) {
+            PatternMap.put(new CoordinatesModel(i, 0), new PatternModelWithBottles(pattern));
+        }
     }
 }

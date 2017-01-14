@@ -72,7 +72,8 @@ public class CaveArrangementModelTest {
         assertTrue(arrangement.PatternMap.isEmpty());
         assertEquals(0, arrangement.NumberBottlesBulk);
         assertEquals(0, arrangement.NumberBoxes);
-        assertEquals(0, arrangement.NumberBottlesPerBox);
+        assertEquals(0, arrangement.BoxesNumberBottlesByColumn);
+        assertEquals(0, arrangement.BoxesNumberBottlesByRow);
     }
 
     @Test
@@ -85,7 +86,8 @@ public class CaveArrangementModelTest {
         expectedArrangement.PatternMap.put(new CoordinatesModel(1, 0), new PatternModelWithBottles());
         expectedArrangement.NumberBottlesBulk = 43;
         expectedArrangement.NumberBoxes = 17;
-        expectedArrangement.NumberBottlesPerBox = 37;
+        expectedArrangement.BoxesNumberBottlesByColumn = 2;
+        expectedArrangement.BoxesNumberBottlesByRow = 3;
 
         CaveArrangementModel arrangement = new CaveArrangementModel(expectedArrangement);
 
@@ -99,7 +101,8 @@ public class CaveArrangementModelTest {
         }
         assertEquals(expectedArrangement.NumberBottlesBulk, arrangement.NumberBottlesBulk);
         assertEquals(expectedArrangement.NumberBoxes, arrangement.NumberBoxes);
-        assertEquals(expectedArrangement.NumberBottlesPerBox, arrangement.NumberBottlesPerBox);
+        assertEquals(expectedArrangement.BoxesNumberBottlesByColumn, arrangement.BoxesNumberBottlesByColumn);
+        assertEquals(expectedArrangement.BoxesNumberBottlesByRow, arrangement.BoxesNumberBottlesByRow);
     }
 
     @Test
@@ -114,11 +117,12 @@ public class CaveArrangementModelTest {
     @Test
     public void computeTotalCapacityWithBoxes() {
         CaveArrangementModel arrangement = new CaveArrangementModel();
-        arrangement.NumberBottlesPerBox = 6;
+        arrangement.BoxesNumberBottlesByColumn = 2;
+        arrangement.BoxesNumberBottlesByRow = 3;
         arrangement.NumberBoxes = 4;
 
         arrangement.computeTotalCapacityWithBoxes();
-        assertEquals(arrangement.NumberBottlesPerBox * arrangement.NumberBoxes, arrangement.TotalCapacity);
+        assertEquals(arrangement.BoxesNumberBottlesByColumn * arrangement.BoxesNumberBottlesByRow * arrangement.NumberBoxes, arrangement.TotalCapacity);
     }
 
     @Test
