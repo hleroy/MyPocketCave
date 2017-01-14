@@ -248,6 +248,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 CaveManager.editCave(this, cave);
                 capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
                         cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
+                caveArrangementAdapter.notifyDataSetChanged();
             });
             arrangementRecyclerView.setAdapter(caveArrangementAdapter);
             arrangementRecyclerView.setVisibility(View.VISIBLE);

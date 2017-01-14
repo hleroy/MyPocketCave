@@ -165,7 +165,6 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
                         onValueChangedListener.onValueChanged();
                     }
-                    notifyDataSetChanged();
                 });
                 patternAdapter.addOnBottleDrunkClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates1) -> {
                     // here quantity is 1 in all cases : we ignore it
@@ -174,7 +173,6 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
                         onValueChangedListener.onValueChanged();
                     }
-                    notifyDataSetChanged();
                 });
                 patternAdapter.addOnBottleUnplacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates1) -> {
                     // here quantity is 1 in all cases : we ignore it
@@ -183,7 +181,6 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     for (OnValueChangedListener onValueChangedListener : onValueChangedListeners) {
                         onValueChangedListener.onValueChanged();
                     }
-                    notifyDataSetChanged();
                 });
 
                 patternAdapter.addonSetHighlightlistener(this::setBottleIdInHighlight);
