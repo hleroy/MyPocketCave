@@ -5,12 +5,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -49,14 +53,14 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected Spinner caveTypeView;
     protected CoordinatorLayout coordinatorLayout;
     private TextView arrangementView;
-    private EditText bulkBottlesNumberView;
+    protected EditText bulkBottlesNumberView;
 
-    private EditText boxesNumberView;
-    private EditText boxesPatternNumberBottlesByColumnView;
-    private EditText boxesPatternNumberBottlesByRowView;
+    protected EditText boxesNumberView;
+    protected EditText boxesPatternNumberBottlesByColumnView;
+    protected EditText boxesPatternNumberBottlesByRowView;
     private TextView boxesOverviewView;
     private RecyclerView boxesOverviewRecyclerView;
-    private PatternModel pattern;
+    protected PatternModel boxesPattern;
     private int screenHeight;
     private int screenWidth;
 
@@ -80,6 +84,28 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         initCave();
         initLayout();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save:
+                hideKeyboard();
+                if (setValues()) {
+                    saveCave();
+                    finish();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initLayout() {
@@ -198,21 +224,21 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     }
 
     private void setBoxesPatternValues() {
-        pattern = new PatternModel();
-        pattern.Type = PatternTypeEnum.LINEAR;
+        boxesPattern = new PatternModel();
+        boxesPattern.Type = PatternTypeEnum.LINEAR;
         String NumberBottlesByColumnString = boxesPatternNumberBottlesByColumnView.getText().toString();
-        pattern.NumberBottlesByColumn = NumberBottlesByColumnString.isEmpty() ? 0 : Integer.valueOf(NumberBottlesByColumnString);
+        boxesPattern.NumberBottlesByColumn = NumberBottlesByColumnString.isEmpty() ? 0 : Integer.valueOf(NumberBottlesByColumnString);
         String NumberBottlesByRowString = boxesPatternNumberBottlesByRowView.getText().toString();
-        pattern.NumberBottlesByRow = NumberBottlesByRowString.isEmpty() ? 0 : Integer.valueOf(NumberBottlesByRowString);
-        pattern.computePlacesMap();
+        boxesPattern.NumberBottlesByRow = NumberBottlesByRowString.isEmpty() ? 0 : Integer.valueOf(NumberBottlesByRowString);
+        boxesPattern.computePlacesMap();
     }
 
     private void updateAdapter() {
-        if (pattern.NumberBottlesByRow == 0 || pattern.NumberBottlesByColumn == 0) {
+        if (boxesPattern.NumberBottlesByRow == 0 || boxesPattern.NumberBottlesByColumn == 0) {
             return;
         }
         PatternAdapter patternAdapter = createBoxesPatternAdapter();
-        boxesOverviewRecyclerView.setLayoutManager(new GridLayoutManager(this, pattern.getNumberColumnsGridLayout()));
+        boxesOverviewRecyclerView.setLayoutManager(new GridLayoutManager(this, boxesPattern.getNumberColumnsGridLayout()));
         boxesOverviewRecyclerView.setAdapter(patternAdapter);
     }
 
@@ -220,7 +246,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         if (screenHeight == 0 || screenWidth == 0) {
             setScreenDimensions();
         }
-        return new PatternAdapter(this, pattern.getPlaceMapForDisplay(), new CoordinatesModel(pattern.getNumberRowsGridLayout(), pattern.getNumberColumnsGridLayout()),
+        return new PatternAdapter(this, boxesPattern.getPlaceMapForDisplay(), new CoordinatesModel(boxesPattern.getNumberRowsGridLayout(), boxesPattern.getNumberColumnsGridLayout()),
                 false, screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight,
                 (screenHeight * overviewScreenHeightPercent / 100), null);
     }
@@ -273,10 +299,25 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         hideKeyboard();
-        if (setValues()) {
-            saveCave();
+        if (hasDifferences()) {
+            AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(this);
+            exitDialogBuilder.setCancelable(true);
+            exitDialogBuilder.setMessage(R.string.detail_exit_confirmation);
+            exitDialogBuilder.setNegativeButton(R.string.global_stay, (DialogInterface dialog, int which) -> dialog.dismiss());
+            exitDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
+                dialog.dismiss();
+                AbstractCaveEditActivity.this.cancelCave();
+                AbstractCaveEditActivity.this.finish();
+            });
+            exitDialogBuilder.show();
+        } else {
+            cancelCave();
             finish();
         }
+    }
+
+    protected boolean hasDifferences() {
+        return true;
     }
 
     protected void initCave() {
@@ -319,7 +360,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cave.CaveArrangement.BoxesNumberBottlesByColumn = boxesNumberBottlesByColumn.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByColumn);
                 String boxesNumberBottlesByRow = boxesPatternNumberBottlesByRowView.getText().toString();
                 cave.CaveArrangement.BoxesNumberBottlesByRow = boxesNumberBottlesByRow.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByRow);
-                int patternId = PatternManager.addPattern(this, pattern);
+                int patternId = PatternManager.addPattern(this, boxesPattern);
                 cave.CaveArrangement.setPatternMapWithBoxes(patternId);
                 cave.CaveArrangement.setClickablePlaces();
                 cave.CaveArrangement.computeTotalCapacityWithBoxes();
@@ -347,54 +388,29 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         String name = nameView.getText().toString();
 
         if (name.isEmpty()) {
-            AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
-            noNameDialogBuilder.setCancelable(true);
-            noNameDialogBuilder.setMessage(R.string.error_cave_no_name);
-            noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
-            noNameDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
-                dialog.dismiss();
-                finish();
-                cancelCave();
-            });
-            noNameDialogBuilder.show();
+            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_no_name, Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+            snackbar.show();
             isErrors = true;
-        } else if (pattern != null && (pattern.NumberBottlesByColumn == 0 || pattern.NumberBottlesByRow == 0)) {
-            AlertDialog.Builder IncorrectRowsColsDialogBuilder = new AlertDialog.Builder(this);
-            IncorrectRowsColsDialogBuilder.setCancelable(true);
-            IncorrectRowsColsDialogBuilder.setMessage(R.string.error_pattern_incorrect_rows_cols);
-            IncorrectRowsColsDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
-            IncorrectRowsColsDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
-                dialog.dismiss();
-                finish();
-                cancelCave();
-            });
-            IncorrectRowsColsDialogBuilder.show();
+        } else if (boxesPattern != null && (boxesPattern.NumberBottlesByColumn == 0 || boxesPattern.NumberBottlesByRow == 0)) {
+            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+            snackbar.show();
             isErrors = true;
         } else {
             CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
 
             final int existingCaveId = CaveManager.getExistingCaveId(cave.Id, name, caveType);
             if (existingCaveId > 0) {
-                AlertDialog.Builder existingCaveDialogBuilder = new AlertDialog.Builder(this);
-                existingCaveDialogBuilder.setCancelable(true);
-                existingCaveDialogBuilder.setMessage(R.string.error_cave_already_exists);
-                existingCaveDialogBuilder.setNeutralButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
-                existingCaveDialogBuilder.setNegativeButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
-                    dialog.dismiss();
-                    finish();
-                    cancelCave();
-                });
-                existingCaveDialogBuilder.setPositiveButton(R.string.global_merge, (DialogInterface dialog, int which) -> {
-                    dialog.dismiss();
-                    removeCave();
-                    redirectToExistingCave(existingCaveId);
-                });
-                existingCaveDialogBuilder.show();
+                final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_already_exists, Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+                snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+                snackbar.show();
                 isErrors = true;
             }
         }
         return !isErrors;
     }
-
-    protected abstract void redirectToExistingCave(int existingCaveId);
 }

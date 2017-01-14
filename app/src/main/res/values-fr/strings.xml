@@ -181,4 +181,6 @@
     <string name="bottles_here">%1$d ici</string>
     <string name="place_bottle_label">Placer une bouteille…</string>
     <string name="place_bottle_quantity">Combien ?</string>
+    <string name="save">Enregistrer</string>
+    <string name="detail_exit_confirmation">Il y a des changements, les perdre et quitter cette page ou rester ici ?</string>
 </resources>

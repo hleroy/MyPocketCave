@@ -27,6 +27,51 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
     }
 
     @Override
+    protected boolean hasDifferences() {
+        CaveModel oldCave = CaveManager.getCave(this, caveId);
+
+        if (!oldCave.Name.equals(nameView.getText().toString())) {
+            return true;
+        }
+        if (oldCave.CaveType != caveTypeView.getSelectedItem()) {
+            return true;
+        }
+
+        switch (oldCave.CaveType) {
+            case BULK:
+                String NumberBottlesBulk = bulkBottlesNumberView.getText().toString();
+                if (oldCave.CaveArrangement.NumberBottlesBulk != (NumberBottlesBulk.isEmpty() ? 0 : Integer.valueOf(NumberBottlesBulk))) {
+                    return true;
+                }
+                break;
+            case BOX:
+                String NumberBoxes = boxesNumberView.getText().toString();
+                if (oldCave.CaveArrangement.NumberBoxes != (NumberBoxes.isEmpty() ? 0 : Integer.valueOf(NumberBoxes))) {
+                    return true;
+                }
+                String boxesNumberBottlesByColumn = boxesPatternNumberBottlesByColumnView.getText().toString();
+                if (oldCave.CaveArrangement.BoxesNumberBottlesByColumn != (boxesNumberBottlesByColumn.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByColumn))) {
+                    return true;
+                }
+                String boxesNumberBottlesByRow = boxesPatternNumberBottlesByRowView.getText().toString();
+                if (oldCave.CaveArrangement.BoxesNumberBottlesByRow != (boxesNumberBottlesByRow.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByRow))) {
+                    return true;
+                }
+                break;
+            case FRIDGE:
+            case RACK:
+                oldCave.CaveArrangement.movePatternMapToRight();
+                if (oldCave.CaveArrangement.hasDifferentPattern(cave.CaveArrangement)) {
+                    oldCave.CaveArrangement.movePatternMapToLeft();
+                    return true;
+                }
+                oldCave.CaveArrangement.movePatternMapToLeft();
+                break;
+        }
+        return false;
+    }
+
+    @Override
     protected void initCave() {
         refreshCave();
     }
@@ -45,13 +90,6 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
     @Override
     protected void removeCave() {
         CaveManager.removeCave(this, cave);
-    }
-
-    @Override
-    protected void redirectToExistingCave(int existingCaveId) {
-        CaveManager.removeCave(this, cave);
-        NavigationManager.navigateToCaveDetail(this, existingCaveId);
-        finish();
     }
 
     private void refreshCave() {

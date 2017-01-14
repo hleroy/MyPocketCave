@@ -4,13 +4,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.percent.PercentRelativeLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,12 +35,14 @@ import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
 
-public class CreatePatternActivity extends AppCompatActivity {
+public class PatternCreateActivity extends AppCompatActivity {
 
     public static final int overviewScreenHeightPercent = 50;
     public static final int overviewScreenWidthMarginLeft = 8;
     public static final int overviewScreenWidthMarginRight = 8;
     private final View.OnTouchListener hideKeyboardOnClick;
+
+    private CoordinatorLayout coordinatorLayout;
     private Spinner typeSpinner;
     private EditText numberBottlesByColumnEditText;
     private EditText numberBottlesByRowEditText;
@@ -78,7 +85,7 @@ public class CreatePatternActivity extends AppCompatActivity {
         }
     };
 
-    public CreatePatternActivity() {
+    public PatternCreateActivity() {
         hideKeyboardOnClick = (View v, MotionEvent event) -> {
             hideKeyboard();
             return false;
@@ -88,8 +95,29 @@ public class CreatePatternActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_pattern);
+        setContentView(R.layout.pattern_create);
         initLayout();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save:
+                hideKeyboard();
+                if (checkValues()) {
+                    setResultAndFinish(RESULT_OK, PatternManager.addPattern(this, pattern));
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initLayout() {
@@ -98,34 +126,36 @@ public class CreatePatternActivity extends AppCompatActivity {
     }
 
     protected void setLayout() {
-        containerLayout = (PercentRelativeLayout) findViewById(R.id.create_pattern_relative_layout);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.pattern_create_coordinator_layout);
+
+        containerLayout = (PercentRelativeLayout) findViewById(R.id.pattern_create_relative_layout);
         containerLayout.setOnTouchListener(hideKeyboardOnClick);
 
-        typeSpinner = (Spinner) findViewById(R.id.create_pattern_type);
+        typeSpinner = (Spinner) findViewById(R.id.pattern_create_type);
         typeSpinner.setOnItemSelectedListener(patternTypeChangedListener);
         typeSpinner.setOnTouchListener(hideKeyboardOnClick);
 
-        numberBottlesByColumnEditText = (EditText) findViewById(R.id.create_pattern_number_bottles_by_column);
+        numberBottlesByColumnEditText = (EditText) findViewById(R.id.pattern_create_number_bottles_by_column);
         numberBottlesByColumnEditText.addTextChangedListener(dispositionChangedListener);
-        numberBottlesByRowEditText = (EditText) findViewById(R.id.create_pattern_number_bottles_by_row);
+        numberBottlesByRowEditText = (EditText) findViewById(R.id.pattern_create_number_bottles_by_row);
         numberBottlesByRowEditText.addTextChangedListener(dispositionChangedListener);
 
-        verticallyExpendableTextView = (TextView) findViewById(R.id.create_pattern_vertically_expendable);
+        verticallyExpendableTextView = (TextView) findViewById(R.id.pattern_create_vertically_expendable);
         verticallyExpendableTextView.setOnTouchListener(hideKeyboardOnClick);
-        verticallyExpendableCheckbox = (CheckBox) findViewById(R.id.create_pattern_vertically_expendable_checkbox);
+        verticallyExpendableCheckbox = (CheckBox) findViewById(R.id.pattern_create_vertically_expendable_checkbox);
         verticallyExpendableCheckbox.setOnCheckedChangeListener(checkboxCheckedChangeListener);
 
-        horizontallyExpendableTextView = (TextView) findViewById(R.id.create_pattern_horizontally_expendable);
+        horizontallyExpendableTextView = (TextView) findViewById(R.id.pattern_create_horizontally_expendable);
         horizontallyExpendableTextView.setOnTouchListener(hideKeyboardOnClick);
-        horizontallyExpendableCheckbox = (CheckBox) findViewById(R.id.create_pattern_horizontally_expendable_checkbox);
+        horizontallyExpendableCheckbox = (CheckBox) findViewById(R.id.pattern_create_horizontally_expendable_checkbox);
         horizontallyExpendableCheckbox.setOnCheckedChangeListener(checkboxCheckedChangeListener);
 
-        invertPatternTextView = (TextView) findViewById(R.id.create_pattern_inverted);
+        invertPatternTextView = (TextView) findViewById(R.id.pattern_create_inverted);
         invertPatternTextView.setOnTouchListener(hideKeyboardOnClick);
-        invertPatternCheckbox = (CheckBox) findViewById(R.id.create_pattern_inverted_checkbox);
+        invertPatternCheckbox = (CheckBox) findViewById(R.id.pattern_create_inverted_checkbox);
         invertPatternCheckbox.setOnCheckedChangeListener(checkboxCheckedChangeListener);
 
-        patternOverviewRecyclerView = (RecyclerView) findViewById(R.id.create_pattern_overview_recyclerview);
+        patternOverviewRecyclerView = (RecyclerView) findViewById(R.id.pattern_create_overview_recyclerview);
         patternOverviewRecyclerView.setOnTouchListener(hideKeyboardOnClick);
     }
 
@@ -209,15 +239,10 @@ public class CreatePatternActivity extends AppCompatActivity {
         setVisibilityDependantValues();
 
         if (pattern.NumberBottlesByColumn == 0 || pattern.NumberBottlesByRow == 0) {
-            AlertDialog.Builder IncorrectRowsColsDialogBuilder = new AlertDialog.Builder(this);
-            IncorrectRowsColsDialogBuilder.setCancelable(true);
-            IncorrectRowsColsDialogBuilder.setMessage(R.string.error_pattern_incorrect_rows_cols);
-            IncorrectRowsColsDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
-            IncorrectRowsColsDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
-                dialog.dismiss();
-                setResultAndFinish(RESULT_CANCELED, -1);
-            });
-            IncorrectRowsColsDialogBuilder.show();
+            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+            snackbar.show();
             isErrors = true;
         }
         return !isErrors;
@@ -237,10 +262,15 @@ public class CreatePatternActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        hideKeyboard();
-        if (checkValues()) {
-            setResultAndFinish(RESULT_OK, PatternManager.addPattern(this, pattern));
-        }
+        AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(this);
+        exitDialogBuilder.setCancelable(true);
+        exitDialogBuilder.setMessage(R.string.detail_exit_confirmation);
+        exitDialogBuilder.setNegativeButton(R.string.global_stay, (DialogInterface dialog, int which) -> dialog.dismiss());
+        exitDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
+            dialog.dismiss();
+            setResultAndFinish(RESULT_CANCELED, -1);
+        });
+        exitDialogBuilder.show();
     }
 
     private void hideKeyboard() {

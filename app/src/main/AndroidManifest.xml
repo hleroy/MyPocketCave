@@ -64,7 +64,7 @@
             android:label="@string/title_select_pattern"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.CreatePatternActivity"
+            android:name=".activities.PatternCreateActivity"
             android:label="@string/title_create_pattern"
             android:screenOrientation="portrait" />
     </application>

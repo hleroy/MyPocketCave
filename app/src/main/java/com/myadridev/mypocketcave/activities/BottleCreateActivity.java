@@ -36,10 +36,4 @@ public class BottleCreateActivity extends AbstractBottleEditActivity {
     protected boolean setValues() {
         return super.setValues();
     }
-
-    @Override
-    protected void redirectToExistingBottle(int existingBottleId) {
-        NavigationManager.navigateToBottleDetail(this, existingBottleId);
-        finish();
-    }
 }

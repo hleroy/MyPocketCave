@@ -195,4 +195,6 @@
     <string name="bottles_here">%1$d here</string>
     <string name="place_bottle_label">Place a bottle…</string>
     <string name="place_bottle_quantity">How many ?</string>
+    <string name="save">Save</string>
+    <string name="detail_exit_confirmation">There are changes, lose them and quit or stay here ?</string>
 </resources>

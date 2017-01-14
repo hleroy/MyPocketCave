@@ -690,4 +690,20 @@ public class CaveArrangementModel {
             PatternMap.put(new CoordinatesModel(i, 0), new PatternModelWithBottles(pattern));
         }
     }
+
+    public boolean hasDifferentPattern(CaveArrangementModel caveArrangement) {
+        if (caveArrangement == null || PatternMap.size() != caveArrangement.PatternMap.size()) {
+            return true;
+        }
+
+        for (Map.Entry<CoordinatesModel, PatternModelWithBottles> patternEntry : PatternMap.entrySet()) {
+            CoordinatesModel coordinates = patternEntry.getKey();
+            PatternModelWithBottles pattern = patternEntry.getValue();
+
+            if (!caveArrangement.PatternMap.containsKey(coordinates) || pattern.Id != caveArrangement.PatternMap.get(coordinates).Id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

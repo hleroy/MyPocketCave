@@ -31,10 +31,4 @@ public class CaveCreateActivity extends AbstractCaveEditActivity {
         cave.Id = CaveManager.addCave(this, cave);
         NavigationManager.navigateToCaveDetail(this, cave.Id);
     }
-
-    @Override
-    protected void redirectToExistingCave(int existingCaveId) {
-        NavigationManager.navigateToCaveDetail(this, existingCaveId);
-        finish();
-    }
 }

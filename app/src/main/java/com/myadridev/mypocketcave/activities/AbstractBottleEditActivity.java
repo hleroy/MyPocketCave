@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -25,7 +29,7 @@ import com.myadridev.mypocketcave.models.BottleModel;
 
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
-    private final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
+    protected final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
     private final View.OnTouchListener hideKeyboardOnClick;
     protected BottleModel bottle;
     protected EditText nameView;
@@ -35,9 +39,9 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected EditText commentsView;
     protected TextView foodView;
     protected Spinner millesimeView;
+    protected EditText domainView;
     protected CoordinatorLayout coordinatorLayout;
     private boolean isFoodListOpen;
-    private EditText domainView;
 
     protected AbstractBottleEditActivity() {
         hideKeyboardOnClick = (View v, MotionEvent event) -> {
@@ -60,6 +64,28 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         initBottle();
         initLayout();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save:
+                hideKeyboard();
+                if (setValues()) {
+                    saveBottle();
+                    finish();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initLayout() {
@@ -151,10 +177,25 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         hideKeyboard();
-        if (setValues()) {
-            saveBottle();
+        if (hasDifferences()) {
+            AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(this);
+            exitDialogBuilder.setCancelable(true);
+            exitDialogBuilder.setMessage(R.string.detail_exit_confirmation);
+            exitDialogBuilder.setNegativeButton(R.string.global_stay, (DialogInterface dialog, int which) -> dialog.dismiss());
+            exitDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
+                dialog.dismiss();
+                AbstractBottleEditActivity.this.cancelBottle();
+                AbstractBottleEditActivity.this.finish();
+            });
+            exitDialogBuilder.show();
+        } else {
+            cancelBottle();
             finish();
         }
+    }
+
+    protected boolean hasDifferences() {
+        return true;
     }
 
     protected void initBottle() {
@@ -202,28 +243,16 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         int stock = stockString.isEmpty() ? 0 : Integer.valueOf(stockString);
 
         if (name.isEmpty()) {
-            AlertDialog.Builder noNameDialogBuilder = new AlertDialog.Builder(this);
-            noNameDialogBuilder.setCancelable(true);
-            noNameDialogBuilder.setMessage(R.string.error_bottle_no_name);
-            noNameDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
-            noNameDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
-                dialog.dismiss();
-                AbstractBottleEditActivity.this.finish();
-                AbstractBottleEditActivity.this.cancelBottle();
-            });
-            noNameDialogBuilder.show();
+            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_no_name, Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+            snackbar.show();
             isErrors = true;
         } else if (stock < bottle.NumberPlaced) {
-            AlertDialog.Builder notEnoughBottlesDialogBuilder = new AlertDialog.Builder(this);
-            notEnoughBottlesDialogBuilder.setCancelable(true);
-            notEnoughBottlesDialogBuilder.setMessage(R.string.error_bottle_not_enough);
-            notEnoughBottlesDialogBuilder.setNegativeButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
-            notEnoughBottlesDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
-                dialog.dismiss();
-                finish();
-                cancelBottle();
-            });
-            notEnoughBottlesDialogBuilder.show();
+            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_not_enough, Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+            snackbar.show();
             isErrors = true;
         } else {
             String domain = domainView.getText().toString();
@@ -232,26 +261,13 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
             final int existingBottleId = BottleManager.getExistingBottleId(bottle.Id, name, domain, wineColor, millesime);
             if (existingBottleId > 0) {
-                AlertDialog.Builder existingBottleDialogBuilder = new AlertDialog.Builder(this);
-                existingBottleDialogBuilder.setCancelable(true);
-                existingBottleDialogBuilder.setMessage(R.string.error_bottle_already_exists);
-                existingBottleDialogBuilder.setNeutralButton(R.string.global_stay_and_fix, (DialogInterface dialog, int which) -> dialog.dismiss());
-                existingBottleDialogBuilder.setNegativeButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
-                    dialog.dismiss();
-                    finish();
-                    cancelBottle();
-                });
-                existingBottleDialogBuilder.setPositiveButton(R.string.global_merge, (DialogInterface dialog, int which) -> {
-                    dialog.dismiss();
-                    removeBottle();
-                    redirectToExistingBottle(existingBottleId);
-                });
-                existingBottleDialogBuilder.show();
+                final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_already_exists, Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+                snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+                snackbar.show();
                 isErrors = true;
             }
         }
         return !isErrors;
     }
-
-    protected abstract void redirectToExistingBottle(int existingBottleId);
 }
