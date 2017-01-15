@@ -61,7 +61,7 @@
     <string name="bottles_count_detail">Rouge\u00A0:\u00A0%1$d, Blanc\u00A0:\u00A0%2$d, Rosé\u00A0:\u00A0%3$d, Champagne\u00A0:\u00A0%4$d</string>
     <string name="error_bottle_no_name">Un nom de bouteille est nécessaire</string>
     <string name="error_ok">Ok</string>
-    <string name="error_bottle_already_exists">Il y a une bouteille identique dans la cave (même domaine, couleur, nom et millésime). Que faire\u00A0?</string>
+    <string name="error_bottle_already_exists">Il y a une bouteille identique dans la cave (même domaine, couleur, nom et millésime).</string>
     <string name="global_merge">Fusionner</string>
     <string name="title_suggest_bottle_search">Propose-moi une bouteille</string>
     <string name="suggest_bottle_essential">Requis\u00A0?</string>
@@ -115,7 +115,7 @@
         <item quantity="one">%1$d bouteille</item>
         <item quantity="other">%1$d bouteilles</item>
     </plurals>
-    <string name="error_cave_already_exists">Une cave similaire existe (même nom et type). Que faire\u00A0?</string>
+    <string name="error_cave_already_exists">Une cave similaire existe (même nom et type).</string>
     <string name="error_cave_go">C\'est parti\u00A0!</string>
     <string name="cave_name">Nom de la cave</string>
     <string name="error_cave_no_name">Un nom de cave est nécessaire</string>
@@ -171,7 +171,8 @@
     <string name="unplace_no">Non</string>
     <string name="unplace_ok">Oui !</string>
     <string name="message_unplace">Vraiment ?</string>
-    <string name="error_bottle_not_enough">Le stock n\'est pas correct : davantage de bouteilles sont déjà placées dans les caves</string>
+    <string name="error_bottle_not_enough">Stock incorrect : davantage de bouteilles sont déjà placées dans les caves</string>
+    <string name="error_cave_bulk_not_enough">Capacité incorrecte : davantage de bouteilles sont déjà placées</string>
     <string name="bottle_delete_error_some_placed">Certaines bouteilles sont dans des caves, merci de les retirer pour supprimer la référence</string>
     <string name="no_caves_with_bottle">Cette bouteille n\'est placée dans aucune cave</string>
     <string name="title_see_caves">Voir les caves avec cette bouteille</string>

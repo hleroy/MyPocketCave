@@ -28,7 +28,7 @@
     </plurals>
     <string name="bottles_count_detail">Red:\u00A0%1$d, White:\u00A0%2$d, Rosé:\u00A0%3$d, Champagne:\u00A0%4$d</string>
     <string name="bottles_stock">%1$d in stock</string>
-    <string name="error_bottle_already_exists">There is the same bottle in the cave (same domain, color, name and millesime). What de we do?</string>
+    <string name="error_bottle_already_exists">There is the same bottle in the cave (same domain, color, name and millesime).</string>
     <string name="global_merge">Merge</string>
     <string name="error_bottle_no_name">A bottle name is needed</string>
     <string name="error_ok">OK</string>
@@ -125,7 +125,7 @@
         <item quantity="other">%1$d bottles</item>
     </plurals>
     <string name="cave_name">Name of the cave</string>
-    <string name="error_cave_already_exists">There exists a similar cave (same name and type). What de we do?</string>
+    <string name="error_cave_already_exists">There exists a similar cave (same name and type).</string>
     <string name="error_cave_go">Let\'s go!</string>
     <string name="title_create_cave">Add a cave</string>
     <string name="title_edit_cave">Edit the cave</string>
@@ -185,7 +185,7 @@
     <string name="message_unplace">Really ?</string>
     <string name="unplace_ok">Yes !</string>
     <string name="unplace_no">No</string>
-    <string name="error_bottle_not_enough">Stock is not correct : more bottles are already placed in the caves</string>
+    <string name="error_bottle_not_enough">Incorrect stock : more bottles are already placed in the caves</string>
     <string name="bottle_delete_error_some_placed">Some bottles are placed in the caves, please remove them before</string>
     <string name="no_caves_with_bottle">This bottle is not placed in any caves</string>
     <string name="title_see_caves">See caves with this bottle</string>
@@ -198,4 +198,5 @@
     <string name="save">Save</string>
     <string name="detail_exit_confirmation">There are changes, lose them and quit or stay here ?</string>
     <string name="cave_arrangement_warning">Warning : with arrangement modifications, some placed bottles may become unplaced !</string>
+    <string name="error_cave_bulk_not_enough">Incorrect capacity : more bottles are already placed.</string>
 </resources>

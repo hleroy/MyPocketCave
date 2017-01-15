@@ -427,6 +427,16 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             isErrors = true;
         } else {
             CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+            String numberBottlesBulkString = bulkBottlesNumberView.getText().toString();
+            int numberBottlesBulk = numberBottlesBulkString.isEmpty() ? 0 : Integer.valueOf(numberBottlesBulkString);
+
+            if (caveType == CaveTypeEnum.BULK && numberBottlesBulk < cave.CaveArrangement.TotalUsed) {
+                final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_bulk_not_enough, Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+                snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
+                snackbar.show();
+                isErrors = true;
+            }
 
             final int existingCaveId = CaveManager.getExistingCaveId(cave.Id, name, caveType);
             if (existingCaveId > 0) {
