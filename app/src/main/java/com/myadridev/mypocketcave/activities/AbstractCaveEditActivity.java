@@ -67,6 +67,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private RecyclerView caveArrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
 
+    protected CaveModel oldCave;
+
     protected AbstractCaveEditActivity() {
         hideKeyboardOnClick = (View v, MotionEvent event) -> {
             hideKeyboard();
@@ -258,6 +260,9 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
     private void createAdapter() {
         cave.CaveArrangement.movePatternMapToRight();
+        if (oldCave != null) {
+            oldCave.CaveArrangement.movePatternMapToRight();
+        }
         CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
         int nbCols = Math.max(maxRowCol.Col + 2, 3);
         int nbRows = maxRowCol.Row + 2;
@@ -273,7 +278,15 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 int patternId = data.getIntExtra("patternId", -1);
                 if (patternId != -1) {
                     if (OldClickedPatternId != patternId) {
-                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
+                        PatternModelWithBottles oldPattern = null;
+                        if (oldCave != null && oldCave.CaveArrangement.PatternMap.containsKey(ClickedPatternCoordinates)) {
+                            oldPattern = oldCave.CaveArrangement.PatternMap.get(ClickedPatternCoordinates);
+                        }
+                        if (oldPattern != null && oldPattern.Id == patternId) {
+                            cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, oldPattern);
+                        } else {
+                            cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
+                        }
                         createAdapter();
                         caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
                     }
@@ -305,14 +318,27 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             exitDialogBuilder.setMessage(R.string.detail_exit_confirmation);
             exitDialogBuilder.setNegativeButton(R.string.global_stay, (DialogInterface dialog, int which) -> dialog.dismiss());
             exitDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
+                resetPatternPositionIfNeeded();
                 dialog.dismiss();
                 AbstractCaveEditActivity.this.cancelCave();
                 AbstractCaveEditActivity.this.finish();
             });
             exitDialogBuilder.show();
         } else {
+            resetPatternPositionIfNeeded();
             cancelCave();
             finish();
+        }
+    }
+
+    private void resetPatternPositionIfNeeded() {
+        if (oldCave != null) {
+            switch (oldCave.CaveType) {
+                case FRIDGE:
+                case RACK:
+                    oldCave.CaveArrangement.movePatternMapToLeft();
+                    break;
+            }
         }
     }
 
@@ -327,9 +353,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     }
 
     protected void cancelCave() {
-    }
-
-    protected void removeCave() {
     }
 
     protected boolean setValues() {
@@ -372,6 +395,9 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cave.CaveArrangement.BoxesNumberBottlesByColumn = 0;
                 cave.CaveArrangement.BoxesNumberBottlesByRow = 0;
                 cave.CaveArrangement.movePatternMapToLeft();
+                if (oldCave != null) {
+                    oldCave.CaveArrangement.movePatternMapToLeft();
+                }
                 cave.CaveArrangement.setClickablePlaces();
                 cave.CaveArrangement.computeTotalCapacityWithPattern();
                 break;

@@ -28,8 +28,6 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
 
     @Override
     protected boolean hasDifferences() {
-        CaveModel oldCave = CaveManager.getCave(this, caveId);
-
         if (!oldCave.Name.equals(nameView.getText().toString())) {
             return true;
         }
@@ -60,12 +58,9 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
                 break;
             case FRIDGE:
             case RACK:
-                oldCave.CaveArrangement.movePatternMapToRight();
                 if (oldCave.CaveArrangement.hasDifferentPattern(cave.CaveArrangement)) {
-                    oldCave.CaveArrangement.movePatternMapToLeft();
                     return true;
                 }
-                oldCave.CaveArrangement.movePatternMapToLeft();
                 break;
         }
         return false;
@@ -87,12 +82,8 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
         NavigationManager.navigateToCaveDetail(this, cave.Id);
     }
 
-    @Override
-    protected void removeCave() {
-        CaveManager.removeCave(this, cave);
-    }
-
     private void refreshCave() {
-        cave = new CaveModel(CaveManager.getCave(this, caveId));
+        oldCave = CaveManager.getCave(this, caveId);
+        cave = new CaveModel(oldCave);
     }
 }

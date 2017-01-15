@@ -183,4 +183,5 @@
     <string name="place_bottle_quantity">Combien ?</string>
     <string name="save">Enregistrer</string>
     <string name="detail_exit_confirmation">Il y a des changements, les perdre et quitter cette page ou rester ici ?</string>
+    <string name="cave_arrangement_warning">Attention : avec des modifications de disposition, certaines bouteilles placées pourraient ne plus l\'être !</string>
 </resources>

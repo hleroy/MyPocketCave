@@ -197,4 +197,5 @@
     <string name="place_bottle_quantity">How many ?</string>
     <string name="save">Save</string>
     <string name="detail_exit_confirmation">There are changes, lose them and quit or stay here ?</string>
+    <string name="cave_arrangement_warning">Warning : with arrangement modifications, some placed bottles may become unplaced !</string>
 </resources>

@@ -24,6 +24,7 @@ public class CaveCreateActivity extends AbstractCaveEditActivity {
     @Override
     protected void initCave() {
         cave = new CaveModel();
+        oldCave = null;
     }
 
     @Override
