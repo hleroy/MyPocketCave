@@ -683,11 +683,21 @@ public class CaveArrangementModel {
         return placeType;
     }
 
-    public void setPatternMapWithBoxes(int patternId) {
+    public void setPatternMapWithBoxes(int patternId, CaveModel oldCave) {
+        int oldPatternId = -1;
+        if (oldCave != null) {
+            CoordinatesModel origin = new CoordinatesModel(0, 0);
+            oldPatternId = oldCave.CaveArrangement.PatternMap.containsKey(origin) ? oldCave.CaveArrangement.PatternMap.get(origin).Id : -1;
+        }
+        boolean isSamePattern = patternId == oldPatternId;
         PatternMap.clear();
         PatternModel pattern = PatternManager.getPattern(patternId);
         for (int i = 0; i < NumberBoxes; i++) {
-            PatternMap.put(new CoordinatesModel(i, 0), new PatternModelWithBottles(pattern));
+            CoordinatesModel coordinates = new CoordinatesModel(i, 0);
+            PatternModelWithBottles newPattern = isSamePattern && oldCave.CaveArrangement.PatternMap.containsKey(coordinates)
+                    ? oldCave.CaveArrangement.PatternMap.get(coordinates)
+                    : new PatternModelWithBottles(pattern);
+            PatternMap.put(coordinates, newPattern);
         }
     }
 

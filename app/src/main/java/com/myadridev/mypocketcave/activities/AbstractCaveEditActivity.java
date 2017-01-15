@@ -384,7 +384,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 String boxesNumberBottlesByRow = boxesPatternNumberBottlesByRowView.getText().toString();
                 cave.CaveArrangement.BoxesNumberBottlesByRow = boxesNumberBottlesByRow.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByRow);
                 int patternId = PatternManager.addPattern(this, boxesPattern);
-                cave.CaveArrangement.setPatternMapWithBoxes(patternId);
+                cave.CaveArrangement.setPatternMapWithBoxes(patternId, oldCave);
                 cave.CaveArrangement.setClickablePlaces();
                 cave.CaveArrangement.computeTotalCapacityWithBoxes();
                 break;
