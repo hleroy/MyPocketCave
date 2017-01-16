@@ -7,6 +7,7 @@ import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.CaveLightModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
 
@@ -214,5 +215,19 @@ public class BottleManager {
 
     public static void updateNumberPlaced(Context context, int bottleId, int increment) {
         getBottleStorageManager().updateNumberPlaced(context, bottleId, increment);
+    }
+
+    public static void recomputeNumberPlaced(Context context) {
+        for (BottleModel bottle : getBottles()) {
+            List<CaveLightModel> caves = CaveManager.getCavesWithBottle(bottle.Id);
+            int totalPlaced = 0;
+            for (CaveLightModel cave : caves) {
+                totalPlaced += cave.TotalUsed;
+            }
+            if (bottle.NumberPlaced != totalPlaced) {
+                bottle.NumberPlaced = totalPlaced;
+                editBottle(context, bottle);
+            }
+        }
     }
 }

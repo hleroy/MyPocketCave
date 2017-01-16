@@ -364,6 +364,9 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
         cave.Name = nameView.getText().toString();
         cave.CaveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+        if (oldCave != null && cave.CaveType != oldCave.CaveType) {
+            cave.CaveArrangement.TotalUsed = 0;
+        }
 
         switch (cave.CaveType) {
             case BULK:
@@ -374,6 +377,9 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cave.CaveArrangement.BoxesNumberBottlesByRow = 0;
                 cave.CaveArrangement.PatternMap.clear();
                 cave.CaveArrangement.computeTotalCapacityWithBulk();
+                if (oldCave != null) {
+                    cave.CaveArrangement.resetBottlesPlacedIfNeeded(this, cave.CaveType, oldCave);
+                }
                 break;
             case BOX:
                 cave.CaveArrangement.NumberBottlesBulk = 0;
@@ -383,10 +389,14 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cave.CaveArrangement.BoxesNumberBottlesByColumn = boxesNumberBottlesByColumn.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByColumn);
                 String boxesNumberBottlesByRow = boxesPatternNumberBottlesByRowView.getText().toString();
                 cave.CaveArrangement.BoxesNumberBottlesByRow = boxesNumberBottlesByRow.isEmpty() ? 0 : Integer.valueOf(boxesNumberBottlesByRow);
+                if (oldCave != null) {
+                    cave.CaveArrangement.resetBottlesPlacedIfNeeded(this, cave.CaveType, oldCave);
+                }
                 int patternId = PatternManager.addPattern(this, boxesPattern);
-                cave.CaveArrangement.setPatternMapWithBoxes(patternId, oldCave);
+                cave.CaveArrangement.setPatternMapWithBoxes(this, patternId, oldCave);
                 cave.CaveArrangement.setClickablePlaces();
                 cave.CaveArrangement.computeTotalCapacityWithBoxes();
+                cave.CaveArrangement.resetFloatNumberPlacedBottlesByIdMap();
                 break;
             case FRIDGE:
             case RACK:
@@ -395,11 +405,15 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cave.CaveArrangement.BoxesNumberBottlesByColumn = 0;
                 cave.CaveArrangement.BoxesNumberBottlesByRow = 0;
                 cave.CaveArrangement.movePatternMapToLeft();
+                cave.CaveArrangement.resetFloatNumberPlacedBottlesByIdMap();
                 if (oldCave != null) {
                     oldCave.CaveArrangement.movePatternMapToLeft();
                 }
                 cave.CaveArrangement.setClickablePlaces();
                 cave.CaveArrangement.computeTotalCapacityWithPattern();
+                if (oldCave != null) {
+                    cave.CaveArrangement.recomputeBottlesPlaced(this, oldCave);
+                }
                 break;
             default:
                 cave.CaveArrangement.TotalCapacity = 0;
@@ -430,7 +444,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             String numberBottlesBulkString = bulkBottlesNumberView.getText().toString();
             int numberBottlesBulk = numberBottlesBulkString.isEmpty() ? 0 : Integer.valueOf(numberBottlesBulkString);
 
-            if (caveType == CaveTypeEnum.BULK && numberBottlesBulk < cave.CaveArrangement.TotalUsed) {
+            if (cave.CaveType == caveType && caveType == CaveTypeEnum.BULK && numberBottlesBulk < cave.CaveArrangement.TotalUsed) {
                 final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_bulk_not_enough, Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
                 snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));

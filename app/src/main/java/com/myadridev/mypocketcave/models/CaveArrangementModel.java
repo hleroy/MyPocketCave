@@ -1,11 +1,13 @@
 package com.myadridev.mypocketcave.models;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
+import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
@@ -49,6 +51,10 @@ public class CaveArrangementModel {
         BoxesNumberBottlesByRow = caveArrangement.BoxesNumberBottlesByRow;
         floatNumberPlacedBottlesByIdMap = new HashMap<>(caveArrangement.floatNumberPlacedBottlesByIdMap);
         IntNumberPlacedBottlesByIdMap = new HashMap<>(caveArrangement.IntNumberPlacedBottlesByIdMap);
+    }
+
+    public void resetFloatNumberPlacedBottlesByIdMap() {
+        floatNumberPlacedBottlesByIdMap.clear();
     }
 
     public Map<Integer, Float> getFloatNumberPlacedBottlesByIdMap() {
@@ -683,11 +689,13 @@ public class CaveArrangementModel {
         return placeType;
     }
 
-    public void setPatternMapWithBoxes(int patternId, CaveModel oldCave) {
+    public void setPatternMapWithBoxes(Context context, int patternId, CaveModel oldCave) {
         int oldPatternId = -1;
+        int oldNumberBoxes = 0;
         if (oldCave != null) {
             CoordinatesModel origin = new CoordinatesModel(0, 0);
             oldPatternId = oldCave.CaveArrangement.PatternMap.containsKey(origin) ? oldCave.CaveArrangement.PatternMap.get(origin).Id : -1;
+            oldNumberBoxes = oldCave.CaveArrangement.NumberBoxes;
         }
         boolean isSamePattern = patternId == oldPatternId;
         PatternMap.clear();
@@ -698,6 +706,27 @@ public class CaveArrangementModel {
                     ? oldCave.CaveArrangement.PatternMap.get(coordinates)
                     : new PatternModelWithBottles(pattern);
             PatternMap.put(coordinates, newPattern);
+        }
+        if (!isSamePattern) {
+            TotalUsed = 0;
+        } else if (oldNumberBoxes > NumberBoxes) {
+            float totalPlaced = 0f;
+            for (int i = NumberBoxes; i < oldNumberBoxes; i++) {
+                for (Map.Entry<Integer, Float> numberPlaced : oldCave.CaveArrangement.PatternMap.get(new CoordinatesModel(i, 0)).FloatNumberPlacedBottlesByIdMap.entrySet()) {
+                    int bottleId = numberPlaced.getKey();
+                    float value = numberPlaced.getValue();
+                    totalPlaced += value;
+                    int delta = -1 * (int) Math.ceil(value);
+                    IntNumberPlacedBottlesByIdMap.put(bottleId, IntNumberPlacedBottlesByIdMap.get(bottleId) + delta);
+                    if (IntNumberPlacedBottlesByIdMap.get(bottleId) == 0) {
+                        IntNumberPlacedBottlesByIdMap.remove(bottleId);
+                    }
+                    BottleManager.updateNumberPlaced(context, bottleId, delta);
+                }
+            }
+            int intTotalPlaced = (int) Math.ceil(totalPlaced);
+            TotalUsed -= intTotalPlaced;
+            TotalUsed = Math.max(0, TotalUsed);
         }
     }
 
@@ -715,5 +744,178 @@ public class CaveArrangementModel {
             }
         }
         return false;
+    }
+
+    public void recomputeBottlesPlaced(Context context, CaveModel oldCave) {
+        CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(PatternMap.keySet());
+        for (int col = 0; col < maxRowCol.Col + 1; col++) {
+            for (int row = 0; row < maxRowCol.Row + 1; row++) {
+                PatternModelWithBottles pattern = PatternMap.containsKey(new CoordinatesModel(row, col)) ? PatternMap.get(new CoordinatesModel(row, col)) : null;
+                if (pattern == null) {
+                    continue;
+                }
+                CoordinatesModel patternMaxRowCol = CoordinatesManager.getMaxRowCol(pattern.PlaceMapWithBottles.keySet());
+
+                if (pattern.IsVerticallyExpendable) {
+                    PatternModelWithBottles patternTop = PatternMap.containsKey(new CoordinatesModel(row + 1, col)) ? PatternMap.get(new CoordinatesModel(row + 1, col)) : null;
+                    if (!pattern.isPatternVerticallyCompatible(patternTop)) {
+                        patternTop = null;
+                    }
+
+                    PatternModelWithBottles patternBottom = PatternMap.containsKey(new CoordinatesModel(row - 1, col)) ? PatternMap.get(new CoordinatesModel(row - 1, col)) : null;
+                    if (!pattern.isPatternVerticallyCompatible(patternBottom)) {
+                        patternBottom = null;
+                    }
+                    CoordinatesModel patternBottomMaxRowCol = patternBottom != null ? CoordinatesManager.getMaxRowCol(patternBottom.PlaceMapWithBottles.keySet()) : null;
+
+                    for (int pCol = 0; pCol < patternMaxRowCol.Col + 1; pCol++) {
+                        // look for half bottles on the top : for each 1/2 bottle found, if the second half is not found, remove it
+                        CavePlaceModel cavePlaceTop = pattern.PlaceMapWithBottles.get(new CoordinatesModel(patternMaxRowCol.Row, pCol));
+                        if (cavePlaceTop.BottleId != -1) {
+                            // there is a bottle
+                            if ((oldCave.CaveArrangement.PatternMap.containsKey(new CoordinatesModel(row + 1, col)) && patternTop == null)
+                                    || (patternTop != null && patternTop.PlaceMapWithBottles.get(new CoordinatesModel(0, pCol)).BottleId != cavePlaceTop.BottleId)) {
+                                float numberBottlesToRemove = oldCave.CaveArrangement.PatternMap.containsKey(new CoordinatesModel(row + 1, col)) ? 0.25f : 0.5f;
+
+                                float newNumber = Math.max(0, pattern.FloatNumberPlacedBottlesByIdMap.get(cavePlaceTop.BottleId) - numberBottlesToRemove);
+                                if (newNumber != 0) {
+                                    pattern.FloatNumberPlacedBottlesByIdMap.put(cavePlaceTop.BottleId, newNumber);
+                                } else {
+                                    pattern.FloatNumberPlacedBottlesByIdMap.remove(cavePlaceTop.BottleId);
+                                }
+
+                                cavePlaceTop.BottleId = -1;
+                                cavePlaceTop.PlaceType = getEmptyPlaceType(cavePlaceTop.PlaceType);
+                            }
+                        }
+                        // look for half bottles on the bottom : for each 1/2 bottle found, if the second half is not found, remove it
+                        CavePlaceModel cavePlaceBottom = pattern.PlaceMapWithBottles.get(new CoordinatesModel(0, pCol));
+                        if (cavePlaceBottom.BottleId != -1) {
+                            // there is a bottle
+                            if (patternBottom == null || patternBottom.PlaceMapWithBottles.get(new CoordinatesModel(patternBottomMaxRowCol.Row, pCol)).BottleId != cavePlaceBottom.BottleId) {
+                                float newNumber = Math.max(0, pattern.FloatNumberPlacedBottlesByIdMap.get(cavePlaceBottom.BottleId) - 0.25f);
+                                if (newNumber != 0) {
+                                    pattern.FloatNumberPlacedBottlesByIdMap.put(cavePlaceBottom.BottleId, newNumber);
+                                } else {
+                                    pattern.FloatNumberPlacedBottlesByIdMap.remove(cavePlaceBottom.BottleId);
+                                }
+
+                                cavePlaceBottom.BottleId = -1;
+                                cavePlaceBottom.PlaceType = getEmptyPlaceType(cavePlaceBottom.PlaceType);
+                            }
+                        }
+                    }
+                }
+
+                if (pattern.IsHorizontallyExpendable) {
+                    PatternModelWithBottles patternLeft = PatternMap.containsKey(new CoordinatesModel(row, col - 1)) ? PatternMap.get(new CoordinatesModel(row, col - 1)) : null;
+                    if (!pattern.isPatternHorizontallyCompatible(patternLeft)) {
+                        patternLeft = null;
+                    }
+                    CoordinatesModel patternLeftMaxRowCol = patternLeft != null ? CoordinatesManager.getMaxRowCol(patternLeft.PlaceMapWithBottles.keySet()) : null;
+
+                    PatternModelWithBottles patternRight = PatternMap.containsKey(new CoordinatesModel(row, col + 1)) ? PatternMap.get(new CoordinatesModel(row, col + 1)) : null;
+                    if (!pattern.isPatternHorizontallyCompatible(patternRight)) {
+                        patternRight = null;
+                    }
+
+                    for (int pRow = 0; pRow < patternMaxRowCol.Row + 1; pRow++) {
+                        // look for half bottles on the left : for each 1/2 bottle found, if the second half is not found, remove it
+                        CavePlaceModel cavePlaceLeft = pattern.PlaceMapWithBottles.get(new CoordinatesModel(pRow, 0));
+                        if (cavePlaceLeft.BottleId != -1) {
+                            // there is a bottle
+                            if (patternLeft == null || patternLeft.PlaceMapWithBottles.get(new CoordinatesModel(pRow, patternLeftMaxRowCol.Col)).BottleId != cavePlaceLeft.BottleId) {
+                                float newNumber = Math.max(0, pattern.FloatNumberPlacedBottlesByIdMap.get(cavePlaceLeft.BottleId) - 0.25f);
+                                if (newNumber != 0) {
+                                    pattern.FloatNumberPlacedBottlesByIdMap.put(cavePlaceLeft.BottleId, newNumber);
+                                } else {
+                                    pattern.FloatNumberPlacedBottlesByIdMap.remove(cavePlaceLeft.BottleId);
+                                }
+
+                                cavePlaceLeft.BottleId = -1;
+                                cavePlaceLeft.PlaceType = getEmptyPlaceType(cavePlaceLeft.PlaceType);
+                            }
+                        }
+                        // look for half bottles on the right : for each 1/2 bottle found, if the second half is not found, remove it
+                        CavePlaceModel cavePlaceRight = pattern.PlaceMapWithBottles.get(new CoordinatesModel(pRow, patternMaxRowCol.Col));
+                        if (cavePlaceRight.BottleId != -1) {
+                            // there is a bottle
+                            if (patternRight == null || patternRight.PlaceMapWithBottles.get(new CoordinatesModel(pRow, 0)).BottleId != cavePlaceRight.BottleId) {
+                                float newNumber = Math.max(0, pattern.FloatNumberPlacedBottlesByIdMap.get(cavePlaceRight.BottleId) - 0.25f);
+                                if (newNumber != 0) {
+                                    pattern.FloatNumberPlacedBottlesByIdMap.put(cavePlaceRight.BottleId, newNumber);
+                                } else {
+                                    pattern.FloatNumberPlacedBottlesByIdMap.remove(cavePlaceRight.BottleId);
+                                }
+
+                                cavePlaceRight.BottleId = -1;
+                                cavePlaceRight.PlaceType = getEmptyPlaceType(cavePlaceRight.PlaceType);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Map<Integer, Integer> oldIntNumberPlacedBottlesByIdMap = new HashMap<>(IntNumberPlacedBottlesByIdMap);
+        IntNumberPlacedBottlesByIdMap.clear();
+        Map<Integer, Float> numberPlacedBottlesById = new HashMap<>();
+        for (PatternModelWithBottles pattern : PatternMap.values()) {
+            for (Map.Entry<Integer, Float> numberPlacedEntry : pattern.FloatNumberPlacedBottlesByIdMap.entrySet()) {
+                int bottleId = numberPlacedEntry.getKey();
+                float numberPlaced = numberPlacedEntry.getValue();
+                if (numberPlacedBottlesById.containsKey(bottleId)) {
+                    numberPlacedBottlesById.put(bottleId, numberPlacedBottlesById.get(bottleId) + numberPlaced);
+                } else {
+                    numberPlacedBottlesById.put(bottleId, numberPlaced);
+                }
+            }
+        }
+
+        // compute the new total of bottles for the whole arrangement
+        for (Map.Entry<Integer, Float> numberPlacedEntry : numberPlacedBottlesById.entrySet()) {
+            IntNumberPlacedBottlesByIdMap.put(numberPlacedEntry.getKey(), (int) Math.ceil(numberPlacedEntry.getValue()));
+        }
+
+        for (Map.Entry<Integer, Integer> oldNumberPlacedEntry : oldIntNumberPlacedBottlesByIdMap.entrySet()) {
+            int bottleId = oldNumberPlacedEntry.getKey();
+            int oldNumberPlaced = oldNumberPlacedEntry.getValue();
+            int newNumberPlaced = IntNumberPlacedBottlesByIdMap.containsKey(bottleId) ? IntNumberPlacedBottlesByIdMap.get(bottleId) : 0;
+            int delta = newNumberPlaced - oldNumberPlaced;
+            if (delta != 0) {
+                BottleManager.updateNumberPlaced(context, bottleId, delta);
+            }
+        }
+
+        int totalUsed = 0;
+        for (Map.Entry<Integer, Integer> newNumberPlacedEntry : IntNumberPlacedBottlesByIdMap.entrySet()) {
+            int bottleId = newNumberPlacedEntry.getKey();
+            int newNumberPlaced = newNumberPlacedEntry.getValue();
+            totalUsed += newNumberPlaced;
+            if (!oldIntNumberPlacedBottlesByIdMap.containsKey(bottleId)) {
+                BottleManager.updateNumberPlaced(context, bottleId, newNumberPlaced);
+            }
+        }
+        TotalUsed = totalUsed;
+    }
+
+    public void resetBottlesPlacedIfNeeded(Context context, CaveTypeEnum caveType, CaveModel oldCave) {
+        switch (caveType) {
+            case BULK:
+            case BOX:
+                if (oldCave.CaveType != caveType) {
+                    resetBottlePlaced(context);
+                    resetFloatNumberPlacedBottlesByIdMap();
+                    TotalUsed = 0;
+                }
+                break;
+        }
+    }
+
+    private void resetBottlePlaced(Context context) {
+        for (Map.Entry<Integer, Integer> oldNumberPlacedEntry : IntNumberPlacedBottlesByIdMap.entrySet()) {
+            BottleManager.updateNumberPlaced(context, oldNumberPlacedEntry.getKey(), -1 * oldNumberPlacedEntry.getValue());
+        }
+        IntNumberPlacedBottlesByIdMap.clear();
     }
 }

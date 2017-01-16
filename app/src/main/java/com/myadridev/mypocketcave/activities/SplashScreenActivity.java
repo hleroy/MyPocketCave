@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
@@ -97,6 +98,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         initializationHandler.postDelayed(this, RunnableDelayBetweenSteps);
                         break;
                     case 4:
+                        BottleManager.recomputeNumberPlaced(SplashScreenActivity.this);
                         initializationHandler.removeCallbacks(this);
                         NavigationManager.navigateToMain(SplashScreenActivity.this);
                         finish();
