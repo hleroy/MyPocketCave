@@ -29,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@color/colorPrimaryDark"
-            app:tabIndicatorHeight="5dp" />
+            app:tabIndicatorHeight="5dp"
+            app:tabGravity="center" />
 
     </android.support.design.widget.AppBarLayout>
 
