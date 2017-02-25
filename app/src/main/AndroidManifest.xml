@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.SplashScreenActivity"
-            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,53 +20,53 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_main"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BottleDetailActivity"
-            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BottleEditActivity"
-            android:label="@string/title_edit_bottle"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_edit_bottle" />
         <activity
             android:name=".activities.BottleCreateActivity"
-            android:label="@string/title_create_bottle"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_create_bottle" />
         <activity
             android:name=".activities.AboutActivity"
-            android:label="@string/title_about"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_about" />
         <activity
             android:name=".activities.SuggestBottleSearchActivity"
-            android:label="@string/title_suggest_bottle_search"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_suggest_bottle_search" />
         <activity
             android:name=".activities.SuggestBottleResultActivity"
-            android:label="@string/title_suggest_bottle_result"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_suggest_bottle_result" />
         <activity
             android:name=".activities.CaveDetailActivity"
-            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CaveEditActivity"
-            android:label="@string/title_edit_cave"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_edit_cave" />
         <activity
             android:name=".activities.CaveCreateActivity"
-            android:label="@string/title_create_cave"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_create_cave" />
         <activity
             android:name=".activities.PatternSelectionActivity"
-            android:label="@string/title_select_pattern"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_select_pattern" />
         <activity
             android:name=".activities.PatternCreateActivity"
-            android:label="@string/title_create_pattern"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_create_pattern" />
     </application>
 
 </manifest>
