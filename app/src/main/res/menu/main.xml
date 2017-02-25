@@ -2,6 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.MainActivity">
+
+    <item
+        android:id="@+id/sync"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="@string/import_export"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/about"
         android:icon="@android:drawable/ic_menu_info_details"

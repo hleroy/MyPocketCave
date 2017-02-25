@@ -189,7 +189,7 @@
     <string name="bottle_delete_error_some_placed">Some bottles are placed in the caves, please remove them before</string>
     <string name="no_caves_with_bottle">This bottle is not placed in any caves</string>
     <string name="title_see_caves">See caves with this bottle</string>
-    <string name="highlight_bottle">Highlight this bottle</string>
+    <string name="highlight_bottle">Identify identical bottles</string>
     <string name="error_suggest_cave">No cave but checked as required</string>
     <string name="suggest_bottle_cave_none">Any cave</string>
     <string name="bottles_here">%1$d here</string>
@@ -199,4 +199,5 @@
     <string name="detail_exit_confirmation">There are changes, lose them and quit or stay here ?</string>
     <string name="cave_arrangement_warning">Warning : with arrangement modifications, some placed bottles may become unplaced !</string>
     <string name="error_cave_bulk_not_enough">Incorrect capacity : more bottles are already placed.</string>
+    <string name="import_export">Import - Export</string>
 </resources>

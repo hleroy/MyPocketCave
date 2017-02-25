@@ -164,7 +164,7 @@
     <string name="see_bottle_detail">Voir le détail</string>
     <string name="drink_bottle">Boire !</string>
     <string name="drink_no">Plus tard</string>
-    <string name="drink_ok">Oui, on la bois !</string>
+    <string name="drink_ok">Oui, on la boit !</string>
     <string name="message_drink">Vraiment ?</string>
     <string name="title_drink">Boire cette bouteille maintenant ?</string>
     <string name="title_unplace">Retirer cette bouteille d\'ici ?</string>
@@ -176,7 +176,7 @@
     <string name="bottle_delete_error_some_placed">Certaines bouteilles sont dans des caves, merci de les retirer pour supprimer la référence</string>
     <string name="no_caves_with_bottle">Cette bouteille n\'est placée dans aucune cave</string>
     <string name="title_see_caves">Voir les caves avec cette bouteille</string>
-    <string name="highlight_bottle">Mettre en valeur cette bouteille</string>
+    <string name="highlight_bottle">Repérer les bouteilles identiques</string>
     <string name="error_suggest_cave">Pas de cave mais coché comme requis</string>
     <string name="suggest_bottle_cave_none">N\'importe quelle cave</string>
     <string name="bottles_here">%1$d ici</string>
@@ -185,4 +185,5 @@
     <string name="save">Enregistrer</string>
     <string name="detail_exit_confirmation">Il y a des changements, les perdre et quitter cette page ou rester ici ?</string>
     <string name="cave_arrangement_warning">Attention : avec des modifications de disposition, certaines bouteilles placées pourraient ne plus l\'être !</string>
+    <string name="import_export">Import - Export</string>
 </resources>
