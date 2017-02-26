@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.SuggestBottlesResultAdapter;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
@@ -74,11 +74,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
             searchCriteria = jsonMapper.readValue(serializedSearchCriteria, SuggestBottleCriteria.class);
         } catch (IOException e) {
             e.printStackTrace();
-
-            final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_technical), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-            snackbar.show();
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_technical, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return;
         }
 

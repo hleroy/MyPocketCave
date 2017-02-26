@@ -25,7 +25,7 @@ public class CaveSpinnerAdapter implements SpinnerAdapter {
         this.context = context;
         layoutInflater = LayoutInflater.from(this.context);
 
-        allDifferentCavesWithNone = CaveManager.getCaves();
+        allDifferentCavesWithNone = CaveManager.getLightCaves();
         allDifferentCavesWithNone.add(0, null);
     }
 

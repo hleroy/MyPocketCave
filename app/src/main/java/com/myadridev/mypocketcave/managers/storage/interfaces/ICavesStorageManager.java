@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ICavesStorageManager {
 
-    List<CaveLightModel> getCaves();
+    List<CaveLightModel> getLightCaves();
 
     int insertCave(Context context, CaveLightModel cave, boolean needsNewId);
 

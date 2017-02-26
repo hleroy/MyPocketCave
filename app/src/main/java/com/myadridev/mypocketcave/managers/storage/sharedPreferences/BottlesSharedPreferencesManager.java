@@ -73,19 +73,16 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         }
     }
 
-    @Override
     public List<BottleModel> getBottles() {
         List<BottleModel> bottles = new ArrayList<>(allBottlesMap.values());
         Collections.sort(bottles);
         return bottles;
     }
 
-    @Override
     public BottleModel getBottle(int bottleId) {
         return CollectionsHelper.getValueOrDefault(allBottlesMap, bottleId, null);
     }
 
-    @Override
     public int insertBottle(Context context, BottleModel bottle) {
         List<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
         bottle.Id = StorageHelper.getNewId(ids);
@@ -100,13 +97,11 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return bottle.Id;
     }
 
-    @Override
     public void updateBottle(Context context, BottleModel bottle) {
         allBottlesMap.put(bottle.Id, bottle);
         getSharedPreferencesManager().storeStringData(context, filename, context.getString(keyBottleResourceId, bottle.Id), bottle);
     }
 
-    @Override
     public void deleteBottle(Context context, int bottleId) {
         allBottlesMap.remove(bottleId);
         List<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
@@ -114,7 +109,6 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         getSharedPreferencesManager().removeData(context, filename, context.getString(keyBottleResourceId, bottleId));
     }
 
-    @Override
     public int getExistingBottleId(int id, String name, String domain, int wineColorId, int millesime) {
         for (BottleModel bottle : allBottlesMap.values()) {
             if (name.equals(bottle.Name)
@@ -128,22 +122,18 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return 0;
     }
 
-    @Override
     public int getBottlesCount() {
         return getBottlesCount(allBottlesMap.values(), WineColorEnum.ANY.Id);
     }
 
-    @Override
     public int getBottlesCount(Collection<BottleModel> bottles) {
         return getBottlesCount(bottles, WineColorEnum.ANY.Id);
     }
 
-    @Override
     public int getBottlesCount(int wineColorId) {
         return getBottlesCount(allBottlesMap.values(), wineColorId);
     }
 
-    @Override
     public int getBottlesCount(Collection<BottleModel> bottles, int wineColorId) {
         int bottlesCount = 0;
         boolean isAnyBottles = wineColorId == WineColorEnum.ANY.Id;
@@ -156,7 +146,6 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return bottlesCount;
     }
 
-    @Override
     public List<String> getDistinctPersons() {
         HashSet<String> distinctPersonsSet = new HashSet<>(allBottlesMap.size());
 
@@ -171,7 +160,6 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return distinctPersonsList;
     }
 
-    @Override
     public List<String> getDistinctDomains() {
         HashSet<String> distinctDomainsSet = new HashSet<>(allBottlesMap.size());
 
@@ -186,7 +174,6 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return distinctDomainsList;
     }
 
-    @Override
     public List<BottleModel> getNonPlacedBottles() {
         List<BottleModel> nonPlacedBottles = new ArrayList<>(allBottlesMap.size());
 
@@ -200,14 +187,12 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return nonPlacedBottles;
     }
 
-    @Override
     public void drinkBottle(Context context, int bottleId, int quantity) {
         BottleModel bottle = getBottle(bottleId);
         bottle.Stock = Math.max(0, bottle.Stock - quantity);
         updateBottle(context, bottle);
     }
 
-    @Override
     public void updateNumberPlaced(Context context, int bottleId, int increment) {
         BottleModel bottle = getBottle(bottleId);
         bottle.NumberPlaced = Math.max(0, bottle.NumberPlaced + increment);

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.dialogs.PathChooserDialog;
 import com.myadridev.mypocketcave.helpers.PermissionsHelper;
+import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.SyncManager;
 
 import java.util.ArrayList;
@@ -21,7 +24,6 @@ import java.util.List;
 public class SyncActivity extends AppCompatActivity {
 
     private final static String extension = "mpc";
-    private final static String exportFileName = "export." + extension;
     private List<String> allowedFileExtensions;
 
     private ImageButton exportButton;
@@ -34,6 +36,7 @@ public class SyncActivity extends AppCompatActivity {
     private String exportLocation;
 
     private boolean isWriteExternalStorage;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,8 @@ public class SyncActivity extends AppCompatActivity {
     }
 
     private void setLayout() {
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.sync_coordinator_layout);
+
         exportButton = (ImageButton) findViewById(R.id.sync_export_button);
         exportButton.setOnClickListener(onExportButtonClick());
 
@@ -148,9 +153,14 @@ public class SyncActivity extends AppCompatActivity {
     }
 
     private void exportFile() {
+        String exportData = SyncManager.getExportData();
+        boolean isError = exportData == null || SyncManager.createExportFile(exportData, exportLocation, extension);
 
-//        exportLocation + "/" + exportFileName;
-
+        if (isError) {
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_export, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+        } else {
+            SnackbarHelper.displaySuccessSnackbar(this, coordinatorLayout, R.string.success_export, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+        }
     }
 
     private void setLayoutValues() {

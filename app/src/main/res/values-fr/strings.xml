@@ -196,4 +196,6 @@
     <string name="new_folder_create_error">Erreur à la création du dossier \'%1$s\'</string>
     <string name="global_back">Retour</string>
     <string name="parent_folder">Dossier parent..</string>
+    <string name="error_export">Erreur pendant l\'export, essaye encore\u00A0!</string>
+    <string name="success_export">Export réussi\u00A0!</string>
 </resources>

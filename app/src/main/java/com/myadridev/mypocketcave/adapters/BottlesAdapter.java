@@ -21,14 +21,14 @@ import java.util.List;
 
 public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Activity activity;
-    private List<BottleModel> bottles;
     private final LayoutInflater layoutInflater;
     private final OnBottleClickListener listener;
-    private OnBottleBindListener onBottleBindListener;
     private final boolean hasTitle;
+    public int MaxBottleToPlace;
+    private List<BottleModel> bottles;
+    private OnBottleBindListener onBottleBindListener;
     private List<OnBottleClickListener> onBottleClickListeners;
     private List<OnBottlePlacedClickListener> onBottlePlacedClickListeners;
-    public int MaxBottleToPlace;
     private int bottleIdInHighlight;
     private List<View.OnClickListener> onResetHighlightlisteners;
 

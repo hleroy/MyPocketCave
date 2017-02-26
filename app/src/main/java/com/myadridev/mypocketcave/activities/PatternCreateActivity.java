@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.percent.PercentRelativeLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -31,6 +30,7 @@ import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.adapters.PatternTypeSpinnerAdapter;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
+import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
@@ -239,10 +239,7 @@ public class PatternCreateActivity extends AppCompatActivity {
         setVisibilityDependantValues();
 
         if (pattern.NumberBottlesByColumn == 0 || pattern.NumberBottlesByRow == 0) {
-            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-            snackbar.show();
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         }
         return !isErrors;

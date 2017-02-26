@@ -62,7 +62,7 @@ public class CaveSharedPreferencesManagerTest {
         DependencyManager.init();
 
         ICavesStorageManager mockCavesStorageManager = mock(ICavesStorageManager.class);
-        when(mockCavesStorageManager.getCaves())
+        when(mockCavesStorageManager.getLightCaves())
                 .thenAnswer(new Answer<List<CaveLightModel>>() {
                     @Override
                     public List<CaveLightModel> answer(InvocationOnMock invocation) throws Throwable {

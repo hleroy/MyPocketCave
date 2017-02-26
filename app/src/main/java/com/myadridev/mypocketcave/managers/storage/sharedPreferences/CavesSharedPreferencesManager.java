@@ -70,7 +70,7 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
     }
 
     @Override
-    public List<CaveLightModel> getCaves() {
+    public List<CaveLightModel> getLightCaves() {
         ArrayList<CaveLightModel> caves = new ArrayList<>(allCavesMap.values());
         Collections.sort(caves);
         return caves;

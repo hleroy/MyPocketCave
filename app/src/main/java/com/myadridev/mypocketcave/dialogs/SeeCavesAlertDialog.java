@@ -32,7 +32,7 @@ public class SeeCavesAlertDialog extends AlertDialog {
         TextView noCavesView = (TextView) dialogView.findViewById(R.id.alert_see_caves_no_caves_label);
         RecyclerView cavesRecyclerView = (RecyclerView) dialogView.findViewById(R.id.alert_see_caves_caves_recyclerview);
 
-        List<CaveLightModel> caves = CaveManager.getCavesWithBottle(bottleId);
+        List<CaveLightModel> caves = CaveManager.getLightCavesWithBottle(bottleId);
         if (caves.isEmpty()) {
             noCavesView.setVisibility(View.VISIBLE);
             cavesRecyclerView.setVisibility(View.GONE);

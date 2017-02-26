@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -24,6 +23,7 @@ import com.myadridev.mypocketcave.adapters.WineColorSpinnerAdapter;
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
+import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 
@@ -243,16 +243,10 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         int stock = stockString.isEmpty() ? 0 : Integer.valueOf(stockString);
 
         if (name.isEmpty()) {
-            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_no_name, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-            snackbar.show();
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_bottle_no_name, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         } else if (stock < bottle.NumberPlaced) {
-            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_not_enough, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-            snackbar.show();
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_bottle_not_enough, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         } else {
             String domain = domainView.getText().toString();
@@ -261,10 +255,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
             final int existingBottleId = BottleManager.getExistingBottleId(bottle.Id, name, domain, wineColor, millesime);
             if (existingBottleId > 0) {
-                final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_already_exists, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-                snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-                snackbar.show();
+                SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_bottle_already_exists, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
                 isErrors = true;
             }
         }

@@ -37,8 +37,12 @@ public class CaveManager {
         return caveStorageManager;
     }
 
-    public static List<CaveLightModel> getCaves() {
-        return getCavesStorageManager().getCaves();
+    public static List<CaveModel> getCaves() {
+        return getCaveStorageManager().getCaves();
+    }
+
+    public static List<CaveLightModel> getLightCaves() {
+        return getCavesStorageManager().getLightCaves();
     }
 
     public static CaveModel getCave(Context context, int caveId) {
@@ -82,8 +86,8 @@ public class CaveManager {
         return getCavesStorageManager().getCavesCount(caveType.Id);
     }
 
-    public static List<CaveLightModel> getCavesWithBottle(int bottleId) {
-        return getCaveStorageManager().getCavesWithBottle(bottleId);
+    public static List<CaveLightModel> getLightCavesWithBottle(int bottleId) {
+        return getCaveStorageManager().getLightCavesWithBottle(bottleId);
     }
 
     public static boolean isBottleInTheCave(int bottleId, int caveId) {

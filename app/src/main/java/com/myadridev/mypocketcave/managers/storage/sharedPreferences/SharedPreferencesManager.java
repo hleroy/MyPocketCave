@@ -2,15 +2,12 @@ package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myadridev.mypocketcave.managers.JsonManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +18,6 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
     public static SharedPreferencesManager Instance;
     private static boolean isInitialized;
     private final int openMode = Context.MODE_PRIVATE;
-    private ObjectMapper jsonMapper = new ObjectMapper();
     private String sharedPreferencesFolder;
 
     private SharedPreferencesManager(Context context) {
@@ -65,11 +61,9 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         SharedPreferences.Editor editor = storedData.edit();
 
         for (Map.Entry<String, Object> dataToStore : dataToStoreMap.entrySet()) {
-            try {
-                String dataJson = jsonMapper.writeValueAsString(dataToStore.getValue());
+            String dataJson = JsonManager.writeValueAsString(dataToStore.getValue());
+            if (dataJson != null) {
                 editor.putString(dataToStore.getKey(), dataJson);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
             }
         }
         editor.apply();
@@ -90,11 +84,7 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         if (indexListJson.isEmpty()) return dataMap;
 
         List<Integer> indexList = new ArrayList<>();
-        try {
-            indexList = jsonMapper.readValue(indexListJson, indexList.getClass());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        indexList = JsonManager.readValue(indexListJson, indexList.getClass());
 
         for (int id : indexList) {
             String keyDetail = context.getString(keyDetailResourceId, id);
@@ -102,11 +92,8 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
             if (dataJson == null) {
                 continue;
             }
-            IStorableModel data;
-            try {
-                data = jsonMapper.readValue(dataJson, dataType);
-            } catch (IOException e) {
-                e.printStackTrace();
+            IStorableModel data = JsonManager.readValue(dataJson, dataType);
+            if (data == null) {
                 continue;
             }
             if (data.isValid()) {
@@ -128,14 +115,8 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         if (dataJson == null) {
             return null;
         }
-        IStorableModel data;
-        try {
-            data = jsonMapper.readValue(dataJson, dataType);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return data.isValid() ? data : null;
+        IStorableModel data = JsonManager.readValue(dataJson, dataType);
+        return data != null && data.isValid() ? data : null;
     }
 
     public String loadStoredData(Context context, String storeFilename, int keyResourceId) {

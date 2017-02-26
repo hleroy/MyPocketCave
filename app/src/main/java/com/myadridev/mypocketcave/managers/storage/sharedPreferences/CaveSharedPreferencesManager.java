@@ -66,7 +66,7 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
     }
 
     private void loadAllCaves(Context context) {
-        List<CaveLightModel> cavesLight = getCavesStorageManager().getCaves();
+        List<CaveLightModel> cavesLight = getCavesStorageManager().getLightCaves();
         for (CaveLightModel caveLight : cavesLight) {
             CaveModel cave = loadCave(context, caveLight.Id);
             if (cave != null) {
@@ -75,15 +75,19 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
         }
     }
 
-    @Override
+    public List<CaveModel> getCaves() {
+        List<CaveModel> caves = new ArrayList<>(allCavesMap.values());
+        Collections.sort(caves);
+        return caves;
+    }
+
     public CaveModel getCave(Context context, int caveId) {
         return CollectionsHelper.getValueOrDefault(allCavesMap, caveId, null);
     }
 
     @Nullable
     private CaveModel loadCave(Context context, int caveId) {
-        IStorableModel caveAsStorableModel = getSharedPreferencesManager().loadStoredData(context, context.getString(filenameResourceId, caveId),
-                keyCaveResourceId, CaveModel.class);
+        IStorableModel caveAsStorableModel = getSharedPreferencesManager().loadStoredData(context, context.getString(filenameResourceId, caveId), keyCaveResourceId, CaveModel.class);
 
         if (caveAsStorableModel != null && caveAsStorableModel instanceof CaveModel) {
             return (CaveModel) caveAsStorableModel;
@@ -91,20 +95,16 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
         return null;
     }
 
-    @Override
     public void insertOrUpdateCave(Context context, CaveModel cave) {
         allCavesMap.put(cave.Id, cave);
-        getSharedPreferencesManager().storeStringData(context, context.getString(filenameResourceId, cave.Id),
-                context.getString(keyCaveResourceId), cave);
+        getSharedPreferencesManager().storeStringData(context, context.getString(filenameResourceId, cave.Id), context.getString(keyCaveResourceId), cave);
     }
 
-    @Override
     public void deleteCave(Context context, CaveModel cave) {
         getSharedPreferencesManager().delete(context, context.getString(filenameResourceId, cave.Id));
     }
 
-    @Override
-    public List<CaveLightModel> getCavesWithBottle(int bottleId) {
+    public List<CaveLightModel> getLightCavesWithBottle(int bottleId) {
         List<CaveLightModel> cavesWithBottle = new ArrayList<>(allCavesMap.size());
 
         for (CaveModel cave : allCavesMap.values()) {
@@ -123,7 +123,6 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
         return cavesWithBottle;
     }
 
-    @Override
     public boolean isBottleInTheCave(int bottleId, int caveId) {
         if (allCavesMap.containsKey(caveId)) {
             CaveModel cave = allCavesMap.get(caveId);

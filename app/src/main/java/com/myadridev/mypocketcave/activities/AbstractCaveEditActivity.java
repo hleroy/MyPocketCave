@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -31,6 +30,7 @@ import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
+import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
@@ -52,22 +52,31 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected EditText nameView;
     protected Spinner caveTypeView;
     protected CoordinatorLayout coordinatorLayout;
-    private TextView arrangementView;
     protected EditText bulkBottlesNumberView;
-
     protected EditText boxesNumberView;
     protected EditText boxesPatternNumberBottlesByColumnView;
     protected EditText boxesPatternNumberBottlesByRowView;
+    protected PatternModel boxesPattern;
+    protected CaveModel oldCave;
+    private TextView arrangementView;
     private TextView boxesOverviewView;
     private RecyclerView boxesOverviewRecyclerView;
-    protected PatternModel boxesPattern;
     private int screenHeight;
     private int screenWidth;
-
     private RecyclerView caveArrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
+    private TextWatcher dispositionChangedListener = new TextWatcher() {
 
-    protected CaveModel oldCave;
+        public void afterTextChanged(Editable s) {
+            updateValuesAndAdapter();
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+    };
 
     protected AbstractCaveEditActivity() {
         hideKeyboardOnClick = (View v, MotionEvent event) -> {
@@ -206,19 +215,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 break;
         }
     }
-
-    private TextWatcher dispositionChangedListener = new TextWatcher() {
-
-        public void afterTextChanged(Editable s) {
-            updateValuesAndAdapter();
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-    };
 
     private void updateValuesAndAdapter() {
         setBoxesPatternValues();
@@ -428,10 +424,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         String name = nameView.getText().toString();
 
         if (name.isEmpty()) {
-            final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_no_name, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-            snackbar.show();
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_bottle_already_exists, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         } else {
             CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
@@ -439,25 +432,16 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             int numberBottlesBulk = numberBottlesBulkString.isEmpty() ? 0 : Integer.valueOf(numberBottlesBulkString);
 
             if (cave.CaveType == caveType && caveType == CaveTypeEnum.BULK && numberBottlesBulk < cave.CaveArrangement.TotalUsed) {
-                final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_bulk_not_enough, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-                snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-                snackbar.show();
+                SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_cave_bulk_not_enough, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
                 isErrors = true;
             } else if (caveType == CaveTypeEnum.BOX && boxesPattern != null && (boxesPattern.NumberBottlesByColumn == 0 || boxesPattern.NumberBottlesByRow == 0)) {
-                final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-                snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-                snackbar.show();
+                SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
                 isErrors = true;
             }
 
             final int existingCaveId = CaveManager.getExistingCaveId(cave.Id, name, caveType);
             if (existingCaveId > 0) {
-                final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_already_exists, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
-                snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
-                snackbar.show();
+                SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_cave_already_exists, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
                 isErrors = true;
             }
         }

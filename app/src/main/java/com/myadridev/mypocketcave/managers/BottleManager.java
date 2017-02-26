@@ -219,7 +219,7 @@ public class BottleManager {
 
     public static void recomputeNumberPlaced(Context context) {
         for (BottleModel bottle : getBottles()) {
-            List<CaveLightModel> caves = CaveManager.getCavesWithBottle(bottle.Id);
+            List<CaveLightModel> caves = CaveManager.getLightCavesWithBottle(bottle.Id);
             int totalPlaced = 0;
             for (CaveLightModel cave : caves) {
                 totalPlaced += cave.TotalUsed;

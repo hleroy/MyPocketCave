@@ -213,4 +213,6 @@
     <string name="new_folder_create_error">Failed to create \'%1$s\' folder</string>
     <string name="global_back">Back</string>
     <string name="parent_folder">Parent folder..</string>
+    <string name="error_export">Error during the export, please try again!</string>
+    <string name="success_export">Export successful!</string>
 </resources>

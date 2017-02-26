@@ -70,21 +70,18 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         }
     }
 
-    @Override
     public List<PatternModel> getPatterns() {
-        ArrayList<PatternModel> patterns = new ArrayList<>(allPatternsMap.values());
+        List<PatternModel> patterns = new ArrayList<>(allPatternsMap.values());
         Collections.sort(patterns);
         return patterns;
     }
 
-    @Override
     public PatternModel getPattern(int patternId) {
         return CollectionsHelper.getValueOrDefault(allPatternsMap, patternId, null);
     }
 
-    @Override
     public int insertPattern(Context context, PatternModel pattern) {
-        ArrayList<Integer> ids = new ArrayList<>(allPatternsMap.keySet());
+        List<Integer> ids = new ArrayList<>(allPatternsMap.keySet());
         pattern.Id = StorageHelper.getNewId(ids);
         allPatternsMap.put(pattern.Id, pattern);
         ids.add(pattern.Id);
@@ -97,7 +94,6 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         return pattern.Id;
     }
 
-    @Override
     public void updateAllPatterns(Context context, List<PatternModel> patterns) {
         Map<String, Object> dataToStoreMap = new HashMap<>(patterns.size());
         for (PatternModel pattern : patterns) {
@@ -107,7 +103,6 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         getSharedPreferencesManager().storeStringMapData(context, filename, dataToStoreMap);
     }
 
-    @Override
     public int getExistingPatternId(PatternModel pattern) {
         for (PatternModel existingPattern : allPatternsMap.values()) {
             if (pattern.Id != existingPattern.Id && pattern.hasSameValues(existingPattern)) {
