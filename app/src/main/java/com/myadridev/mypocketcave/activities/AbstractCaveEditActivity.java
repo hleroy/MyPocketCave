@@ -429,7 +429,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
         if (name.isEmpty()) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_no_name, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
@@ -440,13 +440,13 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
             if (cave.CaveType == caveType && caveType == CaveTypeEnum.BULK && numberBottlesBulk < cave.CaveArrangement.TotalUsed) {
                 final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_bulk_not_enough, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+                snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
                 snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
                 snackbar.show();
                 isErrors = true;
             } else if (caveType == CaveTypeEnum.BOX && boxesPattern != null && (boxesPattern.NumberBottlesByColumn == 0 || boxesPattern.NumberBottlesByRow == 0)) {
                 final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+                snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
                 snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
                 snackbar.show();
                 isErrors = true;
@@ -455,7 +455,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             final int existingCaveId = CaveManager.getExistingCaveId(cave.Id, name, caveType);
             if (existingCaveId > 0) {
                 final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_cave_already_exists, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+                snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
                 snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
                 snackbar.show();
                 isErrors = true;

@@ -135,7 +135,7 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
             if (checkCriteria(searchCriteria)) {
                 if (!NavigationManager.navigateToSuggestBottleResult(SuggestBottleSearchActivity.this, searchCriteria)) {
                     final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_technical), Snackbar.LENGTH_INDEFINITE);
-                    snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+                    snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
                     snackbar.setActionTextColor(ContextCompat.getColor(SuggestBottleSearchActivity.this, R.color.colorError));
                     snackbar.show();
                 }
@@ -147,37 +147,37 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
         boolean isErrors = false;
         if (searchCriteria.IsWineColorRequired && searchCriteria.WineColor == WineColorEnum.ANY) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_suggest_wine_color), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
         } else if (searchCriteria.IsDomainRequired && searchCriteria.Domain.isEmpty()) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_suggest_domain), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
         } else if (searchCriteria.IsMillesimeRequired && searchCriteria.Millesime == MillesimeEnum.ANY) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_suggest_millesime), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
         } else if (searchCriteria.IsFoodRequired && searchCriteria.FoodToEatWithList.isEmpty()) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_suggest_food), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
         } else if (searchCriteria.IsPersonRequired && searchCriteria.PersonToShareWith.isEmpty()) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_suggest_person), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
         } else if (searchCriteria.IsCaveRequired && searchCriteria.Cave == null) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.error_suggest_cave), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;

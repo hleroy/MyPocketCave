@@ -65,7 +65,7 @@ public class PlaceBottleAlertDialog extends AlertDialog {
 
                     numberRemindersDialogBuilder.setTitle(activity.getString(R.string.place_bottle_quantity));
                     numberRemindersDialogBuilder.setView(numberPickerView);
-                    numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.error_ok),
+                    numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.global_ok),
                             (DialogInterface dialog, int index) -> {
                                 bottleIdToPlace[0] = bottleId;
                                 quantityToPlace[0] = numberPicker.getValue();

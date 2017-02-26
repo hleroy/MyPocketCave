@@ -240,7 +240,7 @@ public class PatternCreateActivity extends AppCompatActivity {
 
         if (pattern.NumberBottlesByColumn == 0 || pattern.NumberBottlesByRow == 0) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;

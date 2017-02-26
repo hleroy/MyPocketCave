@@ -13,10 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SharedPreferencesManager implements ISharedPreferencesManager {
 
@@ -39,46 +37,6 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         isInitialized = true;
     }
 
-    public int loadStoredDataMap(Context context, int storeFileResourceId, int storeSetResourceId, Class<? extends IStorableModel> dataType, Map<Integer, IStorableModel> dataMap) {
-        String storeFile = context.getString(storeFileResourceId);
-        String storeSet = context.getString(storeSetResourceId);
-
-        SharedPreferences storedData = context.getSharedPreferences(storeFile, openMode);
-        Set<String> allDataJsonSet = storedData.getStringSet(storeSet, new HashSet<>());
-        int maxDataId = 0;
-        for (String dataJson : allDataJsonSet) {
-            IStorableModel data;
-            try {
-                data = jsonMapper.readValue(dataJson, dataType);
-                if (!data.isValid())
-                    continue;
-            } catch (IOException e) {
-                e.printStackTrace();
-                continue;
-            }
-
-            if (data.getId() > maxDataId)
-                maxDataId = data.getId();
-            dataMap.put(data.getId(), data);
-        }
-        return maxDataId;
-    }
-
-    public void storeData(Context context, int storeFileResourceId, int storeSetResourceId, Map<Integer, ? extends IStorableModel> dataMap) {
-        String storeFile = context.getString(storeFileResourceId);
-        String storeSet = context.getString(storeSetResourceId);
-        Map<Integer, String> dataJsonMap = serializeData(dataMap);
-
-        SharedPreferences storedData = context.getSharedPreferences(storeFile, openMode);
-        SharedPreferences.Editor editor = storedData.edit();
-        Set<String> dataJsonSet = new HashSet<>();
-        for (String dataJson : dataJsonMap.values()) {
-            dataJsonSet.add(dataJson);
-        }
-        editor.putStringSet(storeSet, dataJsonSet);
-        editor.apply();
-    }
-
     public void delete(Context context, String filename) {
         SharedPreferences settings = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
         settings.edit().clear().apply();
@@ -88,19 +46,12 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         }
     }
 
-    @NonNull
-    private Map<Integer, String> serializeData(Map<Integer, ? extends IStorableModel> dataMap) {
-        Map<Integer, String> serializedData = new HashMap<>();
-
-        for (Map.Entry<Integer, ? extends IStorableModel> dataEntry : dataMap.entrySet()) {
-            try {
-                String dataJson = jsonMapper.writeValueAsString(dataEntry.getValue());
-                serializedData.put(dataEntry.getKey(), dataJson);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-        }
-        return serializedData;
+    public void storeStringData(Context context, String storeFilename, int keyResourceId, String dataToStore) {
+        String key = context.getString(keyResourceId);
+        SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
+        SharedPreferences.Editor editor = storedData.edit();
+        editor.putString(key, dataToStore);
+        editor.apply();
     }
 
     public void storeStringData(Context context, String storeFilename, String key, Object dataToStore) {
@@ -166,10 +117,14 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
     }
 
     public IStorableModel loadStoredData(Context context, String storeFilename, int keyResourceId, Class<? extends IStorableModel> dataType) {
+        String key = context.getString(keyResourceId);
+        return loadStoredData(context, storeFilename, key, dataType);
+    }
+
+    public IStorableModel loadStoredData(Context context, String storeFilename, String key, Class<? extends IStorableModel> dataType) {
         SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
 
-        String keyDetail = context.getString(keyResourceId);
-        String dataJson = storedData.getString(keyDetail, null);
+        String dataJson = storedData.getString(key, null);
         if (dataJson == null) {
             return null;
         }
@@ -181,5 +136,12 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
             return null;
         }
         return data.isValid() ? data : null;
+    }
+
+    public String loadStoredData(Context context, String storeFilename, int keyResourceId) {
+        String key = context.getString(keyResourceId);
+        SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
+
+        return storedData.getString(key, null);
     }
 }

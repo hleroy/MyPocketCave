@@ -87,7 +87,7 @@ public class BottleDetailActivity extends AppCompatActivity {
                 AlertDialog.Builder errorDeleteBottleDialogBuilder = new AlertDialog.Builder(BottleDetailActivity.this);
                 errorDeleteBottleDialogBuilder.setCancelable(true);
                 errorDeleteBottleDialogBuilder.setMessage(R.string.bottle_delete_error_some_placed);
-                errorDeleteBottleDialogBuilder.setNegativeButton(R.string.error_ok, (DialogInterface dialog, int which) -> dialog.dismiss());
+                errorDeleteBottleDialogBuilder.setNegativeButton(R.string.global_ok, (DialogInterface dialog, int which) -> dialog.dismiss());
                 errorDeleteBottleDialogBuilder.setOnDismissListener((DialogInterface dialog) -> closeFloatingActionButtonsMenu());
                 errorDeleteBottleDialogBuilder.show();
             } else {

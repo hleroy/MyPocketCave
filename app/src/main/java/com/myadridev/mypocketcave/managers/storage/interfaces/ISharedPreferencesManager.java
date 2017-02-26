@@ -8,11 +8,9 @@ import java.util.Map;
 
 public interface ISharedPreferencesManager {
 
-    int loadStoredDataMap(Context context, int storeFileResourceId, int storeSetResourceId, Class<? extends IStorableModel> dataType, Map<Integer, IStorableModel> dataMap);
-
-    void storeData(Context context, int storeFileResourceId, int storeSetResourceId, Map<Integer, ? extends IStorableModel> dataMap);
-
     void delete(Context context, String filename);
+
+    void storeStringData(Context context, String storeFilename, int keyResourceId, String dataToStore);
 
     void storeStringData(Context context, String storeFilename, String key, Object dataToStore);
 
@@ -23,4 +21,8 @@ public interface ISharedPreferencesManager {
     Map<Integer, IStorableModel> loadStoredDataMap(Context context, String storeFilename, String keyIndex, int keyDetailResourceId, Class<? extends IStorableModel> dataType);
 
     IStorableModel loadStoredData(Context context, String storeFilename, int keyResourceId, Class<? extends IStorableModel> dataType);
+
+    IStorableModel loadStoredData(Context context, String storeFilename, String key, Class<? extends IStorableModel> dataType);
+
+    String loadStoredData(Context context, String storeFilename, int keyResourceId);
 }

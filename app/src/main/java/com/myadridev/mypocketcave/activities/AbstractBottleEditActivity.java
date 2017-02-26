@@ -244,13 +244,13 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
         if (name.isEmpty()) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_no_name, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
         } else if (stock < bottle.NumberPlaced) {
             final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_not_enough, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+            snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
             snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
             snackbar.show();
             isErrors = true;
@@ -262,7 +262,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             final int existingBottleId = BottleManager.getExistingBottleId(bottle.Id, name, domain, wineColor, millesime);
             if (existingBottleId > 0) {
                 final Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.error_bottle_already_exists, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(getString(R.string.error_ok), (View v) -> snackbar.dismiss());
+                snackbar.setAction(getString(R.string.global_ok), (View v) -> snackbar.dismiss());
                 snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.colorError));
                 snackbar.show();
                 isErrors = true;

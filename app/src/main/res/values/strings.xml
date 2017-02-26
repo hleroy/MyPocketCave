@@ -31,7 +31,7 @@
     <string name="error_bottle_already_exists">There is the same bottle in the cave (same domain, color, name and millesime).</string>
     <string name="global_merge">Merge</string>
     <string name="error_bottle_no_name">A bottle name is needed</string>
-    <string name="error_ok">OK</string>
+    <string name="global_ok">OK</string>
     <string name="filename_bottles" translatable="false">bottles</string>
     <string name="food_aperitif">Aperitif</string>
     <string name="food_cheese">Cheese</string>
@@ -200,4 +200,17 @@
     <string name="cave_arrangement_warning">Warning : with arrangement modifications, some placed bottles may become unplaced !</string>
     <string name="error_cave_bulk_not_enough">Incorrect capacity : more bottles are already placed.</string>
     <string name="import_export">Import - Export</string>
+    <string name="title_sync">Import - Export</string>
+    <string name="sync_export">Export</string>
+    <string name="sync_import">Import</string>
+    <string name="sync_export_location">Export folder:</string>
+    <string name="sync_import_location">Import file:</string>
+    <string name="filename_sync" translatable="false">sync</string>
+    <string name="store_sync_import" translatable="false">sync_import</string>
+    <string name="store_sync_export" translatable="false">sync_export</string>
+    <string name="new_folder">New folder</string>
+    <string name="new_folder_name">New folder name</string>
+    <string name="new_folder_create_error">Failed to create \'%1$s\' folder</string>
+    <string name="global_back">Back</string>
+    <string name="parent_folder">Parent folder..</string>
 </resources>

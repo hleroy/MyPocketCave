@@ -181,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.about:
                 NavigationManager.navigateToAbout(this);
                 return true;
+            case R.id.sync:
+                NavigationManager.navigateToSync(this);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

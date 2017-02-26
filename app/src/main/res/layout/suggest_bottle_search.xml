@@ -33,7 +33,7 @@
                 android:text="@string/suggest_bottle_essential"
                 android:textSize="@dimen/text_size_big"
                 android:textStyle="bold"
-                app:layout_widthPercent="23%" />
+                app:layout_widthPercent="27%" />
 
             <TextView
                 android:id="@+id/suggest_bottle_search_criteria"
@@ -52,7 +52,7 @@
                 android:text="@string/suggest_bottle_search_criteria"
                 android:textSize="@dimen/text_size_big"
                 android:textStyle="bold"
-                app:layout_widthPercent="73%" />
+                app:layout_widthPercent="71%" />
 
             <Spinner
                 android:id="@+id/suggest_bottle_search_wine_color"

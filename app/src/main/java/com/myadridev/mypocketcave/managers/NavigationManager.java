@@ -19,6 +19,7 @@ import com.myadridev.mypocketcave.activities.MainActivity;
 import com.myadridev.mypocketcave.activities.PatternSelectionActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleSearchActivity;
+import com.myadridev.mypocketcave.activities.SyncActivity;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 
@@ -108,5 +109,9 @@ public class NavigationManager {
 
     public static void navigateToCreatePattern(PatternSelectionActivity activity) {
         activity.startActivityForResult(new Intent(activity, PatternCreateActivity.class), ActivityRequestEnum.CREATE_PATTERN.Id);
+    }
+
+    public static void navigateToSync(Context context) {
+        context.startActivity(new Intent(context, SyncActivity.class));
     }
 }

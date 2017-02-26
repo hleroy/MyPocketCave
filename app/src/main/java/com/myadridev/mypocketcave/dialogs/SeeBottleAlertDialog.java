@@ -72,7 +72,7 @@ public class SeeBottleAlertDialog extends AlertDialog {
 
                     numberRemindersDialogBuilder.setTitle(activity.getString(R.string.place_bottle_quantity));
                     numberRemindersDialogBuilder.setView(numberPickerView);
-                    numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.error_ok),
+                    numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.global_ok),
                             (DialogInterface dialog, int index) -> {
                                 if (onBottleDrunkClickListeners != null) {
                                     for (OnBottleDrunkClickListener onBottleDrunkClickListener : onBottleDrunkClickListeners) {
@@ -125,7 +125,7 @@ public class SeeBottleAlertDialog extends AlertDialog {
 
                     numberRemindersDialogBuilder.setTitle(activity.getString(R.string.place_bottle_quantity));
                     numberRemindersDialogBuilder.setView(numberPickerView);
-                    numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.error_ok),
+                    numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.global_ok),
                             (DialogInterface dialog, int index) -> {
                                 if (onBottleUnplacedClickListeners != null) {
                                     for (OnBottleUnplacedClickListener onBottleUnplacedClickListener : onBottleUnplacedClickListeners) {

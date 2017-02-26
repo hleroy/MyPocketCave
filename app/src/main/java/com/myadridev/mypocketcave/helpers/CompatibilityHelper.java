@@ -1,7 +1,9 @@
 package com.myadridev.mypocketcave.helpers;
 
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 public class CompatibilityHelper {
 
@@ -12,6 +14,14 @@ public class CompatibilityHelper {
             recyclerView.setNestedScrollingEnabled(isEnabled);
         } else {
             ViewCompat.setNestedScrollingEnabled(recyclerView, isEnabled);
+        }
+    }
+
+    public static void setTextAppearance(TextView textView, int resId) {
+        if (currentApiVersion >= android.os.Build.VERSION_CODES.M) {
+            textView.setTextAppearance(resId);
+        } else {
+            TextViewCompat.setTextAppearance(textView, resId);
         }
     }
 }

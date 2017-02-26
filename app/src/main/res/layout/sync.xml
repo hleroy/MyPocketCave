@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sync_coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.SyncActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/sync_export_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@null"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:src="@drawable/export_icon"
+                app:layout_widthPercent="50%" />
+
+            <ImageButton
+                android:id="@+id/sync_import_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/sync_export_button"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/sync_export_button"
+                android:layout_toEndOf="@id/sync_export_button"
+                android:background="@null"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:src="@drawable/import_icon_seleted"
+                app:layout_widthPercent="50%" />
+
+            <TextView
+                android:id="@+id/sync_location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/sync_export_button"
+                android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+                android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+                android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+                android:layout_marginTop="@dimen/vertical_margin_between_elements"
+                android:text="@string/sync_export_location"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/sync_location_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sync_location_label"
+                android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+                android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+                android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+                android:layout_marginTop="@dimen/vertical_margin_between_elements"
+                android:text="File path"
+                android:textSize="@dimen/text_size_medium" />
+
+            <Button
+                android:id="@+id/sync_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sync_location_value"
+                android:layout_margin="@dimen/margin_button"
+                android:background="@color/colorPrimary"
+                android:text="@string/sync_export"
+                android:textColor="@android:color/white" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

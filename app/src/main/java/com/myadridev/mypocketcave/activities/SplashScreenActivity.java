@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.activities;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.helpers.PermissionsHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
@@ -15,16 +17,14 @@ import com.myadridev.mypocketcave.managers.storage.interfaces.ICaveStorageManage
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.ISyncStorageManager;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.BottlesSharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.CaveSharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.CavesSharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.PatternsSharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.SharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.SyncSharedPreferencesManager;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class SplashScreenActivity extends AppCompatActivity {
 
     public static final int RunnableDelayBetweenSteps = 200;
@@ -98,6 +98,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                         initializationHandler.postDelayed(this, RunnableDelayBetweenSteps);
                         break;
                     case 4:
+                        // Sync
+                        boolean isWriteExternalStorage = PermissionsHelper.checkForPermission(SplashScreenActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                        if (!SyncSharedPreferencesManager.IsInitialized()) {
+                            SyncSharedPreferencesManager.Init(SplashScreenActivity.this, isWriteExternalStorage);
+                        }
+                        DependencyManager.registerSingleton(ISyncStorageManager.class, SyncSharedPreferencesManager.Instance);
                         BottleManager.recomputeNumberPlaced(SplashScreenActivity.this);
                         initializationHandler.removeCallbacks(this);
                         NavigationManager.navigateToMain(SplashScreenActivity.this);
