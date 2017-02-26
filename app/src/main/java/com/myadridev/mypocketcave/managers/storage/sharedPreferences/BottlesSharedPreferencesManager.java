@@ -97,6 +97,11 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return bottle.Id;
     }
 
+    public void updateIndexes(Context context) {
+        List<Integer> ids = new ArrayList<>(allBottlesMap.keySet());
+        getSharedPreferencesManager().storeStringData(context, filename, keyIndex, ids);
+    }
+
     public void updateBottle(Context context, BottleModel bottle) {
         allBottlesMap.put(bottle.Id, bottle);
         getSharedPreferencesManager().storeStringData(context, filename, context.getString(keyBottleResourceId, bottle.Id), bottle);

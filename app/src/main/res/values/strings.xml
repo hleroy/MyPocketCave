@@ -135,7 +135,7 @@
     <string name="global_stay">Stay here</string>
     <string name="global_cancel">Cancel</string>
     <string name="global_exit">Exit</string>
-    <string name="global_exit_confirmation">Do we exit and go opening the bottles ?</string>
+    <string name="global_exit_confirmation">Do we exit and go open the bottles?</string>
     <string name="pattern_type_linear">Linear</string>
     <string name="pattern_type_staggered_rows">In staggered rows</string>
     <string name="pattern_type_free">Free</string>
@@ -164,7 +164,7 @@
     <string name="cave_edit_box_pattern_overview">Pattern overview of the boxes</string>
     <string name="create_pattern_invert">Invert pattern</string>
     <string name="error_pattern_incorrect_rows_cols">Number of bottles by row and column should be greater than 0</string>
-    <string name="no_bottles_to_add">All bottles are already in caves, great !</string>
+    <string name="no_bottles_to_add">All bottles are already in caves, great!</string>
     <string name="bottles_to_place">%1$d to place</string>
     <string name="title_place_bottle">Place a bottle</string>
     <plurals name="bottles_placed">
@@ -175,15 +175,15 @@
     <string name="store_pattern" translatable="false">pattern_%1$d</string>
     <string name="store_cave_key" translatable="false">cave</string>
     <string name="see_bottle_detail">See detail</string>
-    <string name="drink_bottle">Drink !</string>
+    <string name="drink_bottle">Drink!</string>
     <string name="unplace_bottle">Remove this bottle from here</string>
-    <string name="title_drink">Drink this bottle now ?</string>
-    <string name="message_drink">Really ?</string>
-    <string name="drink_ok">Yes, drink it !</string>
+    <string name="title_drink">Drink this bottle now?</string>
+    <string name="message_drink">Really?</string>
+    <string name="drink_ok">Yes, drink it!</string>
     <string name="drink_no">Later</string>
-    <string name="title_unplace">Remove this bottle from here ?</string>
-    <string name="message_unplace">Really ?</string>
-    <string name="unplace_ok">Yes !</string>
+    <string name="title_unplace">Remove this bottle from here?</string>
+    <string name="message_unplace">Really?</string>
+    <string name="unplace_ok">Yes!</string>
     <string name="unplace_no">No</string>
     <string name="error_bottle_not_enough">Incorrect stock : more bottles are already placed in the caves</string>
     <string name="bottle_delete_error_some_placed">Some bottles are placed in the caves, please remove them before</string>
@@ -194,10 +194,10 @@
     <string name="suggest_bottle_cave_none">Any cave</string>
     <string name="bottles_here">%1$d here</string>
     <string name="place_bottle_label">Place a bottle…</string>
-    <string name="place_bottle_quantity">How many ?</string>
+    <string name="place_bottle_quantity">How many?</string>
     <string name="save">Save</string>
-    <string name="detail_exit_confirmation">There are changes, lose them and quit or stay here ?</string>
-    <string name="cave_arrangement_warning">Warning : with arrangement modifications, some placed bottles may become unplaced !</string>
+    <string name="detail_exit_confirmation">There are changes, lose them and quit or stay here?</string>
+    <string name="cave_arrangement_warning">Warning : with arrangement modifications, some placed bottles may become unplaced!</string>
     <string name="error_cave_bulk_not_enough">Incorrect capacity : more bottles are already placed.</string>
     <string name="import_export">Import - Export</string>
     <string name="title_sync">Import - Export</string>
@@ -215,4 +215,8 @@
     <string name="parent_folder">Parent folder..</string>
     <string name="error_export">Error during the export, please try again!</string>
     <string name="success_export">Export successful!</string>
+    <string name="error_import">Error during the import, please try again!</string>
+    <string name="success_import">Import successful!</string>
+    <string name="sync_import_confirmation" >All current data will be deleted and replaced by imported data. Can we proceed?</string>
+    <string name="error_import_too_old_version">Your app is older than the one used to export this backup. Import is not possible.</string>
 </resources>

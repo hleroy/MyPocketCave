@@ -1,6 +1,8 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -149,17 +151,34 @@ public class SyncActivity extends AppCompatActivity {
     }
 
     private void importFile() {
+        AlertDialog.Builder importConfirmationDialogBuilder = new AlertDialog.Builder(this);
+        importConfirmationDialogBuilder.setCancelable(true);
+        importConfirmationDialogBuilder.setMessage(R.string.sync_import_confirmation);
+        importConfirmationDialogBuilder.setNegativeButton(R.string.global_cancel, (DialogInterface dialog, int which) -> dialog.dismiss());
+        importConfirmationDialogBuilder.setPositiveButton(R.string.global_ok, (DialogInterface dialog, int which) -> {
+            dialog.dismiss();
+            importFileInner();
+        });
+        importConfirmationDialogBuilder.show();
+    }
 
+    private void importFileInner() {
+        int errorResourceId = SyncManager.importData(this, importLocation);
+
+        if (errorResourceId > -1) {
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, errorResourceId, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+        } else {
+            SnackbarHelper.displaySuccessSnackbar(this, coordinatorLayout, R.string.success_import, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+        }
     }
 
     private void exportFile() {
-        String exportData = SyncManager.getExportData();
-        boolean isError = exportData == null || SyncManager.createExportFile(exportData, exportLocation, extension);
+        boolean isExportSuccessful = SyncManager.exportData(this, exportLocation, extension);
 
-        if (isError) {
-            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_export, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
-        } else {
+        if (isExportSuccessful) {
             SnackbarHelper.displaySuccessSnackbar(this, coordinatorLayout, R.string.success_export, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+        } else {
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_export, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
         }
     }
 

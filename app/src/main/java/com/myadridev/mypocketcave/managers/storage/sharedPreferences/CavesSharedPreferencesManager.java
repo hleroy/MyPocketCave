@@ -69,16 +69,14 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
         }
     }
 
-    @Override
     public List<CaveLightModel> getLightCaves() {
-        ArrayList<CaveLightModel> caves = new ArrayList<>(allCavesMap.values());
+        List<CaveLightModel> caves = new ArrayList<>(allCavesMap.values());
         Collections.sort(caves);
         return caves;
     }
 
-    @Override
     public int insertCave(Context context, CaveLightModel cave, boolean needsNewId) {
-        ArrayList<Integer> ids = new ArrayList<>(allCavesMap.keySet());
+        List<Integer> ids = new ArrayList<>(allCavesMap.keySet());
         if (needsNewId) {
             cave.Id = StorageHelper.getNewId(ids);
         }
@@ -93,21 +91,23 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
         return cave.Id;
     }
 
-    @Override
     public void updateCave(Context context, CaveLightModel cave) {
         allCavesMap.put(cave.Id, cave);
         getSharedPreferencesManager().storeStringData(context, filename, context.getString(keyCaveResourceId, cave.Id), cave);
     }
 
-    @Override
+    public void updateIndexes(Context context) {
+        List<Integer> ids = new ArrayList<>(allCavesMap.keySet());
+        getSharedPreferencesManager().storeStringData(context, filename, keyIndex, ids);
+    }
+
     public void deleteCave(Context context, int caveId) {
         allCavesMap.remove(caveId);
-        ArrayList<Integer> ids = new ArrayList<>(allCavesMap.keySet());
+        List<Integer> ids = new ArrayList<>(allCavesMap.keySet());
         getSharedPreferencesManager().storeStringData(context, filename, keyIndex, ids);
         getSharedPreferencesManager().removeData(context, filename, context.getString(keyCaveResourceId, caveId));
     }
 
-    @Override
     public int getExistingCaveId(int id, String name, int caveTypeId) {
         for (CaveLightModel cave : allCavesMap.values()) {
             if (name.equals(cave.Name)
@@ -119,12 +119,10 @@ public class CavesSharedPreferencesManager implements ICavesStorageManager {
         return 0;
     }
 
-    @Override
     public int getCavesCount() {
         return allCavesMap.size();
     }
 
-    @Override
     public int getCavesCount(int caveTypeId) {
         int cavesCount = 0;
 

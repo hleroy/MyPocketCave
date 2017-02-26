@@ -38,4 +38,6 @@ public interface IBottleStorageManager {
     void updateNumberPlaced(Context context, int bottleId, int increment);
 
     void drinkBottle(Context context, int bottleId, int quantity);
+
+    void updateIndexes(Context context);
 }

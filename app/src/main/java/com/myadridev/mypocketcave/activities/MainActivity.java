@@ -191,14 +191,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(this);
-        deleteBottleDialogBuilder.setCancelable(true);
-        deleteBottleDialogBuilder.setMessage(R.string.global_exit_confirmation);
-        deleteBottleDialogBuilder.setNegativeButton(R.string.global_stay, (DialogInterface dialog, int which) -> dialog.dismiss());
-        deleteBottleDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
+        AlertDialog.Builder exitConfirmationDialogBuilder = new AlertDialog.Builder(this);
+        exitConfirmationDialogBuilder.setCancelable(true);
+        exitConfirmationDialogBuilder.setMessage(R.string.global_exit_confirmation);
+        exitConfirmationDialogBuilder.setNegativeButton(R.string.global_stay, (DialogInterface dialog, int which) -> dialog.dismiss());
+        exitConfirmationDialogBuilder.setPositiveButton(R.string.global_exit, (DialogInterface dialog, int which) -> {
             dialog.dismiss();
             finish();
         });
-        deleteBottleDialogBuilder.show();
+        exitConfirmationDialogBuilder.show();
     }
 }

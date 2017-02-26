@@ -56,6 +56,18 @@ public class CaveManager {
         return cave.Id;
     }
 
+    public static void addCaves(Context context, List<CaveModel> caves) {
+        for (CaveModel cave : caves) {
+            // we want to keep the ids of the caves
+            editCave(context, cave);
+        }
+        updateIndexes(context);
+    }
+
+    private static void updateIndexes(Context context) {
+        getCavesStorageManager().updateIndexes(context);
+    }
+
     public static void editCave(Context context, CaveModel cave) {
         CaveLightModel caveLight = new CaveLightModel(cave);
         getCavesStorageManager().updateCave(context, caveLight);
@@ -66,6 +78,12 @@ public class CaveManager {
         getCavesStorageManager().deleteCave(context, cave.Id);
         unplaceBottles(context, cave);
         getCaveStorageManager().deleteCave(context, cave);
+    }
+
+    public static void removeAllCaves(Context context) {
+        for (CaveModel cave : getCaves()) {
+            removeCave(context, cave);
+        }
     }
 
     private static void unplaceBottles(Context context, CaveModel cave) {

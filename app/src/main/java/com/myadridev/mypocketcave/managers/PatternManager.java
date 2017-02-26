@@ -41,17 +41,43 @@ public class PatternManager {
         }
     }
 
+    public static void addPatterns(Context context, List<PatternModel> patterns) {
+        for (PatternModel pattern : patterns) {
+            // we want to keep the ids of the patterns
+            editPattern(context, pattern);
+        }
+        updateIndexes(context);
+    }
+
+    private static void updateIndexes(Context context) {
+        getPatternsStorageManager().updateIndexes(context);
+    }
+
+    private static void editPattern(Context context, PatternModel pattern) {
+        getPatternsStorageManager().updatePattern(context, pattern);
+    }
+
     public static void setLastUsedPattern(Context context, int patternId) {
         PatternModel existingPattern = getPattern(patternId);
         int order = existingPattern.Order;
         List<PatternModel> patterns = getPatterns();
         for (PatternModel pattern : patterns) {
             if (pattern.Id == patternId) {
-                pattern.Order = 1;
+                pattern.Order = 0;
             } else if (pattern.Order <= order) {
                 pattern.Order = pattern.Order + 1;
             }
         }
         getPatternsStorageManager().updateAllPatterns(context, patterns);
+    }
+
+    private static void removePattern(Context context, PatternModel pattern) {
+        getPatternsStorageManager().deletePattern(context, pattern.Id);
+    }
+
+    public static void removeAllPatterns(Context context) {
+        for (PatternModel pattern : getPatterns()) {
+            removePattern(context, pattern);
+        }
     }
 }

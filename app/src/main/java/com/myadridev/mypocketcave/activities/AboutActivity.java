@@ -1,7 +1,5 @@
 package com.myadridev.mypocketcave.activities;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
@@ -9,6 +7,7 @@ import android.widget.ListView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.AboutAdapter;
 import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
+import com.myadridev.mypocketcave.managers.VersionManager;
 import com.myadridev.mypocketcave.models.AboutItem;
 
 import java.util.ArrayList;
@@ -37,12 +36,7 @@ public class AboutActivity extends AppCompatActivity {
     private List<AboutItem> initializeItems() {
         List<AboutItem> items = new ArrayList<>(2);
 
-        try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            version = pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            version = getString(R.string.about_version_default);
-        }
+        version = VersionManager.getVersion(this);
 
         contactSubject = computeEmailSubject();
 

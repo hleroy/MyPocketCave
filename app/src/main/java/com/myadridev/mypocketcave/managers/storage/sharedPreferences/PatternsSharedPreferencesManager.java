@@ -94,6 +94,23 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         return pattern.Id;
     }
 
+    public void updatePattern(Context context, PatternModel pattern) {
+        List<Integer> ids = new ArrayList<>(allPatternsMap.keySet());
+        allPatternsMap.put(pattern.Id, pattern);
+        ids.add(pattern.Id);
+
+        Map<String, Object> dataToStoreMap = new HashMap<>(2);
+        dataToStoreMap.put(keyIndex, ids);
+        dataToStoreMap.put(context.getString(keyPatternResourceId, pattern.Id), pattern);
+
+        getSharedPreferencesManager().storeStringMapData(context, filename, dataToStoreMap);
+    }
+
+    public void updateIndexes(Context context) {
+        List<Integer> ids = new ArrayList<>(allPatternsMap.keySet());
+        getSharedPreferencesManager().storeStringData(context, filename, keyIndex, ids);
+    }
+
     public void updateAllPatterns(Context context, List<PatternModel> patterns) {
         Map<String, Object> dataToStoreMap = new HashMap<>(patterns.size());
         for (PatternModel pattern : patterns) {
@@ -110,5 +127,12 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
             }
         }
         return -1;
+    }
+
+    public void deletePattern(Context context, int patternId) {
+        allPatternsMap.remove(patternId);
+        ArrayList<Integer> ids = new ArrayList<>(allPatternsMap.keySet());
+        getSharedPreferencesManager().storeStringData(context, filename, keyIndex, ids);
+        getSharedPreferencesManager().removeData(context, filename, context.getString(keyPatternResourceId, patternId));
     }
 }

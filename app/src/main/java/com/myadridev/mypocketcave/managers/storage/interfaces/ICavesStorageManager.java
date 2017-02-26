@@ -21,4 +21,6 @@ public interface ICavesStorageManager {
     int getCavesCount();
 
     int getCavesCount(int caveTypeId);
+
+    void updateIndexes(Context context);
 }

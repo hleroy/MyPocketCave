@@ -17,4 +17,10 @@ public interface IPatternsStorageManager {
     void updateAllPatterns(Context context, List<PatternModel> patterns);
 
     int getExistingPatternId(PatternModel pattern);
+
+    void updatePattern(Context context, PatternModel pattern);
+
+    void deletePattern(Context context, int patternId);
+
+    void updateIndexes(Context context);
 }

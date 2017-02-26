@@ -18,9 +18,9 @@ public class JsonManager {
         return null;
     }
 
-    public static <T> T readValue(String indexListJson, Class<T> dataType) {
+    public static <T> T readValue(String dataJson, Class<T> dataType) {
         try {
-            return jsonMapper.readValue(indexListJson, dataType);
+            return jsonMapper.readValue(dataJson, dataType);
         } catch (IOException e) {
             e.printStackTrace();
         }

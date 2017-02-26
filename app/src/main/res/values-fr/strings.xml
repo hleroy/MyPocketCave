@@ -198,4 +198,8 @@
     <string name="parent_folder">Dossier parent..</string>
     <string name="error_export">Erreur pendant l\'export, essaye encore\u00A0!</string>
     <string name="success_export">Export réussi\u00A0!</string>
+    <string name="error_import">Erreur pendant l\'import, essaye encore\u00A0!</string>
+    <string name="success_import">Import réussi\u00A0!</string>
+    <string name="sync_import_confirmation">Toutes les données actuelles seront supprimées et remplacées par les données importées. On continue\u00A0?</string>
+    <string name="error_import_too_old_version">Ton application est plus vieille que l\'application utilisée pour exporter cette sauvegarde. L\'import est impossible.</string>
 </resources>

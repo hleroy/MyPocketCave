@@ -55,12 +55,30 @@ public class BottleManager {
         return getBottleStorageManager().insertBottle(context, bottle);
     }
 
+    public static void addBottles(Context context, List<BottleModel> bottles) {
+        for (BottleModel bottle : bottles) {
+            // we want to keep the ids of the bottles
+            editBottle(context, bottle);
+        }
+        updateIndexes(context);
+    }
+
+    private static void updateIndexes(Context context) {
+        getBottleStorageManager().updateIndexes(context);
+    }
+
     public static void editBottle(Context context, BottleModel bottle) {
         getBottleStorageManager().updateBottle(context, bottle);
     }
 
     public static void removeBottle(Context context, int bottleId) {
         getBottleStorageManager().deleteBottle(context, bottleId);
+    }
+
+    public static void removeAllBottles(Context context) {
+        for (BottleModel bottle : getBottles()) {
+            removeBottle(context, bottle.Id);
+        }
     }
 
     public static int getExistingBottleId(int id, String name, String domain, WineColorEnum wineColor, int millesime) {

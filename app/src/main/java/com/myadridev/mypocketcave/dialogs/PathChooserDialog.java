@@ -65,7 +65,7 @@ public class PathChooserDialog {
             path = defaultPath;
             pathFile = new File(path);
         } else if (!pathFile.isDirectory()) {
-            if (isFileAllowed(pathFile)) {
+            if (isFileAllowed(pathFile.getName())) {
                 path = pathFile.getParent();
             } else {
                 path = defaultPath;
@@ -115,8 +115,7 @@ public class PathChooserDialog {
         dialogBuilder.show();
     }
 
-    private boolean isFileAllowed(File pathFile) {
-        String fileName = pathFile.getName();
+    private boolean isFileAllowed(String fileName) {
         String[] splitFileName = fileName.split("\\.");
         String fileExtension = splitFileName[splitFileName.length - 1];
         return allowedFileExtensions.contains(fileExtension);
@@ -143,10 +142,11 @@ public class PathChooserDialog {
         }
 
         for (File file : pathFile.listFiles()) {
+            String fileName = file.getName();
             if (file.isDirectory()) {
-                subFolders.add(file.getName());
-            } else if (isFileAllowed(file)) {
-                files.add(file.getName());
+                subFolders.add(fileName);
+            } else if (isFileAllowed(fileName)) {
+                files.add(fileName);
             }
         }
 
