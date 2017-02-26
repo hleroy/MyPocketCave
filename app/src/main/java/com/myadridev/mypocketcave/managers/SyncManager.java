@@ -32,24 +32,12 @@ public class SyncManager {
         return syncStorageManager;
     }
 
-    public static void resetDefaultLocation(boolean isWriteExternalStorage) {
-        getSyncStorageManager().resetDefaultLocation(isWriteExternalStorage);
-    }
-
     public static String getImportLocation() {
         return getSyncStorageManager().getImportLocation();
     }
 
     public static String getExportLocation() {
         return getSyncStorageManager().getExportLocation();
-    }
-
-    public static void saveImportLocation(Context context, String importLocation) {
-        getSyncStorageManager().saveImportLocation(context, importLocation);
-    }
-
-    public static void saveExportLocation(Context context, String exportLocation) {
-        getSyncStorageManager().saveExportLocation(context, exportLocation);
     }
 
     public static boolean exportData(Context context, String exportLocation, String extension) {

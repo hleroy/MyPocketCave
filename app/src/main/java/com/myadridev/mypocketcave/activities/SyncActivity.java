@@ -3,7 +3,6 @@ package com.myadridev.mypocketcave.activities;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -37,7 +36,6 @@ public class SyncActivity extends AppCompatActivity {
     private String importLocation;
     private String exportLocation;
 
-    private boolean isWriteExternalStorage;
     private CoordinatorLayout coordinatorLayout;
 
     @Override
@@ -45,8 +43,7 @@ public class SyncActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sync);
 
-        isWriteExternalStorage = PermissionsHelper.askForPermissionIfNeeded(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PermissionsHelper.writeExternalStorageRequestCode);
-        SyncManager.resetDefaultLocation(isWriteExternalStorage);
+        PermissionsHelper.askForPermissionIfNeeded(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PermissionsHelper.writeExternalStorageRequestCode);
 
         importLocation = SyncManager.getImportLocation();
         exportLocation = SyncManager.getExportLocation();
@@ -62,9 +59,6 @@ public class SyncActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case PermissionsHelper.writeExternalStorageRequestCode:
-                // If request is cancelled, the result arrays are empty.
-                isWriteExternalStorage = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                SyncManager.resetDefaultLocation(isWriteExternalStorage);
                 importLocation = SyncManager.getImportLocation();
                 exportLocation = SyncManager.getExportLocation();
                 locationValue.setText(exportLocation);
@@ -140,11 +134,9 @@ public class SyncActivity extends AppCompatActivity {
         return (View v) -> {
             if (importButton.isSelected()) {
                 importLocation = locationValue.getText().toString();
-                SyncManager.saveImportLocation(this, importLocation);
                 importFile();
             } else if (exportButton.isSelected()) {
                 exportLocation = locationValue.getText().toString();
-                SyncManager.saveExportLocation(this, exportLocation);
                 exportFile();
             }
         };

@@ -101,7 +101,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         // Sync
                         boolean isWriteExternalStorage = PermissionsHelper.checkForPermission(SplashScreenActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                         if (!SyncSharedPreferencesManager.IsInitialized()) {
-                            SyncSharedPreferencesManager.Init(SplashScreenActivity.this, isWriteExternalStorage);
+                            SyncSharedPreferencesManager.Init();
                         }
                         DependencyManager.registerSingleton(ISyncStorageManager.class, SyncSharedPreferencesManager.Instance);
                         BottleManager.recomputeNumberPlaced(SplashScreenActivity.this);
