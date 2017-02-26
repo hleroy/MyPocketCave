@@ -11,14 +11,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.dialogs.FolderChooserDialog;
+import com.myadridev.mypocketcave.dialogs.PathChooserDialog;
 import com.myadridev.mypocketcave.helpers.PermissionsHelper;
 import com.myadridev.mypocketcave.managers.SyncManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SyncActivity extends AppCompatActivity {
 
-    private final static String exportFileName = "export.mpc";
-    private final static int writeExternalStorageRequestCode = 1;
+    private final static String extension = "mpc";
+    private final static String exportFileName = "export." + extension;
+    private List<String> allowedFileExtensions;
 
     private ImageButton exportButton;
     private ImageButton importButton;
@@ -36,11 +40,14 @@ public class SyncActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sync);
 
-        isWriteExternalStorage = PermissionsHelper.askForPermissionIfNeeded(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, writeExternalStorageRequestCode);
+        isWriteExternalStorage = PermissionsHelper.askForPermissionIfNeeded(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PermissionsHelper.writeExternalStorageRequestCode);
         SyncManager.resetDefaultLocation(isWriteExternalStorage);
 
         importLocation = SyncManager.getImportLocation();
         exportLocation = SyncManager.getExportLocation();
+
+        allowedFileExtensions = new ArrayList<>();
+        allowedFileExtensions.add(extension);
 
         setLayout();
         setLayoutValues();
@@ -49,7 +56,7 @@ public class SyncActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
-            case writeExternalStorageRequestCode:
+            case PermissionsHelper.writeExternalStorageRequestCode:
                 // If request is cancelled, the result arrays are empty.
                 isWriteExternalStorage = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 SyncManager.resetDefaultLocation(isWriteExternalStorage);
@@ -109,13 +116,15 @@ public class SyncActivity extends AppCompatActivity {
     private View.OnClickListener onLocationValueClick() {
         return (View v) -> {
             if (importButton.isSelected()) {
-
+                PathChooserDialog pathChooserDialog = new PathChooserDialog(SyncActivity.this, locationValue.getText().toString(), false, allowedFileExtensions, (String chosenFile) -> {
+                    locationValue.setText(chosenFile);
+                });
+                pathChooserDialog.choosePath();
             } else if (exportButton.isSelected()) {
-                FolderChooserDialog folderChooserDialog = new FolderChooserDialog(SyncActivity.this, locationValue.getText().toString(), (String chosenFolder) -> {
+                PathChooserDialog pathChooserDialog = new PathChooserDialog(SyncActivity.this, locationValue.getText().toString(), true, (String chosenFolder) -> {
                     locationValue.setText(chosenFolder);
                 });
-                folderChooserDialog.isNewFolderEnabled = true;
-                folderChooserDialog.chooseFolder();
+                pathChooserDialog.choosePath();
             }
         };
     }

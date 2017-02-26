@@ -7,6 +7,8 @@ import android.support.v4.content.ContextCompat;
 
 public class PermissionsHelper {
 
+    public final static int writeExternalStorageRequestCode = 1;
+
     public static boolean askForPermissionIfNeeded(Activity activity, String permission, int permissionRequestCode) {
         if (!checkForPermission(activity, permission)) {
             ActivityCompat.requestPermissions(activity, new String[]{permission}, permissionRequestCode);
