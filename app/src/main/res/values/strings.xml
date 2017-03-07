@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My pocket cave</string>
+    <string name="app_name">My pocket cellar</string>
     <string name="about_mail" translatable="false">myadridev@gmail.com</string>
     <string name="about_mail_uri" translatable="false">mailto:</string>
     <string name="about_sources_url" translatable="false">https://github.com/adridevparis/MyPocketCave</string>
@@ -28,7 +28,7 @@
     </plurals>
     <string name="bottles_count_detail">Red:\u00A0%1$d, White:\u00A0%2$d, Rosé:\u00A0%3$d, Champagne:\u00A0%4$d</string>
     <string name="bottles_stock">%1$d in stock</string>
-    <string name="error_bottle_already_exists">There is the same bottle in the cave (same domain, color, name and millesime).</string>
+    <string name="error_bottle_already_exists">There is the same bottle in the cellar (same domain, color, name and millesime).</string>
     <string name="global_merge">Merge</string>
     <string name="error_bottle_no_name">A bottle name is needed</string>
     <string name="global_ok">OK</string>
@@ -52,18 +52,18 @@
     <string name="food_white_meat">White meat</string>
     <string name="global_no">Let\'s keep it!</string>
     <string name="global_yes">Let\'s remove it!</string>
-    <string name="no_bottles">No bottles in the cave, so sad!</string>
-    <string name="no_caves">No cave created, efforts are needed!</string>
+    <string name="no_bottles">No bottles in the cellar, so sad!</string>
+    <string name="no_caves">No cellar created, efforts are needed!</string>
     <string name="no_millesime">No millesime</string>
     <string name="store_indexes" translatable="false">indexes</string>
     <string name="store_bottle" translatable="false">bottle_%1$d</string>
     <string name="suggest_me_a_bottle_button">Please, suggest me a bottle</string>
     <string name="title_about">About</string>
     <string name="title_bottles">My bottles</string>
-    <string name="title_caves">My caves</string>
+    <string name="title_caves">My cellars</string>
     <string name="title_create_bottle">Add a bottle</string>
     <string name="title_edit_bottle">Edit the bottle</string>
-    <string name="title_main">My pocket cave</string>
+    <string name="title_main">My pocket cellar</string>
     <string name="title_suggest_bottle_search">Suggest me a bottle</string>
     <string name="wine_color_champagne">Champagne</string>
     <string name="wine_color_red">Red</string>
@@ -104,14 +104,14 @@
     <string name="error_suggest_millesime">No millesime but checked as required</string>
     <string name="error_suggest_food">Nothing to eat with but checked as required</string>
     <string name="error_suggest_person">Nobody to drink with but checked</string>
-    <string name="cave_type_none">Any type of cave</string>
+    <string name="cave_type_none">Any type of cellar</string>
     <string name="cave_type_bulk">Bulk storage</string>
     <string name="cave_type_box">Boxes</string>
-    <string name="cave_type_fridge">Fridge cave</string>
+    <string name="cave_type_fridge">Fridge cellar</string>
     <string name="cave_type_rack">Bottle racks</string>
     <plurals name="caves_count">
-        <item quantity="one">Total: %1$d cave</item>
-        <item quantity="other">Total: %1$d caves</item>
+        <item quantity="one">Total: %1$d cellar</item>
+        <item quantity="other">Total: %1$d cellars</item>
     </plurals>
     <string name="caves_count_detail">Bulk:\u00A0%1$d, Boxes:\u00A0%2$d, Fridge:\u00A0%3$d, Rack:\u00A0%4$d</string>
     <string name="filename_caves" translatable="false">caves</string>
@@ -124,12 +124,12 @@
         <item quantity="one">%1$d bottle</item>
         <item quantity="other">%1$d bottles</item>
     </plurals>
-    <string name="cave_name">Name of the cave</string>
-    <string name="error_cave_already_exists">There exists a similar cave (same name and type).</string>
+    <string name="cave_name">Name of the cellar</string>
+    <string name="error_cave_already_exists">There exists a similar cellar (same name and type).</string>
     <string name="error_cave_go">Let\'s go!</string>
-    <string name="title_create_cave">Add a cave</string>
-    <string name="title_edit_cave">Edit the cave</string>
-    <string name="error_cave_no_name">A cave name is needed</string>
+    <string name="title_create_cave">Add a cellar</string>
+    <string name="title_edit_cave">Edit the cellar</string>
+    <string name="error_cave_no_name">A cellar name is needed</string>
     <string name="cave_delete_confirmation">Do we remove it? The bottles placed in it will not be placed anymore</string>
     <string name="global_stay_and_fix">Stay here and fix it</string>
     <string name="global_stay">Stay here</string>
@@ -164,12 +164,12 @@
     <string name="cave_edit_box_pattern_overview">Pattern overview of the boxes</string>
     <string name="create_pattern_invert">Invert pattern</string>
     <string name="error_pattern_incorrect_rows_cols">Number of bottles by row and column should be greater than 0</string>
-    <string name="no_bottles_to_add">All bottles are already in caves, great!</string>
+    <string name="no_bottles_to_add">All bottles are already in cellars, great!</string>
     <string name="bottles_to_place">%1$d to place</string>
     <string name="title_place_bottle">Place a bottle</string>
     <plurals name="bottles_placed">
-        <item quantity="one">%1$d placed in the caves</item>
-        <item quantity="other">%1$d placed in the caves</item>
+        <item quantity="one">%1$d placed in the cellars</item>
+        <item quantity="other">%1$d placed in the cellars</item>
     </plurals>
     <string name="store_cave" translatable="false">cave_%1$d</string>
     <string name="store_pattern" translatable="false">pattern_%1$d</string>
@@ -185,13 +185,13 @@
     <string name="message_unplace">Really?</string>
     <string name="unplace_ok">Yes!</string>
     <string name="unplace_no">No</string>
-    <string name="error_bottle_not_enough">Incorrect stock : more bottles are already placed in the caves</string>
-    <string name="bottle_delete_error_some_placed">Some bottles are placed in the caves, please remove them before</string>
-    <string name="no_caves_with_bottle">This bottle is not placed in any caves</string>
-    <string name="title_see_caves">See caves with this bottle</string>
+    <string name="error_bottle_not_enough">Incorrect stock : more bottles are already placed in the cellars</string>
+    <string name="bottle_delete_error_some_placed">Some bottles are placed in the cellars, please remove them before</string>
+    <string name="no_caves_with_bottle">This bottle is not placed in any cellar</string>
+    <string name="title_see_caves">See cellars with this bottle</string>
     <string name="highlight_bottle">Identify identical bottles</string>
-    <string name="error_suggest_cave">No cave but checked as required</string>
-    <string name="suggest_bottle_cave_none">Any cave</string>
+    <string name="error_suggest_cave">No cellar but checked as required</string>
+    <string name="suggest_bottle_cave_none">Any cellar</string>
     <string name="bottles_here">%1$d here</string>
     <string name="place_bottle_label">Place a bottle…</string>
     <string name="place_bottle_quantity">How many?</string>
