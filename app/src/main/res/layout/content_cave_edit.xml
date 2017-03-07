@@ -7,9 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/cave_edit_name"
-            android:layout_width="match_parent"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_cave_edit_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
@@ -17,17 +17,23 @@
             android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
-            android:hint="@string/cave_name"
-            android:imeOptions="actionNext"
-            android:inputType="textCapSentences" />
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements">
+
+            <EditText
+                android:id="@+id/cave_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/cave_name"
+                android:imeOptions="actionNext"
+                android:inputType="textCapSentences" />
+        </android.support.design.widget.TextInputLayout>
 
         <Spinner
             android:id="@+id/cave_edit_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/cave_edit_name"
+            android:layout_below="@id/input_cave_edit_name"
             android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
@@ -49,78 +55,100 @@
 
         <TextView
             android:id="@+id/cave_arrangement_warning"
-            android:layout_below="@id/cave_edit_arrangement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_arrangement"
             android:layout_centerHorizontal="true"
-            android:gravity="center"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_big_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_margin_between_elements"
+            android:gravity="center"
             android:text="@string/cave_arrangement_warning"
             android:textColor="@color/colorError"
             android:textSize="@dimen/text_size_small" />
 
-        <EditText
-            android:id="@+id/cave_edit_bulk_bottles_number"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_cave_edit_bulk_bottles_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cave_arrangement_warning"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:gravity="center"
-            android:hint="@string/cave_bulk_bottles_number_edit"
-            android:imeOptions="actionNext"
-            android:inputType="number" />
+            app:layout_widthPercent="45%">
+
+            <EditText
+                android:id="@+id/cave_edit_bulk_bottles_number"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/cave_bulk_bottles_number_edit"
+                android:imeOptions="actionNext"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
 
         <!-- BOXES -->
 
-        <EditText
-            android:id="@+id/cave_edit_boxes_number"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_cave_edit_boxes_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cave_edit_bulk_bottles_number"
+            android:layout_below="@id/input_cave_edit_bulk_bottles_number"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:gravity="center"
-            android:hint="@string/cave_boxes_number_edit"
-            android:imeOptions="actionNext"
-            android:inputType="number" />
+            app:layout_widthPercent="45%">
 
-        <EditText
-            android:id="@+id/cave_edit_pattern_number_bottles_by_column"
+            <EditText
+                android:id="@+id/cave_edit_boxes_number"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/cave_boxes_number_edit"
+                android:imeOptions="actionNext"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_cave_edit_pattern_number_bottles_by_column"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/cave_edit_boxes_number"
+            android:layout_below="@id/input_cave_edit_boxes_number"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:gravity="center"
-            android:hint="@string/create_pattern_number_bottles_by_column"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            app:layout_widthPercent="45%" />
+            app:layout_widthPercent="45%">
 
-        <EditText
-            android:id="@+id/cave_edit_pattern_number_bottles_by_row"
+            <EditText
+                android:id="@+id/cave_edit_pattern_number_bottles_by_column"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/create_pattern_number_bottles_by_column"
+                android:imeOptions="actionNext"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_cave_edit_pattern_number_bottles_by_row"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@id/cave_edit_boxes_number"
+            android:layout_below="@id/input_cave_edit_boxes_number"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:gravity="center"
-            android:hint="@string/create_pattern_number_bottles_by_row"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            app:layout_widthPercent="45%" />
+            app:layout_widthPercent="45%">
+
+            <EditText
+                android:id="@+id/cave_edit_pattern_number_bottles_by_row"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/create_pattern_number_bottles_by_row"
+                android:imeOptions="actionNext"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/cave_edit_pattern_overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cave_edit_pattern_number_bottles_by_column"
+            android:layout_below="@id/input_cave_edit_pattern_number_bottles_by_column"
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_big_margin_between_elements"
