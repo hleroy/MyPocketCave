@@ -161,7 +161,7 @@
     <string name="create_pattern_vertically_expendable">Is vertically expendable</string>
     <string name="create_pattern_horizontally_expendable">Is horizontally expendable</string>
     <string name="create_pattern_overview">Pattern overview</string>
-    <string name="cave_edit_box_pattern_overview">Pattern overview of the boxes</string>
+    <string name="cave_edit_box_pattern_overview">Pattern overview of each box</string>
     <string name="create_pattern_invert">Invert pattern</string>
     <string name="error_pattern_incorrect_rows_cols">Number of bottles by row and column should be greater than 0</string>
     <string name="no_bottles_to_add">All bottles are already in cellars, great!</string>
@@ -197,7 +197,7 @@
     <string name="place_bottle_quantity">How many?</string>
     <string name="save">Save</string>
     <string name="detail_exit_confirmation">There are changes, lose them and quit or stay here?</string>
-    <string name="cave_arrangement_warning">Warning : with arrangement modifications, some placed bottles may become unplaced!</string>
+    <string name="cave_arrangement_warning">Warning : after arrangement modifications, some placed bottles may become unplaced!</string>
     <string name="error_cave_bulk_not_enough">Incorrect capacity : more bottles are already placed.</string>
     <string name="import_export">Import - Export</string>
     <string name="title_sync">Import - Export</string>
@@ -219,4 +219,5 @@
     <string name="success_import">Import successful!</string>
     <string name="sync_import_confirmation" >All current data will be deleted and replaced by imported data. Can we proceed?</string>
     <string name="error_import_too_old_version">Your app is older than the one used to export this backup. Import is not possible.</string>
+    <string name="message_cave_arrangement_info" >Placement of the bottles after save, click on a pattern to change it.</string>
 </resources>

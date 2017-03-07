@@ -148,7 +148,7 @@
     <string name="create_pattern_horizontally_expendable">Extensible horizontallement</string>
     <string name="create_pattern_vertically_expendable">Extensible verticallement</string>
     <string name="create_pattern_overview">Aperçu du motif</string>
-    <string name="cave_edit_box_pattern_overview">Aperçu du motif de la caisse</string>
+    <string name="cave_edit_box_pattern_overview">Aperçu du motif de chaque caisse</string>
     <string name="create_pattern_invert">Inverser le motif</string>
     <string name="error_pattern_incorrect_rows_cols">Le nombre de bouteilles par ligne et par colonne doivent être supérieurs à 0</string>
     <string name="no_bottles_to_add">Toutes les bouteilles sont déjà dans les caves, bien joué\u00A0!</string>
@@ -184,7 +184,7 @@
     <string name="place_bottle_quantity">Combien\u00A0?</string>
     <string name="save">Enregistrer</string>
     <string name="detail_exit_confirmation">Il y a des changements, les perdre et quitter cette page ou rester ici\u00A0?</string>
-    <string name="cave_arrangement_warning">Attention\u00A0: avec des modifications de disposition, certaines bouteilles placées pourraient ne plus l\'être\u00A0!</string>
+    <string name="cave_arrangement_warning">Attention\u00A0: après des modifications de disposition, certaines bouteilles placées pourraient ne plus l\'être\u00A0!</string>
     <string name="import_export">Import - Export</string>
     <string name="title_sync">Import - Export</string>
     <string name="sync_export">Export</string>
@@ -202,4 +202,5 @@
     <string name="success_import">Import réussi\u00A0!</string>
     <string name="sync_import_confirmation">Toutes les données actuelles seront supprimées et remplacées par les données importées. On continue\u00A0?</string>
     <string name="error_import_too_old_version">Ton application est plus vieille que l\'application utilisée pour exporter cette sauvegarde. L\'import est impossible.</string>
+    <string name="message_cave_arrangement_info">Placement des bouteilles après sauvegarde, clique sur un motif pour le modifier.</string>
 </resources>

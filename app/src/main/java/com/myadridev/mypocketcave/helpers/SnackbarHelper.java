@@ -10,16 +10,20 @@ import com.myadridev.mypocketcave.R;
 
 public class SnackbarHelper {
 
-    public static void displaySuccessSnackbar(Context context, CoordinatorLayout coordinatorLayout, int messageResourceId, int actionMessageResourceId, int lengthIndefinite) {
-        displaySnackbar(context, coordinatorLayout, messageResourceId, actionMessageResourceId, lengthIndefinite, R.color.colorSuccess);
+    public static void displaySuccessSnackbar(Context context, CoordinatorLayout coordinatorLayout, int messageResourceId, int actionMessageResourceId, int duration) {
+        displaySnackbar(context, coordinatorLayout, messageResourceId, actionMessageResourceId, duration, R.color.colorSuccess);
     }
 
-    public static void displayErrorSnackbar(Context context, CoordinatorLayout coordinatorLayout, int messageResourceId, int actionMessageResourceId, int lengthIndefinite) {
-        displaySnackbar(context, coordinatorLayout, messageResourceId, actionMessageResourceId, lengthIndefinite, R.color.colorError);
+    public static void displayErrorSnackbar(Context context, CoordinatorLayout coordinatorLayout, int messageResourceId, int actionMessageResourceId, int duration) {
+        displaySnackbar(context, coordinatorLayout, messageResourceId, actionMessageResourceId, duration, R.color.colorError);
     }
 
-    private static void displaySnackbar(Context context, CoordinatorLayout coordinatorLayout, int messageResourceId, int actionMessageResourceId, int lengthIndefinite, int actionColorResourceId) {
-        final Snackbar snackbar = Snackbar.make(coordinatorLayout, messageResourceId, lengthIndefinite);
+    public static void displayInfoSnackbar(Context context, CoordinatorLayout coordinatorLayout, int messageResourceId, int actionMessageResourceId, int duration) {
+        displaySnackbar(context, coordinatorLayout, messageResourceId, actionMessageResourceId, duration, R.color.colorInfo);
+    }
+
+    private static void displaySnackbar(Context context, CoordinatorLayout coordinatorLayout, int messageResourceId, int actionMessageResourceId, int duration, int actionColorResourceId) {
+        final Snackbar snackbar = Snackbar.make(coordinatorLayout, messageResourceId, duration);
         snackbar.setAction(actionMessageResourceId, (View v) -> snackbar.dismiss());
         snackbar.setActionTextColor(ContextCompat.getColor(context, actionColorResourceId));
         snackbar.show();
