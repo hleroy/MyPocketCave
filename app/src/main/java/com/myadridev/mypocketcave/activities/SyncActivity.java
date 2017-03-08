@@ -8,13 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.dialogs.PathChooserDialog;
 import com.myadridev.mypocketcave.helpers.PermissionsHelper;

@@ -249,4 +249,8 @@ public class PatternModel implements IStorableModel, Comparable<PatternModel> {
         // if same IsInverted and same NumberBottlesByRow -> true
         return IsInverted == otherPattern.IsInverted && NumberBottlesByRow == otherPattern.NumberBottlesByRow;
     }
+
+    @JsonIgnore
+    public void trimAll() {
+    }
 }

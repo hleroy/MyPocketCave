@@ -64,4 +64,9 @@ public class CaveLightModel implements IStorableModel, Comparable<CaveLightModel
     public boolean isValid() {
         return CaveType != null && Name != null;
     }
+
+    @JsonIgnore
+    public void trimAll() {
+        Name = Name.trim();
+    }
 }

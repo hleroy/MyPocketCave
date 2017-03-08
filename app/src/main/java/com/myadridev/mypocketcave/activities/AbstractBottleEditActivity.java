@@ -232,6 +232,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         }
         String stockString = stockView.getText().toString();
         bottle.Stock = stockString.isEmpty() ? 0 : Integer.valueOf(stockString);
+
+        bottle.trimAll();
         return true;
     }
 

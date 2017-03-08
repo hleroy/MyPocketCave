@@ -93,12 +93,11 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
                 continue;
             }
             IStorableModel data = JsonManager.readValue(dataJson, dataType);
-            if (data == null) {
+            if (data == null || !data.isValid()) {
                 continue;
             }
-            if (data.isValid()) {
-                dataMap.put(data.getId(), data);
-            }
+            data.trimAll();
+            dataMap.put(data.getId(), data);
         }
         return dataMap;
     }
@@ -116,7 +115,11 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
             return null;
         }
         IStorableModel data = JsonManager.readValue(dataJson, dataType);
-        return data != null && data.isValid() ? data : null;
+        if (data == null || !data.isValid())
+            return null;
+
+        data.trimAll();
+        return data;
     }
 
     public String loadStoredData(Context context, String storeFilename, int keyResourceId) {

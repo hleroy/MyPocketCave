@@ -92,4 +92,12 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
     public boolean isValid() {
         return WineColor != null && Domain != null && Name != null;
     }
+
+    @JsonIgnore
+    public void trimAll() {
+        Name = Name.trim();
+        Domain = Domain.trim();
+        Comments = Comments.trim();
+        PersonToShareWith = PersonToShareWith.trim();
+    }
 }

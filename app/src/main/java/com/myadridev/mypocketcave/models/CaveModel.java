@@ -68,4 +68,9 @@ public class CaveModel implements IStorableModel, Comparable<CaveModel> {
     public List<BottleModel> getBottles() {
         return BottleManager.getBottles(CaveArrangement.IntNumberPlacedBottlesByIdMap.keySet());
     }
+
+    @JsonIgnore
+    public void trimAll() {
+        Name = Name.trim();
+    }
 }

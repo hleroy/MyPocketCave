@@ -449,6 +449,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cave.CaveArrangement.TotalCapacity = 0;
                 break;
         }
+
+        cave.trimAll();
         return true;
     }
 

@@ -1,7 +1,9 @@
 package com.myadridev.mypocketcave.models;
 
 public interface IStorableModel {
+    int getId();
+
     boolean isValid();
 
-    int getId();
+    void trimAll();
 }
