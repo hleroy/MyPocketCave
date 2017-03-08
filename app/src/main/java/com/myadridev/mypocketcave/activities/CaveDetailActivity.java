@@ -3,7 +3,9 @@ package com.myadridev.mypocketcave.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +28,7 @@ import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
 import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
+import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
@@ -40,6 +44,7 @@ import java.util.Collections;
 
 public class CaveDetailActivity extends AppCompatActivity {
 
+    private final View.OnTouchListener arrangementTooltipOnClick;
     public int BottleIdInHighlight;
     private CaveModel cave;
     private ImageView caveTypeIconView;
@@ -47,6 +52,8 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView capacityUsedView;
     private Toolbar toolbar;
     private TextView boxesNumberView;
+    protected CoordinatorLayout coordinatorLayout;
+    private ImageView arrangementTooltipView;
     private RecyclerView arrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
     private BottlesAdapter bottlesAdapter;
@@ -59,6 +66,13 @@ public class CaveDetailActivity extends AppCompatActivity {
     private OnBottleDrunkClickListener onBottleDrunkClickListener;
     private OnBottleUnplacedClickListener onBottleUnplacedClickListener;
     private SimpleDividerItemDecoration dividerItemDecoration;
+
+    public CaveDetailActivity() {
+        arrangementTooltipOnClick = (View v, MotionEvent event) -> {
+            SnackbarHelper.displayInfoSnackbar(this, coordinatorLayout, R.string.message_cave_detail_arrangement_info, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+            return false;
+        };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +159,9 @@ public class CaveDetailActivity extends AppCompatActivity {
     }
 
     private void setLayout() {
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.cave_detail_coordinator_layout);
+        arrangementTooltipView = (ImageView) findViewById(R.id.cave_detail_arrangement_tooltip);
+        arrangementTooltipView.setOnTouchListener(arrangementTooltipOnClick);
         caveTypeIconView = (ImageView) findViewById(R.id.cave_detail_type_icon);
         caveTypeView = (TextView) findViewById(R.id.cave_detail_type);
         capacityUsedView = (TextView) findViewById(R.id.cave_detail_capacity_used_total);
@@ -163,6 +180,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
         switch (cave.CaveType) {
             case BULK:
+                arrangementTooltipView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.GONE);
                 arrangementRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -213,12 +231,14 @@ public class CaveDetailActivity extends AppCompatActivity {
                 arrangementRecyclerView.setVisibility(View.VISIBLE);
                 break;
             case BOX:
+                arrangementTooltipView.setVisibility(View.VISIBLE);
                 boxesNumberView.setVisibility(View.VISIBLE);
                 boxesNumberView.setText(getResources().getQuantityString(R.plurals.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes, cave.CaveArrangement.NumberBoxes));
                 setCaveArrangement(true);
                 break;
             case RACK:
             case FRIDGE:
+                arrangementTooltipView.setVisibility(View.VISIBLE);
                 boxesNumberView.setVisibility(View.GONE);
                 setCaveArrangement(false);
                 break;

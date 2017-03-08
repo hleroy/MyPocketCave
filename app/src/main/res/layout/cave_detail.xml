@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/cave_detail_coordinator_layout"
     tools:context=".activities.CaveDetailActivity">
 
     <android.support.design.widget.AppBarLayout

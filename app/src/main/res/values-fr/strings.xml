@@ -202,5 +202,6 @@
     <string name="success_import">Import réussi\u00A0!</string>
     <string name="sync_import_confirmation">Toutes les données actuelles seront supprimées et remplacées par les données importées. On continue\u00A0?</string>
     <string name="error_import_too_old_version">Ton application est plus vieille que l\'application utilisée pour exporter cette sauvegarde. L\'import est impossible.</string>
-    <string name="message_cave_arrangement_info">Placement des bouteilles après sauvegarde, clique sur un motif pour le modifier.</string>
+    <string name="message_cave_edit_arrangement_info">Placement des bouteilles après sauvegarde, clique sur un motif pour le modifier.</string>
+    <string name="message_cave_detail_arrangement_info">Clique sur un emplacement pour placer une bouteille ou interagir avec.</string>
 </resources>

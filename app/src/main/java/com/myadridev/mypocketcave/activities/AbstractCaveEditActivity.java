@@ -99,7 +99,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         };
         arrangementTooltipOnClick = (View v, MotionEvent event) -> {
             hideKeyboard();
-            SnackbarHelper.displayInfoSnackbar(this, coordinatorLayout, R.string.message_cave_arrangement_info, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+            SnackbarHelper.displayInfoSnackbar(this, coordinatorLayout, R.string.message_cave_edit_arrangement_info, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return false;
         };
     }
@@ -458,7 +458,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         String name = nameView.getText().toString();
 
         if (name.isEmpty()) {
-            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_bottle_already_exists, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_cave_no_name, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         } else {
             CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
