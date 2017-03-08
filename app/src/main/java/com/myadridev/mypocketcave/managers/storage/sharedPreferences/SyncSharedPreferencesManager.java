@@ -32,10 +32,14 @@ public class SyncSharedPreferencesManager implements ISyncStorageManager {
     }
 
     public String getImportLocation() {
-        return defaultLocation;
+        return getDefaultLocation();
     }
 
     public String getExportLocation() {
+        return getDefaultLocation();
+    }
+
+    public String getDefaultLocation() {
         return defaultLocation;
     }
 }

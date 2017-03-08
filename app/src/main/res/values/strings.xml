@@ -203,8 +203,8 @@
     <string name="title_sync">Import - Export</string>
     <string name="sync_export">Export</string>
     <string name="sync_import">Import</string>
-    <string name="sync_export_location">Export folder:</string>
-    <string name="sync_import_location">Import file:</string>
+    <string name="sync_export_location">Choose export folder</string>
+    <string name="sync_import_location">Choose import file</string>
     <string name="filename_sync" translatable="false">sync</string>
     <string name="store_sync_import" translatable="false">sync_import</string>
     <string name="store_sync_export" translatable="false">sync_export</string>
@@ -214,11 +214,12 @@
     <string name="global_back">Back</string>
     <string name="parent_folder">Parent folder..</string>
     <string name="error_export">Error during the export, please try again!</string>
-    <string name="success_export">Export successful!</string>
+    <string name="success_export">Export successful! File created: %1$s</string>
     <string name="error_import">Error during the import, please try again!</string>
     <string name="success_import">Import successful!</string>
     <string name="sync_import_confirmation" >All current data will be deleted and replaced by imported data. Can we proceed?</string>
     <string name="error_import_too_old_version">Your app is older than the one used to export this backup. Import is not possible.</string>
     <string name="message_cave_edit_arrangement_info" >Placement of the bottles after save, tap on a pattern to change it.</string>
     <string name="message_cave_detail_arrangement_info" >Tap on a place to place a bottle or to interact with it.</string>
+    <string name="error_no_import_file_selected" >No valid file selected for the import!</string>
 </resources>

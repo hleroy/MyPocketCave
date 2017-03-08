@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.listeners.OnPathChosenListener;
+import com.myadridev.mypocketcave.managers.SyncManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,9 +27,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class PathChooserDialog {
-    private static final String separator = "/";
     private boolean isNewFolderEnabled;
     private String defaultPath = "";
+    private String rootPath = "";
     private Context context;
     private TextView titleView;
 
@@ -40,18 +41,20 @@ public class PathChooserDialog {
     private Button parentButton = null;
     private boolean needToSelectFile;
 
-    public PathChooserDialog(Context context, String defaultPath, boolean isNewFolderEnabled, @NonNull List<String> allowedFileExtensions, OnPathChosenListener onPathChosenListener) {
+    public PathChooserDialog(Context context, String defaultPath, String rootPath, boolean isNewFolderEnabled, @NonNull List<String> allowedFileExtensions, OnPathChosenListener onPathChosenListener) {
         this.context = context;
         this.defaultPath = defaultPath;
+        this.rootPath = rootPath;
         this.isNewFolderEnabled = isNewFolderEnabled;
         this.allowedFileExtensions = allowedFileExtensions;
         this.onPathChosenListener = onPathChosenListener;
         needToSelectFile = true;
     }
 
-    public PathChooserDialog(Context context, String defaultPath, boolean isNewFolderEnabled, OnPathChosenListener onPathChosenListener) {
+    public PathChooserDialog(Context context, String defaultPath, String rootPath, boolean isNewFolderEnabled, OnPathChosenListener onPathChosenListener) {
         this.context = context;
         this.defaultPath = defaultPath;
+        this.rootPath = rootPath;
         this.isNewFolderEnabled = isNewFolderEnabled;
         this.allowedFileExtensions = new ArrayList<>();
         this.onPathChosenListener = onPathChosenListener;
@@ -84,7 +87,7 @@ public class PathChooserDialog {
 
         AlertDialog.Builder dialogBuilder = createDirectoryChooserDialog(subFoldersAndAllowedFiles, (DialogInterface dialog, int item) -> {
             // update path
-            PathChooserDialog.this.currentPath += (currentPath.equals(separator) ? "" : separator) + ((AlertDialog) dialog).getListView().getAdapter().getItem(item);
+            PathChooserDialog.this.currentPath += (currentPath.equals(SyncManager.separator) ? "" : SyncManager.separator) + ((AlertDialog) dialog).getListView().getAdapter().getItem(item);
             File currentPathFile = new File(PathChooserDialog.this.currentPath);
             if (currentPathFile.isDirectory()) {
                 // Navigate into the sub-directory
@@ -143,6 +146,8 @@ public class PathChooserDialog {
 
         for (File file : pathFile.listFiles()) {
             String fileName = file.getName();
+            if (fileName.startsWith(".")) continue;
+
             if (file.isDirectory()) {
                 subFolders.add(fileName);
             } else if (isFileAllowed(fileName)) {
@@ -150,7 +155,7 @@ public class PathChooserDialog {
             }
         }
 
-        Collections.sort(files);
+        Collections.sort(files, Collections.reverseOrder());
         Collections.sort(subFolders);
         files.addAll(subFolders);
         return files;
@@ -163,7 +168,7 @@ public class PathChooserDialog {
         titleLayout.setOrientation(LinearLayout.VERTICAL);
         titleLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        String title = currentPath;
+        String title = currentPath.length() >= rootPath.length() + 1 ? currentPath.substring(rootPath.length() + 1) : "";
 
         titleView = new TextView(context);
         titleView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -186,7 +191,7 @@ public class PathChooserDialog {
                         .setPositiveButton(R.string.global_ok, (DialogInterface dialog, int whichButton) -> {
                             String newFolderName = input.getText().toString();
                             // Create new directory
-                            String newFolder = currentPath + (currentPath.equals(separator) ? "" : separator) + newFolderName;
+                            String newFolder = currentPath + (currentPath.equals(SyncManager.separator) ? "" : SyncManager.separator) + newFolderName;
                             if (createSubDir(newFolder)) {
                                 // Navigate into the new directory
                                 currentPath = newFolder;
@@ -205,10 +210,10 @@ public class PathChooserDialog {
         parentButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         parentButton.setText(R.string.parent_folder);
         parentButton.setOnClickListener((View view) -> {
-            if (!PathChooserDialog.this.currentPath.equals(separator)) {
+            if (!PathChooserDialog.this.currentPath.equals(rootPath)) {
                 // Navigate back to an upper directory
                 PathChooserDialog.this.currentPath = new File(PathChooserDialog.this.currentPath).getParent();
-                if (PathChooserDialog.this.currentPath.equals(separator)) {
+                if (PathChooserDialog.this.currentPath.equals(rootPath)) {
                     parentButton.setVisibility(View.GONE);
                 }
                 updateDirectory();
@@ -229,7 +234,7 @@ public class PathChooserDialog {
     private void updateDirectory() {
         subFoldersAndAllowedFiles.clear();
         subFoldersAndAllowedFiles.addAll(getSubFoldersAndAllowedFiles());
-        titleView.setText(currentPath);
+        titleView.setText(currentPath.length() >= rootPath.length() + 1 ? currentPath.substring(rootPath.length() + 1) : "");
 
         listAdapter.notifyDataSetChanged();
     }

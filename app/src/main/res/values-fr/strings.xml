@@ -189,19 +189,20 @@
     <string name="title_sync">Import - Export</string>
     <string name="sync_export">Export</string>
     <string name="sync_import">Import</string>
-    <string name="sync_export_location">Dossier d\'export\u00A0:</string>
-    <string name="sync_import_location">Fichier à importer\u00A0:</string>
+    <string name="sync_export_location">Choisir le dossier d\'export</string>
+    <string name="sync_import_location">Choisir un fichier à importer</string>
     <string name="new_folder">Nouveau dossier</string>
     <string name="new_folder_name">Nom du nouveau dossier</string>
     <string name="new_folder_create_error">Erreur à la création du dossier \'%1$s\'</string>
     <string name="global_back">Retour</string>
     <string name="parent_folder">Dossier parent..</string>
     <string name="error_export">Erreur pendant l\'export, essaye encore\u00A0!</string>
-    <string name="success_export">Export réussi\u00A0!</string>
+    <string name="success_export">Export réussi\u00A0! Fichier créé\u00A0: %1$s</string>
     <string name="error_import">Erreur pendant l\'import, essaye encore\u00A0!</string>
     <string name="success_import">Import réussi\u00A0!</string>
     <string name="sync_import_confirmation">Toutes les données actuelles seront supprimées et remplacées par les données importées. On continue\u00A0?</string>
     <string name="error_import_too_old_version">Ton application est plus vieille que l\'application utilisée pour exporter cette sauvegarde. L\'import est impossible.</string>
     <string name="message_cave_edit_arrangement_info">Placement des bouteilles après sauvegarde, clique sur un motif pour le modifier.</string>
     <string name="message_cave_detail_arrangement_info">Clique sur un emplacement pour placer une bouteille ou interagir avec.</string>
+    <string name="error_no_import_file_selected">Aucun fichier valide sélectionné pour l\'import\u00A0!</string>
 </resources>

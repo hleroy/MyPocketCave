@@ -43,7 +43,7 @@
                 android:src="@drawable/import_icon_seleted"
                 app:layout_widthPercent="50%" />
 
-            <TextView
+            <Button
                 android:id="@+id/sync_location_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

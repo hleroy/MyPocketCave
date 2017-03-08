@@ -5,4 +5,6 @@ public interface ISyncStorageManager {
     String getImportLocation();
 
     String getExportLocation();
+
+    String getDefaultLocation();
 }

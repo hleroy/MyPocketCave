@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class SyncManager {
+    public static final String separator = "/";
 
     private static boolean listenerSyncRegistered = false;
     private static ISyncStorageManager syncStorageManager = null;
@@ -40,9 +41,13 @@ public class SyncManager {
         return getSyncStorageManager().getExportLocation();
     }
 
-    public static boolean exportData(Context context, String exportLocation, String extension) {
+    public static String getDefaultLocation() {
+        return getSyncStorageManager().getDefaultLocation();
+    }
+
+    public static String exportData(Context context, String exportLocation, String extension) {
         String exportData = getExportData(context);
-        return exportData != null && performExport(exportLocation, extension, exportData);
+        return exportData != null ? performExport(exportLocation, extension, exportData) : "";
     }
 
     private static String getExportData(Context context) {
@@ -54,7 +59,7 @@ public class SyncManager {
         return JsonManager.writeValueAsString(syncData);
     }
 
-    private static boolean performExport(String exportLocation, String extension, String exportData) {
+    private static String performExport(String exportLocation, String extension, String exportData) {
         boolean isExportSuccessful = true;
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
@@ -76,7 +81,7 @@ public class SyncManager {
             e.printStackTrace();
             isExportSuccessful = false;
         }
-        return isExportSuccessful;
+        return isExportSuccessful ? exportFileName : "";
     }
 
     public static int importData(Context context, String importLocation) {
