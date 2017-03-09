@@ -3,6 +3,7 @@ package com.myadridev.mypocketcave.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -43,7 +44,6 @@ import com.myadridev.mypocketcave.models.PatternModelWithBottles;
 
 public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
-    public static final int overviewScreenHeightPercent = 50;
     public static final int overviewScreenWidthMarginLeft = 8;
     public static final int overviewScreenWidthMarginRight = 8;
 
@@ -75,14 +75,15 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private TextView arrangementWarningView;
     private TextView boxesOverviewView;
     private RecyclerView boxesOverviewRecyclerView;
-    private int screenHeight;
-    private int screenWidth;
     private RecyclerView caveArrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
+    private PatternAdapter patternAdapter;
+    private int lastCaveTypeSelected;
+
     private TextWatcher dispositionChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
-            updateValuesAndAdapter();
+            updateBoxesPatternValuesAndAdapter();
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -185,13 +186,18 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
         if (cave.Id > 0) {
             nameView.setText(cave.Name);
-            caveTypeView.setSelection(getCaveTypePosition(cave.CaveType.Id));
+            int caveTypePosition = getCaveTypePosition(cave.CaveType.Id);
+            caveTypeView.setSelection(caveTypePosition);
+            lastCaveTypeSelected = caveTypePosition;
         }
         setArrangementByCaveType();
         caveTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setArrangementByCaveType();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                if (position != lastCaveTypeSelected) {
+                    setArrangementByCaveType();
+                    lastCaveTypeSelected = position;
+                }
             }
 
             @Override
@@ -226,7 +232,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 boxesOverviewView.setVisibility(View.VISIBLE);
                 boxesOverviewRecyclerView.setVisibility(View.VISIBLE);
                 caveArrangementRecyclerView.setVisibility(View.GONE);
-                updateValuesAndAdapter();
+                updateBoxesPatternValuesAndAdapter();
                 if (cave.Id > 0) {
                     boxesNumberView.setText(String.valueOf(cave.CaveArrangement.NumberBoxes));
                     boxesPatternNumberBottlesByColumnView.setText(String.valueOf(cave.CaveArrangement.BoxesNumberBottlesByColumn));
@@ -244,15 +250,14 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 boxesOverviewRecyclerView.setVisibility(View.GONE);
                 caveArrangementRecyclerView.setVisibility(View.VISIBLE);
 
-                createAdapter();
-                caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
+                createCaveArrangementAdapter();
                 break;
         }
     }
 
-    private void updateValuesAndAdapter() {
+    private void updateBoxesPatternValuesAndAdapter() {
         setBoxesPatternValues();
-        updateAdapter();
+        updateBoxesPatternAdapter();
     }
 
     private void setBoxesPatternValues() {
@@ -265,39 +270,35 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         boxesPattern.computePlacesMap();
     }
 
-    private void updateAdapter() {
+    private void updateBoxesPatternAdapter() {
         if (boxesPattern.NumberBottlesByRow == 0 || boxesPattern.NumberBottlesByColumn == 0) {
             return;
         }
-        PatternAdapter patternAdapter = createBoxesPatternAdapter();
+        createBoxesPatternAdapter();
         boxesOverviewRecyclerView.setLayoutManager(new GridLayoutManager(this, boxesPattern.getNumberColumnsGridLayout()));
         boxesOverviewRecyclerView.setAdapter(patternAdapter);
     }
 
-    private PatternAdapter createBoxesPatternAdapter() {
-        if (screenHeight == 0 || screenWidth == 0) {
-            setScreenDimensions();
-        }
-        return new PatternAdapter(this, boxesPattern.getPlaceMapForDisplay(), new CoordinatesModel(boxesPattern.getNumberRowsGridLayout(), boxesPattern.getNumberColumnsGridLayout()),
-                false, screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight,
-                (screenHeight * overviewScreenHeightPercent / 100), null);
+    private void createBoxesPatternAdapter() {
+        patternAdapter = new PatternAdapter(this, boxesPattern.getPlaceMapForDisplay(), new CoordinatesModel(boxesPattern.getNumberRowsGridLayout(), boxesPattern.getNumberColumnsGridLayout()),
+                false, ScreenHelper.getScreenWidth(this) - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight, null);
     }
 
-    private void setScreenDimensions() {
-        screenHeight = ScreenHelper.getScreenHeight(this);
-        screenWidth = ScreenHelper.getScreenWidth(this);
-    }
-
-    private void createAdapter() {
+    private void createCaveArrangementAdapter() {
         cave.CaveArrangement.movePatternMapToRight();
         if (oldCave != null) {
             oldCave.CaveArrangement.movePatternMapToRight();
         }
+        drawCaveArrangement();
+    }
+
+    private void drawCaveArrangement() {
         CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
         int nbCols = Math.max(maxRowCol.Col + 2, 3);
         int nbRows = maxRowCol.Row + 2;
         caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
         caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, ScreenHelper.getScreenWidth(this));
+        caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
     }
 
     @Override
@@ -317,8 +318,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                         } else {
                             cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
                         }
-                        createAdapter();
-                        caveArrangementRecyclerView.setAdapter(caveArrangementAdapter);
+                        createCaveArrangementAdapter();
                     }
                 }
             }
@@ -482,5 +482,21 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             }
         }
         return !isErrors;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // redraw the grid
+        CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+        switch (caveType) {
+            case BOX:
+                updateBoxesPatternAdapter();
+                break;
+            case RACK:
+            case FRIDGE:
+                drawCaveArrangement();
+                break;
+        }
     }
 }

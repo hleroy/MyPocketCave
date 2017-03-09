@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -227,19 +228,32 @@ public class CaveDetailActivity extends AppCompatActivity {
                     BottleIdInHighlight = -1;
                     bottlesAdapter.setBottleIdInHighlight(BottleIdInHighlight);
                 });
-                arrangementRecyclerView.setAdapter(bottlesAdapter);
-                arrangementRecyclerView.setVisibility(View.VISIBLE);
                 break;
             case BOX:
                 arrangementTooltipView.setVisibility(View.VISIBLE);
                 boxesNumberView.setVisibility(View.VISIBLE);
                 boxesNumberView.setText(getResources().getQuantityString(R.plurals.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes, cave.CaveArrangement.NumberBoxes));
-                setCaveArrangement(true);
                 break;
             case RACK:
             case FRIDGE:
                 arrangementTooltipView.setVisibility(View.VISIBLE);
                 boxesNumberView.setVisibility(View.GONE);
+                break;
+        }
+        drawArrangement();
+    }
+
+    private void drawArrangement() {
+        switch (cave.CaveType) {
+            case BULK:
+                arrangementRecyclerView.setAdapter(bottlesAdapter);
+                arrangementRecyclerView.setVisibility(View.VISIBLE);
+                break;
+            case BOX:
+                setCaveArrangement(true);
+                break;
+            case RACK:
+            case FRIDGE:
                 setCaveArrangement(false);
                 break;
         }
@@ -279,7 +293,7 @@ public class CaveDetailActivity extends AppCompatActivity {
         holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
         holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
         holder.setStockLabelViewText(getString(R.string.bottles_here,
-                cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? (int)cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0));
+                cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? (int) cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0));
         int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
         holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(this, wineColorDrawableId) : null);
     }
@@ -312,5 +326,12 @@ public class CaveDetailActivity extends AppCompatActivity {
 
     private void refreshCave(int caveId) {
         cave = CaveManager.getCave(this, caveId);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // redraw the grid
+        drawArrangement();
     }
 }

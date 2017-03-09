@@ -11,6 +11,7 @@
     <dimen name="cave_image_size_small">32dp</dimen>
     <dimen name="cave_image_size">64dp</dimen>
     <dimen name="cave_image_size_large">108dp</dimen>
+    <dimen name="pattern_image_size_large">108dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="text_size_small">15sp</dimen>

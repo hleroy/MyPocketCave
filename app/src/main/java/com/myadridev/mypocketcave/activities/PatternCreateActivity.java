@@ -3,6 +3,7 @@ package com.myadridev.mypocketcave.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -37,7 +38,6 @@ import com.myadridev.mypocketcave.models.PatternModel;
 
 public class PatternCreateActivity extends AppCompatActivity {
 
-    public static final int overviewScreenHeightPercent = 50;
     public static final int overviewScreenWidthMarginLeft = 8;
     public static final int overviewScreenWidthMarginRight = 8;
     private final View.OnTouchListener hideKeyboardOnClick;
@@ -55,9 +55,8 @@ public class PatternCreateActivity extends AppCompatActivity {
     private PercentRelativeLayout containerLayout;
 
     private RecyclerView patternOverviewRecyclerView;
+    private PatternAdapter patternAdapter;
     private PatternModel pattern;
-    private int screenHeight;
-    private int screenWidth;
     private CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (CompoundButton compoundButton, boolean b) -> {
         hideKeyboard();
         updateValuesAndAdapter();
@@ -205,23 +204,14 @@ public class PatternCreateActivity extends AppCompatActivity {
         if (pattern.NumberBottlesByRow == 0 || pattern.NumberBottlesByColumn == 0) {
             return;
         }
-        PatternAdapter patternAdapter = createAdapter();
         patternOverviewRecyclerView.setLayoutManager(new GridLayoutManager(this, pattern.getNumberColumnsGridLayout()));
+        createAdapter();
         patternOverviewRecyclerView.setAdapter(patternAdapter);
     }
 
-    private PatternAdapter createAdapter() {
-        if (screenHeight == 0 || screenWidth == 0) {
-            setScreenDimensions();
-        }
-        return new PatternAdapter(this, pattern.getPlaceMapForDisplay(), new CoordinatesModel(pattern.getNumberRowsGridLayout(), pattern.getNumberColumnsGridLayout()),
-                false, screenWidth - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight,
-                (screenHeight * overviewScreenHeightPercent / 100), null);
-    }
-
-    private void setScreenDimensions() {
-        screenHeight = ScreenHelper.getScreenHeight(this);
-        screenWidth = ScreenHelper.getScreenWidth(this);
+    private void createAdapter() {
+        patternAdapter = new PatternAdapter(this, pattern.getPlaceMapForDisplay(), new CoordinatesModel(pattern.getNumberRowsGridLayout(), pattern.getNumberColumnsGridLayout()),
+                false, ScreenHelper.getScreenWidth(this) - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight, null);
     }
 
     private void setVisibilityDependantValues() {
@@ -285,5 +275,12 @@ public class PatternCreateActivity extends AppCompatActivity {
         intent.putExtra("patternId", patternId);
         setResult(resultCode, intent);
         finish();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // redraw the grid
+        updateAdapter();
     }
 }

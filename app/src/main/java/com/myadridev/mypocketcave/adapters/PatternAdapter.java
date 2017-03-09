@@ -33,7 +33,6 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final OnPlaceClickListener listener;
     private final boolean isClickable;
     private final int totalWidth;
-    private final int totalHeight;
     private final int numberRows;
     private final int numberCols;
     private final int bottleIdInHighlight;
@@ -45,18 +44,17 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private CoordinatesModel patternCoordinates;
 
     public PatternAdapter(Activity activity, Map<CoordinatesModel, CavePlaceModel> patternPlace, CoordinatesModel maxRawCol,
-                          boolean isClickable, int totalWidth, int totalHeight, CoordinatesModel patternCoordinates) {
-        this(activity, patternPlace, maxRawCol, isClickable, totalWidth, totalHeight, patternCoordinates, -1);
+                          boolean isClickable, int totalWidth, CoordinatesModel patternCoordinates) {
+        this(activity, patternPlace, maxRawCol, isClickable, totalWidth, patternCoordinates, -1);
     }
 
     public PatternAdapter(Activity activity, Map<CoordinatesModel, CavePlaceModel> patternPlace, CoordinatesModel maxRawCol,
-                          boolean isClickable, int totalWidth, int totalHeight, CoordinatesModel patternCoordinates, int bottleIdInHighlight) {
+                          boolean isClickable, int totalWidth, CoordinatesModel patternCoordinates, int bottleIdInHighlight) {
         this.activity = activity;
         this.patternPlace = patternPlace;
         this.numberRows = maxRawCol.Row;
         this.numberCols = maxRawCol.Col;
         this.totalWidth = totalWidth;
-        this.totalHeight = totalHeight;
         this.patternCoordinates = patternCoordinates;
         this.bottleIdInHighlight = bottleIdInHighlight;
         this.isClickable = isClickable;
@@ -192,7 +190,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private int getItemHeight() {
-        return totalHeight / numberRows;
+        return totalWidth / numberRows;
     }
 
     private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {

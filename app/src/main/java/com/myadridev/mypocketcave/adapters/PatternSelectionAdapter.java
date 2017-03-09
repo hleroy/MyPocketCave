@@ -11,10 +11,9 @@ import com.myadridev.mypocketcave.activities.PatternSelectionActivity;
 import com.myadridev.mypocketcave.adapters.viewHolders.CreatePatternViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.NoPatternViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.SelectionPatternViewHolder;
-import com.myadridev.mypocketcave.helpers.ScreenHelper;
+import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.listeners.OnSelectionPatternClickListener;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
 
@@ -24,16 +23,17 @@ import java.util.List;
 public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final PatternSelectionActivity activity;
     private final List<PatternModel> patternList;
+    private GridAutofitLayoutManager layoutManager;
     private final LayoutInflater layoutInflater;
 
     private final OnSelectionPatternClickListener listener;
     private List<OnSelectionPatternClickListener> listeners;
     private int itemWidth;
-    private int numberOfColumnsForDisplay = PatternManager.numberOfColumnsForDisplay;
 
-    public PatternSelectionAdapter(PatternSelectionActivity activity, List<PatternModel> patternList) {
+    public PatternSelectionAdapter(PatternSelectionActivity activity, List<PatternModel> patternList, GridAutofitLayoutManager layoutManager) {
         this.activity = activity;
         this.patternList = patternList;
+        this.layoutManager = layoutManager;
         layoutInflater = LayoutInflater.from(this.activity);
         listener = (int patternId) -> {
             if (patternId == -1) {
@@ -95,9 +95,7 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void setItemDimensions(View view) {
-        if (itemWidth == 0) {
-            itemWidth = ScreenHelper.getScreenWidth(activity) / numberOfColumnsForDisplay;
-        }
+        itemWidth = layoutManager.ColumnWidth;
         view.setMinimumWidth(itemWidth);
         view.setMinimumHeight(itemWidth);
     }
@@ -113,7 +111,7 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
                 if (numberColumnsGridLayout > 0) {
                     holder.setPatternViewLayoutManager(new GridLayoutManager(activity, numberColumnsGridLayout));
                     PatternAdapter patternAdapter = new PatternAdapter(activity, pattern.getPlaceMapForDisplay(), new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                            false, itemWidth, itemWidth, null);
+                            false, itemWidth, null);
                     holder.setPatternViewAdapter(patternAdapter);
                     holder.setOnItemClickListener(listener, pattern.Id);
                     holder.setClickableSpaceDimensions(itemWidth, itemWidth);

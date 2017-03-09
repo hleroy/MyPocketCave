@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -29,6 +30,7 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
     private View rootView;
     private RecyclerView cavesRecyclerView;
     private CavesAdapter cavesAdapter;
+    private GridAutofitLayoutManager layoutManager;
     private TextView cavesCountLabelView;
     private TextView cavesCountDetailLabelView;
 
@@ -50,11 +52,9 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
         if (!oldIsVisible && this.isVisible) {
             refreshCaves();
             createAdapter();
-            GridAutofitLayoutManager layoutManager = (GridAutofitLayoutManager) cavesRecyclerView.getLayoutManager();
             layoutManager.scrollToPosition(firstVisibleItemPosition);
         }
         if (oldIsVisible && !this.isVisible) {
-            GridAutofitLayoutManager layoutManager = (GridAutofitLayoutManager) cavesRecyclerView.getLayoutManager();
             firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
         }
     }
@@ -106,7 +106,8 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
         noCavesLabelView = (TextView) rootView.findViewById(R.id.no_caves_label);
 
         cavesRecyclerView = (RecyclerView) rootView.findViewById(R.id.caves_recyclerview);
-        cavesRecyclerView.setLayoutManager(new GridAutofitLayoutManager(getActivity(), (int) getResources().getDimension(R.dimen.cave_image_size_large)));
+        layoutManager = new GridAutofitLayoutManager(getActivity(), (int) getResources().getDimension(R.dimen.cave_image_size_large));
+        cavesRecyclerView.setLayoutManager(layoutManager);
 
         cavesCountLabelView = (TextView) rootView.findViewById(R.id.caves_count);
         cavesCountLabelView.setOnClickListener((View v) -> {
@@ -128,5 +129,13 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
 
         setIsVisible(isDisplayedAtFirstLaunch);
         return rootView;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // redraw the grid
+        layoutManager.notifyColumnWidthChanged();
+        if (cavesAdapter != null) cavesAdapter.notifyDataSetChanged();
     }
 }

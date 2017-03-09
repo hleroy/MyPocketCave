@@ -131,9 +131,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void setItemDimensions(View view) {
-        if (itemWidth == 0) {
-            itemWidth = totalWidth / nbCols;
-        }
+        itemWidth = totalWidth / nbCols;
         view.setMinimumWidth(itemWidth);
         view.setMinimumHeight(itemWidth);
     }
@@ -156,7 +154,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 holder.setPatternViewLayoutManager(new GridLayoutManager(detailActivity, numberColumnsGridLayout));
                 patternAdapter = new PatternAdapter(detailActivity, patternWithBottles.PlaceMapWithBottles,
                         new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                        true, itemWidth, itemWidth, coordinates, bottleIdInHighlight);
+                        true, itemWidth, coordinates, bottleIdInHighlight);
 
                 patternAdapter.addOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates1) -> {
                     // here quantity is 1 in all cases : we ignore it
@@ -190,7 +188,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 holder.setPatternViewLayoutManager(new GridLayoutManager(editActivity, numberColumnsGridLayout));
                 patternAdapter = new PatternAdapter(editActivity, patternWithBottles.PlaceMapWithBottles,
                         new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                        false, itemWidth, itemWidth, null);
+                        false, itemWidth, null);
                 holder.setOnItemClickListener(listener, coordinates);
                 holder.setClickableSpaceDimensions(itemWidth, itemWidth);
             }
