@@ -2,6 +2,8 @@ package com.myadridev.mypocketcave.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.managers.CaveManager;
@@ -14,6 +16,14 @@ public class CaveCreateActivity extends AbstractCaveEditActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cave_create);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_cave_create);
+        setSupportActionBar(toolbar);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override

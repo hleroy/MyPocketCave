@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myadridev.mypocketcave">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -31,23 +32,28 @@
         <activity
             android:name=".activities.BottleEditActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_edit_bottle" />
+            android:label="@string/title_edit_bottle"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BottleCreateActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_create_bottle" />
+            android:label="@string/title_create_bottle"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.AboutActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_about" />
+            android:label="@string/title_about"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SuggestBottleSearchActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_suggest_bottle_search" />
+            android:label="@string/title_suggest_bottle_search"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SuggestBottleResultActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_suggest_bottle_result" />
+            android:label="@string/title_suggest_bottle_result"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CaveDetailActivity"
             android:configChanges="orientation|screenSize"
@@ -55,23 +61,28 @@
         <activity
             android:name=".activities.CaveEditActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_edit_cave" />
+            android:label="@string/title_edit_cave"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CaveCreateActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_create_cave" />
+            android:label="@string/title_create_cave"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PatternSelectionActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_select_pattern" />
+            android:label="@string/title_select_pattern"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PatternCreateActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_create_pattern" />
+            android:label="@string/title_create_pattern"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SyncActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_sync" />
+            android:label="@string/title_sync"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

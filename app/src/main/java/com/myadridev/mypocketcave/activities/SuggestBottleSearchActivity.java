@@ -4,9 +4,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -52,6 +55,15 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.suggest_bottle_search);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_suggest_bottle_search);
+        setSupportActionBar(toolbar);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         isFoodListOpen = false;
         for (int i = 0; i < FoodToEatWithEnum.values().length; i++) {
             foodToEatWithList[i] = false;
@@ -179,5 +191,14 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
 
         CaveSpinnerAdapter caveSpinnerAdapter = new CaveSpinnerAdapter(this);
         caveSpinner.setAdapter(caveSpinnerAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            default:
+                onBackPressed();
+                return true;
+        }
     }
 }

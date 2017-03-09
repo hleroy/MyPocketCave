@@ -2,6 +2,8 @@ package com.myadridev.mypocketcave.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
@@ -17,6 +19,14 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottle_edit);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_bottle_edit);
+        setSupportActionBar(toolbar);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         Bundle bundle = getIntent().getExtras();
         bottleId = bundle.getInt("bottleId");

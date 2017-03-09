@@ -35,7 +35,6 @@ public class BottleDetailActivity extends AppCompatActivity {
     private TextView foodView;
     private TextView personView;
     private TextView commentsView;
-    private Toolbar toolbar;
     private TextView domainView;
 
     private boolean isMenuOpened;
@@ -50,7 +49,7 @@ public class BottleDetailActivity extends AppCompatActivity {
         setContentView(R.layout.bottle_detail);
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_bottle);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_bottle_detail);
         setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
@@ -71,7 +70,10 @@ public class BottleDetailActivity extends AppCompatActivity {
         fabSeeCaves.setOnClickListener((View v) -> {
             SeeCavesAlertDialog seeCavesAlertDialog = new SeeCavesAlertDialog(this, bottle.Id);
             seeCavesAlertDialog.setTitle(R.string.title_see_caves);
-            seeCavesAlertDialog.setOnDismissListener((DialogInterface dialog) -> closeFloatingActionButtonsMenu());
+            seeCavesAlertDialog.setOnDismissListener((DialogInterface dialog) -> {
+                closeFloatingActionButtonsMenu();
+                dialog.dismiss();
+            });
             seeCavesAlertDialog.show();
         });
 

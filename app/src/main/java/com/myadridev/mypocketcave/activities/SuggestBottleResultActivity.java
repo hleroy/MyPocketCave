@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,6 +42,14 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.suggest_bottle_result);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_suggest_bottle_result);
+        setSupportActionBar(toolbar);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.suggest_bottle_result_coordinator_layout);
 
@@ -138,5 +149,14 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     private int getBottlesCount(List<SuggestBottleResultModel> allBottles, boolean isAllBottlesVisible, WineColorEnum wineColor) {
         List<BottleModel> bottles = getBottleModels(allBottles, isAllBottlesVisible);
         return BottleManager.getBottlesCount(bottles, wineColor);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            default:
+                onBackPressed();
+                return true;
+        }
     }
 }

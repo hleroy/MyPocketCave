@@ -51,7 +51,6 @@ public class CaveDetailActivity extends AppCompatActivity {
     private ImageView caveTypeIconView;
     private TextView caveTypeView;
     private TextView capacityUsedView;
-    private Toolbar toolbar;
     private TextView boxesNumberView;
     protected CoordinatorLayout coordinatorLayout;
     private ImageView arrangementTooltipView;
@@ -81,7 +80,7 @@ public class CaveDetailActivity extends AppCompatActivity {
         setContentView(R.layout.cave_detail);
         cave = null;
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_cave);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_cave_detail);
         setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();

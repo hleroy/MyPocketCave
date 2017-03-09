@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/suggest_bottle_result_coordinator_layout"
@@ -7,6 +5,19 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".activities.SuggestBottleResultActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_suggest_bottle_result"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"

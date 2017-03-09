@@ -3,9 +3,12 @@ package com.myadridev.mypocketcave.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternSelectionAdapter;
@@ -26,6 +29,15 @@ public class PatternSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pattern_selection);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_pattern_selection);
+        setSupportActionBar(toolbar);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         initLayout();
     }
 
@@ -48,6 +60,15 @@ public class PatternSelectionActivity extends AppCompatActivity {
             PatternManager.setLastUsedPattern(this, patternId);
             setResultAndFinish(RESULT_OK, patternId);
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            default:
+                onBackPressed();
+                return true;
+        }
     }
 
     @Override

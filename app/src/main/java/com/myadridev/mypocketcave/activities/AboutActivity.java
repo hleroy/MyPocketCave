@@ -1,7 +1,10 @@
 package com.myadridev.mypocketcave.activities;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.myadridev.mypocketcave.R;
@@ -24,6 +27,14 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_about);
+        setSupportActionBar(toolbar);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         ListView listView = (ListView) findViewById(R.id.about_list_view);
 
         List<AboutItem> items = initializeItems();
@@ -31,6 +42,15 @@ public class AboutActivity extends AppCompatActivity {
         AboutAdapter adapter = new AboutAdapter(this, R.layout.item_about, items, contactSubject);
         assert listView != null;
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            default:
+                onBackPressed();
+                return true;
+        }
     }
 
     private List<AboutItem> initializeItems() {

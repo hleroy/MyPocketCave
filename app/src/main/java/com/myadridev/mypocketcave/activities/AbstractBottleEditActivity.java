@@ -84,7 +84,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
                 }
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                onBackPressed();
+                return true;
         }
     }
 
