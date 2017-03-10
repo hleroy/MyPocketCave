@@ -85,6 +85,10 @@ public class BottleManager {
         return getBottleStorageManager().getExistingBottleId(id, name, domain, wineColor.Id, millesime);
     }
 
+    public static int getBottlesPlacedCount() {
+        return getBottleStorageManager().getBottlesPlacedCount();
+    }
+
     public static int getBottlesCount() {
         return getBottleStorageManager().getBottlesCount();
     }

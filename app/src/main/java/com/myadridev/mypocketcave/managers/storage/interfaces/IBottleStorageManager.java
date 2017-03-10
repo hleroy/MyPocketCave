@@ -21,6 +21,8 @@ public interface IBottleStorageManager {
 
     int getExistingBottleId(int id, String name, String domain, int wineColorId, int millesime);
 
+    int getBottlesPlacedCount();
+
     int getBottlesCount();
 
     int getBottlesCount(Collection<BottleModel> bottles);

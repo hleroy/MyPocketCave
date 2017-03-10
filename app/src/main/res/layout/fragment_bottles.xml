@@ -24,8 +24,8 @@
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="bottles_count"
-        android:textSize="18sp"
+        android:text="@string/bottle_recap"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_widthPercent="66%" />
 

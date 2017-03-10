@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.fragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -108,7 +109,11 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
 
             bottlesCountLabelView.setVisibility(View.VISIBLE);
             int bottlesCount = BottleManager.getBottlesCount();
-            bottlesCountLabelView.setText(getResources().getQuantityString(R.plurals.bottles_count, bottlesCount, bottlesCount));
+            int bottlesPlacedCount = BottleManager.getBottlesPlacedCount();
+            Resources resources = getResources();
+            String totalBottles = resources.getQuantityString(R.plurals.bottles_count, bottlesCount, bottlesCount);
+            String placedBottles = resources.getQuantityString(R.plurals.bottles_count_placed, bottlesPlacedCount, bottlesPlacedCount);
+            bottlesCountLabelView.setText(getString(R.string.bottle_recap, totalBottles, placedBottles));
 
             bottlesCountDetailLabelView.setVisibility(View.GONE);
             bottlesCountDetailLabelView.setText(getString(R.string.bottles_count_detail,

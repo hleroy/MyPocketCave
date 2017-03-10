@@ -22,9 +22,14 @@
     <string name="bottle_edit_person">Who to share it with</string>
     <string name="bottle_name">Name of the bottle</string>
     <string name="bottle_stock">Stock</string>
+    <string name="bottle_recap">%1$s, %2$s</string>
     <plurals name="bottles_count">
-        <item quantity="one">Total: %1$d bottle</item>
-        <item quantity="other">Total: %1$d bottles</item>
+        <item quantity="one">Total:\u00A0%1$d bottle</item>
+        <item quantity="other">Total:\u00A0%1$d bottles</item>
+    </plurals>
+    <plurals name="bottles_count_placed">
+        <item quantity="one">Placed:\u00A0%1$d</item>
+        <item quantity="other">Placed:\u00A0%1$d</item>
     </plurals>
     <string name="bottles_count_detail">Red:\u00A0%1$d, White:\u00A0%2$d, Rosé:\u00A0%3$d, Champagne:\u00A0%4$d</string>
     <string name="bottles_stock">%1$d in stock</string>
@@ -110,8 +115,8 @@
     <string name="cave_type_fridge">Fridge cellar</string>
     <string name="cave_type_rack">Bottle racks</string>
     <plurals name="caves_count">
-        <item quantity="one">Total: %1$d cellar</item>
-        <item quantity="other">Total: %1$d cellars</item>
+        <item quantity="one">Total:\u00A0%1$d cellar</item>
+        <item quantity="other">Total:\u00A0%1$d cellars</item>
     </plurals>
     <string name="caves_count_detail">Bulk:\u00A0%1$d, Boxes:\u00A0%2$d, Fridge:\u00A0%3$d, Rack:\u00A0%4$d</string>
     <string name="filename_caves" translatable="false">caves</string>
@@ -185,7 +190,7 @@
     <string name="message_unplace">Really?</string>
     <string name="unplace_ok">Yes!</string>
     <string name="unplace_no">No</string>
-    <string name="error_bottle_not_enough">Incorrect stock : more bottles are already placed in the cellars</string>
+    <string name="error_bottle_not_enough">Incorrect stock:\u00A0more bottles are already placed in the cellars</string>
     <string name="bottle_delete_error_some_placed">Some bottles are placed in the cellars, please remove them before</string>
     <string name="no_caves_with_bottle">This bottle is not placed in any cellar</string>
     <string name="title_see_caves">See cellars with this bottle</string>
@@ -197,8 +202,8 @@
     <string name="place_bottle_quantity">How many?</string>
     <string name="save">Save</string>
     <string name="detail_exit_confirmation">There are changes, lose them and quit or stay here?</string>
-    <string name="cave_arrangement_warning">Warning : after arrangement modifications, some placed bottles may become unplaced!</string>
-    <string name="error_cave_bulk_not_enough">Incorrect capacity : more bottles are already placed.</string>
+    <string name="cave_arrangement_warning">Warning:\u00A0after arrangement modifications, some placed bottles may become unplaced!</string>
+    <string name="error_cave_bulk_not_enough">Incorrect capacity:\u00A0more bottles are already placed.</string>
     <string name="import_export">Import - Export</string>
     <string name="title_sync">Import - Export</string>
     <string name="sync_export">Export</string>

@@ -127,6 +127,22 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         return 0;
     }
 
+    public int getBottlesPlacedCount() {
+        return getBottlesPlacedCount(allBottlesMap.values(), WineColorEnum.ANY.Id);
+    }
+
+    public int getBottlesPlacedCount(Collection<BottleModel> bottles, int wineColorId) {
+        int bottlesCount = 0;
+        boolean isAnyBottles = wineColorId == WineColorEnum.ANY.Id;
+
+        for (BottleModel bottle : bottles) {
+            if (isAnyBottles || bottle.WineColor.Id == wineColorId) {
+                bottlesCount += bottle.NumberPlaced;
+            }
+        }
+        return bottlesCount;
+    }
+
     public int getBottlesCount() {
         return getBottlesCount(allBottlesMap.values(), WineColorEnum.ANY.Id);
     }

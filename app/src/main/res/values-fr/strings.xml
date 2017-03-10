@@ -54,9 +54,14 @@
     <string name="about_version_prefix">v</string>
     <string name="title_about">A propos</string>
     <string name="bottle_domain">Domaine</string>
+    <string name="bottle_recap">%1$s, %2$s</string>
     <plurals name="bottles_count">
-        <item quantity="one">Total\u00A0: %1$d bouteille</item>
-        <item quantity="other">Total\u00A0: %1$d bouteilles</item>
+        <item quantity="one">Total\u00A0:\u00A0%1$d bouteille</item>
+        <item quantity="other">Total\u00A0:\u00A0%1$d bouteilles</item>
+    </plurals>
+    <plurals name="bottles_count_placed">
+        <item quantity="one">Placée\u00A0:\u00A0%1$d</item>
+        <item quantity="other">Placées\u00A0:\u00A0%1$d</item>
     </plurals>
     <string name="bottles_count_detail">Rouge\u00A0:\u00A0%1$d, Blanc\u00A0:\u00A0%2$d, Rosé\u00A0:\u00A0%3$d, Champagne\u00A0:\u00A0%4$d</string>
     <string name="error_bottle_no_name">Un nom de bouteille est nécessaire</string>
@@ -103,10 +108,10 @@
     <string name="cave_type_fridge">Cave réfrigérée</string>
     <string name="cave_type_rack">Casiers à bouteilles</string>
     <plurals name="caves_count">
-        <item quantity="one">Total\u00A0: %1$d cave</item>
-        <item quantity="other">Total\u00A0: %1$d caves</item>
+        <item quantity="one">Total\u00A0:\u00A0%1$d cave</item>
+        <item quantity="other">Total\u00A0:\u00A0%1$d caves</item>
     </plurals>
-    <string name="caves_count_detail">Vrac\u00A0: %1$d, Caisses\u00A0: %2$d, Cave\u00A0: %3$d, Casiers\u00A0: %4$d</string>
+    <string name="caves_count_detail">Vrac\u00A0:\u00A0%1$d, Caisses\u00A0:\u00A0%2$d, Cave\u00A0:\u00A0%3$d, Casiers\u00A0:\u00A0%4$d</string>
     <plurals name="cave_used_capacity">
         <item quantity="one">%1$d bt. / %2$d place</item>
         <item quantity="other">%1$d bt. / %2$d places</item>
@@ -171,8 +176,8 @@
     <string name="unplace_no">Non</string>
     <string name="unplace_ok">Oui\u00A0!</string>
     <string name="message_unplace">Vraiment\u00A0?</string>
-    <string name="error_bottle_not_enough">Stock incorrect\u00A0: davantage de bouteilles sont déjà placées dans les caves</string>
-    <string name="error_cave_bulk_not_enough">Capacité incorrecte\u00A0: davantage de bouteilles sont déjà placées</string>
+    <string name="error_bottle_not_enough">Stock incorrect\u00A0:\u00A0davantage de bouteilles sont déjà placées dans les caves</string>
+    <string name="error_cave_bulk_not_enough">Capacité incorrecte\u00A0:\u00A0davantage de bouteilles sont déjà placées</string>
     <string name="bottle_delete_error_some_placed">Certaines bouteilles sont dans des caves, merci de les retirer pour supprimer la référence</string>
     <string name="no_caves_with_bottle">Cette bouteille n\'est placée dans aucune cave</string>
     <string name="title_see_caves">Voir les caves avec cette bouteille</string>
@@ -184,7 +189,7 @@
     <string name="place_bottle_quantity">Combien\u00A0?</string>
     <string name="save">Enregistrer</string>
     <string name="detail_exit_confirmation">Il y a des changements, les perdre et quitter cette page ou rester ici\u00A0?</string>
-    <string name="cave_arrangement_warning">Attention\u00A0: après des modifications de disposition, certaines bouteilles placées pourraient ne plus l\'être\u00A0!</string>
+    <string name="cave_arrangement_warning">Attention\u00A0:\u00A0après des modifications de disposition, certaines bouteilles placées pourraient ne plus l\'être\u00A0!</string>
     <string name="import_export">Import - Export</string>
     <string name="title_sync">Import - Export</string>
     <string name="sync_export">Export</string>
