@@ -22,7 +22,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.percent.PercentRelativeLayout
             android:id="@+id/pattern_create_relative_layout"
