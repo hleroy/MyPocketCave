@@ -23,12 +23,9 @@ public class SyncSharedPreferencesManager implements ISyncStorageManager {
     }
 
     public static void Init() {
+        if (isInitialized) return;
         Instance = new SyncSharedPreferencesManager();
         isInitialized = true;
-    }
-
-    public static boolean IsInitialized() {
-        return isInitialized;
     }
 
     public String getImportLocation() {

@@ -39,11 +39,8 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         loadAllBottles(context);
     }
 
-    public static boolean IsInitialized() {
-        return isInitialized;
-    }
-
     public static void Init(Context context) {
+        if (isInitialized) return;
         Instance = new BottlesSharedPreferencesManager(context);
         isInitialized = true;
     }

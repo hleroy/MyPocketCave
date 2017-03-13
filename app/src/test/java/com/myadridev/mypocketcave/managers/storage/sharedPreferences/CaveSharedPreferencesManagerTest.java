@@ -181,7 +181,6 @@ public class CaveSharedPreferencesManagerTest {
             }
         });
         CaveSharedPreferencesManager.Init(context);
-        assertTrue(CaveSharedPreferencesManager.IsInitialized());
     }
 
     @Test

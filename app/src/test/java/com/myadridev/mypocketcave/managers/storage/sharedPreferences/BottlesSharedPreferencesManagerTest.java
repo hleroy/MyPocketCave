@@ -185,7 +185,6 @@ public class BottlesSharedPreferencesManagerTest {
             }
         });
         BottlesSharedPreferencesManager.Init(context);
-        assertTrue(BottlesSharedPreferencesManager.IsInitialized());
     }
 
     @Test

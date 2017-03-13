@@ -24,11 +24,8 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         sharedPreferencesFolder = context.getFilesDir().getParent() + File.separator + "shared_prefs" + File.separator;
     }
 
-    public static boolean IsInitialized() {
-        return isInitialized;
-    }
-
     public static void Init(Context context) {
+        if (isInitialized) return;
         Instance = new SharedPreferencesManager(context);
         isInitialized = true;
     }

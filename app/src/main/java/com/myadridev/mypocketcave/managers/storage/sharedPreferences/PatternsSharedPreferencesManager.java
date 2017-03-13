@@ -36,11 +36,8 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         loadAllPatterns(context);
     }
 
-    public static boolean IsInitialized() {
-        return isInitialized;
-    }
-
     public static void Init(Context context) {
+        if (isInitialized) return;
         Instance = new PatternsSharedPreferencesManager(context);
         isInitialized = true;
     }

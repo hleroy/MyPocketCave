@@ -39,12 +39,9 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
     }
 
     public static void Init(Context context) {
+        if (isInitialized) return;
         Instance = new CaveSharedPreferencesManager(context);
         isInitialized = true;
-    }
-
-    public static boolean IsInitialized() {
-        return isInitialized;
     }
 
     private ICavesStorageManager getCavesStorageManager() {

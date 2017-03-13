@@ -40,45 +40,33 @@ public class StartupTask extends AsyncTask<Void, Integer, Void> {
         // init DependencyManager
         DependencyManager.init();
         // SharedPreferences
-        if (!SharedPreferencesManager.IsInitialized()) {
-            SharedPreferencesManager.Init(splashScreenActivity);
-        }
+        SharedPreferencesManager.Init(splashScreenActivity);
         DependencyManager.registerSingleton(ISharedPreferencesManager.class, SharedPreferencesManager.Instance);
 
         // Bottles
-        if (!BottlesSharedPreferencesManager.IsInitialized()) {
-            BottlesSharedPreferencesManager.Init(splashScreenActivity);
-        }
+        BottlesSharedPreferencesManager.Init(splashScreenActivity);
         DependencyManager.registerSingleton(IBottleStorageManager.class, BottlesSharedPreferencesManager.Instance);
 
         publishProgress(step++);
 
         // Caves
-        if (!CavesSharedPreferencesManager.IsInitialized()) {
-            CavesSharedPreferencesManager.Init(splashScreenActivity);
-        }
+        CavesSharedPreferencesManager.Init(splashScreenActivity);
         DependencyManager.registerSingleton(ICavesStorageManager.class, CavesSharedPreferencesManager.Instance);
 
         publishProgress(step++);
 
         // Patterns
-        if (!PatternsSharedPreferencesManager.IsInitialized()) {
-            PatternsSharedPreferencesManager.Init(splashScreenActivity);
-        }
+        PatternsSharedPreferencesManager.Init(splashScreenActivity);
         DependencyManager.registerSingleton(IPatternsStorageManager.class, PatternsSharedPreferencesManager.Instance);
 
         publishProgress(step++);
 
         // Cave
-        if (!CaveSharedPreferencesManager.IsInitialized()) {
-            CaveSharedPreferencesManager.Init(splashScreenActivity);
-        }
+        CaveSharedPreferencesManager.Init(splashScreenActivity);
         DependencyManager.registerSingleton(ICaveStorageManager.class, CaveSharedPreferencesManager.Instance);
 
         // Sync
-        if (!SyncSharedPreferencesManager.IsInitialized()) {
-            SyncSharedPreferencesManager.Init();
-        }
+        SyncSharedPreferencesManager.Init();
         DependencyManager.registerSingleton(ISyncStorageManager.class, SyncSharedPreferencesManager.Instance);
 
         publishProgress(step++);
