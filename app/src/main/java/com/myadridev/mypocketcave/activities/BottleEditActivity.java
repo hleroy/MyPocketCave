@@ -10,6 +10,7 @@ import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.tasks.SaveBottleTask;
 
 public class BottleEditActivity extends AbstractBottleEditActivity {
 
@@ -78,23 +79,13 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
 
     @Override
     protected void saveBottle() {
-        BottleManager.editBottle(this, bottle);
-        NavigationManager.navigateToBottleDetail(this, bottle.Id);
+        SaveBottleTask saveBottleTask = new SaveBottleTask(this, coordinatorLayout, false);
+        saveBottleTask.execute(bottle);
     }
 
     @Override
     protected void cancelBottle() {
         NavigationManager.navigateToBottleDetail(this, bottle.Id);
-    }
-
-    @Override
-    protected void removeBottle() {
-        BottleManager.removeBottle(this, bottle.Id);
-    }
-
-    @Override
-    protected boolean setValues() {
-        return super.setValues();
     }
 
     private void refreshBottle() {

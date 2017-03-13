@@ -6,9 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.tasks.SaveBottleTask;
 
 public class BottleCreateActivity extends AbstractBottleEditActivity {
 
@@ -38,12 +37,7 @@ public class BottleCreateActivity extends AbstractBottleEditActivity {
 
     @Override
     protected void saveBottle() {
-        bottle.Id = BottleManager.addBottle(this, bottle);
-        NavigationManager.navigateToBottleDetail(this, bottle.Id);
-    }
-
-    @Override
-    protected boolean setValues() {
-        return super.setValues();
+        SaveBottleTask saveBottleTask = new SaveBottleTask(this, coordinatorLayout, true);
+        saveBottleTask.execute(bottle);
     }
 }

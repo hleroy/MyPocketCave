@@ -42,7 +42,10 @@ public class SeeCavesAlertDialog extends AlertDialog {
 
             cavesRecyclerView.setLayoutManager(new GridAutofitLayoutManager(activity, (int) activity.getResources().getDimension(R.dimen.cave_image_size_large)));
             CavesAdapter cavesAdapter = new CavesAdapter(activity, caves, this::setHolderPropertiesFromCave);
-            cavesAdapter.addOnCaveClickListener((int caveId) -> NavigationManager.navigateToCaveDetail(activity, caveId, bottleId));
+            cavesAdapter.addOnCaveClickListener((int caveId) -> {
+                NavigationManager.navigateToCaveDetail(activity, caveId, bottleId);
+                dismiss();
+            });
             cavesRecyclerView.setAdapter(cavesAdapter);
         }
     }

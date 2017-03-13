@@ -208,9 +208,6 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected void cancelBottle() {
     }
 
-    protected void removeBottle() {
-    }
-
     protected boolean setValues() {
         boolean isValid = checkValues();
 

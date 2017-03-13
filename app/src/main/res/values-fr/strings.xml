@@ -212,4 +212,5 @@
     <string name="error_no_import_file_selected">Aucun fichier valide sélectionné pour l\'import\u00A0!</string>
     <string name="ongoig_export">Export en cours, attends un moment…</string>
     <string name="ongoig_import">Import en cours, attends un moment…</string>
+    <string name="ongoig_bottle_save">Enregistrement de la bouteille, attends un moment…</string>
 </resources>
