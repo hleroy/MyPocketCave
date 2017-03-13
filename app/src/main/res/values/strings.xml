@@ -234,4 +234,5 @@
     <string name="ongoig_cave_refresh">Loading cellar, please wait…</string>
     <string name="ongoig_pattern_save">Saving pattern, please wait…</string>
     <string name="ongoig_bottle_refresh">Loading bottle, please wait…</string>
+    <string name="ongoig_bottles_suggest">Loading suggested bottles, please wait…</string>
 </resources>

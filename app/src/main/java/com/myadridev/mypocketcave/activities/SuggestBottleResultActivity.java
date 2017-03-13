@@ -14,18 +14,18 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.SuggestBottlesResultAdapter;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
+import com.myadridev.mypocketcave.managers.JsonManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.tasks.GetSuggestBottlesTask;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,18 +80,18 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String serializedSearchCriteria = bundle.getString("searchCriteria");
 
-        ObjectMapper jsonMapper = new ObjectMapper();
-        SuggestBottleCriteria searchCriteria;
-        try {
-            searchCriteria = jsonMapper.readValue(serializedSearchCriteria, SuggestBottleCriteria.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        SuggestBottleCriteria searchCriteria = JsonManager.readValue(serializedSearchCriteria, SuggestBottleCriteria.class);
+        if (searchCriteria == null) {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_technical, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return;
         }
 
-        allBottles = BottleManager.getSuggestBottles(searchCriteria);
+        GetSuggestBottlesTask getSuggestBottlesTask = new GetSuggestBottlesTask(this, coordinatorLayout);
+        getSuggestBottlesTask.execute(searchCriteria);
+    }
 
+    public void onGetBottlesSucceed(List<SuggestBottleResultModel> allBottles) {
+        this.allBottles = allBottles;
         bottlesResultAdapter = new SuggestBottlesResultAdapter(this, allBottles);
         bottlesResultAdapter.addOnSeeMoreClickListener(() -> setVisibility(bottlesResultAdapter));
         bottlesRecyclerView.setAdapter(bottlesResultAdapter);

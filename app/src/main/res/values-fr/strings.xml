@@ -217,4 +217,5 @@
     <string name="ongoig_cave_refresh">Chargement de la cave, attends un moment…</string>
     <string name="ongoig_pattern_save">Enregistrement du motif, attends un moment…</string>
     <string name="ongoig_bottle_refresh">Chargement de la bouteille, attends un moment…</string>
+    <string name="ongoig_bottles_suggest">Chargement des bouteilles suggérées, attends un moment…</string>
 </resources>
