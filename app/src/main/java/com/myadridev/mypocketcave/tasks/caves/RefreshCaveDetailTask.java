@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.tasks;
+package com.myadridev.mypocketcave.tasks.caves;
 
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;

@@ -23,8 +23,8 @@ import com.myadridev.mypocketcave.helpers.PermissionsHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.SyncManager;
-import com.myadridev.mypocketcave.tasks.ExportTask;
-import com.myadridev.mypocketcave.tasks.ImportTask;
+import com.myadridev.mypocketcave.tasks.sync.ExportTask;
+import com.myadridev.mypocketcave.tasks.sync.ImportTask;
 
 import java.util.ArrayList;
 import java.util.List;

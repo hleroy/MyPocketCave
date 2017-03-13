@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.tasks.RefreshBottleEditTask;
-import com.myadridev.mypocketcave.tasks.SaveBottleTask;
+import com.myadridev.mypocketcave.tasks.bottles.RefreshBottleEditTask;
+import com.myadridev.mypocketcave.tasks.bottles.SaveBottleTask;
 
 public class BottleEditActivity extends AbstractBottleEditActivity {
 

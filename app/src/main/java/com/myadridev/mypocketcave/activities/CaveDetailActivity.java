@@ -40,7 +40,7 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
-import com.myadridev.mypocketcave.tasks.RefreshCaveDetailTask;
+import com.myadridev.mypocketcave.tasks.caves.RefreshCaveDetailTask;
 
 import java.util.Collections;
 

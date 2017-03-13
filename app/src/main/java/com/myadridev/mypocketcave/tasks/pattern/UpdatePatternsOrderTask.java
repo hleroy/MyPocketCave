@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.tasks;
+package com.myadridev.mypocketcave.tasks.pattern;
 
 import android.content.Context;
 import android.os.AsyncTask;

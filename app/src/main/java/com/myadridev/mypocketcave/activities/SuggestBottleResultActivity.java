@@ -24,7 +24,7 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
-import com.myadridev.mypocketcave.tasks.GetSuggestBottlesTask;
+import com.myadridev.mypocketcave.tasks.suggest.GetSuggestBottlesTask;
 
 import java.util.ArrayList;
 import java.util.List;

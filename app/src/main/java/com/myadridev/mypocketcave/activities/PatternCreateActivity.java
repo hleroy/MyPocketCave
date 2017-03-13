@@ -37,7 +37,7 @@ import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
-import com.myadridev.mypocketcave.tasks.SavePatternTask;
+import com.myadridev.mypocketcave.tasks.pattern.SavePatternTask;
 
 public class PatternCreateActivity extends AppCompatActivity {
 
