@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
         super.onResume();
         setupFloatingActionButtonsVisibility();
         if (isPaused) {

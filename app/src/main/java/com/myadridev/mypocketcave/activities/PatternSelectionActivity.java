@@ -13,6 +13,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternSelectionAdapter;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
+import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.PatternModel;
 import com.myadridev.mypocketcave.tasks.UpdatePatternsOrderTask;
@@ -103,5 +104,11 @@ public class PatternSelectionActivity extends AppCompatActivity {
         // redraw the grid
         layoutManager.notifyColumnWidthChanged();
         if (patternSelectionAdapter != null) patternSelectionAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
+        super.onResume();
     }
 }

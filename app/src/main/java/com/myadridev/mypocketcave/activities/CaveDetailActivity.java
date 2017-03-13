@@ -300,6 +300,7 @@ public class CaveDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
         super.onResume();
         RefreshCaveDetailTask refreshCaveDetailTask = new RefreshCaveDetailTask(this, coordinatorLayout);
         refreshCaveDetailTask.execute(cave == null ? caveId : cave.Id);

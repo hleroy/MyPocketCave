@@ -25,6 +25,7 @@ import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
+import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
@@ -265,5 +266,11 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             }
         }
         return !isErrors;
+    }
+
+    @Override
+    protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
+        super.onResume();
     }
 }

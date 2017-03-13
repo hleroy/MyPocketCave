@@ -30,6 +30,10 @@ public class DependencyManager {
         isInitDone = false;
     }
 
+    public static boolean needsRestart() {
+        return !isInitDone;
+    }
+
     private static void ensureIsInitDone() {
         if (!isInitDone) {
             throw new IllegalStateException("DependencyManager is not initialized");

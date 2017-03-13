@@ -178,6 +178,7 @@ public class BottleDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
         super.onResume();
         refreshBottle();
         refreshActionBar();

@@ -201,4 +201,10 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
                 return true;
         }
     }
+
+    @Override
+    protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
+        super.onResume();
+    }
 }

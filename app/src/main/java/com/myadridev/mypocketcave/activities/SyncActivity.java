@@ -21,6 +21,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.dialogs.PathChooserDialog;
 import com.myadridev.mypocketcave.helpers.PermissionsHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
+import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.SyncManager;
 import com.myadridev.mypocketcave.tasks.ExportTask;
 import com.myadridev.mypocketcave.tasks.ImportTask;
@@ -223,5 +224,11 @@ public class SyncActivity extends AppCompatActivity {
     public void SetSyncButtonEnabled(boolean isEnabled) {
         syncButton.setEnabled(isEnabled);
         syncButton.setBackgroundColor(ContextCompat.getColor(this, (isEnabled ? R.color.colorPrimary : R.color.colorAccent)));
+    }
+
+    @Override
+    protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
+        super.onResume();
     }
 }

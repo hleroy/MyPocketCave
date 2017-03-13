@@ -17,6 +17,7 @@ import com.myadridev.mypocketcave.activities.CaveEditActivity;
 import com.myadridev.mypocketcave.activities.MainActivity;
 import com.myadridev.mypocketcave.activities.PatternCreateActivity;
 import com.myadridev.mypocketcave.activities.PatternSelectionActivity;
+import com.myadridev.mypocketcave.activities.SplashScreenActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleSearchActivity;
 import com.myadridev.mypocketcave.activities.SyncActivity;
@@ -113,5 +114,18 @@ public class NavigationManager {
 
     public static void navigateToSync(Context context) {
         context.startActivity(new Intent(context, SyncActivity.class));
+    }
+
+    public static void restartIfNeeded(Activity activity) {
+        if (DependencyManager.needsRestart()) {
+            restart(activity);
+            activity.finish();
+        }
+    }
+
+    private static void restart(Context context) {
+        Intent intent = new Intent(context, SplashScreenActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
     }
 }

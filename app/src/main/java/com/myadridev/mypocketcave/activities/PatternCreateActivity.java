@@ -34,6 +34,7 @@ import com.myadridev.mypocketcave.adapters.PatternTypeSpinnerAdapter;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
+import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
 import com.myadridev.mypocketcave.tasks.SavePatternTask;
@@ -299,5 +300,11 @@ public class PatternCreateActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
         updateAdapter();
+    }
+
+    @Override
+    protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
+        super.onResume();
     }
 }

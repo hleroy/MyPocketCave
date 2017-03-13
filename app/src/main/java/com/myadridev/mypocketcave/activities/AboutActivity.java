@@ -10,6 +10,8 @@ import android.widget.ListView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.AboutAdapter;
 import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
+import com.myadridev.mypocketcave.managers.DependencyManager;
+import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.VersionManager;
 import com.myadridev.mypocketcave.models.AboutItem;
 
@@ -76,5 +78,11 @@ public class AboutActivity extends AppCompatActivity {
                 !version.equals(getString(R.string.about_version_default))
                         ? "[" + getString(R.string.about_version_prefix) + version + "]"
                         : "");
+    }
+
+    @Override
+    protected void onResume() {
+        NavigationManager.restartIfNeeded(this);
+        super.onResume();
     }
 }
