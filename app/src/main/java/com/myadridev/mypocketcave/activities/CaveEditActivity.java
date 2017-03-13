@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.tasks.RefreshCaveTask;
+import com.myadridev.mypocketcave.tasks.RefreshCaveEditTask;
 import com.myadridev.mypocketcave.tasks.SaveCaveTask;
 
 public class CaveEditActivity extends AbstractCaveEditActivity {
@@ -78,8 +78,8 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
 
     @Override
     protected void initCave() {
-        RefreshCaveTask refreshCaveTask = new RefreshCaveTask(this, coordinatorLayout);
-        refreshCaveTask.execute(caveId);
+        RefreshCaveEditTask refreshCaveEditTask = new RefreshCaveEditTask(this, coordinatorLayout);
+        refreshCaveEditTask.execute(caveId);
     }
 
     @Override

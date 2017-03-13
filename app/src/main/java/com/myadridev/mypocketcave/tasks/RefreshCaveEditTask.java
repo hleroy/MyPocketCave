@@ -6,18 +6,17 @@ import android.support.design.widget.Snackbar;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.AbstractCaveEditActivity;
-import com.myadridev.mypocketcave.activities.SyncActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.models.CaveModel;
 
-public class RefreshCaveTask extends AsyncTask<Integer, Void, Void> {
+public class RefreshCaveEditTask extends AsyncTask<Integer, Void, Void> {
 
     private AbstractCaveEditActivity caveEditActivity;
     private CoordinatorLayout coordinatorLayout;
     private Snackbar snackbar;
 
-    public RefreshCaveTask(AbstractCaveEditActivity caveEditActivity, CoordinatorLayout coordinatorLayout) {
+    public RefreshCaveEditTask(AbstractCaveEditActivity caveEditActivity, CoordinatorLayout coordinatorLayout) {
         this.caveEditActivity = caveEditActivity;
         this.coordinatorLayout = coordinatorLayout;
     }

@@ -40,6 +40,7 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.tasks.RefreshCaveDetailTask;
 
 import java.util.Collections;
 
@@ -300,7 +301,12 @@ public class CaveDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshCave(cave == null ? caveId : cave.Id);
+        RefreshCaveDetailTask refreshCaveDetailTask = new RefreshCaveDetailTask(this, coordinatorLayout);
+        refreshCaveDetailTask.execute(cave == null ? caveId : cave.Id);
+    }
+
+    public void onRefreshCaveSucceed(CaveModel cave) {
+        this.cave = cave;
         refreshActionBar();
         setLayoutValues();
         setupFloatingActionButtonsVisibility();
@@ -321,10 +327,6 @@ public class CaveDetailActivity extends AppCompatActivity {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setTitle(cave.Name);
         }
-    }
-
-    private void refreshCave(int caveId) {
-        cave = CaveManager.getCave(this, caveId);
     }
 
     @Override
