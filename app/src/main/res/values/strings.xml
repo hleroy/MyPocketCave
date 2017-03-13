@@ -232,4 +232,5 @@
     <string name="ongoig_bottle_save">Saving bottle, please wait…</string>
     <string name="ongoig_cave_save">Saving cellar, please wait…</string>
     <string name="ongoig_cave_refresh">Loading cellar, please wait…</string>
+    <string name="ongoig_pattern_save">Saving pattern, please wait…</string>
 </resources>

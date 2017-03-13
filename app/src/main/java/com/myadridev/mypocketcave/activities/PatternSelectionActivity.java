@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -16,6 +15,7 @@ import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.tasks.UpdatePatternsOrderTask;
 
 import java.util.List;
 
@@ -57,8 +57,9 @@ public class PatternSelectionActivity extends AppCompatActivity {
         patternSelectionAdapter = new PatternSelectionAdapter(this, recentPatternList, layoutManager);
         patternSelectionRecyclerView.setAdapter(patternSelectionAdapter);
         patternSelectionAdapter.addOnSelectionPatternClickListener((int patternId) -> {
-            PatternManager.setLastUsedPattern(this, patternId);
             setResultAndFinish(RESULT_OK, patternId);
+            UpdatePatternsOrderTask updatePatternsOrderTask = new UpdatePatternsOrderTask(this);
+            updatePatternsOrderTask.execute(patternId);
         });
     }
 

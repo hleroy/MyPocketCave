@@ -34,9 +34,9 @@ import com.myadridev.mypocketcave.adapters.PatternTypeSpinnerAdapter;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
-import com.myadridev.mypocketcave.managers.PatternManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.tasks.SavePatternTask;
 
 public class PatternCreateActivity extends AppCompatActivity {
 
@@ -122,13 +122,18 @@ public class PatternCreateActivity extends AppCompatActivity {
             case R.id.save:
                 hideKeyboard();
                 if (checkValues()) {
-                    setResultAndFinish(RESULT_OK, PatternManager.addPattern(this, pattern));
+                    SavePatternTask savePatternTask = new SavePatternTask(this, coordinatorLayout);
+                    savePatternTask.execute(pattern);
                 }
                 return true;
             default:
                 onBackPressed();
                 return true;
         }
+    }
+
+    public void onSaveSucceed(int patternId) {
+        setResultAndFinish(RESULT_OK, patternId);
     }
 
     private void initLayout() {
