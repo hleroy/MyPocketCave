@@ -1,33 +1,32 @@
 package com.myadridev.mypocketcave.tasks;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.activities.SyncActivity;
+import com.myadridev.mypocketcave.activities.AbstractBottleEditActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.managers.SyncManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 
 public class SaveBottleTask extends AsyncTask<BottleModel, Void, Integer> {
 
-    private Context context;
+    private AbstractBottleEditActivity bottleEditActivity;
     private CoordinatorLayout coordinatorLayout;
     private boolean isAddBottle;
 
-    public SaveBottleTask(Context context, CoordinatorLayout coordinatorLayout, boolean isAddBottle) {
-        this.context = context;
+    public SaveBottleTask(AbstractBottleEditActivity bottleEditActivity, CoordinatorLayout coordinatorLayout, boolean isAddBottle) {
+        this.bottleEditActivity = bottleEditActivity;
         this.coordinatorLayout = coordinatorLayout;
         this.isAddBottle = isAddBottle;
     }
 
     @Override
     protected void onPreExecute() {
-        SnackbarHelper.displayInfoSnackbar(context, coordinatorLayout, R.string.ongoig_bottle_save, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+        bottleEditActivity.IsSaving = true;
+        SnackbarHelper.displayInfoSnackbar(bottleEditActivity, coordinatorLayout, R.string.ongoig_bottle_save, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
     }
 
     @Override
@@ -35,9 +34,9 @@ public class SaveBottleTask extends AsyncTask<BottleModel, Void, Integer> {
         BottleModel bottle = params[0];
 
         if (isAddBottle) {
-            bottle.Id = BottleManager.addBottle(context, bottle);
+            bottle.Id = BottleManager.addBottle(bottleEditActivity, bottle);
         } else {
-            BottleManager.editBottle(context, bottle);
+            BottleManager.editBottle(bottleEditActivity, bottle);
         }
 
         return bottle.Id;
@@ -45,6 +44,8 @@ public class SaveBottleTask extends AsyncTask<BottleModel, Void, Integer> {
 
     @Override
     protected void onPostExecute(Integer bottleId) {
-        NavigationManager.navigateToBottleDetail(context, bottleId);
+        bottleEditActivity.IsSaving = false;
+        NavigationManager.navigateToBottleDetail(bottleEditActivity, bottleId);
+        bottleEditActivity.finish();
     }
 }

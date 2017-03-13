@@ -47,6 +47,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     public static final int overviewScreenWidthMarginLeft = 8;
     public static final int overviewScreenWidthMarginRight = 8;
 
+    public boolean IsSaving = false;
+
     private final View.OnTouchListener hideKeyboardOnClick;
     private final View.OnTouchListener arrangementTooltipOnClick;
     public int OldClickedPatternId;
@@ -131,7 +133,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 hideKeyboard();
                 if (setValues()) {
                     saveCave();
-                    finish();
                 }
                 return true;
             default:
@@ -342,6 +343,10 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (IsSaving) {
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.ongoig_cave_save, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+            return;
+        }
         hideKeyboard();
         if (hasDifferences()) {
             AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(this);

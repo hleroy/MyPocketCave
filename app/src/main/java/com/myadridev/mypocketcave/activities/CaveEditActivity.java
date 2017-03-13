@@ -9,6 +9,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveModel;
+import com.myadridev.mypocketcave.tasks.SaveCaveTask;
 
 public class CaveEditActivity extends AbstractCaveEditActivity {
 
@@ -83,8 +84,8 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
 
     @Override
     protected void saveCave() {
-        CaveManager.editCave(this, cave);
-        NavigationManager.navigateToCaveDetail(this, cave.Id);
+        SaveCaveTask saveCaveTask = new SaveCaveTask(this, coordinatorLayout, false);
+        saveCaveTask.execute(cave);
     }
 
     @Override

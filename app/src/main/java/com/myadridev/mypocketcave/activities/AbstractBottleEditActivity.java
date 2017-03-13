@@ -29,6 +29,8 @@ import com.myadridev.mypocketcave.models.BottleModel;
 
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
+    public boolean IsSaving = false;
+
     protected final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
     private final View.OnTouchListener hideKeyboardOnClick;
     protected BottleModel bottle;
@@ -80,7 +82,6 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
                 hideKeyboard();
                 if (setValues()) {
                     saveBottle();
-                    finish();
                 }
                 return true;
             default:
@@ -177,6 +178,10 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (IsSaving) {
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.ongoig_bottle_save, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+            return;
+        }
         hideKeyboard();
         if (hasDifferences()) {
             AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(this);
