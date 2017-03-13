@@ -210,4 +210,6 @@
     <string name="message_cave_edit_arrangement_info">Placement des bouteilles après sauvegarde, clique sur un motif pour le modifier.</string>
     <string name="message_cave_detail_arrangement_info">Clique sur un emplacement pour placer une bouteille ou interagir avec.</string>
     <string name="error_no_import_file_selected">Aucun fichier valide sélectionné pour l\'import\u00A0!</string>
+    <string name="ongoig_export">Export en cours, attends un moment…</string>
+    <string name="ongoig_import">Import en cours, attends un moment…</string>
 </resources>

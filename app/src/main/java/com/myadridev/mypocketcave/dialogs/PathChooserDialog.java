@@ -219,6 +219,7 @@ public class PathChooserDialog {
                 updateDirectory();
             }
         });
+        parentButton.setVisibility(currentPath.equals(rootPath) ? View.GONE : View.VISIBLE);
         titleLayout.addView(parentButton);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);

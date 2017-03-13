@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +22,16 @@ import com.myadridev.mypocketcave.dialogs.PathChooserDialog;
 import com.myadridev.mypocketcave.helpers.PermissionsHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.SyncManager;
+import com.myadridev.mypocketcave.tasks.ExportTask;
+import com.myadridev.mypocketcave.tasks.ImportTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SyncActivity extends AppCompatActivity {
+
+    public boolean IsExportOngoing = false;
+    public boolean IsImportOngoing = false;
 
     private final static String extension = "mpc";
     private List<String> allowedFileExtensions;
@@ -34,8 +40,8 @@ public class SyncActivity extends AppCompatActivity {
     private ImageButton importButton;
     private Button locationLabel;
     private TextView locationValue;
-
     private Button syncButton;
+
     private String importLocation;
     private String exportLocation;
     private String defaultLocation;
@@ -174,23 +180,13 @@ public class SyncActivity extends AppCompatActivity {
     }
 
     private void importFileInner() {
-        int errorResourceId = SyncManager.importData(this, importLocation);
-
-        if (errorResourceId > -1) {
-            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, errorResourceId, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
-        } else {
-            SnackbarHelper.displaySuccessSnackbar(this, coordinatorLayout, R.string.success_import, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
-        }
+        ImportTask importTask = new ImportTask(this, coordinatorLayout);
+        importTask.execute(importLocation);
     }
 
     private void exportFile() {
-        String exportedFileName = SyncManager.exportData(this, exportLocation, extension);
-
-        if (exportedFileName != null && !exportedFileName.isEmpty()) {
-            SnackbarHelper.displaySuccessSnackbar(this, coordinatorLayout, getString(R.string.success_export, exportedFileName), R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
-        } else {
-            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_export, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
-        }
+        ExportTask exportTask = new ExportTask(this, coordinatorLayout);
+        exportTask.execute(exportLocation, extension);
     }
 
     private void setLayoutValues() {
@@ -211,5 +207,21 @@ public class SyncActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (IsExportOngoing) {
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.ongoig_export, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+        } else if (IsImportOngoing) {
+            SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.ongoig_import, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void SetSyncButtonEnabled(boolean isEnabled) {
+        syncButton.setEnabled(isEnabled);
+        syncButton.setBackgroundColor(ContextCompat.getColor(this, (isEnabled ? R.color.colorPrimary : R.color.colorAccent)));
     }
 }
