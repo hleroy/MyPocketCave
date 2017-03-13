@@ -231,4 +231,5 @@
     <string name="ongoig_import">Import ongoing, please wait…</string>
     <string name="ongoig_bottle_save">Saving bottle, please wait…</string>
     <string name="ongoig_cave_save">Saving cellar, please wait…</string>
+    <string name="ongoig_cave_refresh">Loading cellar, please wait…</string>
 </resources>

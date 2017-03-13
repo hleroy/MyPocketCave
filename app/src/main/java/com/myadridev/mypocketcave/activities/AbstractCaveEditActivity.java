@@ -48,12 +48,13 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     public static final int overviewScreenWidthMarginRight = 8;
 
     public boolean IsSaving = false;
+    public CaveModel cave;
+    public CaveModel oldCave;
 
     private final View.OnTouchListener hideKeyboardOnClick;
     private final View.OnTouchListener arrangementTooltipOnClick;
     public int OldClickedPatternId;
     public CoordinatesModel ClickedPatternCoordinates;
-    protected CaveModel cave;
     protected EditText nameView;
     protected Spinner caveTypeView;
     protected CoordinatorLayout coordinatorLayout;
@@ -71,7 +72,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected TextInputLayout boxesPatternNumberBottlesByRowInputLayout;
 
     protected PatternModel boxesPattern;
-    protected CaveModel oldCave;
     private TextView arrangementView;
     private ImageView arrangementTooltipView;
     private TextView arrangementWarningView;
@@ -115,8 +115,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        setLayout();
         initCave();
-        initLayout();
     }
 
     @Override
@@ -139,11 +139,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
         }
-    }
-
-    private void initLayout() {
-        setLayout();
-        setLayoutValues();
     }
 
     protected void setLayout() {
@@ -182,7 +177,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
     protected abstract void setCoordinatorLayout();
 
-    private void setLayoutValues() {
+    public void setLayoutValues() {
         CaveTypeSpinnerAdapter caveTypeAdapter = new CaveTypeSpinnerAdapter(this, false);
         caveTypeView.setAdapter(caveTypeAdapter);
 
