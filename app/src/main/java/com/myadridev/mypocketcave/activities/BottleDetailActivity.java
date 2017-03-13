@@ -3,6 +3,7 @@ package com.myadridev.mypocketcave.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -20,6 +21,7 @@ import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.tasks.RefreshBottleDetailTask;
 
 import java.util.Calendar;
 
@@ -36,12 +38,15 @@ public class BottleDetailActivity extends AppCompatActivity {
     private TextView personView;
     private TextView commentsView;
     private TextView domainView;
+    private CoordinatorLayout coordinatorLayout;
 
     private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
     private FloatingActionButton fabSeeCaves;
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
+
+    private int bottleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class BottleDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
-        refreshBottle(bundle.getInt("bottleId"));
+        bottleId = bundle.getInt("bottleId");
     }
 
     private void setupFloatingActionButtons() {
@@ -150,6 +155,7 @@ public class BottleDetailActivity extends AppCompatActivity {
     }
 
     private void setLayout() {
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.bottle_detail_coordinator_layout);
         domainView = (TextView) findViewById(R.id.bottle_detail_domain);
         stockView = (TextView) findViewById(R.id.bottle_detail_stock);
         placedView = (TextView) findViewById(R.id.bottle_detail_placed);
@@ -180,7 +186,13 @@ public class BottleDetailActivity extends AppCompatActivity {
     protected void onResume() {
         NavigationManager.restartIfNeeded(this);
         super.onResume();
-        refreshBottle();
+
+        RefreshBottleDetailTask refreshBottleDetailTask = new RefreshBottleDetailTask(this, coordinatorLayout);
+        refreshBottleDetailTask.execute(bottle == null ? bottleId : bottle.Id);
+    }
+
+    public void onRefreshBottleSucceed(BottleModel bottle) {
+        this.bottle = bottle;
         refreshActionBar();
         setLayoutValues();
         setupFloatingActionButtonsVisibility();
@@ -201,13 +213,5 @@ public class BottleDetailActivity extends AppCompatActivity {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setTitle(bottle.Name);
         }
-    }
-
-    private void refreshBottle() {
-        refreshBottle(bottle.Id);
-    }
-
-    private void refreshBottle(int bottleId) {
-        bottle = new BottleModel(BottleManager.getBottle(bottleId));
     }
 }

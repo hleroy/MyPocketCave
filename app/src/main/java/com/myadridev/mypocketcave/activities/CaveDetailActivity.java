@@ -53,7 +53,7 @@ public class CaveDetailActivity extends AppCompatActivity {
     private TextView caveTypeView;
     private TextView capacityUsedView;
     private TextView boxesNumberView;
-    protected CoordinatorLayout coordinatorLayout;
+    private CoordinatorLayout coordinatorLayout;
     private ImageView arrangementTooltipView;
     private RecyclerView arrangementRecyclerView;
     private CaveArrangementAdapter caveArrangementAdapter;
