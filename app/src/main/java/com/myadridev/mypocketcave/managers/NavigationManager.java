@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myadridev.mypocketcave.activities.AboutActivity;
 import com.myadridev.mypocketcave.activities.BottleCreateActivity;
 import com.myadridev.mypocketcave.activities.BottleDetailActivity;
@@ -59,12 +57,8 @@ public class NavigationManager {
     }
 
     public static boolean navigateToSuggestBottleResult(Context context, SuggestBottleCriteria searchCriteria) {
-        ObjectMapper jsonMapper = new ObjectMapper();
-        String searchCriteriaJson;
-        try {
-            searchCriteriaJson = jsonMapper.writeValueAsString(searchCriteria);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        String searchCriteriaJson = JsonManager.writeValueAsString(searchCriteria);
+        if (searchCriteriaJson == null) {
             return false;
         }
         Bundle bundle = new Bundle();
