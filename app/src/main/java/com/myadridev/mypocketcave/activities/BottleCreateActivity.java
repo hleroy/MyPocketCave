@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.tasks.RefreshBottleEditTask;
 import com.myadridev.mypocketcave.tasks.SaveBottleTask;
 
 public class BottleCreateActivity extends AbstractBottleEditActivity {
@@ -32,7 +32,8 @@ public class BottleCreateActivity extends AbstractBottleEditActivity {
 
     @Override
     protected void initBottle() {
-        bottle = new BottleModel();
+        RefreshBottleEditTask refreshBottleEditTask = new RefreshBottleEditTask(this, coordinatorLayout);
+        refreshBottleEditTask.execute(0);
     }
 
     @Override

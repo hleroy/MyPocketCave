@@ -31,10 +31,10 @@ import com.myadridev.mypocketcave.models.BottleModel;
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
     public boolean IsSaving = false;
+    public BottleModel bottle;
 
     protected final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
     private final View.OnTouchListener hideKeyboardOnClick;
-    protected BottleModel bottle;
     protected EditText nameView;
     protected EditText stockView;
     protected Spinner wineColorView;
@@ -65,8 +65,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        setLayout();
         initBottle();
-        initLayout();
     }
 
     @Override
@@ -89,11 +89,6 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
         }
-    }
-
-    private void initLayout() {
-        setLayout();
-        setLayoutValues();
     }
 
     protected void setLayout() {
@@ -140,7 +135,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         };
     }
 
-    private void setLayoutValues() {
+    public void setLayoutValues() {
         WineColorSpinnerAdapter wineColorAdapter = new WineColorSpinnerAdapter(this, false);
         wineColorView.setAdapter(wineColorAdapter);
 

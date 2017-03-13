@@ -7,9 +7,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.tasks.RefreshBottleEditTask;
 import com.myadridev.mypocketcave.tasks.SaveBottleTask;
 
 public class BottleEditActivity extends AbstractBottleEditActivity {
@@ -74,7 +73,8 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
 
     @Override
     protected void initBottle() {
-        refreshBottle();
+        RefreshBottleEditTask refreshBottleEditTask = new RefreshBottleEditTask(this, coordinatorLayout);
+        refreshBottleEditTask.execute(bottleId);
     }
 
     @Override
@@ -86,9 +86,5 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
     @Override
     protected void cancelBottle() {
         NavigationManager.navigateToBottleDetail(this, bottle.Id);
-    }
-
-    private void refreshBottle() {
-        bottle = new BottleModel(BottleManager.getBottle(bottleId));
     }
 }
