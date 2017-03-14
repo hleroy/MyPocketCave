@@ -29,7 +29,7 @@ public class SavePatternTask extends AsyncTask<PatternModel, Void, Integer> {
     protected Integer doInBackground(PatternModel... params) {
         PatternModel pattern = params[0];
 
-        PatternManager.addPattern(patternCreateActivity, pattern);
+        pattern.Id = PatternManager.addPattern(patternCreateActivity, pattern);
 
         return pattern.Id;
     }
