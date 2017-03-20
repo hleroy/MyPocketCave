@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,6 +45,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected Spinner millesimeView;
     protected EditText domainView;
     protected CoordinatorLayout coordinatorLayout;
+    protected RatingBar ratingBar;
+    protected RatingBar priceRatingBar;
     private boolean isFoodListOpen;
 
     protected AbstractBottleEditActivity() {
@@ -106,6 +109,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         foodView.setOnClickListener(onFoodViewClick());
         millesimeView = (Spinner) findViewById(R.id.bottle_edit_millesime);
         millesimeView.setOnTouchListener(hideKeyboardOnClick);
+        ratingBar = (RatingBar) findViewById(R.id.bottle_edit_rating);
+        priceRatingBar = (RatingBar) findViewById(R.id.bottle_edit_price_rating);
     }
 
     protected abstract void setCoordinatorLayout();
@@ -155,6 +160,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
                 foodToEatWithList[food.Id] = true;
             }
             foodView.setText(FoodToEatHelper.computeFoodViewText(this, foodToEatWithList));
+            ratingBar.setProgress(bottle.Rating);
+            priceRatingBar.setProgress(bottle.PriceRating);
         }
     }
 
@@ -231,6 +238,9 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         }
         String stockString = stockView.getText().toString();
         bottle.Stock = stockString.isEmpty() ? 0 : Integer.valueOf(stockString);
+
+        bottle.Rating = ratingBar.getProgress();
+        bottle.PriceRating = priceRatingBar.getProgress();
 
         bottle.trimAll();
         return true;

@@ -3,7 +3,6 @@ package com.myadridev.mypocketcave.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -12,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
@@ -38,6 +38,8 @@ public class BottleDetailActivity extends AppCompatActivity {
     private TextView personView;
     private TextView commentsView;
     private TextView domainView;
+    private RatingBar ratingBar;
+    private RatingBar priceRatingBar;
 
     private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
@@ -163,6 +165,8 @@ public class BottleDetailActivity extends AppCompatActivity {
         foodView = (TextView) findViewById(R.id.bottle_detail_food);
         personView = (TextView) findViewById(R.id.bottle_detail_person);
         commentsView = (TextView) findViewById(R.id.bottle_detail_comments);
+        ratingBar = (RatingBar) findViewById(R.id.bottle_detail_rating);
+        priceRatingBar = (RatingBar) findViewById(R.id.bottle_detail_price_rating);
     }
 
     private void setLayoutValues() {
@@ -178,6 +182,9 @@ public class BottleDetailActivity extends AppCompatActivity {
         foodView.setText(FoodToEatHelper.computeFoodViewText(this, bottle.FoodToEatWithList));
         personView.setText(bottle.PersonToShareWith);
         commentsView.setText(bottle.Comments);
+
+        ratingBar.setProgress(bottle.Rating);
+        priceRatingBar.setProgress(bottle.PriceRating);
     }
 
     @Override

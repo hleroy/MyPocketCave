@@ -27,9 +27,11 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
     public WineColorEnum WineColor;
     public int Stock;
     public int NumberPlaced;
+    public int Rating;
+    public int PriceRating;
+
     // TODO : Apellation
     // TODO : conservation en fonction de couleur + millésime + apellation
-    // TODO : notation (prestige + gout)
 
     //TODO : année de consommation conseillée ou équivalent
     //TODO : photo
@@ -49,6 +51,8 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
         FoodToEatWithList = new ArrayList<>(bottle.FoodToEatWithList);
         Stock = bottle.Stock;
         NumberPlaced = bottle.NumberPlaced;
+        Rating = bottle.Rating;
+        PriceRating = bottle.PriceRating;
     }
 
     @Override
