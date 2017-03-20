@@ -235,4 +235,8 @@
     <string name="ongoig_pattern_save">Saving pattern, please wait…</string>
     <string name="ongoig_bottle_refresh">Loading bottle, please wait…</string>
     <string name="ongoig_bottles_suggest">Loading suggested bottles, please wait…</string>
+    <string name="food_foie_gras">Foie gras</string>
+    <string name="food_grilled_meat">Grilled meat</string>
+    <string name="food_chocolate">Chocolate</string>
+    <string name="food_spicy">Spicy food</string>
 </resources>

@@ -218,4 +218,8 @@
     <string name="ongoig_pattern_save">Enregistrement du motif, attends un moment…</string>
     <string name="ongoig_bottle_refresh">Chargement de la bouteille, attends un moment…</string>
     <string name="ongoig_bottles_suggest">Chargement des bouteilles suggérées, attends un moment…</string>
+    <string name="food_foie_gras">Foie gras</string>
+    <string name="food_grilled_meat">Grillades</string>
+    <string name="food_chocolate">Chocolat</string>
+    <string name="food_spicy">Nourriture épicée</string>
 </resources>
