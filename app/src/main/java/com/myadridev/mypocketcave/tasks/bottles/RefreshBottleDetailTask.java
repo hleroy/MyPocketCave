@@ -13,17 +13,9 @@ import com.myadridev.mypocketcave.models.BottleModel;
 public class RefreshBottleDetailTask extends AsyncTask<Integer, Void, BottleModel> {
 
     private BottleDetailActivity bottleDetailActivity;
-    private CoordinatorLayout coordinatorLayout;
-    private Snackbar snackbar;
 
-    public RefreshBottleDetailTask(BottleDetailActivity bottleDetailActivity, CoordinatorLayout coordinatorLayout) {
+    public RefreshBottleDetailTask(BottleDetailActivity bottleDetailActivity) {
         this.bottleDetailActivity = bottleDetailActivity;
-        this.coordinatorLayout = coordinatorLayout;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        snackbar = SnackbarHelper.displayInfoSnackbar(bottleDetailActivity, coordinatorLayout, R.string.ongoig_bottle_refresh, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
     }
 
     @Override
@@ -35,9 +27,6 @@ public class RefreshBottleDetailTask extends AsyncTask<Integer, Void, BottleMode
 
     @Override
     protected void onPostExecute(BottleModel bottle) {
-        if (snackbar != null) {
-            snackbar.dismiss();
-        }
         bottleDetailActivity.onRefreshBottleSucceed(bottle);
     }
 }

@@ -302,7 +302,7 @@ public class CaveDetailActivity extends AppCompatActivity {
     protected void onResume() {
         NavigationManager.restartIfNeeded(this);
         super.onResume();
-        RefreshCaveDetailTask refreshCaveDetailTask = new RefreshCaveDetailTask(this, coordinatorLayout);
+        RefreshCaveDetailTask refreshCaveDetailTask = new RefreshCaveDetailTask(this);
         refreshCaveDetailTask.execute(cave == null ? caveId : cave.Id);
     }
 

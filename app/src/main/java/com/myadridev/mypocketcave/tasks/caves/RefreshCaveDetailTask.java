@@ -13,17 +13,9 @@ import com.myadridev.mypocketcave.models.CaveModel;
 public class RefreshCaveDetailTask extends AsyncTask<Integer, Void, CaveModel> {
 
     private CaveDetailActivity caveDetailActivity;
-    private CoordinatorLayout coordinatorLayout;
-    private Snackbar snackbar;
 
-    public RefreshCaveDetailTask(CaveDetailActivity caveDetailActivity, CoordinatorLayout coordinatorLayout) {
+    public RefreshCaveDetailTask(CaveDetailActivity caveDetailActivity) {
         this.caveDetailActivity = caveDetailActivity;
-        this.coordinatorLayout = coordinatorLayout;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        snackbar = SnackbarHelper.displayInfoSnackbar(caveDetailActivity, coordinatorLayout, R.string.ongoig_cave_refresh, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
     }
 
     @Override
@@ -35,9 +27,6 @@ public class RefreshCaveDetailTask extends AsyncTask<Integer, Void, CaveModel> {
 
     @Override
     protected void onPostExecute(CaveModel cave) {
-        if (snackbar != null) {
-            snackbar.dismiss();
-        }
         caveDetailActivity.onRefreshCaveSucceed(cave);
     }
 }

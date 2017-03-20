@@ -38,7 +38,6 @@ public class BottleDetailActivity extends AppCompatActivity {
     private TextView personView;
     private TextView commentsView;
     private TextView domainView;
-    private CoordinatorLayout coordinatorLayout;
 
     private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
@@ -155,7 +154,6 @@ public class BottleDetailActivity extends AppCompatActivity {
     }
 
     private void setLayout() {
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.bottle_detail_coordinator_layout);
         domainView = (TextView) findViewById(R.id.bottle_detail_domain);
         stockView = (TextView) findViewById(R.id.bottle_detail_stock);
         placedView = (TextView) findViewById(R.id.bottle_detail_placed);
@@ -187,7 +185,7 @@ public class BottleDetailActivity extends AppCompatActivity {
         NavigationManager.restartIfNeeded(this);
         super.onResume();
 
-        RefreshBottleDetailTask refreshBottleDetailTask = new RefreshBottleDetailTask(this, coordinatorLayout);
+        RefreshBottleDetailTask refreshBottleDetailTask = new RefreshBottleDetailTask(this);
         refreshBottleDetailTask.execute(bottle == null ? bottleId : bottle.Id);
     }
 
