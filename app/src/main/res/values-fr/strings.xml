@@ -222,4 +222,13 @@
     <string name="food_grilled_meat">Grillades</string>
     <string name="food_chocolate">Chocolat</string>
     <string name="food_spicy">Nourriture épicée</string>
+    <string name="wine_color_whisky">Whisky</string>
+    <string name="wine_color_vodka">Vodka</string>
+    <string name="wine_color_aperitif">Apéritif</string>
+    <string name="wine_color_beer">Bière</string>
+    <string name="wine_color_cider">Cidre</string>
+    <string name="wine_color_liqueur">Digestif</string>
+    <string name="wine_color_other">Autre</string>
+    <string name="wine_color_rum">Rhum</string>
+    <string name="wine_color_soft">Sans alcool</string>
 </resources>

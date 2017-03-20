@@ -239,4 +239,13 @@
     <string name="food_grilled_meat">Grilled meat</string>
     <string name="food_chocolate">Chocolate</string>
     <string name="food_spicy">Spicy food</string>
+    <string name="wine_color_whisky">Whisky</string>
+    <string name="wine_color_rum">Rum</string>
+    <string name="wine_color_vodka">Vodka</string>
+    <string name="wine_color_aperitif">Aperitif</string>
+    <string name="wine_color_liqueur">Liqueur</string>
+    <string name="wine_color_beer">Beer</string>
+    <string name="wine_color_cider">Cider</string>
+    <string name="wine_color_soft">Soft drink</string>
+    <string name="wine_color_other">Other</string>
 </resources>

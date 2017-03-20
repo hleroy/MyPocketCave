@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.myadridev.mypocketcave.enums.PositionEnum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class PatternModelWithBottles extends PatternModel {
     public void setClickablePlaces() {
         for (Map.Entry<CoordinatesModel, CavePlaceModel> placeEntry : PlaceMapWithBottles.entrySet()) {
             CavePlaceModel cavePlace = placeEntry.getValue();
-            if (cavePlace.PlaceType.isTopRight()) {
+            if (cavePlace.PlaceType.Position == PositionEnum.TOP_RIGHT) {
                 CoordinatesModel coordinates = placeEntry.getKey();
                 CoordinatesModel coordinatesRight = new CoordinatesModel(coordinates.Row, coordinates.Col + 1);
                 CavePlaceModel placeRight;
@@ -57,7 +58,7 @@ public class PatternModelWithBottles extends PatternModel {
                     continue;
                 }
 
-                if (placeRight.PlaceType.isTopLeft() && placeTop.PlaceType.isBottomRight() && placeTopRight.PlaceType.isBottomLeft()) {
+                if (placeRight.PlaceType.Position == PositionEnum.TOP_LEFT && placeTop.PlaceType.Position == PositionEnum.BOTTOM_RIGHT && placeTopRight.PlaceType.Position == PositionEnum.BOTTOM_LEFT) {
                     cavePlace.IsClickable = true;
                     placeRight.IsClickable = true;
                     placeTop.IsClickable = true;
@@ -71,7 +72,7 @@ public class PatternModelWithBottles extends PatternModel {
         int col = getNumberColumnsGridLayout() - 1;
         for (int row = 0; row < getNumberRowsGridLayout(); row++) {
             CavePlaceModel cavePlace = PlaceMapWithBottles.get(new CoordinatesModel(row, col));
-            if (cavePlace.PlaceType.isTopRight()) {
+            if (cavePlace.PlaceType.Position == PositionEnum.TOP_RIGHT) {
                 CoordinatesModel coordinatesTop = new CoordinatesModel(row + 1, col);
                 CavePlaceModel placeTop;
                 if (PlaceMapWithBottles.containsKey(coordinatesTop)) {
@@ -80,7 +81,7 @@ public class PatternModelWithBottles extends PatternModel {
                     continue;
                 }
 
-                if (placeTop.PlaceType.isBottomRight()) {
+                if (placeTop.PlaceType.Position == PositionEnum.BOTTOM_RIGHT) {
                     cavePlace.IsClickable = true;
                     placeTop.IsClickable = true;
                     row++;
@@ -93,7 +94,7 @@ public class PatternModelWithBottles extends PatternModel {
         int col = 0;
         for (int row = 0; row < getNumberRowsGridLayout(); row++) {
             CavePlaceModel cavePlace = PlaceMapWithBottles.get(new CoordinatesModel(row, col));
-            if (cavePlace.PlaceType.isTopLeft()) {
+            if (cavePlace.PlaceType.Position == PositionEnum.TOP_LEFT) {
                 CoordinatesModel coordinatesTop = new CoordinatesModel(row + 1, col);
                 CavePlaceModel placeTop;
                 if (PlaceMapWithBottles.containsKey(coordinatesTop)) {
@@ -102,7 +103,7 @@ public class PatternModelWithBottles extends PatternModel {
                     continue;
                 }
 
-                if (placeTop.PlaceType.isBottomLeft()) {
+                if (placeTop.PlaceType.Position == PositionEnum.BOTTOM_LEFT) {
                     cavePlace.IsClickable = true;
                     placeTop.IsClickable = true;
                     row++;
@@ -115,7 +116,7 @@ public class PatternModelWithBottles extends PatternModel {
         int row = getNumberRowsGridLayout() - 1;
         for (int col = 0; col < getNumberColumnsGridLayout(); col++) {
             CavePlaceModel cavePlace = PlaceMapWithBottles.get(new CoordinatesModel(row, col));
-            if (cavePlace.PlaceType.isTopRight()) {
+            if (cavePlace.PlaceType.Position == PositionEnum.TOP_RIGHT) {
                 CoordinatesModel coordinatesRight = new CoordinatesModel(row, col + 1);
                 CavePlaceModel placeRight;
                 if (PlaceMapWithBottles.containsKey(coordinatesRight)) {
@@ -124,7 +125,7 @@ public class PatternModelWithBottles extends PatternModel {
                     continue;
                 }
 
-                if (placeRight.PlaceType.isTopLeft()) {
+                if (placeRight.PlaceType.Position == PositionEnum.TOP_LEFT) {
                     cavePlace.IsClickable = true;
                     placeRight.IsClickable = true;
                     col++;
@@ -137,7 +138,7 @@ public class PatternModelWithBottles extends PatternModel {
         int row = 0;
         for (int col = 0; col < getNumberColumnsGridLayout(); col++) {
             CavePlaceModel cavePlace = PlaceMapWithBottles.get(new CoordinatesModel(row, col));
-            if (cavePlace.PlaceType.isBottomRight()) {
+            if (cavePlace.PlaceType.Position == PositionEnum.BOTTOM_RIGHT) {
                 CoordinatesModel coordinatesRight = new CoordinatesModel(row, col + 1);
                 CavePlaceModel placeRight;
                 if (PlaceMapWithBottles.containsKey(coordinatesRight)) {
@@ -146,7 +147,7 @@ public class PatternModelWithBottles extends PatternModel {
                     continue;
                 }
 
-                if (placeRight.PlaceType.isBottomLeft()) {
+                if (placeRight.PlaceType.Position == PositionEnum.BOTTOM_LEFT) {
                     cavePlace.IsClickable = true;
                     placeRight.IsClickable = true;
                     col++;

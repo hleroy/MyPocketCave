@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
@@ -229,14 +228,19 @@ public class CaveArrangementModel {
 
         BottleModel bottle = BottleManager.getBottle(bottleId);
 
-        if (cavePlace.PlaceType.isBottomLeft()) {
-            updateBottomLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
-        } else if (cavePlace.PlaceType.isBottomRight()) {
-            updateBottomRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
-        } else if (cavePlace.PlaceType.isTopLeft()) {
-            updateTopLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
-        } else if (cavePlace.PlaceType.isTopRight()) {
-            updateTopRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
+        switch (cavePlace.PlaceType.Position) {
+            case BOTTOM_LEFT:
+                updateBottomLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
+                break;
+            case BOTTOM_RIGHT:
+                updateBottomRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
+                break;
+            case TOP_LEFT:
+                updateTopLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
+                break;
+            case TOP_RIGHT:
+                updateTopRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle);
+                break;
         }
 
         if (updateBottleUsedQuantity) {
@@ -404,7 +408,9 @@ public class CaveArrangementModel {
     private void updateCavePlace(CavePlaceModel cavePlaceToUpdate, BottleModel bottle, boolean isAddBottle) {
         if (cavePlaceToUpdate == null) return;
         cavePlaceToUpdate.BottleId = isAddBottle ? bottle.Id : -1;
-        cavePlaceToUpdate.PlaceType = isAddBottle ? getPlaceTypeByTypeAndColor(cavePlaceToUpdate.PlaceType, bottle.WineColor) : getEmptyPlaceType(cavePlaceToUpdate.PlaceType);
+        cavePlaceToUpdate.PlaceType = isAddBottle
+                ? CavePlaceTypeEnum.getByPositionAndColor(cavePlaceToUpdate.PlaceType.Position, bottle.WineColor)
+                : CavePlaceTypeEnum.getEmptyByPosition(cavePlaceToUpdate.PlaceType.Position);
     }
 
     @Nullable
@@ -619,76 +625,6 @@ public class CaveArrangementModel {
         return PatternMap.containsKey(bottomPatternCoordinates) ? PatternMap.get(bottomPatternCoordinates) : null;
     }
 
-    private CavePlaceTypeEnum getPlaceTypeByTypeAndColor(CavePlaceTypeEnum placeType, WineColorEnum wineColor) {
-        if (placeType.isBottomLeft()) {
-            switch (wineColor) {
-                case RED:
-                    return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_RED;
-                case WHITE:
-                    return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_WHITE;
-                case ROSE:
-                    return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_ROSE;
-                case CHAMPAGNE:
-                    return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT_CHAMPAGNE;
-                default:
-                    return placeType;
-            }
-        } else if (placeType.isBottomRight()) {
-            switch (wineColor) {
-                case RED:
-                    return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_RED;
-                case WHITE:
-                    return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_WHITE;
-                case ROSE:
-                    return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_ROSE;
-                case CHAMPAGNE:
-                    return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT_CHAMPAGNE;
-                default:
-                    return placeType;
-            }
-        } else if (placeType.isTopLeft()) {
-            switch (wineColor) {
-                case RED:
-                    return CavePlaceTypeEnum.PLACE_TOP_LEFT_RED;
-                case WHITE:
-                    return CavePlaceTypeEnum.PLACE_TOP_LEFT_WHITE;
-                case ROSE:
-                    return CavePlaceTypeEnum.PLACE_TOP_LEFT_ROSE;
-                case CHAMPAGNE:
-                    return CavePlaceTypeEnum.PLACE_TOP_LEFT_CHAMPAGNE;
-                default:
-                    return placeType;
-            }
-        } else if (placeType.isTopRight()) {
-            switch (wineColor) {
-                case RED:
-                    return CavePlaceTypeEnum.PLACE_TOP_RIGHT_RED;
-                case WHITE:
-                    return CavePlaceTypeEnum.PLACE_TOP_RIGHT_WHITE;
-                case ROSE:
-                    return CavePlaceTypeEnum.PLACE_TOP_RIGHT_ROSE;
-                case CHAMPAGNE:
-                    return CavePlaceTypeEnum.PLACE_TOP_RIGHT_CHAMPAGNE;
-                default:
-                    return placeType;
-            }
-        }
-        return placeType;
-    }
-
-    private CavePlaceTypeEnum getEmptyPlaceType(CavePlaceTypeEnum placeType) {
-        if (placeType.isBottomLeft()) {
-            return CavePlaceTypeEnum.PLACE_BOTTOM_LEFT;
-        } else if (placeType.isBottomRight()) {
-            return CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT;
-        } else if (placeType.isTopLeft()) {
-            return CavePlaceTypeEnum.PLACE_TOP_LEFT;
-        } else if (placeType.isTopRight()) {
-            return CavePlaceTypeEnum.PLACE_TOP_RIGHT;
-        }
-        return placeType;
-    }
-
     public void setPatternMapWithBoxes(Context context, int patternId, CaveModel oldCave) {
         int oldPatternId = -1;
         int oldNumberBoxes = 0;
@@ -785,7 +721,7 @@ public class CaveArrangementModel {
                                 }
 
                                 cavePlaceTop.BottleId = -1;
-                                cavePlaceTop.PlaceType = getEmptyPlaceType(cavePlaceTop.PlaceType);
+                                cavePlaceTop.PlaceType = CavePlaceTypeEnum.getEmptyByPosition(cavePlaceTop.PlaceType.Position);
                             }
                         }
                         // look for half bottles on the bottom : for each 1/2 bottle found, if the second half is not found, remove it
@@ -801,7 +737,7 @@ public class CaveArrangementModel {
                                 }
 
                                 cavePlaceBottom.BottleId = -1;
-                                cavePlaceBottom.PlaceType = getEmptyPlaceType(cavePlaceBottom.PlaceType);
+                                cavePlaceBottom.PlaceType = CavePlaceTypeEnum.getEmptyByPosition(cavePlaceBottom.PlaceType.Position);
                             }
                         }
                     }
@@ -833,7 +769,7 @@ public class CaveArrangementModel {
                                 }
 
                                 cavePlaceLeft.BottleId = -1;
-                                cavePlaceLeft.PlaceType = getEmptyPlaceType(cavePlaceLeft.PlaceType);
+                                cavePlaceLeft.PlaceType = CavePlaceTypeEnum.getEmptyByPosition(cavePlaceLeft.PlaceType.Position);
                             }
                         }
                         // look for half bottles on the right : for each 1/2 bottle found, if the second half is not found, remove it
@@ -849,7 +785,7 @@ public class CaveArrangementModel {
                                 }
 
                                 cavePlaceRight.BottleId = -1;
-                                cavePlaceRight.PlaceType = getEmptyPlaceType(cavePlaceRight.PlaceType);
+                                cavePlaceRight.PlaceType = CavePlaceTypeEnum.getEmptyByPosition(cavePlaceRight.PlaceType.Position);
                             }
                         }
                     }
