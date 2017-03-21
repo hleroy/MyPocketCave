@@ -107,5 +107,7 @@ public class PlaceBottleAlertDialog extends AlertDialog {
         holder.setStockLabelViewText(activity.getString(R.string.bottles_to_place, bottle.Stock - bottle.NumberPlaced));
         int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
         holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(activity, wineColorDrawableId) : null);
+        holder.setRating(bottle.Rating);
+        holder.setPriceRating(bottle.PriceRating);
     }
 }

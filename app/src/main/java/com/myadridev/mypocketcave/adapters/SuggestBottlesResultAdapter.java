@@ -139,6 +139,8 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
             viewHolder.setStockLabelViewText(context.getString(R.string.bottles_stock, bottle.Bottle.Stock));
             int wineColorDrawableId = bottle.Bottle.WineColor.DrawableResourceId;
             viewHolder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
+            viewHolder.setRating(bottle.Bottle.Rating);
+            viewHolder.setPriceRating(bottle.Bottle.PriceRating);
             viewHolder.setOnItemClickListener(listener, bottle.Bottle.Id);
             viewHolder.resetHighlight();
         }

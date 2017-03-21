@@ -10,7 +10,8 @@
         android:id="@+id/bottle_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp">
 
         <ImageView
             android:id="@+id/bottle_color"
@@ -60,15 +61,48 @@
 
     </android.support.percent.PercentRelativeLayout>
 
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/bottle_content_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bottle_content"
+        android:gravity="center_horizontal">
+
+        <RatingBar
+            android:id="@+id/bottle_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressDrawable="@drawable/rating"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:stepSize="1" />
+
+        <RatingBar
+            android:id="@+id/bottle_price_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/bottle_rating"
+            android:layout_centerHorizontal="true"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressDrawable="@drawable/price_rating"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:stepSize="1" />
+
+    </android.support.percent.PercentRelativeLayout>
+
     <ImageView
         android:id="@+id/bottle_grey_over"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/bottle_content"
+        android:layout_alignBottom="@id/bottle_content_bottom"
         android:layout_alignEnd="@id/bottle_content"
         android:layout_alignStart="@id/bottle_content"
         android:layout_alignTop="@id/bottle_content"
-        android:layout_gravity="center"
         android:alpha="0.3"
         android:scaleType="fitXY"
         android:src="@drawable/black" />

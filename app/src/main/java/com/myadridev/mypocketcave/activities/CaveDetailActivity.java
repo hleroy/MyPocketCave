@@ -296,6 +296,8 @@ public class CaveDetailActivity extends AppCompatActivity {
                 cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? (int) cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0));
         int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
         holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(this, wineColorDrawableId) : null);
+        holder.setRating(bottle.Rating);
+        holder.setPriceRating(bottle.PriceRating);
     }
 
     @Override

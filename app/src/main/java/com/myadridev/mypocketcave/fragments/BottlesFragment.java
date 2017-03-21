@@ -137,5 +137,7 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
         holder.setStockLabelViewText(getActivity().getString(R.string.bottles_stock, bottle.Stock));
         int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
         holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(getActivity(), wineColorDrawableId) : null);
+        holder.setRating(bottle.Rating);
+        holder.setPriceRating(bottle.PriceRating);
     }
 }

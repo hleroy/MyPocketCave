@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
@@ -40,6 +41,8 @@ public class SeeBottleAlertDialog extends AlertDialog {
         TextView millesimeView = (TextView) dialogView.findViewById(R.id.bottle_millesime);
         TextView stockLabelView = (TextView) dialogView.findViewById(R.id.bottle_stock_label);
         ImageView greyOverView = (ImageView) dialogView.findViewById(R.id.bottle_grey_over);
+        RatingBar rating = (RatingBar) dialogView.findViewById(R.id.bottle_rating);
+        RatingBar priceRating = (RatingBar) dialogView.findViewById(R.id.bottle_price_rating);
         TextView seeDetailView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_see_detail);
         TextView drinkView = (TextView) dialogView.findViewById(R.id.alert_drink_bottle);
         TextView unplaceView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_unplace_bottle);
@@ -53,6 +56,8 @@ public class SeeBottleAlertDialog extends AlertDialog {
             labelView.setText(bottle.Domain + " - " + bottle.Name);
             millesimeView.setText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
             stockLabelView.setText(activity.getString(R.string.bottles_stock, bottle.Stock));
+            rating.setProgress(bottle.Rating);
+            priceRating.setProgress(bottle.PriceRating);
             greyOverView.setVisibility(View.INVISIBLE);
             int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
             colorView.setImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(activity, wineColorDrawableId) : null);
