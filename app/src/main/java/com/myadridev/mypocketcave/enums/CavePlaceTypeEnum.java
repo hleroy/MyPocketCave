@@ -56,10 +56,10 @@ public enum CavePlaceTypeEnum {
     PLACE_BOTTOM_LEFT_SOFT(122, R.drawable.place_type_bottom_left_soft, PositionEnum.BOTTOM_LEFT, WineColorEnum.SOFT),
     PLACE_TOP_RIGHT_SOFT(123, R.drawable.place_type_top_right_soft, PositionEnum.TOP_RIGHT, WineColorEnum.SOFT),
     PLACE_TOP_LEFT_SOFT(124, R.drawable.place_type_top_left_soft, PositionEnum.TOP_LEFT, WineColorEnum.SOFT),
-    PLACE_BOTTOM_RIGHT_OTHER(41, R.drawable.place_type_bottom_right_other, PositionEnum.BOTTOM_RIGHT, WineColorEnum.OTHER),
-    PLACE_BOTTOM_LEFT_OTHER(42, R.drawable.place_type_bottom_left_other, PositionEnum.BOTTOM_LEFT, WineColorEnum.OTHER),
-    PLACE_TOP_RIGHT_OTHER(43, R.drawable.place_type_top_right_other, PositionEnum.TOP_RIGHT, WineColorEnum.OTHER),
-    PLACE_TOP_LEFT_OTHER(44, R.drawable.place_type_top_left_other, PositionEnum.TOP_LEFT, WineColorEnum.OTHER);
+    PLACE_BOTTOM_RIGHT_OTHER(131, R.drawable.place_type_bottom_right_other, PositionEnum.BOTTOM_RIGHT, WineColorEnum.OTHER),
+    PLACE_BOTTOM_LEFT_OTHER(132, R.drawable.place_type_bottom_left_other, PositionEnum.BOTTOM_LEFT, WineColorEnum.OTHER),
+    PLACE_TOP_RIGHT_OTHER(133, R.drawable.place_type_top_right_other, PositionEnum.TOP_RIGHT, WineColorEnum.OTHER),
+    PLACE_TOP_LEFT_OTHER(134, R.drawable.place_type_top_left_other, PositionEnum.TOP_LEFT, WineColorEnum.OTHER);
 
     public final int Id;
     public final int DrawableResourceId;
