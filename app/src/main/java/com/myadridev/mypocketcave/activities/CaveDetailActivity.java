@@ -40,7 +40,6 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
-import com.myadridev.mypocketcave.tasks.caves.RefreshCaveDetailTask;
 
 import java.util.Collections;
 
@@ -304,12 +303,7 @@ public class CaveDetailActivity extends AppCompatActivity {
     protected void onResume() {
         NavigationManager.restartIfNeeded(this);
         super.onResume();
-        RefreshCaveDetailTask refreshCaveDetailTask = new RefreshCaveDetailTask(this);
-        refreshCaveDetailTask.execute(cave == null ? caveId : cave.Id);
-    }
-
-    public void onRefreshCaveSucceed(CaveModel cave) {
-        this.cave = cave;
+        cave = CaveManager.getCave(this, cave == null ? caveId : cave.Id);
         refreshActionBar();
         setLayoutValues();
         setupFloatingActionButtonsVisibility();

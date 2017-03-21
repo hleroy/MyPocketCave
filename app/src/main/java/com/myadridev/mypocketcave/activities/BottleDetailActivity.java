@@ -21,7 +21,6 @@ import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
-import com.myadridev.mypocketcave.tasks.bottles.RefreshBottleDetailTask;
 
 import java.util.Calendar;
 
@@ -192,12 +191,7 @@ public class BottleDetailActivity extends AppCompatActivity {
         NavigationManager.restartIfNeeded(this);
         super.onResume();
 
-        RefreshBottleDetailTask refreshBottleDetailTask = new RefreshBottleDetailTask(this);
-        refreshBottleDetailTask.execute(bottle == null ? bottleId : bottle.Id);
-    }
-
-    public void onRefreshBottleSucceed(BottleModel bottle) {
-        this.bottle = bottle;
+        bottle = BottleManager.getBottle(bottle == null ? bottleId : bottle.Id);
         refreshActionBar();
         setLayoutValues();
         setupFloatingActionButtonsVisibility();
