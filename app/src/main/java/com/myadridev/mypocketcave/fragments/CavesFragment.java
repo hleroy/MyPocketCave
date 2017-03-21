@@ -89,7 +89,7 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
 
     private void createAdapter() {
         cavesAdapter = new CavesAdapter(getContext(), allCaves, this::setHolderPropertiesFromCave);
-        cavesAdapter.addOnCaveClickListener((int caveId) -> NavigationManager.navigateToCaveDetail(getActivity(), caveId));
+        cavesAdapter.setOnCaveClickListener((int caveId) -> NavigationManager.navigateToCaveDetail(getActivity(), caveId));
         cavesRecyclerView.setAdapter(cavesAdapter);
     }
 

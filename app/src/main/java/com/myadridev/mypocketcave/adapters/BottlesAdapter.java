@@ -16,7 +16,6 @@ import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.models.BottleModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -27,10 +26,10 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public int MaxBottleToPlace;
     private List<BottleModel> bottles;
     private OnBottleBindListener onBottleBindListener;
-    private List<OnBottleClickListener> onBottleClickListeners;
-    private List<OnBottlePlacedClickListener> onBottlePlacedClickListeners;
+    private OnBottleClickListener onBottleClickListener;
+    private OnBottlePlacedClickListener onBottlePlacedClickListener;
     private int bottleIdInHighlight;
-    private List<View.OnClickListener> onResetHighlightlisteners;
+    private View.OnClickListener onResetHighlightlistener;
 
     public BottlesAdapter(Activity activity, List<BottleModel> bottles, boolean hasTitle, int maxBottleToPlace) {
         this(activity, bottles, hasTitle, maxBottleToPlace, -1);
@@ -44,10 +43,8 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.bottleIdInHighlight = bottleIdInHighlight;
         layoutInflater = LayoutInflater.from(this.activity);
         listener = (int bottleId) -> {
-            if (onBottleClickListeners != null) {
-                for (OnBottleClickListener onBottleClickListener : onBottleClickListeners) {
-                    onBottleClickListener.onItemClick(bottleId);
-                }
+            if (onBottleClickListener != null) {
+                onBottleClickListener.onItemClick(bottleId);
             }
         };
     }
@@ -62,29 +59,20 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    public void addOnBottleClickListener(OnBottleClickListener onBottleClickListener) {
-        if (onBottleClickListeners == null) {
-            onBottleClickListeners = new ArrayList<>();
-        }
-        onBottleClickListeners.add(onBottleClickListener);
+    public void setOnBottleClickListener(OnBottleClickListener onBottleClickListener) {
+        this.onBottleClickListener = onBottleClickListener;
     }
 
-    public void addOnBottlePlacedClickListener(OnBottlePlacedClickListener onBottlePlacedClickListener) {
-        if (onBottlePlacedClickListeners == null) {
-            onBottlePlacedClickListeners = new ArrayList<>();
-        }
-        onBottlePlacedClickListeners.add(onBottlePlacedClickListener);
+    public void setOnBottlePlacedClickListener(OnBottlePlacedClickListener onBottlePlacedClickListener) {
+        this.onBottlePlacedClickListener = onBottlePlacedClickListener;
     }
 
     public void setOnBottleBindListener(OnBottleBindListener onBottleBindListener) {
         this.onBottleBindListener = onBottleBindListener;
     }
 
-    public void addOnResetHighlightlisteners(View.OnClickListener onResetHighlightlistener) {
-        if (onResetHighlightlisteners == null) {
-            onResetHighlightlisteners = new ArrayList<>();
-        }
-        onResetHighlightlisteners.add(onResetHighlightlistener);
+    public void setOnResetHighlightlistener(View.OnClickListener onResetHighlightlistener) {
+        this.onResetHighlightlistener = onResetHighlightlistener;
     }
 
     @Override
@@ -164,10 +152,8 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.setHighlight(isHighlight);
         if (!isHighlight) {
             holder.setResetHighlightClickListener((View v) -> {
-                if (onResetHighlightlisteners != null) {
-                    for (View.OnClickListener onResetHighlightlistener : onResetHighlightlisteners) {
-                        onResetHighlightlistener.onClick(v);
-                    }
+                if (onResetHighlightlistener != null) {
+                    onResetHighlightlistener.onClick(v);
                 }
             });
         }
@@ -177,17 +163,15 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.setHighlight(isHighlight);
         if (!isHighlight) {
             holder.setResetHighlightClickListener((View v) -> {
-                if (onResetHighlightlisteners != null) {
-                    for (View.OnClickListener onResetHighlightlistener : onResetHighlightlisteners) {
-                        onResetHighlightlistener.onClick(v);
-                    }
+                if (onResetHighlightlistener != null) {
+                    onResetHighlightlistener.onClick(v);
                 }
             });
         }
     }
 
     private void onPlaceButtonClickListener(View view) {
-        PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(activity, null, null, onBottlePlacedClickListeners, MaxBottleToPlace);
+        PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(activity, null, null, onBottlePlacedClickListener, MaxBottleToPlace);
         alertDialog.show();
     }
 }

@@ -93,7 +93,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     public void onGetBottlesSucceed(List<SuggestBottleResultModel> allBottles) {
         this.allBottles = allBottles;
         bottlesResultAdapter = new SuggestBottlesResultAdapter(this, allBottles);
-        bottlesResultAdapter.addOnSeeMoreClickListener(() -> setVisibility(bottlesResultAdapter));
+        bottlesResultAdapter.setOnSeeMoreClickListener(() -> setVisibility(bottlesResultAdapter));
         bottlesRecyclerView.setAdapter(bottlesResultAdapter);
 
         setVisibility(bottlesResultAdapter);

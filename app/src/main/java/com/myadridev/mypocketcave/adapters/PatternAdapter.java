@@ -21,8 +21,6 @@ import com.myadridev.mypocketcave.models.CavePlaceModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -32,16 +30,19 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private final OnPlaceClickListener listener;
     private final boolean isClickable;
-    private final int totalWidth;
     private final int numberRows;
     private final int numberCols;
     private final int bottleIdInHighlight;
-    private List<View.OnClickListener> onResetHighlightlisteners;
-    private List<OnBottleClickListener> onSetHighlightlisteners;
-    private List<OnBottlePlacedClickListener> onBottlePlacedClickListeners;
-    private List<OnBottleDrunkClickListener> onBottleDrunkClickListeners;
-    private List<OnBottleUnplacedClickListener> onBottleUnplacedClickListeners;
+    private View.OnClickListener onResetHighlightlistener;
+    private OnBottleClickListener onSetHighlightlistener;
+    private OnBottlePlacedClickListener onBottlePlacedClickListener;
+    private OnBottleDrunkClickListener onBottleDrunkClickListener;
+    private OnBottleUnplacedClickListener onBottleUnplacedClickListener;
     private CoordinatesModel patternCoordinates;
+
+    private int itemCount;
+    private int itemWidth;
+    private int itemHeight;
 
     public PatternAdapter(Activity activity, Map<CoordinatesModel, CavePlaceModel> patternPlace, CoordinatesModel maxRawCol,
                           boolean isClickable, int totalWidth, CoordinatesModel patternCoordinates) {
@@ -54,7 +55,6 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.patternPlace = patternPlace;
         this.numberRows = maxRawCol.Row;
         this.numberCols = maxRawCol.Col;
-        this.totalWidth = totalWidth;
         this.patternCoordinates = patternCoordinates;
         this.bottleIdInHighlight = bottleIdInHighlight;
         this.isClickable = isClickable;
@@ -63,48 +63,36 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             CavePlaceModel cavePlace = this.patternPlace.get(coordinates);
             if (cavePlace.BottleId != -1) {
                 SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(this.activity, cavePlace.BottleId, patternCoordinates1, coordinates,
-                        onBottleDrunkClickListeners, onBottleUnplacedClickListeners, bottleIdInHighlight, onSetHighlightlisteners, 0);
+                        onBottleDrunkClickListener, onBottleUnplacedClickListener, bottleIdInHighlight, onSetHighlightlistener, 0);
                 alertDialog.show();
             } else {
-                PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(this.activity, patternCoordinates1, coordinates, onBottlePlacedClickListeners, 1);
+                PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(this.activity, patternCoordinates1, coordinates, onBottlePlacedClickListener, 1);
                 alertDialog.show();
             }
         };
+        itemCount = numberRows * numberCols;
+        itemWidth = totalWidth / numberCols;
+        itemHeight = totalWidth / numberRows;
     }
 
-    public void addOnBottleUnplacedClickListener(OnBottleUnplacedClickListener onBottleUnplacedClickListener) {
-        if (onBottleUnplacedClickListeners == null) {
-            onBottleUnplacedClickListeners = new ArrayList<>();
-        }
-        onBottleUnplacedClickListeners.add(onBottleUnplacedClickListener);
+    public void setOnBottleUnplacedClickListener(OnBottleUnplacedClickListener onBottleUnplacedClickListener) {
+        this.onBottleUnplacedClickListener = onBottleUnplacedClickListener;
     }
 
-    public void addOnBottleDrunkClickListener(OnBottleDrunkClickListener onBottleDrunkClickListener) {
-        if (onBottleDrunkClickListeners == null) {
-            onBottleDrunkClickListeners = new ArrayList<>();
-        }
-        onBottleDrunkClickListeners.add(onBottleDrunkClickListener);
+    public void setOnBottleDrunkClickListener(OnBottleDrunkClickListener onBottleDrunkClickListener) {
+        this.onBottleDrunkClickListener = onBottleDrunkClickListener;
     }
 
-    public void addOnBottlePlacedClickListener(OnBottlePlacedClickListener onBottlePlacedClickListener) {
-        if (onBottlePlacedClickListeners == null) {
-            onBottlePlacedClickListeners = new ArrayList<>();
-        }
-        onBottlePlacedClickListeners.add(onBottlePlacedClickListener);
+    public void setOnBottlePlacedClickListener(OnBottlePlacedClickListener onBottlePlacedClickListener) {
+        this.onBottlePlacedClickListener = onBottlePlacedClickListener;
     }
 
-    public void addonSetHighlightlistener(OnBottleClickListener onSetHighlightlistener) {
-        if (onSetHighlightlisteners == null) {
-            onSetHighlightlisteners = new ArrayList<>();
-        }
-        onSetHighlightlisteners.add(onSetHighlightlistener);
+    public void setOnSetHighlightlistener(OnBottleClickListener onSetHighlightlistener) {
+        this.onSetHighlightlistener = onSetHighlightlistener;
     }
 
-    public void addOnResetHighlightlisteners(View.OnClickListener onResetHighlightlistener) {
-        if (onResetHighlightlisteners == null) {
-            onResetHighlightlisteners = new ArrayList<>();
-        }
-        onResetHighlightlisteners.add(onResetHighlightlistener);
+    public void setOnResetHighlightlistener(View.OnClickListener onResetHighlightlistener) {
+        this.onResetHighlightlistener = onResetHighlightlistener;
     }
 
     @Override
@@ -115,7 +103,7 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return numberRows * numberCols;
+        return itemCount;
     }
 
     @Override
@@ -137,19 +125,12 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
         CavePlaceModel cavePlace = patternPlace.get(coordinates);
         if (cavePlace != null) {
-            CavePlaceTypeEnum cavePlaceType = cavePlace.PlaceType;
-            int itemWidth = getItemWidth();
-            int itemHeight = getItemHeight();
+            holder.itemView.setMinimumWidth(this.itemWidth);
+            holder.itemView.setMinimumHeight(this.itemHeight);
 
-            holder.itemView.setMinimumWidth(itemWidth);
-            holder.itemView.setMinimumHeight(itemHeight);
-
-            int caveTypeDrawableId = cavePlaceType.DrawableResourceId;
+            int caveTypeDrawableId = cavePlace.PlaceType.DrawableResourceId;
             if (caveTypeDrawableId != -1) {
-                Picasso.with(activity).load(caveTypeDrawableId)
-                        .resize(itemWidth, itemHeight).into(holder.getPlaceTypeView());
-            } else {
-                holder.setPlaceTypeViewImageDrawable(null);
+                Picasso.with(activity).load(caveTypeDrawableId).resize(this.itemWidth, this.itemHeight).into(holder.getPlaceTypeView());
             }
             if (isClickable && cavePlace.IsClickable) {
                 holder.setOnItemClickListener(listener, patternCoordinates, coordinates);
@@ -159,15 +140,10 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (bottleIdInHighlight != -1) {
                 setHighlightProperties(holder, cavePlace.BottleId == bottleIdInHighlight);
-            } else {
-                holder.resetHighlight();
             }
         } else {
-            holder.setPlaceTypeViewImageDrawable(null);
             if (bottleIdInHighlight != -1) {
                 setHighlightProperties(holder, false);
-            } else {
-                holder.resetHighlight();
             }
         }
     }
@@ -176,21 +152,11 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.setHighlight(isHighlight);
         if (!isHighlight) {
             holder.setResetHighlightClickListener((View v) -> {
-                if (onResetHighlightlisteners != null) {
-                    for (View.OnClickListener onResetHighlightlistener : onResetHighlightlisteners) {
-                        onResetHighlightlistener.onClick(v);
-                    }
+                if (onResetHighlightlistener != null) {
+                    onResetHighlightlistener.onClick(v);
                 }
             });
         }
-    }
-
-    private int getItemWidth() {
-        return totalWidth / numberCols;
-    }
-
-    private int getItemHeight() {
-        return totalWidth / numberRows;
     }
 
     private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {

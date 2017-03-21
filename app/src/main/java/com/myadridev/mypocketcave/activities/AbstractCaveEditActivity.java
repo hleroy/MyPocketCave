@@ -22,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -79,6 +80,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private TextView boxesOverviewView;
     private RecyclerView boxesOverviewRecyclerView;
     private RecyclerView caveArrangementRecyclerView;
+    private ProgressBar caveArrangementRecyclerViewProgress;
     private CaveArrangementAdapter caveArrangementAdapter;
     private PatternAdapter patternAdapter;
     private int lastCaveTypeSelected;
@@ -174,6 +176,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
         caveArrangementRecyclerView = (RecyclerView) findViewById(R.id.cave_edit_arrangement_patterns);
         caveArrangementRecyclerView.setOnTouchListener(hideKeyboardOnClick);
+
+        caveArrangementRecyclerViewProgress = (ProgressBar) findViewById(R.id.cave_edit_arrangement_patterns_progress);
     }
 
     protected abstract void setCoordinatorLayout();
@@ -220,6 +224,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 boxesOverviewView.setVisibility(View.GONE);
                 boxesOverviewRecyclerView.setVisibility(View.GONE);
                 caveArrangementRecyclerView.setVisibility(View.GONE);
+                caveArrangementRecyclerViewProgress.setVisibility(View.GONE);
                 break;
             case BOX:
                 arrangementTooltipView.setVisibility(View.VISIBLE);
@@ -230,6 +235,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 boxesOverviewView.setVisibility(View.VISIBLE);
                 boxesOverviewRecyclerView.setVisibility(View.VISIBLE);
                 caveArrangementRecyclerView.setVisibility(View.GONE);
+                caveArrangementRecyclerViewProgress.setVisibility(View.GONE);
                 updateBoxesPatternValuesAndAdapter();
                 if (cave.Id > 0) {
                     boxesNumberView.setText(String.valueOf(cave.CaveArrangement.NumberBoxes));
@@ -246,7 +252,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 boxesPatternNumberBottlesByRowInputLayout.setVisibility(View.GONE);
                 boxesOverviewView.setVisibility(View.GONE);
                 boxesOverviewRecyclerView.setVisibility(View.GONE);
-                caveArrangementRecyclerView.setVisibility(View.VISIBLE);
+                caveArrangementRecyclerView.setVisibility(View.INVISIBLE);
+                caveArrangementRecyclerViewProgress.setVisibility(View.VISIBLE);
 
                 createCaveArrangementAdapter();
                 break;
@@ -506,5 +513,10 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected void onResume() {
         NavigationManager.restartIfNeeded(this);
         super.onResume();
+    }
+
+    public void onCaveArrangementLoaded() {
+        caveArrangementRecyclerView.setVisibility(View.VISIBLE);
+        caveArrangementRecyclerViewProgress.setVisibility(View.GONE);
     }
 }

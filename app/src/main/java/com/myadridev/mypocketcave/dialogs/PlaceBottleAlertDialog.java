@@ -26,7 +26,7 @@ public class PlaceBottleAlertDialog extends AlertDialog {
     private final Activity activity;
 
     public PlaceBottleAlertDialog(Activity activity, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates,
-                                  final List<OnBottlePlacedClickListener> onBottlePlacedClickListeners, int maxBottleToPlace) {
+                                  final OnBottlePlacedClickListener onBottlePlacedClickListener, int maxBottleToPlace) {
         super(activity);
 
         this.activity = activity;
@@ -51,7 +51,7 @@ public class PlaceBottleAlertDialog extends AlertDialog {
             bottlesRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             BottlesAdapter bottlesAdapter = new BottlesAdapter(activity, nonPlacedBottles, false, 0);
             bottlesAdapter.setOnBottleBindListener(this::setHolderPropertiesFromBottle);
-            bottlesAdapter.addOnBottleClickListener((int bottleId) -> {
+            bottlesAdapter.setOnBottleClickListener((int bottleId) -> {
                 if (patternCoordinates == null) {
                     AlertDialog.Builder numberRemindersDialogBuilder = new AlertDialog.Builder(activity);
 
@@ -84,18 +84,16 @@ public class PlaceBottleAlertDialog extends AlertDialog {
             });
             bottlesRecyclerView.setAdapter(bottlesAdapter);
         }
-        setOnDismissListener(getOnDismissListener(onBottlePlacedClickListeners, bottleIdToPlace, quantityToPlace, patternCoordinates, coordinates));
+        setOnDismissListener(getOnDismissListener(onBottlePlacedClickListener, bottleIdToPlace, quantityToPlace, patternCoordinates, coordinates));
     }
 
     @NonNull
-    private OnDismissListener getOnDismissListener(List<OnBottlePlacedClickListener> onBottlePlacedClickListeners, int[] bottleIdToPlace, int[] quantityToPlace,
+    private OnDismissListener getOnDismissListener(OnBottlePlacedClickListener onBottlePlacedClickListener, int[] bottleIdToPlace, int[] quantityToPlace,
                                                    CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
         return (DialogInterface dialog) -> {
             if (bottleIdToPlace[0] != -1) {
-                if (onBottlePlacedClickListeners != null) {
-                    for (OnBottlePlacedClickListener onBottlePlacedClickListener : onBottlePlacedClickListeners) {
-                        onBottlePlacedClickListener.onBottlePlaced(bottleIdToPlace[0], quantityToPlace[0], patternCoordinates, coordinates);
-                    }
+                if (onBottlePlacedClickListener != null) {
+                    onBottlePlacedClickListener.onBottlePlaced(bottleIdToPlace[0], quantityToPlace[0], patternCoordinates, coordinates);
                 }
             }
         };

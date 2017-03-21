@@ -57,7 +57,7 @@ public class PatternSelectionActivity extends AppCompatActivity {
         patternSelectionRecyclerView.setLayoutManager(layoutManager);
         patternSelectionAdapter = new PatternSelectionAdapter(this, recentPatternList, layoutManager);
         patternSelectionRecyclerView.setAdapter(patternSelectionAdapter);
-        patternSelectionAdapter.addOnSelectionPatternClickListener((int patternId) -> {
+        patternSelectionAdapter.setOnSelectionPatternClickListener((int patternId) -> {
             setResultAndFinish(RESULT_OK, patternId);
             UpdatePatternsOrderTask updatePatternsOrderTask = new UpdatePatternsOrderTask(this);
             updatePatternsOrderTask.execute(patternId);

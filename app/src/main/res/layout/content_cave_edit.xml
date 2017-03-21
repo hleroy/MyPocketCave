@@ -57,11 +57,11 @@
             android:id="@+id/cave_edit_arrangement_tooltip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/cave_edit_arrangement"
+            android:layout_alignTop="@id/cave_edit_arrangement"
             android:layout_below="@id/cave_edit_type"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/cave_edit_arrangement"
-            android:layout_alignBottom="@id/cave_edit_arrangement"
-            android:layout_alignTop="@id/cave_edit_arrangement"
             android:src="@drawable/info" />
 
         <TextView
@@ -189,9 +189,18 @@
             android:layout_marginBottom="@dimen/vertical_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:layout_marginTop="@dimen/vertical_margin_between_elements">
+            android:layout_marginTop="@dimen/vertical_margin_between_elements" />
 
-        </android.support.v7.widget.RecyclerView>
+        <ProgressBar
+            android:id="@+id/cave_edit_arrangement_patterns_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cave_edit_pattern_overview_recyclerview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/vertical_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:layout_marginTop="@dimen/vertical_margin_between_elements" />
 
     </android.support.percent.PercentRelativeLayout>
 

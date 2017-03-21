@@ -12,19 +12,19 @@ import com.myadridev.mypocketcave.adapters.viewHolders.BottleNumberViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.SuggestBottleResultSeeMoreButtonViewHolder;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
+import com.myadridev.mypocketcave.listeners.OnSeeMoreClickListener;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
 import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
     private final List<SuggestBottleResultModel> bottles;
     private final LayoutInflater layoutInflater;
-    private final OnBottleClickListener listener;
-    private final List<OnSeeMoreClickListener> seeMoreClickListeners;
+    private final OnBottleClickListener onBottleClickListener;
+    private OnSeeMoreClickListener onSeeMoreClickListener;
     private boolean isAllBottlesVisible;
     private int numberBottlesAllCriteria;
 
@@ -34,8 +34,7 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
         isAllBottlesVisible = false;
         computeVisibleBottlesCount();
         layoutInflater = LayoutInflater.from(this.context);
-        listener = (int bottleId) -> NavigationManager.navigateToBottleDetail(this.context, bottleId);
-        seeMoreClickListeners = new ArrayList<>();
+        onBottleClickListener = (int bottleId) -> NavigationManager.navigateToBottleDetail(this.context, bottleId);
     }
 
     public int getNumberDisplayedBottles() {
@@ -115,7 +114,9 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
             SuggestBottleResultSeeMoreButtonViewHolder holder = (SuggestBottleResultSeeMoreButtonViewHolder) viewHolder;
             holder.button.setOnClickListener((View view) -> {
                 seeAllBottles();
-                fireOnSeeMoreClick();
+                if (onSeeMoreClickListener != null) {
+                    onSeeMoreClickListener.onClick();
+                }
             });
 
         } else if (position == 0) {
@@ -141,22 +142,12 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
             viewHolder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
             viewHolder.setRating(bottle.Bottle.Rating);
             viewHolder.setPriceRating(bottle.Bottle.PriceRating);
-            viewHolder.setOnItemClickListener(listener, bottle.Bottle.Id);
+            viewHolder.setOnItemClickListener(onBottleClickListener, bottle.Bottle.Id);
             viewHolder.resetHighlight();
         }
     }
 
-    public void addOnSeeMoreClickListener(OnSeeMoreClickListener listener) {
-        seeMoreClickListeners.add(listener);
-    }
-
-    private void fireOnSeeMoreClick() {
-        for (OnSeeMoreClickListener listener : seeMoreClickListeners) {
-            listener.onClick();
-        }
-    }
-
-    public interface OnSeeMoreClickListener {
-        void onClick();
+    public void setOnSeeMoreClickListener(OnSeeMoreClickListener onSeeMoreClickListener) {
+        this.onSeeMoreClickListener = onSeeMoreClickListener;
     }
 }

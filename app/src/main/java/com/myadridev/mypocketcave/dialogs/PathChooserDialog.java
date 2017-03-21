@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.listeners.OnPathChosenListener;
 import com.myadridev.mypocketcave.managers.SyncManager;
 
@@ -172,7 +172,7 @@ public class PathChooserDialog {
 
         titleView = new TextView(context);
         titleView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        CompatibilityHelper.setTextAppearance(titleView, android.R.style.TextAppearance_Large);
+        TextViewCompat.setTextAppearance(titleView, android.R.style.TextAppearance_Large);
         titleView.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         titleView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         titleView.setText(title);

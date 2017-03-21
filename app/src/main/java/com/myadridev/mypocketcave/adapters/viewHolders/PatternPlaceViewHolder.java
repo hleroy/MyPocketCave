@@ -28,10 +28,6 @@ public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
         return new PatternPlaceViewHolder(parent, placeTypeView, greyOverView, greyUnderView);
     }
 
-    public void setPlaceTypeViewImageDrawable(Drawable placeTypeViewDrawable) {
-        placeTypeView.setImageDrawable(placeTypeViewDrawable);
-    }
-
     public ImageView getPlaceTypeView() {
         return placeTypeView;
     }
@@ -49,17 +45,7 @@ public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setHighlight(boolean isHighlight) {
-        if (isHighlight) {
-            greyOverView.setVisibility(View.INVISIBLE);
-            greyUnderView.setVisibility(View.VISIBLE);
-        } else {
-            greyOverView.setVisibility(View.VISIBLE);
-            greyUnderView.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void resetHighlight() {
-        greyOverView.setVisibility(View.INVISIBLE);
-        greyUnderView.setVisibility(View.INVISIBLE);
+        greyOverView.setVisibility(isHighlight ? View.INVISIBLE : View.VISIBLE);
+        greyUnderView.setVisibility(isHighlight ? View.VISIBLE : View.INVISIBLE);
     }
 }

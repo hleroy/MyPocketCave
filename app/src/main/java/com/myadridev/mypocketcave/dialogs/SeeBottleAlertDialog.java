@@ -20,15 +20,13 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 
-import java.util.List;
-
 public class SeeBottleAlertDialog extends AlertDialog {
 
     private final int maxBottlesToUnplace;
 
     public SeeBottleAlertDialog(Activity activity, int bottleId, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates,
-                                final List<OnBottleDrunkClickListener> onBottleDrunkClickListeners, final List<OnBottleUnplacedClickListener> onBottleUnplacedClickListeners,
-                                int bottleIdInHighlight, final List<OnBottleClickListener> onBottleHighlightClickListeners, int maxBottlesToUnplace) {
+                                final OnBottleDrunkClickListener onBottleDrunkClickListener, final OnBottleUnplacedClickListener onBottleUnplacedClickListener,
+                                int bottleIdInHighlight, final OnBottleClickListener onBottleHighlightClickListener, int maxBottlesToUnplace) {
         super(activity);
         this.maxBottlesToUnplace = maxBottlesToUnplace;
 
@@ -79,10 +77,8 @@ public class SeeBottleAlertDialog extends AlertDialog {
                     numberRemindersDialogBuilder.setView(numberPickerView);
                     numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.global_ok),
                             (DialogInterface dialog, int index) -> {
-                                if (onBottleDrunkClickListeners != null) {
-                                    for (OnBottleDrunkClickListener onBottleDrunkClickListener : onBottleDrunkClickListeners) {
-                                        onBottleDrunkClickListener.onBottleDrunk(bottleId, numberPicker.getValue(), patternCoordinates, coordinates);
-                                    }
+                                if (onBottleDrunkClickListener != null) {
+                                    onBottleDrunkClickListener.onBottleDrunk(bottleId, numberPicker.getValue(), patternCoordinates, coordinates);
                                 }
                                 dialog.dismiss();
                                 dismiss();
@@ -100,10 +96,8 @@ public class SeeBottleAlertDialog extends AlertDialog {
                             .setTitle(R.string.title_drink)
                             .setMessage(R.string.message_drink)
                             .setPositiveButton(R.string.drink_ok, (DialogInterface dialog, int which) -> {
-                                if (onBottleDrunkClickListeners != null) {
-                                    for (OnBottleDrunkClickListener onBottleDrunkClickListener : onBottleDrunkClickListeners) {
-                                        onBottleDrunkClickListener.onBottleDrunk(bottleId, 1, patternCoordinates, coordinates);
-                                    }
+                                if (onBottleDrunkClickListener != null) {
+                                    onBottleDrunkClickListener.onBottleDrunk(bottleId, 1, patternCoordinates, coordinates);
                                 }
                                 dialog.dismiss();
                                 dismiss();
@@ -132,10 +126,8 @@ public class SeeBottleAlertDialog extends AlertDialog {
                     numberRemindersDialogBuilder.setView(numberPickerView);
                     numberRemindersDialogBuilder.setPositiveButton(activity.getString(R.string.global_ok),
                             (DialogInterface dialog, int index) -> {
-                                if (onBottleUnplacedClickListeners != null) {
-                                    for (OnBottleUnplacedClickListener onBottleUnplacedClickListener : onBottleUnplacedClickListeners) {
-                                        onBottleUnplacedClickListener.onBottleUnplaced(bottleId, numberPicker.getValue(), patternCoordinates, coordinates);
-                                    }
+                                if (onBottleUnplacedClickListener != null) {
+                                    onBottleUnplacedClickListener.onBottleUnplaced(bottleId, numberPicker.getValue(), patternCoordinates, coordinates);
                                 }
                                 dialog.dismiss();
                                 dismiss();
@@ -153,10 +145,8 @@ public class SeeBottleAlertDialog extends AlertDialog {
                             .setTitle(R.string.title_unplace)
                             .setMessage(R.string.message_unplace)
                             .setPositiveButton(R.string.unplace_ok, (DialogInterface dialog, int which) -> {
-                                if (onBottleDrunkClickListeners != null) {
-                                    for (OnBottleUnplacedClickListener onBottleUnplacedClickListener : onBottleUnplacedClickListeners) {
-                                        onBottleUnplacedClickListener.onBottleUnplaced(bottleId, 1, patternCoordinates, coordinates);
-                                    }
+                                if (onBottleDrunkClickListener != null) {
+                                    onBottleUnplacedClickListener.onBottleUnplaced(bottleId, 1, patternCoordinates, coordinates);
                                 }
                                 dialog.dismiss();
                                 dismiss();
@@ -175,10 +165,8 @@ public class SeeBottleAlertDialog extends AlertDialog {
             } else {
                 highlightView.setVisibility(View.VISIBLE);
                 highlightView.setOnClickListener((View v) -> {
-                    if (onBottleHighlightClickListeners != null) {
-                        for (OnBottleClickListener onBottleHighlightClickListener : onBottleHighlightClickListeners) {
-                            onBottleHighlightClickListener.onItemClick(bottleId);
-                        }
+                    if (onBottleHighlightClickListener != null) {
+                        onBottleHighlightClickListener.onItemClick(bottleId);
                     }
                     dismiss();
                 });

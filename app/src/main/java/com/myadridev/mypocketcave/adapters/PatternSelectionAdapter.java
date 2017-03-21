@@ -17,7 +17,6 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -26,8 +25,8 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private GridAutofitLayoutManager layoutManager;
     private final LayoutInflater layoutInflater;
 
-    private final OnSelectionPatternClickListener listener;
-    private List<OnSelectionPatternClickListener> listeners;
+    private final OnSelectionPatternClickListener onItemClickListener;
+    private OnSelectionPatternClickListener onSelectionPatternClickListener;
     private int itemWidth;
 
     public PatternSelectionAdapter(PatternSelectionActivity activity, List<PatternModel> patternList, GridAutofitLayoutManager layoutManager) {
@@ -35,24 +34,19 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.patternList = patternList;
         this.layoutManager = layoutManager;
         layoutInflater = LayoutInflater.from(this.activity);
-        listener = (int patternId) -> {
+        onItemClickListener = (int patternId) -> {
             if (patternId == -1) {
                 NavigationManager.navigateToCreatePattern(this.activity);
             } else {
-                if (listeners != null) {
-                    for (OnSelectionPatternClickListener listener1 : listeners) {
-                        listener1.onItemClick(patternId);
-                    }
+                if (onSelectionPatternClickListener != null) {
+                    onSelectionPatternClickListener.onItemClick(patternId);
                 }
             }
         };
     }
 
-    public void addOnSelectionPatternClickListener(OnSelectionPatternClickListener listener) {
-        if (listeners == null) {
-            listeners = new ArrayList<>();
-        }
-        listeners.add(listener);
+    public void setOnSelectionPatternClickListener(OnSelectionPatternClickListener onSelectionPatternClickListener) {
+        this.onSelectionPatternClickListener = onSelectionPatternClickListener;
     }
 
     @Override
@@ -113,13 +107,13 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
                     PatternAdapter patternAdapter = new PatternAdapter(activity, pattern.getPlaceMapForDisplay(), new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
                             false, itemWidth, null);
                     holder.setPatternViewAdapter(patternAdapter);
-                    holder.setOnItemClickListener(listener, pattern.Id);
+                    holder.setOnItemClickListener(onItemClickListener, pattern.Id);
                     holder.setClickableSpaceDimensions(itemWidth, itemWidth);
                 }
             }
         } else if (position == patternList.size()) {
             CreatePatternViewHolder holder = (CreatePatternViewHolder) viewHolder;
-            holder.setOnItemClickListener(listener, -1);
+            holder.setOnItemClickListener(onItemClickListener, -1);
         }
     }
 }

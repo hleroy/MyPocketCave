@@ -7,21 +7,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/pattern_place_image"
-        android:layout_alignEnd="@+id/pattern_place_image"
-        android:layout_alignStart="@+id/pattern_place_image"
-        android:layout_alignTop="@+id/pattern_place_image"
+        android:layout_alignEnd="@id/pattern_place_image"
+        android:layout_alignStart="@id/pattern_place_image"
+        android:layout_alignTop="@id/pattern_place_image"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:alpha="0.3"
         android:scaleType="fitXY"
         android:src="@drawable/black" />
 
     <ImageView
-        android:id="@+id/pattern_place_image"
+        android:id="@id/pattern_place_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/place_type_place" />
+        android:src="@drawable/white" />
 
     <ImageView
         android:id="@+id/pattern_place_grey_over"
@@ -29,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/pattern_place_image"
         android:layout_alignEnd="@id/pattern_place_image"
+        android:visibility="gone"
         android:layout_alignStart="@id/pattern_place_image"
         android:layout_alignTop="@id/pattern_place_image"
         android:layout_gravity="center"

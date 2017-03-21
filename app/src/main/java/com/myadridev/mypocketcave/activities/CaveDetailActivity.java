@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
@@ -26,7 +28,6 @@ import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.SimpleDividerItemDecoration;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
-import com.myadridev.mypocketcave.helpers.CompatibilityHelper;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
@@ -40,8 +41,7 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
 import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
-
-import java.util.Collections;
+import com.myadridev.mypocketcave.tasks.caves.EditCaveTask;
 
 public class CaveDetailActivity extends AppCompatActivity {
 
@@ -55,6 +55,7 @@ public class CaveDetailActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private ImageView arrangementTooltipView;
     private RecyclerView arrangementRecyclerView;
+    private ProgressBar arrangementRecyclerViewProgress;
     private CaveArrangementAdapter caveArrangementAdapter;
     private BottlesAdapter bottlesAdapter;
     private boolean isMenuOpened;
@@ -167,7 +168,9 @@ public class CaveDetailActivity extends AppCompatActivity {
         capacityUsedView = (TextView) findViewById(R.id.cave_detail_capacity_used_total);
         boxesNumberView = (TextView) findViewById(R.id.cave_detail_boxes_number);
         arrangementRecyclerView = (RecyclerView) findViewById(R.id.cave_detail_arrangement_pattern);
-        CompatibilityHelper.setNestedScrollEnable(arrangementRecyclerView, false);
+        ViewCompat.setNestedScrollingEnabled(arrangementRecyclerView, false);
+
+        arrangementRecyclerViewProgress = (ProgressBar) findViewById(R.id.cave_detail_arrangement_pattern_progress);
     }
 
     private void setLayoutValues() {
@@ -182,7 +185,6 @@ public class CaveDetailActivity extends AppCompatActivity {
             case BULK:
                 arrangementTooltipView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.GONE);
-                arrangementRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
                 bottlesAdapter = new BottlesAdapter(this, cave.getBottles(), true, cave.CaveArrangement.TotalCapacity - cave.CaveArrangement.TotalUsed, BottleIdInHighlight);
                 bottlesAdapter.setOnBottleBindListener(this::setHolderPropertiesFromBottle);
@@ -208,13 +210,13 @@ public class CaveDetailActivity extends AppCompatActivity {
                     BottleIdInHighlight = bottleId;
                     bottlesAdapter.setBottleIdInHighlight(BottleIdInHighlight);
                 };
-                bottlesAdapter.addOnBottleClickListener((int bottleId) -> {
+                bottlesAdapter.setOnBottleClickListener((int bottleId) -> {
                     SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(this, bottleId, null, null,
-                            Collections.singletonList(onBottleDrunkClickListener), Collections.singletonList(onBottleUnplacedClickListener),
-                            BottleIdInHighlight, Collections.singletonList(onSetHighlightlistener), cave.getNumberBottles(bottleId));
+                            onBottleDrunkClickListener, onBottleUnplacedClickListener,
+                            BottleIdInHighlight, onSetHighlightlistener, cave.getNumberBottles(bottleId));
                     alertDialog.show();
                 });
-                bottlesAdapter.addOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+                bottlesAdapter.setOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
                     cave.CaveArrangement.placeBottle(bottleId, quantity);
                     BottleManager.placeBottle(this, bottleId, quantity);
                     bottlesAdapter.MaxBottleToPlace -= quantity;
@@ -223,7 +225,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                             cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
                     bottlesAdapter.setBottles(cave.getBottles());
                 });
-                bottlesAdapter.addOnResetHighlightlisteners((View v) -> {
+                bottlesAdapter.setOnResetHighlightlistener((View v) -> {
                     BottleIdInHighlight = -1;
                     bottlesAdapter.setBottleIdInHighlight(BottleIdInHighlight);
                 });
@@ -245,8 +247,10 @@ public class CaveDetailActivity extends AppCompatActivity {
     private void drawArrangement() {
         switch (cave.CaveType) {
             case BULK:
+                arrangementRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 arrangementRecyclerView.setAdapter(bottlesAdapter);
                 arrangementRecyclerView.setVisibility(View.VISIBLE);
+                arrangementRecyclerViewProgress.setVisibility(View.GONE);
                 break;
             case BOX:
                 setCaveArrangement(true);
@@ -263,7 +267,6 @@ public class CaveDetailActivity extends AppCompatActivity {
         if (maxRowCol.Col >= 0) {
             int nbCols = maxRowCol.Col + 1;
             int nbRows = maxRowCol.Row + 1;
-            arrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
             int marginLeftRight = (int) getResources().getDimension(R.dimen.horizontal_big_margin_between_elements);
             int activityMarginLeftRight = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
             int totalWidth = ScreenHelper.getScreenWidth(this) - (2 * marginLeftRight) - (2 * activityMarginLeftRight);
@@ -275,16 +278,22 @@ public class CaveDetailActivity extends AppCompatActivity {
                 arrangementRecyclerView.removeItemDecoration(dividerItemDecoration);
             }
             caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth, BottleIdInHighlight);
-            caveArrangementAdapter.addOnValueChangedListener(() -> {
-                CaveManager.editCave(this, cave);
+            caveArrangementAdapter.setOnValueChangedListener(() -> {
+                EditCaveTask editCaveTask = new EditCaveTask(this);
+                editCaveTask.execute(cave);
                 capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
                         cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
                 caveArrangementAdapter.notifyDataSetChanged();
             });
+
+            arrangementRecyclerView.getRecycledViewPool().setMaxRecycledViews(0, nbCols * nbRows);
+            arrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
             arrangementRecyclerView.setAdapter(caveArrangementAdapter);
-            arrangementRecyclerView.setVisibility(View.VISIBLE);
+            arrangementRecyclerView.setVisibility(View.INVISIBLE);
+            arrangementRecyclerViewProgress.setVisibility(View.VISIBLE);
         } else {
             arrangementRecyclerView.setVisibility(View.GONE);
+            arrangementRecyclerViewProgress.setVisibility(View.GONE);
         }
     }
 
@@ -331,5 +340,10 @@ public class CaveDetailActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
         drawArrangement();
+    }
+
+    public void onCaveArrangementLoaded() {
+        arrangementRecyclerView.setVisibility(View.VISIBLE);
+        arrangementRecyclerViewProgress.setVisibility(View.GONE);
     }
 }
