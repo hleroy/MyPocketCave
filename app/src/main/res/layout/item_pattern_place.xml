@@ -1,41 +1,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/pattern_place_container">
 
     <ImageView
         android:id="@+id/pattern_place_grey_under"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignBottom="@+id/pattern_place_image"
         android:layout_alignEnd="@id/pattern_place_image"
         android:layout_alignStart="@id/pattern_place_image"
         android:layout_alignTop="@id/pattern_place_image"
         android:layout_gravity="center"
-        android:visibility="gone"
         android:alpha="0.3"
         android:scaleType="fitXY"
-        android:src="@drawable/black" />
+        android:src="@drawable/black"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@id/pattern_place_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/white" />
 
     <ImageView
         android:id="@+id/pattern_place_grey_over"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignBottom="@id/pattern_place_image"
         android:layout_alignEnd="@id/pattern_place_image"
-        android:visibility="gone"
         android:layout_alignStart="@id/pattern_place_image"
         android:layout_alignTop="@id/pattern_place_image"
         android:layout_gravity="center"
         android:alpha="0.3"
         android:scaleType="fitXY"
-        android:src="@drawable/black" />
+        android:src="@drawable/black"
+        android:visibility="gone" />
 
 </RelativeLayout>

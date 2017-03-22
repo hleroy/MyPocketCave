@@ -127,6 +127,8 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (cavePlace != null) {
             holder.itemView.setMinimumWidth(itemWidth);
             holder.itemView.setMinimumHeight(itemHeight);
+            holder.getContainer().setMinimumWidth(itemWidth);
+            holder.getContainer().setMinimumHeight(itemHeight);
 
             int caveTypeDrawableId = cavePlace.PlaceType.DrawableResourceId;
             if (caveTypeDrawableId != -1) {
