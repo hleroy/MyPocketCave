@@ -22,6 +22,9 @@ import com.myadridev.mypocketcave.tasks.caves.CreateCaveDetailArrangementTask;
 import com.myadridev.mypocketcave.tasks.caves.CreateCaveEditArrangementTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+import java.util.Map;
+
 public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final AbstractCaveEditActivity editActivity;
     private final CaveDetailActivity detailActivity;
@@ -189,5 +192,19 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {
         return new CoordinatesModel(rowPosition / nbCols, colPosition % nbCols);
+    }
+
+    public void updatePositions(RecyclerView recyclerView, Map<CoordinatesModel, List<CoordinatesModel>> coordinatesToUpdate) {
+        for (CoordinatesModel patternCoordinates : coordinatesToUpdate.keySet()) {
+            int position = CoordinatesManager.getPositionFromCoordinates(patternCoordinates.Row, patternCoordinates.Col, nbRows, nbCols);
+            RecyclerView.ViewHolder viewHolder = getViewHolder(recyclerView, position);
+            CaveArrangementViewHolder holder = (CaveArrangementViewHolder) viewHolder;
+            PatternAdapter adapter = holder.getPatternAdapter();
+            adapter.updatePositions(coordinatesToUpdate.get(patternCoordinates));
+        }
+    }
+
+    private RecyclerView.ViewHolder getViewHolder(RecyclerView recyclerView, int position) {
+        return recyclerView.findViewHolderForAdapterPosition(position);
     }
 }

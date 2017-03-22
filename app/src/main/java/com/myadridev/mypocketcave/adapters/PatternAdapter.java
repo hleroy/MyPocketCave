@@ -20,6 +20,7 @@ import com.myadridev.mypocketcave.models.CavePlaceModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import java.util.Map;
 
 public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -29,8 +30,8 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private final OnPlaceClickListener listener;
     private final boolean isClickable;
-    private final int numberRows;
-    private final int numberCols;
+    private final int nbRows;
+    private final int nbCols;
     private final int bottleIdInHighlight;
     private View.OnClickListener onResetHighlightlistener;
     private OnBottleClickListener onSetHighlightlistener;
@@ -52,8 +53,8 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                           boolean isClickable, int totalWidth, CoordinatesModel patternCoordinates, int bottleIdInHighlight) {
         this.activity = activity;
         this.patternPlace = patternPlace;
-        this.numberRows = maxRawCol.Row;
-        this.numberCols = maxRawCol.Col;
+        this.nbRows = maxRawCol.Row;
+        this.nbCols = maxRawCol.Col;
         this.patternCoordinates = patternCoordinates;
         this.bottleIdInHighlight = bottleIdInHighlight;
         this.isClickable = isClickable;
@@ -69,9 +70,9 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 alertDialog.show();
             }
         };
-        itemCount = numberRows * numberCols;
-        itemWidth = totalWidth / numberCols;
-        itemHeight = totalWidth / numberRows;
+        itemCount = nbRows * nbCols;
+        itemWidth = totalWidth / nbCols;
+        itemHeight = totalWidth / nbRows;
     }
 
     public void setOnBottleUnplacedClickListener(OnBottleUnplacedClickListener onBottleUnplacedClickListener) {
@@ -159,6 +160,12 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {
-        return new CoordinatesModel(rowPosition / numberCols, colPosition % numberCols);
+        return new CoordinatesModel(rowPosition / nbCols, colPosition % nbCols);
+    }
+
+    public void updatePositions(List<CoordinatesModel> coordinatesModelList) {
+        for (CoordinatesModel coordinatesModel : coordinatesModelList) {
+            notifyItemChanged(CoordinatesManager.getPositionFromCoordinates(coordinatesModel.Row, coordinatesModel.Col, nbRows, nbCols));
+        }
     }
 }

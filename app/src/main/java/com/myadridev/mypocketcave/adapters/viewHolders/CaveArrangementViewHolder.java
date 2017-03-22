@@ -13,6 +13,7 @@ import com.myadridev.mypocketcave.models.CoordinatesModel;
 public class CaveArrangementViewHolder extends RecyclerView.ViewHolder {
     private final RecyclerView patternView;
     private final Button clickableSpace;
+    private PatternAdapter patternAdapter;
 
     private CaveArrangementViewHolder(View itemView, RecyclerView patternView, Button clickableSpace) {
         super(itemView);
@@ -36,7 +37,12 @@ public class CaveArrangementViewHolder extends RecyclerView.ViewHolder {
         return patternView;
     }
 
+    public PatternAdapter getPatternAdapter() {
+        return patternAdapter;
+    }
+
     public void setPatternViewAdapter(PatternAdapter patternAdapter) {
+        this.patternAdapter = patternAdapter;
         patternView.setAdapter(patternAdapter);
     }
 

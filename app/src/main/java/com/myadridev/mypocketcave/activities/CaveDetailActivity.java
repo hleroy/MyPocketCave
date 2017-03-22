@@ -43,6 +43,9 @@ import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.tasks.caves.EditCaveTask;
 
+import java.util.List;
+import java.util.Map;
+
 public class CaveDetailActivity extends AppCompatActivity {
 
     private final View.OnTouchListener arrangementTooltipOnClick;
@@ -278,13 +281,12 @@ public class CaveDetailActivity extends AppCompatActivity {
                 arrangementRecyclerView.removeItemDecoration(dividerItemDecoration);
             }
             caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth, BottleIdInHighlight);
-            caveArrangementAdapter.setOnValueChangedListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+            caveArrangementAdapter.setOnValueChangedListener((Map<CoordinatesModel, List<CoordinatesModel>> coordinatesToUpdate) -> {
                 EditCaveTask editCaveTask = new EditCaveTask(this);
                 editCaveTask.execute(cave);
                 capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
                         cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
-                caveArrangementAdapter.notifyItemChanged(
-                        CoordinatesManager.getPositionFromCoordinates(patternCoordinates.Row, patternCoordinates.Col, nbRows, nbCols));
+                caveArrangementAdapter.updatePositions(arrangementRecyclerView, coordinatesToUpdate);
             });
 
             arrangementRecyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
