@@ -43,6 +43,7 @@ import com.myadridev.mypocketcave.models.CaveModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
 import com.myadridev.mypocketcave.models.PatternModelWithBottles;
+import com.myadridev.mypocketcave.tasks.caves.SetCaveValuesTask;
 
 public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
@@ -134,8 +135,9 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save:
                 hideKeyboard();
-                if (setValues()) {
-                    saveCave();
+                if (checkValues()) {
+                    SetCaveValuesTask setCaveValuesTask = new SetCaveValuesTask(this, coordinatorLayout);
+                    setCaveValuesTask.execute();
                 }
                 return true;
             default:
@@ -388,19 +390,13 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected void initCave() {
     }
 
-    protected void saveCave() {
+    public void saveCave() {
     }
 
     protected void cancelCave() {
     }
 
-    protected boolean setValues() {
-        boolean isValid = checkValues();
-
-        if (!isValid) {
-            return false;
-        }
-
+    public void setValues() {
         cave.Name = nameView.getText().toString();
         cave.CaveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
         if (oldCave != null && cave.CaveType != oldCave.CaveType) {
@@ -460,7 +456,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         }
 
         cave.trimAll();
-        return true;
     }
 
     private boolean checkValues() {

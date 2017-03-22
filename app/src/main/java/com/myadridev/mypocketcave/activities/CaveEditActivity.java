@@ -83,8 +83,8 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
     }
 
     @Override
-    protected void saveCave() {
-        SaveCaveTask saveCaveTask = new SaveCaveTask(this, coordinatorLayout, false);
+    public void saveCave() {
+        SaveCaveTask saveCaveTask = new SaveCaveTask(this, false);
         saveCaveTask.execute(cave);
     }
 

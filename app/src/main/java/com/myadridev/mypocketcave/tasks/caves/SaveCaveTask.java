@@ -1,12 +1,8 @@
 package com.myadridev.mypocketcave.tasks.caves;
 
 import android.os.AsyncTask;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 
-import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.AbstractCaveEditActivity;
-import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveModel;
@@ -14,19 +10,16 @@ import com.myadridev.mypocketcave.models.CaveModel;
 public class SaveCaveTask extends AsyncTask<CaveModel, Void, Integer> {
 
     private AbstractCaveEditActivity caveEditActivity;
-    private CoordinatorLayout coordinatorLayout;
     private boolean isAddCave;
 
-    public SaveCaveTask(AbstractCaveEditActivity caveEditActivity, CoordinatorLayout coordinatorLayout, boolean isAddCave) {
+    public SaveCaveTask(AbstractCaveEditActivity caveEditActivity, boolean isAddCave) {
         this.caveEditActivity = caveEditActivity;
-        this.coordinatorLayout = coordinatorLayout;
         this.isAddCave = isAddCave;
     }
 
     @Override
     protected void onPreExecute() {
         caveEditActivity.IsSaving = true;
-        SnackbarHelper.displayInfoSnackbar(caveEditActivity, coordinatorLayout, R.string.ongoig_cave_save, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
     }
 
     @Override
