@@ -278,15 +278,16 @@ public class CaveDetailActivity extends AppCompatActivity {
                 arrangementRecyclerView.removeItemDecoration(dividerItemDecoration);
             }
             caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth, BottleIdInHighlight);
-            caveArrangementAdapter.setOnValueChangedListener(() -> {
+            caveArrangementAdapter.setOnValueChangedListener((CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
                 EditCaveTask editCaveTask = new EditCaveTask(this);
                 editCaveTask.execute(cave);
                 capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
                         cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
-                caveArrangementAdapter.notifyDataSetChanged();
+                caveArrangementAdapter.notifyItemChanged(
+                        CoordinatesManager.getPositionFromCoordinates(patternCoordinates.Row, patternCoordinates.Col, nbRows, nbCols));
             });
 
-            arrangementRecyclerView.getRecycledViewPool().setMaxRecycledViews(0, nbCols * nbRows);
+            arrangementRecyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
             arrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
             arrangementRecyclerView.setAdapter(caveArrangementAdapter);
             arrangementRecyclerView.setVisibility(View.INVISIBLE);

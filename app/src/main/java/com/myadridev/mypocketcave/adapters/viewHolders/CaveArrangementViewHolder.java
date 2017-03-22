@@ -32,6 +32,10 @@ public class CaveArrangementViewHolder extends RecyclerView.ViewHolder {
         patternView.setLayoutManager(layoutManager);
     }
 
+    public RecyclerView getPatternView() {
+        return patternView;
+    }
+
     public void setPatternViewAdapter(PatternAdapter patternAdapter) {
         patternView.setAdapter(patternAdapter);
     }

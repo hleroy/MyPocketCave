@@ -10,7 +10,6 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.PatternPlaceViewHolder;
 import com.myadridev.mypocketcave.dialogs.PlaceBottleAlertDialog;
 import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
-import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
@@ -125,12 +124,12 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
         CavePlaceModel cavePlace = patternPlace.get(coordinates);
         if (cavePlace != null) {
-            holder.itemView.setMinimumWidth(this.itemWidth);
-            holder.itemView.setMinimumHeight(this.itemHeight);
+            holder.itemView.setMinimumWidth(itemWidth);
+            holder.itemView.setMinimumHeight(itemHeight);
 
             int caveTypeDrawableId = cavePlace.PlaceType.DrawableResourceId;
             if (caveTypeDrawableId != -1) {
-                Picasso.with(activity).load(caveTypeDrawableId).resize(this.itemWidth, this.itemHeight).into(holder.getPlaceTypeView());
+                Picasso.with(activity).load(caveTypeDrawableId).resize(itemWidth, itemHeight).into(holder.getPlaceTypeView());
             }
             if (isClickable && cavePlace.IsClickable) {
                 holder.setOnItemClickListener(listener, patternCoordinates, coordinates);

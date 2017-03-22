@@ -9,10 +9,12 @@ import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder;
 import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
-import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.models.CaveArrangementModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModelWithBottles;
+import com.myadridev.mypocketcave.tasks.bottles.DrinkBottleTask;
+import com.myadridev.mypocketcave.tasks.bottles.PlaceBottleTask;
+import com.myadridev.mypocketcave.tasks.bottles.UpdateNumberPlacedTask;
 
 public class CreateCaveDetailArrangementTask extends AsyncTask<Void, Void, PatternAdapter> {
 
@@ -52,28 +54,31 @@ public class CreateCaveDetailArrangementTask extends AsyncTask<Void, Void, Patte
                 new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
                 true, itemWidth, coordinates, bottleIdInHighlight);
 
-        patternAdapter.setOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates1) -> {
+        patternAdapter.setOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
             // here quantity is 1 in all cases : we ignore it
-            caveArrangement.placeBottle(patternCoordinates, coordinates1, bottleId);
-            BottleManager.placeBottle(detailActivity, bottleId);
+            caveArrangement.placeBottle(patternCoordinates, coordinates, bottleId);
+            PlaceBottleTask placeBottleTask = new PlaceBottleTask(detailActivity);
+            placeBottleTask.execute(bottleId);
             if (onValueChangedListener != null) {
-                onValueChangedListener.onValueChanged();
+                onValueChangedListener.onValueChanged(patternCoordinates, coordinates);
             }
         });
-        patternAdapter.setOnBottleDrunkClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates1) -> {
+        patternAdapter.setOnBottleDrunkClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
             // here quantity is 1 in all cases : we ignore it
-            caveArrangement.unplaceBottle(patternCoordinates, coordinates1, bottleId);
-            BottleManager.drinkBottle(detailActivity, bottleId);
+            caveArrangement.unplaceBottle(patternCoordinates, coordinates, bottleId);
+            DrinkBottleTask drinkBottleTask = new DrinkBottleTask(detailActivity);
+            drinkBottleTask.execute(bottleId);
             if (onValueChangedListener != null) {
-                onValueChangedListener.onValueChanged();
+                onValueChangedListener.onValueChanged(patternCoordinates, coordinates);
             }
         });
-        patternAdapter.setOnBottleUnplacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates1) -> {
+        patternAdapter.setOnBottleUnplacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
             // here quantity is 1 in all cases : we ignore it
-            caveArrangement.unplaceBottle(patternCoordinates, coordinates1, bottleId);
-            BottleManager.updateNumberPlaced(detailActivity, bottleId, -1);
+            caveArrangement.unplaceBottle(patternCoordinates, coordinates, bottleId);
+            UpdateNumberPlacedTask updateNumberPlacedTask = new UpdateNumberPlacedTask(detailActivity);
+            updateNumberPlacedTask.execute(bottleId, -1);
             if (onValueChangedListener != null) {
-                onValueChangedListener.onValueChanged();
+                onValueChangedListener.onValueChanged(patternCoordinates, coordinates);
             }
         });
 
@@ -84,6 +89,7 @@ public class CreateCaveDetailArrangementTask extends AsyncTask<Void, Void, Patte
 
     @Override
     protected void onPostExecute(PatternAdapter patternAdapter) {
+        holder.getPatternView().getRecycledViewPool().setMaxRecycledViews(0, 0);
         holder.setPatternViewLayoutManager(new GridLayoutManager(detailActivity, numberColumnsGridLayout));
         holder.hideClickableSpace();
         holder.setPatternViewAdapter(patternAdapter);

@@ -1,6 +1,8 @@
 package com.myadridev.mypocketcave.listeners;
 
+import com.myadridev.mypocketcave.models.CoordinatesModel;
+
 public interface OnValueChangedListener {
 
-    void onValueChanged();
+    void onValueChanged(CoordinatesModel patternCoordinates, CoordinatesModel coordinates);
 }

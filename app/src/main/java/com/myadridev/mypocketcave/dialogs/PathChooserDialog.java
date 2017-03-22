@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,6 +186,7 @@ public class PathChooserDialog {
             newDirButton.setText(R.string.new_folder);
             newDirButton.setOnClickListener((View view) -> {
                 final EditText input = new EditText(context);
+                input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
                 // Show new folder name input dialog
                 new AlertDialog.Builder(context).setTitle(R.string.new_folder_name).setView(input)
