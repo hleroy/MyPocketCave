@@ -37,8 +37,8 @@ public class BottleCreateActivity extends AbstractBottleEditActivity {
     }
 
     @Override
-    protected void saveBottle() {
-        SaveBottleTask saveBottleTask = new SaveBottleTask(this, coordinatorLayout, true);
+    public void saveBottle() {
+        SaveBottleTask saveBottleTask = new SaveBottleTask(this, true);
         saveBottleTask.execute(bottle);
     }
 }

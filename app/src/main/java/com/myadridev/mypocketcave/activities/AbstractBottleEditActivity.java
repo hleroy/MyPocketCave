@@ -28,6 +28,7 @@ import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.tasks.bottles.SetBottleValuesTask;
 
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
@@ -84,8 +85,9 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save:
                 hideKeyboard();
-                if (setValues()) {
-                    saveBottle();
+                if (checkValues()) {
+                    SetBottleValuesTask setBottleValuesTask = new SetBottleValuesTask(this, coordinatorLayout);
+                    setBottleValuesTask.execute();
                 }
                 return true;
             default:
@@ -210,19 +212,13 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected void initBottle() {
     }
 
-    protected void saveBottle() {
+    public void saveBottle() {
     }
 
     protected void cancelBottle() {
     }
 
-    protected boolean setValues() {
-        boolean isValid = checkValues();
-
-        if (!isValid) {
-            return false;
-        }
-
+    public void setValues() {
         bottle.Name = nameView.getText().toString();
         bottle.Domain = domainView.getText().toString();
         bottle.WineColor = (WineColorEnum) wineColorView.getSelectedItem();
@@ -243,7 +239,6 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         bottle.PriceRating = priceRatingBar.getProgress();
 
         bottle.trimAll();
-        return true;
     }
 
     private boolean checkValues() {

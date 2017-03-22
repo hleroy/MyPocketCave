@@ -68,6 +68,12 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
         if (bottle.Stock != (stockString.isEmpty() ? 0 : Integer.valueOf(stockString))) {
             return true;
         }
+        if (bottle.Rating != ratingBar.getProgress()) {
+            return true;
+        }
+        if (bottle.PriceRating != priceRatingBar.getProgress()) {
+            return true;
+        }
         return false;
     }
 
@@ -78,8 +84,8 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
     }
 
     @Override
-    protected void saveBottle() {
-        SaveBottleTask saveBottleTask = new SaveBottleTask(this, coordinatorLayout, false);
+    public void saveBottle() {
+        SaveBottleTask saveBottleTask = new SaveBottleTask(this, false);
         saveBottleTask.execute(bottle);
     }
 
