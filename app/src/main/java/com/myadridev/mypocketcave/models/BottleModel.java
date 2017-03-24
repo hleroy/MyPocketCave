@@ -30,6 +30,14 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
     public int Rating;
     public int PriceRating;
 
+    // Whisky, Rum, Liqueur : Age
+    // Whisky : Type : Single Malt, Single Grain, Blended Malt, Blended Grain
+    // Whisky, Rum, Beer : Pays
+    // Whisky : Tourbé, Peu Tourbé, Pas Tourbé
+    // Rum : Blanc, Vieux, Epicé
+    // Cider : Brut, Doux
+    // Beer : Type : Blanche, Blonde, Brune, Rousse, Ambrée, Stout, Weissbier
+
     // TODO : Apellation
     // TODO : conservation en fonction de couleur + millésime + apellation
 
