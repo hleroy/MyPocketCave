@@ -41,6 +41,10 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
     private CheckBox domainCheckBox;
     private Spinner millesimeSpinner;
     private CheckBox millesimeCheckBox;
+    private SeekbarRange seekbarRating;
+    private CheckBox ratingCheckBox;
+    private SeekbarRange seekbarPriceRating;
+    private CheckBox priceRatingCheckBox;
     private TextView foodTextView;
     private CheckBox foodCheckBox;
     private Spinner personSpinner;
@@ -49,8 +53,6 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
     private CheckBox caveCheckBox;
     private Button searchButton;
     private CoordinatorLayout coordinatorLayout;
-
-    private SeekbarRange seekbarRating;
 
     private boolean isFoodListOpen;
 
@@ -88,6 +90,12 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
         millesimeSpinner = (Spinner) findViewById(R.id.suggest_bottle_search_millesime);
         millesimeCheckBox = (CheckBox) findViewById(R.id.suggest_bottle_search_millesime_must_have);
 
+        seekbarRating = (SeekbarRange) findViewById(R.id.suggest_bottle_search_rating_seekbar);
+        ratingCheckBox = (CheckBox) findViewById(R.id.suggest_bottle_search_rating_seekbar_must_have);
+
+        seekbarPriceRating = (SeekbarRange) findViewById(R.id.suggest_bottle_search_price_rating_seekbar);
+        priceRatingCheckBox = (CheckBox) findViewById(R.id.suggest_bottle_search_price_rating_seekbar_must_have);
+
         foodTextView = (TextView) findViewById(R.id.suggest_bottle_search_food);
         foodTextView.setOnClickListener(onFoodViewClick());
         foodCheckBox = (CheckBox) findViewById(R.id.suggest_bottle_search_food_must_have);
@@ -100,9 +108,6 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
 
         searchButton = (Button) findViewById(R.id.suggest_bottle_search_button);
         searchButton.setOnClickListener(onSearchButtonClick());
-
-
-        seekbarRating = (SeekbarRange) findViewById(R.id.suggest_bottle_search_rating_seekbar);
     }
 
     private View.OnClickListener onFoodViewClick() {
@@ -139,6 +144,12 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
             searchCriteria.IsDomainRequired = domainCheckBox.isChecked();
             searchCriteria.Millesime = (MillesimeEnum) millesimeSpinner.getSelectedItem();
             searchCriteria.IsMillesimeRequired = millesimeCheckBox.isChecked();
+            searchCriteria.RatingMinValue = seekbarRating.getSelectedMinValue();
+            searchCriteria.RatingMaxValue = seekbarRating.getSelectedMaxValue();
+            searchCriteria.IsRatingRequired = ratingCheckBox.isChecked();
+            searchCriteria.PriceRatingMinValue = seekbarPriceRating.getSelectedMinValue();
+            searchCriteria.PriceRatingMaxValue = seekbarPriceRating.getSelectedMaxValue();
+            searchCriteria.IsPriceRatingRequired = priceRatingCheckBox.isChecked();
             for (int i = 0; i < foodToEatWithList.length; i++) {
                 if (foodToEatWithList[i]) {
                     searchCriteria.FoodToEatWithList.add(FoodToEatWithEnum.getById(i));

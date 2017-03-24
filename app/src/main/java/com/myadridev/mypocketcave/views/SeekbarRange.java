@@ -18,8 +18,7 @@ public class SeekbarRange extends RelativeLayout {
 
     private boolean isInit;
 
-    private TextView selectedMinValueView;
-    private TextView selectedMaxValueView;
+    private TextView selectedRangeTextView;
     private View totalRangeView;
     private View selectedRangeView;
     private ImageView selectedMinView;
@@ -65,8 +64,7 @@ public class SeekbarRange extends RelativeLayout {
 
     private void inflateView(Context context, AttributeSet attrs) {
         inflate(context, R.layout.seekbar_range, this);
-        selectedMinValueView = (TextView) findViewById(R.id.selected_min_value);
-        selectedMaxValueView = (TextView) findViewById(R.id.selected_max_value);
+        selectedRangeTextView = (TextView) findViewById(R.id.selected_range_text);
         totalRangeView = findViewById(R.id.total_range);
         selectedRangeView = findViewById(R.id.selected_range);
         selectedMinView = (ImageView) findViewById(R.id.selected_min);
@@ -101,8 +99,7 @@ public class SeekbarRange extends RelativeLayout {
             }
         }
 
-        selectedMinValueView.setText(String.valueOf(selectedMinValue));
-        selectedMaxValueView.setText(String.valueOf(selectedMaxValue));
+        setRangeText();
         totalRangeView.setBackgroundColor(rangeBackgroundColor);
         selectedRangeView.setBackgroundColor(selectedRangeColor);
         selectedMinView.setImageDrawable(cursorIconSrc);
@@ -135,6 +132,10 @@ public class SeekbarRange extends RelativeLayout {
 
     private OnTouchListener onMaxViewTouch() {
         return (View v, MotionEvent event) -> {
+            if (selectedMaxValue == maxValue && selectedMaxValue == selectedMinValue) {
+                return false;
+            }
+
             switch (event.getAction()) {
                 case MotionEvent.ACTION_MOVE:
                     int x = (int) event.getRawX();
@@ -162,8 +163,12 @@ public class SeekbarRange extends RelativeLayout {
         this.selectedMinValue = Math.max(minValue, Math.min(selectedMinValue, selectedMaxValue));
         if (this.selectedMinValue == oldSelectedMinValue) return;
 
-        selectedMinValueView.setText(String.valueOf(selectedMinValue));
+        setRangeText();
         requestNewLayout();
+    }
+
+    private void setRangeText() {
+        selectedRangeTextView.setText(String.valueOf(selectedMinValue) + " - " + String.valueOf(selectedMaxValue));
     }
 
     @SuppressWarnings("unused")
@@ -177,7 +182,7 @@ public class SeekbarRange extends RelativeLayout {
         this.selectedMaxValue = Math.min(maxValue, Math.max(selectedMinValue, selectedMaxValue));
         if (this.selectedMaxValue == oldSelectedMaxValue) return;
 
-        selectedMaxValueView.setText(String.valueOf(selectedMaxValue));
+        setRangeText();
         requestNewLayout();
     }
 
@@ -212,17 +217,13 @@ public class SeekbarRange extends RelativeLayout {
 
             cursorWidth = selectedMinView.getWidth();
 
-            LayoutParams minValueLayoutParams = (LayoutParams) selectedMinValueView.getLayoutParams();
-            int marginEnd1 = minValueLayoutParams.getMarginEnd();
-            int marginEnd = marginEnd1 + (cursorWidth / 2);
-            minValueLayoutParams.setMarginEnd(marginEnd);
-            selectedMinValueView.setLayoutParams(minValueLayoutParams);
+            LayoutParams minValueLayoutParams = (LayoutParams) selectedRangeTextView.getLayoutParams();
+            minValueLayoutParams.setMarginEnd(minValueLayoutParams.getMarginEnd() + (cursorWidth / 2));
+            selectedRangeTextView.setLayoutParams(minValueLayoutParams);
 
-            LayoutParams maxValueLayoutParams = (LayoutParams) selectedMaxValueView.getLayoutParams();
-            int marginStart1 = maxValueLayoutParams.getMarginStart();
-            int marginStart = marginStart1 + (cursorWidth / 2);
-            maxValueLayoutParams.setMarginStart(marginStart);
-            selectedMaxValueView.setLayoutParams(maxValueLayoutParams);
+            LayoutParams totalRangeLayoutParams = (LayoutParams) totalRangeView.getLayoutParams();
+            totalRangeLayoutParams.setMarginEnd(totalRangeLayoutParams.getMarginEnd() + (cursorWidth / 2));
+            totalRangeView.setLayoutParams(totalRangeLayoutParams);
         }
     }
 

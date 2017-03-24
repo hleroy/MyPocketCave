@@ -1,37 +1,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <TextView
-        android:id="@+id/selected_min_value"
+        android:id="@+id/selected_range_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
         android:layout_marginStart="@dimen/horizontal_big_margin"
-        android:text="0" />
-
-    <TextView
-        android:id="@+id/selected_max_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/horizontal_big_margin"
-        android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:text="5" />
+        android:text="0 - 5 "
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/total_range"
         android:layout_width="wrap_content"
         android:layout_height="2dp"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
         android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-        android:layout_toEndOf="@id/selected_min_value"
-        android:layout_toStartOf="@id/selected_max_value"
+        android:layout_toEndOf="@id/selected_range_text"
         android:background="@color/colorAccent" />
 
     <View
@@ -51,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/total_range"
         android:layout_centerVertical="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="20dp"
         android:src="@drawable/price_on" />
 
     <ImageView
@@ -60,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/total_range"
         android:layout_centerVertical="true"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="150dp"
         android:src="@drawable/price_on" />
 
 </RelativeLayout>

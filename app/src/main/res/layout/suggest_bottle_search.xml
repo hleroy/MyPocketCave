@@ -148,7 +148,18 @@
                 app:cursorIconSrc="@drawable/rating_on"
                 app:layout_widthPercent="75%"
                 app:maxValue="5"
-                app:minValue="0"/>
+                app:minValue="0" />
+
+            <CheckBox
+                android:id="@+id/suggest_bottle_search_rating_seekbar_must_have"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/suggest_bottle_search_rating_seekbar"
+                android:layout_alignEnd="@id/suggest_bottle_search_wine_color_must_have"
+                android:layout_alignStart="@id/suggest_bottle_search_wine_color_must_have"
+                android:layout_alignTop="@id/suggest_bottle_search_rating_seekbar"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
 
             <com.myadridev.mypocketcave.views.SeekbarRange
                 android:id="@+id/suggest_bottle_search_price_rating_seekbar"
@@ -158,7 +169,18 @@
                 app:cursorIconSrc="@drawable/price_on"
                 app:layout_widthPercent="75%"
                 app:maxValue="5"
-                app:minValue="0"/>
+                app:minValue="0" />
+
+            <CheckBox
+                android:id="@+id/suggest_bottle_search_price_rating_seekbar_must_have"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/suggest_bottle_search_price_rating_seekbar"
+                android:layout_alignEnd="@id/suggest_bottle_search_wine_color_must_have"
+                android:layout_alignStart="@id/suggest_bottle_search_wine_color_must_have"
+                android:layout_alignTop="@id/suggest_bottle_search_price_rating_seekbar"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
 
             <TextView
                 android:id="@+id/suggest_bottle_search_food"

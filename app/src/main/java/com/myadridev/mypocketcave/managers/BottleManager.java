@@ -130,6 +130,14 @@ public class BottleManager {
             if (searchCriteria.IsMillesimeRequired && millesimeScore == 0) {
                 continue;
             }
+            int ratingScore = computeRatingScore(bottle, searchCriteria);
+            if (searchCriteria.IsRatingRequired && ratingScore == 0) {
+                continue;
+            }
+            int priceRatingScore = computePriceRatingScore(bottle, searchCriteria);
+            if (searchCriteria.IsPriceRatingRequired && priceRatingScore == 0) {
+                continue;
+            }
             int foodScore = computeFoodScore(bottle, searchCriteria);
             if (searchCriteria.IsFoodRequired && foodScore == 0) {
                 continue;
@@ -145,7 +153,7 @@ public class BottleManager {
 
             SuggestBottleResultModel suggestedBottle = new SuggestBottleResultModel();
             suggestedBottle.Bottle = bottle;
-            suggestedBottle.Score = wineColorScore + domainScore + millesimeScore + foodScore + personScore + caveScore;
+            suggestedBottle.Score = wineColorScore + domainScore + millesimeScore + ratingScore + priceRatingScore + foodScore + personScore + caveScore;
 
             suggestBottles.add(suggestedBottle);
         }
@@ -188,6 +196,18 @@ public class BottleManager {
             default:
                 return 0;
         }
+    }
+
+    private static int computeRatingScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+        if (searchCriteria.RatingMinValue <= bottle.Rating && searchCriteria.RatingMaxValue >= bottle.Rating)
+            return 1;
+        return 0;
+    }
+
+    private static int computePriceRatingScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+        if (searchCriteria.PriceRatingMinValue <= bottle.PriceRating && searchCriteria.PriceRatingMaxValue >= bottle.PriceRating)
+            return 1;
+        return 0;
     }
 
     private static int computeFoodScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
