@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SeekbarRange">
+        <attr name="minValue" format="integer" />
+        <attr name="maxValue" format="integer" />
+        <attr name="selectedMinValue" format="integer" />
+        <attr name="selectedMaxValue" format="integer" />
+        <attr name="cursorIconSrc" format="reference" />
+        <attr name="rangeBackgroundColor" format="color" />
+        <attr name="selectedRangeColor" format="color" />
+    </declare-styleable>
+</resources>

@@ -30,6 +30,7 @@ import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveLightModel;
 import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.views.SeekbarRange;
 
 public class SuggestBottleSearchActivity extends AppCompatActivity {
 
@@ -48,6 +49,8 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
     private CheckBox caveCheckBox;
     private Button searchButton;
     private CoordinatorLayout coordinatorLayout;
+
+    private SeekbarRange seekbarRating;
 
     private boolean isFoodListOpen;
 
@@ -97,6 +100,9 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
 
         searchButton = (Button) findViewById(R.id.suggest_bottle_search_button);
         searchButton.setOnClickListener(onSearchButtonClick());
+
+
+        seekbarRating = (SeekbarRange) findViewById(R.id.suggest_bottle_search_rating_seekbar);
     }
 
     private View.OnClickListener onFoodViewClick() {
