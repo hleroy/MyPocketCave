@@ -248,4 +248,10 @@
     <string name="wine_color_cider">Cider</string>
     <string name="wine_color_soft">Soft drink</string>
     <string name="wine_color_other">Other</string>
+    <string name="resize_pattern">Expand or reduce pattern</string>
+    <string name="change_pattern">Replace pattern</string>
+    <string name="remove_pattern">Delete pattern</string>
+    <string name="title_remove_pattern" >Remove the pattern</string>
+    <string name="message_remove_pattern" >All the bottles in this pattern will be unplaced, all the patterns on top of it will go down, and if it\'s the last pattern of the column, the column will be removed as well. Do we remove this pattern from here ?</string>
+    <string name="title_edit_pattern">Edit pattern</string>
 </resources>

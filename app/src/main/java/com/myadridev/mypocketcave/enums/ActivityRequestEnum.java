@@ -2,7 +2,8 @@ package com.myadridev.mypocketcave.enums;
 
 public enum ActivityRequestEnum {
     PATTERN_SELECTION(0),
-    CREATE_PATTERN(1);
+    CREATE_PATTERN(1),
+    EDIT_PATTERN(2);
 
     public final int Id;
 

@@ -14,6 +14,7 @@ import com.myadridev.mypocketcave.activities.CaveDetailActivity;
 import com.myadridev.mypocketcave.activities.CaveEditActivity;
 import com.myadridev.mypocketcave.activities.MainActivity;
 import com.myadridev.mypocketcave.activities.PatternCreateActivity;
+import com.myadridev.mypocketcave.activities.PatternEditActivity;
 import com.myadridev.mypocketcave.activities.PatternSelectionActivity;
 import com.myadridev.mypocketcave.activities.SplashScreenActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
@@ -102,8 +103,16 @@ public class NavigationManager {
         activity.startActivityForResult(new Intent(activity, PatternSelectionActivity.class), ActivityRequestEnum.PATTERN_SELECTION.Id);
     }
 
-    public static void navigateToCreatePattern(PatternSelectionActivity activity) {
+    public static void navigateToCreatePattern(Activity activity) {
         activity.startActivityForResult(new Intent(activity, PatternCreateActivity.class), ActivityRequestEnum.CREATE_PATTERN.Id);
+    }
+
+    public static void navigateToEditPattern(Activity activity, int patternId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("patternId", patternId);
+        Intent intent = new Intent(activity, PatternEditActivity.class);
+        intent.putExtras(bundle);
+        activity.startActivityForResult(intent, ActivityRequestEnum.EDIT_PATTERN.Id);
     }
 
     public static void navigateToSync(Context context) {

@@ -79,6 +79,11 @@
             android:label="@string/title_create_pattern"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activities.PatternEditActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_edit_pattern"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.SyncActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_sync"

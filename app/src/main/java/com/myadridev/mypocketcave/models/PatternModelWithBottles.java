@@ -2,7 +2,9 @@ package com.myadridev.mypocketcave.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.enums.PositionEnum;
+import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +29,21 @@ public class PatternModelWithBottles extends PatternModel {
         super(pattern);
         PlaceMapWithBottles = getPlaceMapForDisplay();
         FloatNumberPlacedBottlesByIdMap = new HashMap<>();
+    }
+
+    public PatternModelWithBottles(PatternModel pattern, PatternModelWithBottles oldPattern) {
+        this(pattern);
+        if (pattern.Type != PatternTypeEnum.LINEAR || oldPattern.Type != PatternTypeEnum.LINEAR)
+            return;
+
+        for (Map.Entry<CoordinatesModel, CavePlaceModel> placeModelEntry : oldPattern.PlaceMapWithBottles.entrySet()) {
+            CavePlaceModel cavePlace = placeModelEntry.getValue();
+            if (cavePlace.BottleId == -1) continue;
+            CoordinatesModel coordinates = placeModelEntry.getKey();
+            if (!PlaceMapWithBottles.containsKey(coordinates)) continue;
+            PlaceMapWithBottles.put(coordinates, cavePlace);
+            FloatNumberPlacedBottlesByIdMap.put(cavePlace.BottleId, CollectionsHelper.getValueOrDefault(FloatNumberPlacedBottlesByIdMap, cavePlace.BottleId, 0f) + 0.25f);
+        }
     }
 
     public void setClickablePlaces() {

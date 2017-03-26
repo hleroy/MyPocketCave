@@ -11,6 +11,8 @@ import com.myadridev.mypocketcave.activities.CaveDetailActivity;
 import com.myadridev.mypocketcave.adapters.viewHolders.AddPatternViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.NoPatternViewHolder;
+import com.myadridev.mypocketcave.dialogs.EditPatternAlertDialog;
+import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
 import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
@@ -18,6 +20,7 @@ import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.CaveArrangementModel;
 import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModelWithBottles;
+import com.myadridev.mypocketcave.tasks.caves.CaveRemovePatternTask;
 import com.myadridev.mypocketcave.tasks.caves.CreateCaveDetailArrangementTask;
 import com.myadridev.mypocketcave.tasks.caves.CreateCaveEditArrangementTask;
 import com.squareup.picasso.Picasso;
@@ -51,9 +54,18 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         layoutInflater = LayoutInflater.from(editActivity);
         isIndividualPlacesClickable = false;
         listener = (CoordinatesModel coordinates) -> {
-            editActivity.OldClickedPatternId = this.caveArrangement.PatternMap.containsKey(coordinates) ? this.caveArrangement.PatternMap.get(coordinates).Id : -1;
+            PatternModelWithBottles oldPattern = this.caveArrangement.PatternMap.containsKey(coordinates) ? this.caveArrangement.PatternMap.get(coordinates) : null;
+            editActivity.OldClickedPatternId = oldPattern != null ? oldPattern.Id : -1;
             editActivity.ClickedPatternCoordinates = coordinates;
-            NavigationManager.navigateToPatternSelection(editActivity);
+            if (editActivity.OldClickedPatternId == -1) {
+                NavigationManager.navigateToPatternSelection(editActivity);
+            } else {
+                EditPatternAlertDialog alertDialog = new EditPatternAlertDialog(editActivity, editActivity.OldClickedPatternId, oldPattern.Type == PatternTypeEnum.LINEAR, () -> {
+                    CaveRemovePatternTask caveRemovePatternTask = new CaveRemovePatternTask();
+                    caveRemovePatternTask.execute(coordinates);
+                });
+                alertDialog.show();
+            }
         };
         this.BottleIdInHighlight = -1;
         nbPatternsLeftToLoad = getItemCount();

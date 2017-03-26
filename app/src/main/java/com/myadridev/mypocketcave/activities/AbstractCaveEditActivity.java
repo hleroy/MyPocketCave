@@ -311,24 +311,52 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ActivityRequestEnum.PATTERN_SELECTION.Id) {
-            if (resultCode == RESULT_OK && ClickedPatternCoordinates != null) {
-                int patternId = data.getIntExtra("patternId", -1);
-                if (patternId != -1) {
-                    if (OldClickedPatternId != patternId) {
-                        PatternModelWithBottles oldPattern = null;
-                        if (oldCave != null && oldCave.CaveArrangement.PatternMap.containsKey(ClickedPatternCoordinates)) {
-                            oldPattern = oldCave.CaveArrangement.PatternMap.get(ClickedPatternCoordinates);
-                        }
-                        if (oldPattern != null && oldPattern.Id == patternId) {
-                            cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, oldPattern);
-                        } else {
-                            cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
-                        }
-                        createCaveArrangementAdapter();
-                    }
+        ActivityRequestEnum requestEnum = ActivityRequestEnum.getById(requestCode);
+        if (requestEnum == null) return;
+        int patternId;
+        PatternModelWithBottles oldPattern;
+        switch (requestEnum) {
+            case PATTERN_SELECTION:
+                if (resultCode != RESULT_OK || ClickedPatternCoordinates == null) return;
+                patternId = data.getIntExtra("patternId", -1);
+                if (patternId == -1 || OldClickedPatternId == patternId) return;
+                if (OldClickedPatternId == -1 && ClickedPatternCoordinates.Col == 0 && oldCave != null) {
+                    oldCave.CaveArrangement.movePatternMapToRight(true);
                 }
-            }
+                oldPattern = null;
+                if (oldCave != null && oldCave.CaveArrangement.PatternMap.containsKey(ClickedPatternCoordinates)) {
+                    oldPattern = oldCave.CaveArrangement.PatternMap.get(ClickedPatternCoordinates);
+                }
+                if (oldPattern != null) {
+                    if (oldPattern.Id == patternId) {
+                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, oldPattern);
+                    } else {
+                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId), oldPattern));
+                    }
+                } else {
+                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
+                }
+                createCaveArrangementAdapter();
+                break;
+            case EDIT_PATTERN:
+                if (resultCode != RESULT_OK || ClickedPatternCoordinates == null) return;
+                patternId = data.getIntExtra("patternId", -1);
+                if (patternId == -1) return;
+                oldPattern = null;
+                if (oldCave != null && oldCave.CaveArrangement.PatternMap.containsKey(ClickedPatternCoordinates)) {
+                    oldPattern = oldCave.CaveArrangement.PatternMap.get(ClickedPatternCoordinates);
+                }
+                if (oldPattern != null) {
+                    if (oldPattern.Id == patternId) {
+                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, oldPattern);
+                    } else {
+                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId), oldPattern));
+                    }
+                } else {
+                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
+                }
+                createCaveArrangementAdapter();
+                break;
         }
     }
 

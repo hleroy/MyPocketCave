@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
@@ -65,7 +66,7 @@ public class CaveArrangementModel {
                 for (Map.Entry<Integer, Float> patternNumberEntry : pattern.FloatNumberPlacedBottlesByIdMap.entrySet()) {
                     int bottleId = patternNumberEntry.getKey();
                     float numberPlaced = patternNumberEntry.getValue();
-                    float oldNumberPlaced = numberPlacedBottlesByIdMap.containsKey(bottleId) ? numberPlacedBottlesByIdMap.get(bottleId) : 0f;
+                    float oldNumberPlaced = CollectionsHelper.getValueOrDefault(numberPlacedBottlesByIdMap, bottleId, 0f);
                     numberPlacedBottlesByIdMap.put(bottleId, oldNumberPlaced + numberPlaced);
                 }
             }
@@ -148,7 +149,11 @@ public class CaveArrangementModel {
     }
 
     public void movePatternMapToRight() {
-        if (!PatternMap.containsKey(new CoordinatesModel(0, 0))) return;
+        movePatternMapToRight(false);
+    }
+
+    public void movePatternMapToRight(boolean isForceMove) {
+        if (!isForceMove && !PatternMap.containsKey(new CoordinatesModel(0, 0))) return;
         Map<CoordinatesModel, PatternModelWithBottles> patternMapToRight = new HashMap<>(PatternMap.size());
 
         for (Map.Entry<CoordinatesModel, PatternModelWithBottles> patternMapEntry : PatternMap.entrySet()) {
@@ -408,7 +413,7 @@ public class CaveArrangementModel {
     private void updateNumberPlaced(BottleModel bottle, List<PatternModelWithBottles> notNullPatterns, float numberPlaces, int intNumberOfBottlesToAdd) {
         float floatNumberOfBottlesToAdd = 1f / numberPlaces;
         for (PatternModelWithBottles pat : notNullPatterns) {
-            float oldNumberFloat = pat.FloatNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? pat.FloatNumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
+            float oldNumberFloat = CollectionsHelper.getValueOrDefault(pat.FloatNumberPlacedBottlesByIdMap, bottle.Id, 0f);
             float newNumberFloat = oldNumberFloat + floatNumberOfBottlesToAdd;
             if (newNumberFloat == 0) {
                 pat.FloatNumberPlacedBottlesByIdMap.remove(bottle.Id);
@@ -416,7 +421,7 @@ public class CaveArrangementModel {
                 pat.FloatNumberPlacedBottlesByIdMap.put(bottle.Id, newNumberFloat);
             }
         }
-        int oldNumberInt = IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0;
+        int oldNumberInt = CollectionsHelper.getValueOrDefault(IntNumberPlacedBottlesByIdMap, bottle.Id, 0);
         int newNumberInt = oldNumberInt + intNumberOfBottlesToAdd;
         if (newNumberInt == 0) {
             IntNumberPlacedBottlesByIdMap.remove(bottle.Id);
@@ -426,14 +431,14 @@ public class CaveArrangementModel {
     }
 
     private void updateNumberPlaced(BottleModel bottle, int intNumberOfBottlesToAdd) {
-        float oldNumberFloat = floatNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? floatNumberPlacedBottlesByIdMap.get(bottle.Id) : 0f;
+        float oldNumberFloat = CollectionsHelper.getValueOrDefault(floatNumberPlacedBottlesByIdMap, bottle.Id, 0f);
         float newNumberFloat = oldNumberFloat + intNumberOfBottlesToAdd;
         if (newNumberFloat == 0) {
             floatNumberPlacedBottlesByIdMap.remove(bottle.Id);
         } else {
             floatNumberPlacedBottlesByIdMap.put(bottle.Id, newNumberFloat);
         }
-        int oldNumberInt = IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0;
+        int oldNumberInt = CollectionsHelper.getValueOrDefault(IntNumberPlacedBottlesByIdMap, bottle.Id, 0);
         int newNumberInt = oldNumberInt + intNumberOfBottlesToAdd;
         if (newNumberInt == 0) {
             IntNumberPlacedBottlesByIdMap.remove(bottle.Id);
@@ -735,19 +740,19 @@ public class CaveArrangementModel {
         CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(PatternMap.keySet());
         for (int col = 0; col < maxRowCol.Col + 1; col++) {
             for (int row = 0; row < maxRowCol.Row + 1; row++) {
-                PatternModelWithBottles pattern = PatternMap.containsKey(new CoordinatesModel(row, col)) ? PatternMap.get(new CoordinatesModel(row, col)) : null;
+                PatternModelWithBottles pattern = CollectionsHelper.getValueOrDefault(PatternMap, new CoordinatesModel(row, col), null);
                 if (pattern == null) {
                     continue;
                 }
                 CoordinatesModel patternMaxRowCol = CoordinatesManager.getMaxRowCol(pattern.PlaceMapWithBottles.keySet());
 
                 if (pattern.IsVerticallyExpendable) {
-                    PatternModelWithBottles patternTop = PatternMap.containsKey(new CoordinatesModel(row + 1, col)) ? PatternMap.get(new CoordinatesModel(row + 1, col)) : null;
+                    PatternModelWithBottles patternTop = CollectionsHelper.getValueOrDefault(PatternMap, new CoordinatesModel(row + 1, col), null);
                     if (!pattern.isPatternVerticallyCompatible(patternTop)) {
                         patternTop = null;
                     }
 
-                    PatternModelWithBottles patternBottom = PatternMap.containsKey(new CoordinatesModel(row - 1, col)) ? PatternMap.get(new CoordinatesModel(row - 1, col)) : null;
+                    PatternModelWithBottles patternBottom = CollectionsHelper.getValueOrDefault(PatternMap, new CoordinatesModel(row - 1, col), null);
                     if (!pattern.isPatternVerticallyCompatible(patternBottom)) {
                         patternBottom = null;
                     }
@@ -793,13 +798,13 @@ public class CaveArrangementModel {
                 }
 
                 if (pattern.IsHorizontallyExpendable) {
-                    PatternModelWithBottles patternLeft = PatternMap.containsKey(new CoordinatesModel(row, col - 1)) ? PatternMap.get(new CoordinatesModel(row, col - 1)) : null;
+                    PatternModelWithBottles patternLeft = CollectionsHelper.getValueOrDefault(PatternMap, new CoordinatesModel(row, col - 1), null);
                     if (!pattern.isPatternHorizontallyCompatible(patternLeft)) {
                         patternLeft = null;
                     }
                     CoordinatesModel patternLeftMaxRowCol = patternLeft != null ? CoordinatesManager.getMaxRowCol(patternLeft.PlaceMapWithBottles.keySet()) : null;
 
-                    PatternModelWithBottles patternRight = PatternMap.containsKey(new CoordinatesModel(row, col + 1)) ? PatternMap.get(new CoordinatesModel(row, col + 1)) : null;
+                    PatternModelWithBottles patternRight = CollectionsHelper.getValueOrDefault(PatternMap, new CoordinatesModel(row, col + 1), null);
                     if (!pattern.isPatternHorizontallyCompatible(patternRight)) {
                         patternRight = null;
                     }
@@ -865,7 +870,7 @@ public class CaveArrangementModel {
         for (Map.Entry<Integer, Integer> oldNumberPlacedEntry : oldIntNumberPlacedBottlesByIdMap.entrySet()) {
             int bottleId = oldNumberPlacedEntry.getKey();
             int oldNumberPlaced = oldNumberPlacedEntry.getValue();
-            int newNumberPlaced = IntNumberPlacedBottlesByIdMap.containsKey(bottleId) ? IntNumberPlacedBottlesByIdMap.get(bottleId) : 0;
+            int newNumberPlaced = CollectionsHelper.getValueOrDefault(IntNumberPlacedBottlesByIdMap, bottleId, 0);
             int delta = newNumberPlaced - oldNumberPlaced;
             if (delta != 0) {
                 BottleManager.updateNumberPlaced(context, bottleId, delta);

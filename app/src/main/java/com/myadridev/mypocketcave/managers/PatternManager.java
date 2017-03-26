@@ -34,6 +34,7 @@ public class PatternManager {
     public static int addPattern(Context context, PatternModel pattern) {
         int existingPatternId = getPatternsStorageManager().getExistingPatternId(pattern);
         if (existingPatternId == -1) {
+            pattern.Order = 0;
             pattern.Id = getPatternsStorageManager().insertPattern(context, pattern);
             return pattern.Id;
         } else {

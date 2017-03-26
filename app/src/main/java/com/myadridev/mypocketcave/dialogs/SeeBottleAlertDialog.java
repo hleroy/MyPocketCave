@@ -6,12 +6,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.NumberPicker;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
@@ -34,13 +33,7 @@ public class SeeBottleAlertDialog extends AlertDialog {
         View dialogView = inflater.inflate(R.layout.alert_see_bottle_in_cave, null);
         setView(dialogView);
 
-        ImageView colorView = (ImageView) dialogView.findViewById(R.id.bottle_color);
-        TextView labelView = (TextView) dialogView.findViewById(R.id.bottle_label);
-        TextView millesimeView = (TextView) dialogView.findViewById(R.id.bottle_millesime);
-        TextView stockLabelView = (TextView) dialogView.findViewById(R.id.bottle_stock_label);
-        ImageView greyOverView = (ImageView) dialogView.findViewById(R.id.bottle_grey_over);
-        RatingBar rating = (RatingBar) dialogView.findViewById(R.id.bottle_rating);
-        RatingBar priceRating = (RatingBar) dialogView.findViewById(R.id.bottle_price_rating);
+        BottleViewHolder bottleViewHolder = BottleViewHolder.newInstance(dialogView);
         TextView seeDetailView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_see_detail);
         TextView drinkView = (TextView) dialogView.findViewById(R.id.alert_drink_bottle);
         TextView unplaceView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_unplace_bottle);
@@ -51,14 +44,14 @@ public class SeeBottleAlertDialog extends AlertDialog {
             // should not occur
             dismiss();
         } else {
-            labelView.setText(bottle.Domain + " - " + bottle.Name);
-            millesimeView.setText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
-            stockLabelView.setText(activity.getString(R.string.bottles_stock, bottle.Stock));
-            rating.setProgress(bottle.Rating);
-            priceRating.setProgress(bottle.PriceRating);
-            greyOverView.setVisibility(View.INVISIBLE);
+            bottleViewHolder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
+            bottleViewHolder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
+            bottleViewHolder.setStockLabelViewText(activity.getString(R.string.bottles_stock, bottle.Stock));
+            bottleViewHolder.setRating(bottle.Rating);
+            bottleViewHolder.setPriceRating(bottle.PriceRating);
+            bottleViewHolder.resetHighlight();
             int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
-            colorView.setImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(activity, wineColorDrawableId) : null);
+            bottleViewHolder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(activity, wineColorDrawableId) : null);
 
             seeDetailView.setOnClickListener((View v) -> NavigationManager.navigateToBottleDetail(activity, bottleId));
 
