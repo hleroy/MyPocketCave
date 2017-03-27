@@ -25,6 +25,15 @@ public class PatternModelWithBottles extends PatternModel {
         FloatNumberPlacedBottlesByIdMap = new HashMap<>();
     }
 
+    public PatternModelWithBottles(PatternModelWithBottles patternWithBottles) {
+        super(patternWithBottles);
+        PlaceMapWithBottles = new HashMap<>(patternWithBottles.PlaceMapWithBottles.size());
+        for (Map.Entry<CoordinatesModel, CavePlaceModel> placeEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
+            PlaceMapWithBottles.put(placeEntry.getKey(), new CavePlaceModel(placeEntry.getValue()));
+        }
+        FloatNumberPlacedBottlesByIdMap = new HashMap<>(patternWithBottles.FloatNumberPlacedBottlesByIdMap);
+    }
+
     public PatternModelWithBottles(PatternModel pattern) {
         super(pattern);
         PlaceMapWithBottles = getPlaceMapForDisplay();

@@ -14,4 +14,10 @@ public class CavePlaceModel {
         BottleId = -1;
         IsClickable = false;
     }
+
+    public CavePlaceModel(CavePlaceModel cavePlace) {
+        BottleId = cavePlace.BottleId;
+        IsClickable = cavePlace.IsClickable;
+        PlaceType = cavePlace.PlaceType;
+    }
 }

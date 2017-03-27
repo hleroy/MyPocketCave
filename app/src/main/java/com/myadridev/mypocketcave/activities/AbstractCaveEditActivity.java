@@ -291,7 +291,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 false, ScreenHelper.getScreenWidth(this) - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight, null);
     }
 
-    private void createCaveArrangementAdapter() {
+    public void createCaveArrangementAdapter() {
         cave.CaveArrangement.movePatternMapToRight();
         if (oldCave != null) {
             oldCave.CaveArrangement.movePatternMapToRight();

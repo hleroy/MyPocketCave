@@ -44,7 +44,10 @@ public class CaveArrangementModel {
         Id = caveArrangement.Id;
         TotalCapacity = caveArrangement.TotalCapacity;
         TotalUsed = caveArrangement.TotalUsed;
-        PatternMap = new HashMap<>(caveArrangement.PatternMap);
+        PatternMap = new HashMap<>(caveArrangement.PatternMap.size());
+        for (Map.Entry<CoordinatesModel, PatternModelWithBottles> patternEntry : caveArrangement.PatternMap.entrySet()) {
+            PatternMap.put(patternEntry.getKey(), new PatternModelWithBottles(patternEntry.getValue()));
+        }
         NumberBottlesBulk = caveArrangement.NumberBottlesBulk;
         NumberBoxes = caveArrangement.NumberBoxes;
         BoxesNumberBottlesByColumn = caveArrangement.BoxesNumberBottlesByColumn;
@@ -692,7 +695,7 @@ public class CaveArrangementModel {
         PatternModel pattern = PatternManager.getPattern(patternId);
         for (int i = 0; i < NumberBoxes; i++) {
             CoordinatesModel coordinates = new CoordinatesModel(i, 0);
-            PatternModelWithBottles newPattern = isSamePattern && oldCave.CaveArrangement.PatternMap.containsKey(coordinates)
+            PatternModelWithBottles newPattern = isSamePattern && oldCave != null && oldCave.CaveArrangement.PatternMap.containsKey(coordinates)
                     ? oldCave.CaveArrangement.PatternMap.get(coordinates)
                     : new PatternModelWithBottles(pattern);
             PatternMap.put(coordinates, newPattern);

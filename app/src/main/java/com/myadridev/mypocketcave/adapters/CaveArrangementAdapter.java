@@ -61,7 +61,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 NavigationManager.navigateToPatternSelection(editActivity);
             } else {
                 EditPatternAlertDialog alertDialog = new EditPatternAlertDialog(editActivity, editActivity.OldClickedPatternId, oldPattern.Type == PatternTypeEnum.LINEAR, () -> {
-                    CaveRemovePatternTask caveRemovePatternTask = new CaveRemovePatternTask();
+                    CaveRemovePatternTask caveRemovePatternTask = new CaveRemovePatternTask(editActivity);
                     caveRemovePatternTask.execute(coordinates);
                 });
                 alertDialog.show();
