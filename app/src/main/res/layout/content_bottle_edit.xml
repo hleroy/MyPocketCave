@@ -1,16 +1,11 @@
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:layout_height="match_parent">
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_bottle_edit_name"
@@ -58,10 +53,11 @@
             android:layout_toStartOf="@id/bottle_edit_millesime"
             app:layout_widthPercent="50%">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/bottle_edit_domain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:completionThreshold="1"
                 android:hint="@string/bottle_domain"
                 android:imeOptions="actionNext"
                 android:inputType="textCapSentences" />
@@ -157,10 +153,11 @@
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_big_margin_between_elements">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/bottle_edit_person"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:completionThreshold="1"
                 android:hint="@string/bottle_edit_person"
                 android:imeOptions="actionNext"
                 android:inputType="textCapSentences" />
@@ -187,4 +184,4 @@
         </android.support.design.widget.TextInputLayout>
 
     </android.support.percent.PercentRelativeLayout>
-</android.support.v4.widget.NestedScrollView>
+</ScrollView>

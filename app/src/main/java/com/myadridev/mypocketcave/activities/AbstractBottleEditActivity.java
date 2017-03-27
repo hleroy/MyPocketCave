@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -40,11 +42,11 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected EditText nameView;
     protected EditText stockView;
     protected Spinner wineColorView;
-    protected EditText personView;
+    protected AutoCompleteTextView personView;
     protected EditText commentsView;
     protected TextView foodView;
     protected Spinner millesimeView;
-    protected EditText domainView;
+    protected AutoCompleteTextView domainView;
     protected CoordinatorLayout coordinatorLayout;
     protected RatingBar ratingBar;
     protected RatingBar priceRatingBar;
@@ -100,11 +102,17 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         setCoordinatorLayout();
         coordinatorLayout.setOnTouchListener(hideKeyboardOnClick);
         nameView = (EditText) findViewById(R.id.bottle_edit_name);
-        domainView = (EditText) findViewById(R.id.bottle_edit_domain);
+        domainView = (AutoCompleteTextView) findViewById(R.id.bottle_edit_domain);
+        ArrayAdapter<String> domainAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, BottleManager.getAllDistinctDomains());
+        domainView.setAdapter(domainAdapter);
+
         stockView = (EditText) findViewById(R.id.bottle_edit_stock);
         wineColorView = (Spinner) findViewById(R.id.bottle_edit_wine_color);
         wineColorView.setOnTouchListener(hideKeyboardOnClick);
-        personView = (EditText) findViewById(R.id.bottle_edit_person);
+        personView = (AutoCompleteTextView) findViewById(R.id.bottle_edit_person);
+        ArrayAdapter<String> personAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, BottleManager.getAllDistinctPersons());
+        personView.setAdapter(personAdapter);
+
         commentsView = (EditText) findViewById(R.id.bottle_edit_comments);
         foodView = (TextView) findViewById(R.id.bottle_edit_food);
         foodView.setOnTouchListener(hideKeyboardOnClick);
