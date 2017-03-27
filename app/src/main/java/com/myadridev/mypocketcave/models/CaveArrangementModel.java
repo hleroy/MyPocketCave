@@ -702,7 +702,7 @@ public class CaveArrangementModel {
         }
         if (!isSamePattern) {
             TotalUsed = 0;
-        } else if (oldNumberBoxes > NumberBoxes) {
+        } else if (oldNumberBoxes > NumberBoxes && oldCave != null) {
             float totalPlaced = 0f;
             for (int i = NumberBoxes; i < oldNumberBoxes; i++) {
                 for (Map.Entry<Integer, Float> numberPlaced : oldCave.CaveArrangement.PatternMap.get(new CoordinatesModel(i, 0)).FloatNumberPlacedBottlesByIdMap.entrySet()) {
