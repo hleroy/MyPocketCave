@@ -56,22 +56,22 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
         bottlesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         bottlesCountLabelView = (TextView) rootView.findViewById(R.id.bottles_count);
-        bottlesCountLabelView.setOnClickListener((View v) -> {
-            bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
-            bottlesCountLabelView.setVisibility(View.GONE);
-
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-            params.addRule(RelativeLayout.ABOVE, R.id.bottles_count_detail);
-        });
+//        bottlesCountLabelView.setOnClickListener((View v) -> {
+//            bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
+//            bottlesCountLabelView.setVisibility(View.GONE);
+//
+//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
+//            params.addRule(RelativeLayout.ABOVE, R.id.bottles_count_detail);
+//        });
 
         bottlesCountDetailLabelView = (TextView) rootView.findViewById(R.id.bottles_count_detail);
-        bottlesCountDetailLabelView.setOnClickListener((View v) -> {
-            bottlesCountDetailLabelView.setVisibility(View.GONE);
-            bottlesCountLabelView.setVisibility(View.VISIBLE);
-
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-            params.addRule(RelativeLayout.ABOVE, R.id.bottles_count);
-        });
+//        bottlesCountDetailLabelView.setOnClickListener((View v) -> {
+//            bottlesCountDetailLabelView.setVisibility(View.GONE);
+//            bottlesCountLabelView.setVisibility(View.VISIBLE);
+//
+//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
+//            params.addRule(RelativeLayout.ABOVE, R.id.bottles_count);
+//        });
 
         setIsVisible(isDisplayedAtFirstLaunch);
         return rootView;

@@ -60,22 +60,22 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         bottlesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         bottlesCountLabelView = (TextView) findViewById(R.id.suggest_bottle_result_bottles_count);
-        bottlesCountLabelView.setOnClickListener((View v) -> {
-            bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
-            bottlesCountLabelView.setVisibility(View.GONE);
-
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-            params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count_detail);
-        });
+//        bottlesCountLabelView.setOnClickListener((View v) -> {
+//            bottlesCountDetailLabelView.setVisibility(View.VISIBLE);
+//            bottlesCountLabelView.setVisibility(View.GONE);
+//
+//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
+//            params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count_detail);
+//        });
 
         bottlesCountDetailLabelView = (TextView) findViewById(R.id.suggest_bottle_result_bottles_count_detail);
-        bottlesCountDetailLabelView.setOnClickListener((View v) -> {
-            bottlesCountDetailLabelView.setVisibility(View.GONE);
-            bottlesCountLabelView.setVisibility(View.VISIBLE);
-
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-            params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count);
-        });
+//        bottlesCountDetailLabelView.setOnClickListener((View v) -> {
+//            bottlesCountDetailLabelView.setVisibility(View.GONE);
+//            bottlesCountLabelView.setVisibility(View.VISIBLE);
+//
+//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
+//            params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count);
+//        });
 
         Bundle bundle = getIntent().getExtras();
         String serializedSearchCriteria = bundle.getString("searchCriteria");
