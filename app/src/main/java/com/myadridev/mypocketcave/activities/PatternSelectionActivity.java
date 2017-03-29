@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternSelectionAdapter;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
+import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
@@ -105,8 +106,10 @@ public class PatternSelectionActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
-        layoutManager.notifyColumnWidthChanged();
-        if (patternSelectionAdapter != null) patternSelectionAdapter.notifyDataSetChanged();
+        RotationHelper.rotateWhenPossible(patternSelectionRecyclerView, () -> {
+            layoutManager.notifyColumnWidthChanged();
+            if (patternSelectionAdapter != null) patternSelectionAdapter.notifyDataSetChanged();
+        });
     }
 
     @Override

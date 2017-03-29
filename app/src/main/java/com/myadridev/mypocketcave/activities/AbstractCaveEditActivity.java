@@ -33,6 +33,7 @@ import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
+import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.CaveManager;
@@ -520,16 +521,17 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
-        CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
-        switch (caveType) {
-            case BOX:
-                updateBoxesPatternAdapter();
-                break;
-            case RACK:
-            case FRIDGE:
-                drawCaveArrangement();
-                break;
-        }
+
+            CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+            switch (caveType) {
+                case BOX:
+                    RotationHelper.rotateWhenPossible(boxesOverviewRecyclerView, this::updateBoxesPatternAdapter);
+                    break;
+                case RACK:
+                case FRIDGE:
+                    RotationHelper.rotateWhenPossible(caveArrangementRecyclerView, this::drawCaveArrangement);
+                    break;
+            }
     }
 
     @Override

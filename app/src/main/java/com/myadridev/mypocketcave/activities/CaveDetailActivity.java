@@ -29,6 +29,7 @@ import com.myadridev.mypocketcave.adapters.SimpleDividerItemDecoration;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.dialogs.SeeBottleAlertDialog;
 import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
+import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
@@ -342,7 +343,7 @@ public class CaveDetailActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
-        drawArrangement();
+        RotationHelper.rotateWhenPossible(arrangementRecyclerView, this::drawArrangement);
     }
 
     public void onCaveArrangementLoaded() {

@@ -15,6 +15,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.CavesAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
@@ -135,7 +136,9 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
-        layoutManager.notifyColumnWidthChanged();
-        if (cavesAdapter != null) cavesAdapter.notifyDataSetChanged();
+        RotationHelper.rotateWhenPossible(cavesRecyclerView, () -> {
+            layoutManager.notifyColumnWidthChanged();
+            if (cavesAdapter != null) cavesAdapter.notifyDataSetChanged();
+        });
     }
 }

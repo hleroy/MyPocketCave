@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.helpers.ControlsHelper;
+import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
@@ -317,7 +318,7 @@ public class AbstractPatternEditActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
-        updateAdapter();
+        RotationHelper.rotateWhenPossible(patternOverviewRecyclerView, this::updateAdapter);
     }
 
     @Override
