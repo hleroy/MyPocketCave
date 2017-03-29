@@ -1,6 +1,5 @@
 package com.myadridev.mypocketcave.adapters;
 
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,8 @@ import com.myadridev.mypocketcave.adapters.viewHolders.SelectionPatternViewHolde
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.listeners.OnSelectionPatternClickListener;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
 import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.tasks.pattern.CreatePatternAdapterTask;
 
 import java.util.List;
 
@@ -100,16 +99,8 @@ public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             SelectionPatternViewHolder holder = (SelectionPatternViewHolder) viewHolder;
             PatternModel pattern = patternList.get(position);
             if (pattern != null) {
-                int numberRowsGridLayout = pattern.getNumberRowsGridLayout();
-                int numberColumnsGridLayout = pattern.getNumberColumnsGridLayout();
-                if (numberColumnsGridLayout > 0) {
-                    holder.setPatternViewLayoutManager(new GridLayoutManager(activity, numberColumnsGridLayout));
-                    PatternAdapter patternAdapter = new PatternAdapter(activity, pattern.getPlaceMapForDisplay(), new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
-                            false, itemWidth, null);
-                    holder.setPatternViewAdapter(patternAdapter);
-                    holder.setOnItemClickListener(onItemClickListener, pattern.Id);
-                    holder.setClickableSpaceDimensions(itemWidth, itemWidth);
-                }
+                CreatePatternAdapterTask createPatternAdapterTask = new CreatePatternAdapterTask(activity, holder, pattern, itemWidth, onItemClickListener);
+                createPatternAdapterTask.execute();
             }
         } else if (position == patternList.size()) {
             CreatePatternViewHolder holder = (CreatePatternViewHolder) viewHolder;

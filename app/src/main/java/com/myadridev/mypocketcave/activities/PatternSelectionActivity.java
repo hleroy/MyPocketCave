@@ -52,16 +52,19 @@ public class PatternSelectionActivity extends AppCompatActivity {
     }
 
     private void setLayoutValues() {
-        List<PatternModel> recentPatternList = PatternManager.getPatterns();
         layoutManager = new GridAutofitLayoutManager(this, (int) getResources().getDimension(R.dimen.pattern_image_size_large));
+        patternSelectionRecyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
         patternSelectionRecyclerView.setLayoutManager(layoutManager);
+
+        List<PatternModel> recentPatternList = PatternManager.getPatterns();
+
         patternSelectionAdapter = new PatternSelectionAdapter(this, recentPatternList, layoutManager);
-        patternSelectionRecyclerView.setAdapter(patternSelectionAdapter);
         patternSelectionAdapter.setOnSelectionPatternClickListener((int patternId) -> {
             setResultAndFinish(RESULT_OK, patternId);
             UpdatePatternsOrderTask updatePatternsOrderTask = new UpdatePatternsOrderTask(this);
             updatePatternsOrderTask.execute(patternId);
         });
+        patternSelectionRecyclerView.setAdapter(patternSelectionAdapter);
     }
 
     @Override

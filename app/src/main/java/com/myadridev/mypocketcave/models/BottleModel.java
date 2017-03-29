@@ -37,12 +37,13 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
     // Rum : Blanc, Vieux, Epicé
     // Cider : Brut, Doux
     // Beer : Type : Blanche, Blonde, Brune, Rousse, Ambrée, Stout, Weissbier
+    // Remplissage de la bouteille
 
     // TODO : Apellation
     // TODO : conservation en fonction de couleur + millésime + apellation
 
-    //TODO : année de consommation conseillée ou équivalent
-    //TODO : photo
+    // TODO : année de consommation conseillée ou équivalent
+    // TODO : photo
 
     public BottleModel() {
         FoodToEatWithList = new ArrayList<>();
