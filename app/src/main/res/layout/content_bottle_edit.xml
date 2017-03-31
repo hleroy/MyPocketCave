@@ -28,30 +28,15 @@
                 android:inputType="textCapSentences" />
         </android.support.design.widget.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/bottle_edit_millesime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/input_bottle_edit_name"
-            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
-            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
-            android:spinnerMode="dropdown"
-            app:layout_widthPercent="50%" />
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_bottle_edit_domain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/bottle_edit_millesime"
             android:layout_alignParentStart="true"
             android:layout_below="@id/input_bottle_edit_name"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:layout_toStartOf="@id/bottle_edit_millesime"
-            app:layout_widthPercent="50%">
+            app:layout_widthPercent="75%">
 
             <AutoCompleteTextView
                 android:id="@+id/bottle_edit_domain"
@@ -63,26 +48,14 @@
                 android:inputType="textCapSentences" />
         </android.support.design.widget.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/bottle_edit_wine_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/input_bottle_edit_domain"
-            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
-            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
-            android:spinnerMode="dropdown"
-            app:layout_widthPercent="65%" />
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_bottle_edit_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/bottle_edit_wine_color"
+            android:layout_alignBottom="@id/input_bottle_edit_domain"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/bottle_edit_wine_color"
+            android:layout_alignTop="@id/input_bottle_edit_domain"
+            android:layout_toEndOf="@id/input_bottle_edit_domain"
             android:layout_below="@id/input_bottle_edit_domain"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
@@ -97,12 +70,36 @@
                 android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
+        <Spinner
+            android:id="@+id/bottle_edit_wine_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/input_bottle_edit_domain"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin"
+            android:layout_marginStart="@dimen/horizontal_big_margin"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:spinnerMode="dropdown" />
+
+        <Spinner
+            android:id="@+id/bottle_edit_millesime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/bottle_edit_wine_color"
+            android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_big_margin"
+            android:layout_marginStart="@dimen/horizontal_big_margin"
+            android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
+            android:spinnerMode="dropdown"/>
+
         <RatingBar
             android:id="@+id/bottle_edit_rating"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/bottle_edit_wine_color"
+            android:layout_below="@id/bottle_edit_millesime"
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"

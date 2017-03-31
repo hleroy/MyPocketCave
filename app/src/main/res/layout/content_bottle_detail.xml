@@ -17,32 +17,17 @@
 
         <TextView
             android:id="@+id/bottle_detail_domain"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
             android:layout_marginTop="@dimen/vertical_big_margin_between_elements"
             android:hint="@string/bottle_domain"
-            android:textSize="@dimen/text_size"
-            app:layout_widthPercent="55%" />
-
-        <TextView
-            android:id="@+id/bottle_detail_millesime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/bottle_detail_domain"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignTop="@id/bottle_detail_domain"
-            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
-            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:layout_toEndOf="@id/bottle_detail_domain"
-            android:gravity="center"
-            android:text="@string/no_millesime"
-            android:textSize="@dimen/text_size"
-            app:layout_widthPercent="45%" />
+            android:textSize="@dimen/text_size" />
 
         <ImageView
             android:id="@+id/bottle_detail_wine_color_icon"
@@ -72,27 +57,39 @@
             app:layout_widthPercent="40%" />
 
         <TextView
+            android:id="@+id/bottle_detail_millesime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/bottle_detail_wine_color_icon"
+            android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
+            android:layout_marginStart="@dimen/horizontal_margin_between_elements"
+            android:gravity="center"
+            android:text="@string/no_millesime"
+            android:textSize="@dimen/text_size"
+            app:layout_widthPercent="45%" />
+
+        <TextView
             android:id="@+id/bottle_detail_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/bottle_detail_wine_color_icon"
+            android:layout_alignBottom="@id/bottle_detail_millesime"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/bottle_detail_wine_color_icon"
-            android:layout_below="@id/bottle_detail_domain"
+            android:layout_alignTop="@id/bottle_detail_millesime"
+            android:layout_below="@id/bottle_detail_wine_color_icon"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
-            android:layout_toEndOf="@id/bottle_detail_wine_color"
             android:gravity="center"
             android:text="@string/bottles_stock"
             android:textSize="@dimen/text_size"
-            app:layout_widthPercent="40%" />
+            app:layout_widthPercent="45%" />
 
         <TextView
             android:id="@+id/bottle_detail_placed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/bottle_detail_wine_color"
+            android:layout_below="@id/bottle_detail_millesime"
             android:layout_marginBottom="@dimen/vertical_big_margin_between_elements"
             android:layout_marginEnd="@dimen/horizontal_margin_between_elements"
             android:layout_marginStart="@dimen/horizontal_margin_between_elements"
