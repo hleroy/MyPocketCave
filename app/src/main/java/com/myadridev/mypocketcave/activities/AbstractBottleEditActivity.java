@@ -278,7 +278,10 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        NavigationManager.restartIfNeeded(this);
-        super.onResume();
+        if (NavigationManager.restartIfNeeded(this)) {
+            finish();
+        } else {
+            super.onResume();
+        }
     }
 }

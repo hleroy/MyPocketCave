@@ -522,22 +522,25 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
 
-            CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
-            switch (caveType) {
-                case BOX:
-                    RotationHelper.rotateWhenPossible(boxesOverviewRecyclerView, this::updateBoxesPatternAdapter);
-                    break;
-                case RACK:
-                case FRIDGE:
-                    RotationHelper.rotateWhenPossible(caveArrangementRecyclerView, this::drawCaveArrangement);
-                    break;
-            }
+        CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+        switch (caveType) {
+            case BOX:
+                RotationHelper.rotateWhenPossible(boxesOverviewRecyclerView, this::updateBoxesPatternAdapter);
+                break;
+            case RACK:
+            case FRIDGE:
+                RotationHelper.rotateWhenPossible(caveArrangementRecyclerView, this::drawCaveArrangement);
+                break;
+        }
     }
 
     @Override
     protected void onResume() {
-        NavigationManager.restartIfNeeded(this);
-        super.onResume();
+        if (NavigationManager.restartIfNeeded(this)) {
+            finish();
+        } else {
+            super.onResume();
+        }
     }
 
     public void onCaveArrangementLoaded() {

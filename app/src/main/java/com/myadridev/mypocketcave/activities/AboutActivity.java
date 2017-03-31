@@ -10,7 +10,6 @@ import android.widget.ListView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.AboutAdapter;
 import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
-import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.VersionManager;
 import com.myadridev.mypocketcave.models.AboutItem;
@@ -82,7 +81,10 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        NavigationManager.restartIfNeeded(this);
-        super.onResume();
+        if (NavigationManager.restartIfNeeded(this)) {
+            finish();
+        } else {
+            super.onResume();
+        }
     }
 }

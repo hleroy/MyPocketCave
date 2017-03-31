@@ -188,13 +188,16 @@ public class BottleDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        NavigationManager.restartIfNeeded(this);
-        super.onResume();
+        if (NavigationManager.restartIfNeeded(this)) {
+            finish();
+        } else {
+            super.onResume();
 
-        bottle = BottleManager.getBottle(bottle == null ? bottleId : bottle.Id);
-        refreshActionBar();
-        setLayoutValues();
-        setupFloatingActionButtonsVisibility();
+            bottle = BottleManager.getBottle(bottle == null ? bottleId : bottle.Id);
+            refreshActionBar();
+            setLayoutValues();
+            setupFloatingActionButtonsVisibility();
+        }
     }
 
     @Override

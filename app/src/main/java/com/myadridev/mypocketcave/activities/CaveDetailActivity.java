@@ -314,12 +314,15 @@ public class CaveDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        NavigationManager.restartIfNeeded(this);
-        super.onResume();
-        cave = CaveManager.getCave(this, cave == null ? caveId : cave.Id);
-        refreshActionBar();
-        setLayoutValues();
-        setupFloatingActionButtonsVisibility();
+        if (NavigationManager.restartIfNeeded(this)) {
+            finish();
+        } else {
+            super.onResume();
+            cave = CaveManager.getCave(this, cave == null ? caveId : cave.Id);
+            refreshActionBar();
+            setLayoutValues();
+            setupFloatingActionButtonsVisibility();
+        }
     }
 
     @Override

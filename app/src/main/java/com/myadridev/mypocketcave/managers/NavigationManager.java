@@ -119,10 +119,12 @@ public class NavigationManager {
         context.startActivity(new Intent(context, SyncActivity.class));
     }
 
-    public static void restartIfNeeded(Activity activity) {
+    public static boolean restartIfNeeded(Activity activity) {
         if (DependencyManager.needsRestart()) {
             restart(activity);
-            activity.finish();
+            return true;
+        } else {
+            return false;
         }
     }
 
