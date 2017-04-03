@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
+package com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1;
 
 import android.content.Context;
 
@@ -8,10 +8,10 @@ import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.IBottleStorageManager;
 import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +25,7 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
 
     public static BottlesSharedPreferencesManager Instance;
     private static boolean isInitialized;
-    private Map<Integer, BottleModel> allBottlesMap;
+    private static Map<Integer, BottleModel> allBottlesMap = new HashMap<>();
     private String keyIndex;
     private String filename;
     private int keyBottleResourceId = R.string.store_bottle;
@@ -39,7 +39,12 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         loadAllBottles(context);
     }
 
-    public static void Init(Context context) {
+    public static Map<Integer, BottleModel> getAllBottles(Context context) {
+        init(context);
+        return allBottlesMap;
+    }
+
+    public static void init(Context context) {
         if (isInitialized) return;
         Instance = new BottlesSharedPreferencesManager(context);
         isInitialized = true;
@@ -58,10 +63,8 @@ public class BottlesSharedPreferencesManager implements IBottleStorageManager {
         Map<Integer, IStorableModel> allBottlesAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(context, filename, keyIndex, keyBottleResourceId, BottleModel.class);
 
         if (allBottlesAsStorableModel == null) {
-            allBottlesMap = new HashMap<>();
             return;
         }
-        allBottlesMap = new HashMap<>(allBottlesAsStorableModel.size());
         for (Map.Entry<Integer, IStorableModel> bottleAsStorableModelEntry : allBottlesAsStorableModel.entrySet()) {
             IStorableModel bottleAsStorableModel = bottleAsStorableModelEntry.getValue();
             if (bottleAsStorableModel instanceof BottleModel) {

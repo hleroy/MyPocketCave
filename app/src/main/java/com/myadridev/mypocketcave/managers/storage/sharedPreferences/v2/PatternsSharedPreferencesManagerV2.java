@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
+package com.myadridev.mypocketcave.managers.storage.sharedPreferences.v2;
 
 import android.content.Context;
 
@@ -7,10 +7,10 @@ import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.IPatternsStorageManagerV2;
 import com.myadridev.mypocketcave.models.IStorableModel;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,27 +18,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PatternsSharedPreferencesManager implements IPatternsStorageManager {
+public class PatternsSharedPreferencesManagerV2 implements IPatternsStorageManagerV2 {
 
-    public static PatternsSharedPreferencesManager Instance;
+    public static PatternsSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
-    private Map<Integer, PatternModel> allPatternsMap;
+    private Map<Integer, PatternModelV2> allPatternsMap;
     private String keyIndex;
     private String filename;
     private int keyPatternResourceId = R.string.store_pattern;
     private boolean listenerSharedPreferencesRegistered = false;
     private ISharedPreferencesManager sharedPreferencesManager = null;
 
-    private PatternsSharedPreferencesManager(Context context) {
+    private PatternsSharedPreferencesManagerV2(Context context) {
         keyIndex = context.getString(R.string.store_indexes);
         filename = context.getString(R.string.filename_patterns);
 
         loadAllPatterns(context);
     }
 
-    public static void Init(Context context) {
+    private PatternsSharedPreferencesManagerV2(Context context, Map<Integer, PatternModelV2> allPatternsMap) {
+        keyIndex = context.getString(R.string.store_indexes);
+        filename = context.getString(R.string.filename_patterns);
+
+        for (PatternModelV2 pattern : allPatternsMap.values()) {
+            insertPattern(context, pattern, false);
+        }
+    }
+
+    public static void init(Context context) {
         if (isInitialized) return;
-        Instance = new PatternsSharedPreferencesManager(context);
+        Instance = new PatternsSharedPreferencesManagerV2(context);
+        isInitialized = true;
+    }
+
+    public static void init(Context context, Map<Integer, PatternModelV2> allPatternsMap) {
+        if (isInitialized) return;
+        Instance = new PatternsSharedPreferencesManagerV2(context, allPatternsMap);
         isInitialized = true;
     }
 
@@ -52,7 +67,7 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
     }
 
     private void loadAllPatterns(Context context) {
-        Map<Integer, IStorableModel> allPatternsAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(context, filename, keyIndex, keyPatternResourceId, PatternModel.class);
+        Map<Integer, IStorableModel> allPatternsAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(context, filename, keyIndex, keyPatternResourceId, PatternModelV2.class);
 
         if (allPatternsAsStorableModel == null) {
             allPatternsMap = new HashMap<>();
@@ -61,25 +76,27 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         allPatternsMap = new HashMap<>(allPatternsAsStorableModel.size());
         for (Map.Entry<Integer, IStorableModel> patternAsStorableModelEntry : allPatternsAsStorableModel.entrySet()) {
             IStorableModel patternAsStorableModel = patternAsStorableModelEntry.getValue();
-            if (patternAsStorableModel instanceof PatternModel) {
-                allPatternsMap.put(patternAsStorableModelEntry.getKey(), (PatternModel) patternAsStorableModel);
+            if (patternAsStorableModel instanceof PatternModelV2) {
+                allPatternsMap.put(patternAsStorableModelEntry.getKey(), (PatternModelV2) patternAsStorableModel);
             }
         }
     }
 
-    public List<PatternModel> getPatterns() {
-        List<PatternModel> patterns = new ArrayList<>(allPatternsMap.values());
+    public List<PatternModelV2> getPatterns() {
+        List<PatternModelV2> patterns = new ArrayList<>(allPatternsMap.values());
         Collections.sort(patterns);
         return patterns;
     }
 
-    public PatternModel getPattern(int patternId) {
+    public PatternModelV2 getPattern(int patternId) {
         return CollectionsHelper.getValueOrDefault(allPatternsMap, patternId, null);
     }
 
-    public int insertPattern(Context context, PatternModel pattern) {
+    public int insertPattern(Context context, PatternModelV2 pattern, boolean needsNewId) {
         List<Integer> ids = new ArrayList<>(allPatternsMap.keySet());
-        pattern.Id = StorageHelper.getNewId(ids);
+        if (needsNewId) {
+            pattern.Id = StorageHelper.getNewId(ids);
+        }
         allPatternsMap.put(pattern.Id, pattern);
         ids.add(pattern.Id);
 
@@ -91,7 +108,7 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         return pattern.Id;
     }
 
-    public void updatePattern(Context context, PatternModel pattern) {
+    public void updatePattern(Context context, PatternModelV2 pattern) {
         List<Integer> ids = new ArrayList<>(allPatternsMap.keySet());
         allPatternsMap.put(pattern.Id, pattern);
         ids.add(pattern.Id);
@@ -108,17 +125,17 @@ public class PatternsSharedPreferencesManager implements IPatternsStorageManager
         getSharedPreferencesManager().storeStringData(context, filename, keyIndex, ids);
     }
 
-    public void updateAllPatterns(Context context, List<PatternModel> patterns) {
+    public void updateAllPatterns(Context context, List<PatternModelV2> patterns) {
         Map<String, Object> dataToStoreMap = new HashMap<>(patterns.size());
-        for (PatternModel pattern : patterns) {
+        for (PatternModelV2 pattern : patterns) {
             allPatternsMap.put(pattern.Id, pattern);
             dataToStoreMap.put(context.getString(keyPatternResourceId, pattern.Id), pattern);
         }
         getSharedPreferencesManager().storeStringMapData(context, filename, dataToStoreMap);
     }
 
-    public int getExistingPatternId(PatternModel pattern) {
-        for (PatternModel existingPattern : allPatternsMap.values()) {
+    public int getExistingPatternId(PatternModelV2 pattern) {
+        for (PatternModelV2 existingPattern : allPatternsMap.values()) {
             if (pattern.Id != existingPattern.Id && pattern.hasSameValues(existingPattern)) {
                 return existingPattern.Id;
             }

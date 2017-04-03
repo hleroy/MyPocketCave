@@ -39,6 +39,15 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         }
     }
 
+    public void storeIntData(Context context, int storeFileResourceId, int keyResourceId, int dataToStore) {
+        String key = context.getString(keyResourceId);
+        String storeFilename = context.getString(storeFileResourceId);
+        SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
+        SharedPreferences.Editor editor = storedData.edit();
+        editor.putInt(key, dataToStore);
+        editor.apply();
+    }
+
     public void storeStringData(Context context, String storeFilename, int keyResourceId, String dataToStore) {
         String key = context.getString(keyResourceId);
         SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
@@ -99,12 +108,12 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         return dataMap;
     }
 
-    public IStorableModel loadStoredData(Context context, String storeFilename, int keyResourceId, Class<? extends IStorableModel> dataType) {
+    public IStorableModel loadStoredStringData(Context context, String storeFilename, int keyResourceId, Class<? extends IStorableModel> dataType) {
         String key = context.getString(keyResourceId);
-        return loadStoredData(context, storeFilename, key, dataType);
+        return loadStoredStringData(context, storeFilename, key, dataType);
     }
 
-    public IStorableModel loadStoredData(Context context, String storeFilename, String key, Class<? extends IStorableModel> dataType) {
+    public IStorableModel loadStoredStringData(Context context, String storeFilename, String key, Class<? extends IStorableModel> dataType) {
         SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
 
         String dataJson = storedData.getString(key, null);
@@ -119,10 +128,18 @@ public class SharedPreferencesManager implements ISharedPreferencesManager {
         return data;
     }
 
-    public String loadStoredData(Context context, String storeFilename, int keyResourceId) {
+    public String loadStoredStringData(Context context, String storeFilename, int keyResourceId) {
         String key = context.getString(keyResourceId);
         SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
 
         return storedData.getString(key, null);
+    }
+
+    public int loadStoredIntData(Context context, int storeFileResourceId, int keyResourceId, int defaultValue) {
+        String key = context.getString(keyResourceId);
+        String storeFilename = context.getString(storeFileResourceId);
+        SharedPreferences storedData = context.getSharedPreferences(storeFilename, openMode);
+
+        return storedData.getInt(key, defaultValue);
     }
 }

@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.tasks;
+package com.myadridev.mypocketcave.tasks.startup;
 
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
@@ -9,18 +9,14 @@ import com.myadridev.mypocketcave.activities.SplashScreenActivity;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ICaveStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISyncStorageManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.BottlesSharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.CaveSharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.CavesSharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.PatternsSharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.SharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.SyncSharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.IBottleStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICaveStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICavesStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.IPatternsStorageManager;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.BottlesSharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.CaveSharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.CavesSharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.PatternsSharedPreferencesManager;
 
 public class StartupTask extends AsyncTask<Void, Integer, Void> {
 
@@ -37,39 +33,29 @@ public class StartupTask extends AsyncTask<Void, Integer, Void> {
         int step = 0;
         publishProgress(step);
 
-        // init DependencyManager
-        DependencyManager.init();
-        // SharedPreferences
-        SharedPreferencesManager.Init(splashScreenActivity);
-        DependencyManager.registerSingleton(ISharedPreferencesManager.class, SharedPreferencesManager.Instance);
-
         // Bottles
-        BottlesSharedPreferencesManager.Init(splashScreenActivity);
+        BottlesSharedPreferencesManager.init(splashScreenActivity);
         DependencyManager.registerSingleton(IBottleStorageManager.class, BottlesSharedPreferencesManager.Instance);
 
-        publishProgress(step++);
+        publishProgress(++step);
 
         // Caves
-        CavesSharedPreferencesManager.Init(splashScreenActivity);
+        CavesSharedPreferencesManager.init(splashScreenActivity);
         DependencyManager.registerSingleton(ICavesStorageManager.class, CavesSharedPreferencesManager.Instance);
 
-        publishProgress(step++);
+        publishProgress(++step);
 
         // Patterns
-        PatternsSharedPreferencesManager.Init(splashScreenActivity);
+        PatternsSharedPreferencesManager.init(splashScreenActivity);
         DependencyManager.registerSingleton(IPatternsStorageManager.class, PatternsSharedPreferencesManager.Instance);
 
-        publishProgress(step++);
+        publishProgress(++step);
 
         // Cave
-        CaveSharedPreferencesManager.Init(splashScreenActivity);
+        CaveSharedPreferencesManager.init(splashScreenActivity);
         DependencyManager.registerSingleton(ICaveStorageManager.class, CaveSharedPreferencesManager.Instance);
 
-        // Sync
-        SyncSharedPreferencesManager.Init();
-        DependencyManager.registerSingleton(ISyncStorageManager.class, SyncSharedPreferencesManager.Instance);
-
-        publishProgress(step++);
+        publishProgress(++step);
 
         BottleManager.recomputeNumberPlaced(splashScreenActivity);
         return null;

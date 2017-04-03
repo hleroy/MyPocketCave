@@ -6,7 +6,7 @@ import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.IBottleStorageManager;
 import com.myadridev.mypocketcave.models.v1.BottleModel;
 import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
 import com.myadridev.mypocketcave.models.v1.CavePlaceModel;

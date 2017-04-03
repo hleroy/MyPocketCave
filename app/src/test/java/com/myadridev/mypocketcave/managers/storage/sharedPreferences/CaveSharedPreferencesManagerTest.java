@@ -7,8 +7,9 @@ import android.support.annotation.RequiresApi;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICavesStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.CaveSharedPreferencesManager;
 import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
 import com.myadridev.mypocketcave.models.v1.CaveLightModel;
 import com.myadridev.mypocketcave.models.v1.CaveModel;
@@ -127,7 +128,7 @@ public class CaveSharedPreferencesManagerTest {
             }
         }).when(mockSharedPreferencesManager).delete(any(Context.class), anyString());
 
-        when(mockSharedPreferencesManager.loadStoredData(any(Context.class), anyString(), eq(R.string.store_cave_key), eq(CaveModel.class)))
+        when(mockSharedPreferencesManager.loadStoredStringData(any(Context.class), anyString(), eq(R.string.store_cave_key), eq(CaveModel.class)))
                 .thenAnswer(new Answer<CaveModel>() {
                     @Override
                     public CaveModel answer(InvocationOnMock invocation) throws Throwable {
@@ -180,7 +181,7 @@ public class CaveSharedPreferencesManagerTest {
                 return "cave_" + (int) invocation.getArguments()[1];
             }
         });
-        CaveSharedPreferencesManager.Init(context);
+        CaveSharedPreferencesManager.init(context);
     }
 
     @Test

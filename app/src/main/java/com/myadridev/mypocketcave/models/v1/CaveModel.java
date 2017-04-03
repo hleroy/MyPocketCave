@@ -6,12 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.managers.BottleManager;
+import com.myadridev.mypocketcave.models.ICaveModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.List;
 
 @JsonSerialize(as = CaveModel.class)
-public class CaveModel implements IStorableModel, Comparable<CaveModel> {
+public class CaveModel implements IStorableModel, Comparable<CaveModel>, ICaveModel {
 
     public int Id;
     public String Name;

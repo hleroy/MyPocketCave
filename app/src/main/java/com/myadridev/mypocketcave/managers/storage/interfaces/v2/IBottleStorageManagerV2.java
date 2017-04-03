@@ -1,21 +1,21 @@
-package com.myadridev.mypocketcave.managers.storage.interfaces;
+package com.myadridev.mypocketcave.managers.storage.interfaces.v2;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 import java.util.Collection;
 import java.util.List;
 
-public interface IBottleStorageManager {
+public interface IBottleStorageManagerV2 {
 
-    List<BottleModel> getBottles();
+    List<BottleModelV2> getBottles();
 
-    BottleModel getBottle(int bottleId);
+    BottleModelV2 getBottle(int bottleId);
 
-    int insertBottle(Context context, BottleModel bottle);
+    int insertBottle(Context context, BottleModelV2 bottle, boolean needsNewId);
 
-    void updateBottle(Context context, BottleModel bottle);
+    void updateBottle(Context context, BottleModelV2 bottle);
 
     void deleteBottle(Context context, int bottleId);
 
@@ -25,17 +25,17 @@ public interface IBottleStorageManager {
 
     int getBottlesCount();
 
-    int getBottlesCount(Collection<BottleModel> bottles);
+    int getBottlesCount(Collection<BottleModelV2> bottles);
 
     int getBottlesCount(int wineColorId);
 
-    int getBottlesCount(Collection<BottleModel> bottles, int wineColorId);
+    int getBottlesCount(Collection<BottleModelV2> bottles, int wineColorId);
 
     List<String> getDistinctPersons();
 
     List<String> getDistinctDomains();
 
-    List<BottleModel> getNonPlacedBottles();
+    List<BottleModelV2> getNonPlacedBottles();
 
     void updateNumberPlaced(Context context, int bottleId, int increment);
 

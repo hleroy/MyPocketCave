@@ -5,7 +5,7 @@ import android.content.Context;
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
-import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.IBottleStorageManager;
 import com.myadridev.mypocketcave.models.v1.BottleModel;
 import com.myadridev.mypocketcave.models.v1.CaveLightModel;
 import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;

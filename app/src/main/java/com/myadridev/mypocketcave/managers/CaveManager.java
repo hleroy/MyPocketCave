@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ICaveStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICaveStorageManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICavesStorageManager;
 import com.myadridev.mypocketcave.models.v1.CaveLightModel;
 import com.myadridev.mypocketcave.models.v1.CaveModel;
 

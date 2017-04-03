@@ -9,6 +9,7 @@ import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.BottlesSharedPreferencesManager;
 import com.myadridev.mypocketcave.models.v1.BottleModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
@@ -184,7 +185,7 @@ public class BottlesSharedPreferencesManagerTest {
                 return "bottle_" + (int) invocation.getArguments()[1];
             }
         });
-        BottlesSharedPreferencesManager.Init(context);
+        BottlesSharedPreferencesManager.init(context);
     }
 
     @Test

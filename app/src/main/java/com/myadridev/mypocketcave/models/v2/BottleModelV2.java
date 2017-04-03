@@ -7,13 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.models.IBottleModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @JsonSerialize(as = BottleModelV2.class)
-public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2> {
+public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2>, IBottleModel {
 
     @JsonProperty("ftewl")
     public final List<FoodToEatWithEnum> FoodToEatWithList;

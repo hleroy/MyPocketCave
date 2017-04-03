@@ -9,13 +9,14 @@ import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.models.CoordinatesModelDeserializer;
 import com.myadridev.mypocketcave.models.CoordinatesModelSerializer;
+import com.myadridev.mypocketcave.models.IPatternModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @JsonSerialize(as = PatternModel.class)
-public class PatternModel implements IStorableModel, Comparable<PatternModel> {
+public class PatternModel implements IStorableModel, Comparable<PatternModel>, IPatternModel {
 
     @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
     @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)

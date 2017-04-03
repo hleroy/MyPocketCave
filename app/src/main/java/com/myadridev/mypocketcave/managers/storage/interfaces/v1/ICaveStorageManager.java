@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.managers.storage.interfaces;
+package com.myadridev.mypocketcave.managers.storage.interfaces.v1;
 
 import android.content.Context;
 

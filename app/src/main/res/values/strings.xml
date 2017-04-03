@@ -254,4 +254,6 @@
     <string name="title_remove_pattern" >Remove the pattern</string>
     <string name="message_remove_pattern" >All the bottles in this pattern will be unplaced, all the patterns on top of it will go down, and if it\'s the last pattern of the column, the column will be removed as well. Do we remove this pattern from here ?</string>
     <string name="title_edit_pattern">Edit pattern</string>
+    <string name="filename_migration" translatable="false">migration</string>
+    <string name="store_version_key" translatable="false">version</string>
 </resources>

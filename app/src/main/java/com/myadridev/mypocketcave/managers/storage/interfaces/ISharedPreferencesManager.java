@@ -10,6 +10,8 @@ public interface ISharedPreferencesManager {
 
     void delete(Context context, String filename);
 
+    void storeIntData(Context context, int storeFileResourceId, int keyResourceId, int dataToStore);
+
     void storeStringData(Context context, String storeFilename, int keyResourceId, String dataToStore);
 
     void storeStringData(Context context, String storeFilename, String key, Object dataToStore);
@@ -20,9 +22,11 @@ public interface ISharedPreferencesManager {
 
     Map<Integer, IStorableModel> loadStoredDataMap(Context context, String storeFilename, String keyIndex, int keyDetailResourceId, Class<? extends IStorableModel> dataType);
 
-    IStorableModel loadStoredData(Context context, String storeFilename, int keyResourceId, Class<? extends IStorableModel> dataType);
+    IStorableModel loadStoredStringData(Context context, String storeFilename, int keyResourceId, Class<? extends IStorableModel> dataType);
 
-    IStorableModel loadStoredData(Context context, String storeFilename, String key, Class<? extends IStorableModel> dataType);
+    IStorableModel loadStoredStringData(Context context, String storeFilename, String key, Class<? extends IStorableModel> dataType);
 
-    String loadStoredData(Context context, String storeFilename, int keyResourceId);
+    String loadStoredStringData(Context context, String storeFilename, int keyResourceId);
+
+    int loadStoredIntData(Context context, int storeFileResourceId, int keyResourceId, int defaultValue);
 }

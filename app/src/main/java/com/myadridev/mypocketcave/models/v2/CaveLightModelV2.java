@@ -5,10 +5,11 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.models.ICaveLightModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 @JsonSerialize(as = CaveLightModelV2.class)
-public class CaveLightModelV2 implements IStorableModel, Comparable<CaveLightModelV2> {
+public class CaveLightModelV2 implements IStorableModel, Comparable<CaveLightModelV2>, ICaveLightModel {
 
     public int Id;
     public String Name;
