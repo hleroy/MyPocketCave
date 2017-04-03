@@ -20,7 +20,7 @@ import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
 
 import java.util.Calendar;
 

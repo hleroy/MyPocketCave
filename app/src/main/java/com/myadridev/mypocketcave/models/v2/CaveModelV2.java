@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.models;
+package com.myadridev.mypocketcave.models.v2;
 
 import android.support.annotation.NonNull;
 
@@ -6,32 +6,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.managers.BottleManager;
+import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.List;
 
-@JsonSerialize(as = CaveModel.class)
-public class CaveModel implements IStorableModel, Comparable<CaveModel> {
+@JsonSerialize(as = CaveModelV2.class)
+public class CaveModelV2 implements IStorableModel, Comparable<CaveModelV2> {
 
     public int Id;
     public String Name;
     public CaveTypeEnum CaveType;
-    public CaveArrangementModel CaveArrangement;
+    public CaveArrangementModelV2 CaveArrangement;
 
     //TODO : photo
 
-    public CaveModel() {
-        CaveArrangement = new CaveArrangementModel();
+    public CaveModelV2() {
+        CaveArrangement = new CaveArrangementModelV2();
     }
 
-    public CaveModel(CaveModel cave) {
+    public CaveModelV2(CaveModelV2 cave) {
         Id = cave.Id;
         Name = cave.Name;
         CaveType = cave.CaveType;
-        CaveArrangement = new CaveArrangementModel(cave.CaveArrangement);
+        CaveArrangement = new CaveArrangementModelV2(cave.CaveArrangement);
     }
 
     @Override
-    public int compareTo(@NonNull CaveModel otherCave) {
+    public int compareTo(@NonNull CaveModelV2 otherCave) {
         int compareType = CaveType.Id - otherCave.CaveType.Id;
         if (compareType > 0)
             return 1;
@@ -65,7 +66,7 @@ public class CaveModel implements IStorableModel, Comparable<CaveModel> {
     }
 
     @JsonIgnore
-    public List<BottleModel> getBottles() {
+    public List<BottleModelV2> getBottles() {
         return BottleManager.getBottles(CaveArrangement.IntNumberPlacedBottlesByIdMap.keySet());
     }
 

@@ -16,7 +16,7 @@ import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
-import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 import com.myadridev.mypocketcave.tasks.pattern.UpdatePatternsOrderTask;
 
 import java.util.List;

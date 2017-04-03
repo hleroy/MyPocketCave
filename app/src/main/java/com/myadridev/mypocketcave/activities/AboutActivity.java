@@ -12,7 +12,7 @@ import com.myadridev.mypocketcave.adapters.AboutAdapter;
 import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.VersionManager;
-import com.myadridev.mypocketcave.models.AboutItem;
+import com.myadridev.mypocketcave.models.v1.AboutItem;
 
 import java.util.ArrayList;
 import java.util.Collections;

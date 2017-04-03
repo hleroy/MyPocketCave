@@ -6,7 +6,7 @@ import android.view.View;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternTypeSpinnerAdapter;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
-import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 
 public class PatternCreateActivity extends AbstractPatternEditActivity {
 

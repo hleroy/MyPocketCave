@@ -10,7 +10,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
 import com.myadridev.mypocketcave.listeners.OnCaveBindListener;
 import com.myadridev.mypocketcave.listeners.OnCaveClickListener;
-import com.myadridev.mypocketcave.models.CaveLightModel;
+import com.myadridev.mypocketcave.models.v1.CaveLightModel;
 
 import java.util.List;
 

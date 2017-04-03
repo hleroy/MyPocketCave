@@ -5,10 +5,10 @@ import com.myadridev.mypocketcave.enums.MillesimeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
-import com.myadridev.mypocketcave.models.BottleModel;
-import com.myadridev.mypocketcave.models.CaveLightModel;
-import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

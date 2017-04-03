@@ -6,10 +6,10 @@ import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
-import com.myadridev.mypocketcave.models.BottleModel;
-import com.myadridev.mypocketcave.models.CaveLightModel;
-import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;

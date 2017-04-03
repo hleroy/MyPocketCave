@@ -7,8 +7,8 @@ import android.support.v7.widget.GridLayoutManager;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.SelectionPatternViewHolder;
 import com.myadridev.mypocketcave.listeners.OnSelectionPatternClickListener;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
-import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 
 public class CreatePatternAdapterTask extends AsyncTask<Void, Void, PatternAdapter> {
 

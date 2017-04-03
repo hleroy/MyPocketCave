@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.models;
+package com.myadridev.mypocketcave.models.v1;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -12,6 +12,9 @@ import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
+import com.myadridev.mypocketcave.models.CoordinatesModelDeserializer;
+import com.myadridev.mypocketcave.models.CoordinatesModelSerializer;
+import com.myadridev.mypocketcave.models.PatternInfos;
 
 import java.util.ArrayList;
 import java.util.HashMap;

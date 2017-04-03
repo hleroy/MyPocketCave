@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.AbstractBottleEditActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
 
 public class RefreshBottleEditTask extends AsyncTask<Integer, Void, Void> {
 

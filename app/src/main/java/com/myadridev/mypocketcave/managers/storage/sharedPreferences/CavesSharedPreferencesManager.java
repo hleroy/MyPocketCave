@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.models.CaveLightModel;
+import com.myadridev.mypocketcave.models.v1.CaveLightModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.ArrayList;

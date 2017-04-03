@@ -21,9 +21,9 @@ import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.JsonManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.BottleModel;
-import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
 import com.myadridev.mypocketcave.tasks.suggest.GetSuggestBottlesTask;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.models;
+package com.myadridev.mypocketcave.models.v2;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -9,8 +9,8 @@ import com.myadridev.mypocketcave.enums.WineColorEnum;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonSerialize(as = SuggestBottleCriteria.class)
-public class SuggestBottleCriteria {
+@JsonSerialize(as = SuggestBottleCriteriaV2.class)
+public class SuggestBottleCriteriaV2 {
 
     @JsonIgnore
     public static int NumberOfCriteria = 8;
@@ -31,10 +31,10 @@ public class SuggestBottleCriteria {
     public boolean IsFoodRequired;
     public String PersonToShareWith;
     public boolean IsPersonRequired;
-    public CaveLightModel Cave;
+    public CaveLightModelV2 Cave;
     public boolean IsCaveRequired;
 
-    public SuggestBottleCriteria() {
+    public SuggestBottleCriteriaV2() {
         WineColor = WineColorEnum.ANY;
         IsWineColorRequired = false;
         Domain = "";

@@ -3,9 +3,8 @@ package com.myadridev.mypocketcave.tasks.caves;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.managers.CaveManager;
-import com.myadridev.mypocketcave.models.CaveModel;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
 
 public class EditCaveTask extends AsyncTask<CaveModel, Void, Void> {
 

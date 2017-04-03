@@ -14,8 +14,8 @@ import com.myadridev.mypocketcave.adapters.viewHolders.SuggestBottleResultSeeMor
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnSeeMoreClickListener;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
 
 import java.util.List;
 

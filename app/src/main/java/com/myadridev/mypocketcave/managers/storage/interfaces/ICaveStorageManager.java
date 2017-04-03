@@ -2,8 +2,8 @@ package com.myadridev.mypocketcave.managers.storage.interfaces;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.models.CaveLightModel;
-import com.myadridev.mypocketcave.models.CaveModel;
+import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
 
 import java.util.List;
 

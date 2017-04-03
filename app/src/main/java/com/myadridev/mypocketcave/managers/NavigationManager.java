@@ -21,7 +21,7 @@ import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleSearchActivity;
 import com.myadridev.mypocketcave.activities.SyncActivity;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
-import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
 
 public class NavigationManager {
 

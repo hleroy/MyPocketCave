@@ -39,9 +39,9 @@ import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.BottleModel;
-import com.myadridev.mypocketcave.models.CaveModel;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 import com.myadridev.mypocketcave.tasks.caves.EditCaveTask;
 
 import java.util.List;

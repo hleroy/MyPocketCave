@@ -1,6 +1,8 @@
 package com.myadridev.mypocketcave.models;
 
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
 
 import org.junit.Test;
 

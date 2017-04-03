@@ -10,7 +10,7 @@ import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.models.IStorableModel;
-import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 
 import java.util.ArrayList;
 import java.util.Collections;

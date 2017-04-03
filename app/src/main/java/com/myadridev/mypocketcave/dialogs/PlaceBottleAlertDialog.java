@@ -17,8 +17,8 @@ import com.myadridev.mypocketcave.adapters.BottlesAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.models.BottleModel;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 
 import java.util.List;
 

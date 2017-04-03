@@ -1,6 +1,8 @@
 package com.myadridev.mypocketcave.models;
 
 import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
 
 import org.junit.Test;
 

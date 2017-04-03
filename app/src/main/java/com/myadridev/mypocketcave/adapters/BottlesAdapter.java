@@ -14,7 +14,7 @@ import com.myadridev.mypocketcave.dialogs.PlaceBottleAlertDialog;
 import com.myadridev.mypocketcave.listeners.OnBottleBindListener;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
 
 import java.util.List;
 

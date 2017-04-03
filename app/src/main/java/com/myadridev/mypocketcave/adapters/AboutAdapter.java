@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.models.AboutItem;
+import com.myadridev.mypocketcave.models.v1.AboutItem;
 
 import java.util.List;
 

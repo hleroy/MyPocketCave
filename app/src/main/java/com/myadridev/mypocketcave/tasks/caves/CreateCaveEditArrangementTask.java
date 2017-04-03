@@ -8,8 +8,8 @@ import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
-import com.myadridev.mypocketcave.models.PatternModelWithBottles;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
 
 public class CreateCaveEditArrangementTask extends AsyncTask<Void, Void, PatternAdapter> {
 

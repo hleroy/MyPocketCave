@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.AbstractPatternEditActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.PatternManager;
-import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 
 public class SavePatternTask extends AsyncTask<PatternModel, Void, Integer> {
 

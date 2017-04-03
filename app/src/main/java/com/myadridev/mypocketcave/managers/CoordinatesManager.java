@@ -1,6 +1,6 @@
 package com.myadridev.mypocketcave.managers;
 
-import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 
 import java.util.Collection;
 

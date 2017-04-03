@@ -5,10 +5,10 @@ import android.content.Context;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISyncStorageManager;
-import com.myadridev.mypocketcave.models.BottleModel;
-import com.myadridev.mypocketcave.models.CaveModel;
-import com.myadridev.mypocketcave.models.PatternModel;
-import com.myadridev.mypocketcave.models.SyncModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.models.v1.SyncModel;
 
 import java.io.File;
 import java.io.FileInputStream;

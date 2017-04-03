@@ -28,8 +28,8 @@ import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.CaveLightModel;
-import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
 import com.myadridev.mypocketcave.views.SeekbarRange;
 
 public class SuggestBottleSearchActivity extends AppCompatActivity {

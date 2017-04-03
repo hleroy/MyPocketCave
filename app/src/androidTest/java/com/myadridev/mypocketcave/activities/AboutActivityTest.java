@@ -8,7 +8,7 @@
 //
 //import com.myadridev.mypocketcave.R;
 //import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
-//import com.myadridev.mypocketcave.models.AboutItem;
+//import com.myadridev.mypocketcave.models.v1.AboutItem;
 //
 //import org.junit.Before;
 //import org.junit.Rule;

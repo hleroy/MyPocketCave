@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.models;
 
 import com.myadridev.mypocketcave.enums.MillesimeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
 
 import org.junit.Test;
 

@@ -7,10 +7,10 @@ import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
-import com.myadridev.mypocketcave.models.CaveModel;
-import com.myadridev.mypocketcave.models.CavePlaceModel;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
-import com.myadridev.mypocketcave.models.PatternModelWithBottles;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
+import com.myadridev.mypocketcave.models.v1.CavePlaceModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
 
 import java.util.Map;
 

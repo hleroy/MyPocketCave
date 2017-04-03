@@ -6,7 +6,7 @@ import android.support.design.widget.CoordinatorLayout;
 import com.myadridev.mypocketcave.activities.AbstractBottleEditActivity;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
 
 public class SaveBottleTask extends AsyncTask<BottleModel, Void, Integer> {
 

@@ -2,7 +2,7 @@ package com.myadridev.mypocketcave.managers;
 
 import android.support.annotation.NonNull;
 
-import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 
 import org.junit.Test;
 

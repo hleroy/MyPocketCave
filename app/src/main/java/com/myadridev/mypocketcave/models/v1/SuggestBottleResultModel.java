@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.models;
+package com.myadridev.mypocketcave.models.v1;
 
 import android.support.annotation.NonNull;
 

@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.models;
+package com.myadridev.mypocketcave.models.v2;
 
 import android.support.annotation.NonNull;
 
@@ -7,12 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonSerialize(as = BottleModel.class)
-public class BottleModel implements IStorableModel, Comparable<BottleModel> {
+@JsonSerialize(as = BottleModelV2.class)
+public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2> {
 
     @JsonProperty("ftewl")
     public final List<FoodToEatWithEnum> FoodToEatWithList;
@@ -45,11 +46,11 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
     // TODO : année de consommation conseillée ou équivalent
     // TODO : photo
 
-    public BottleModel() {
+    public BottleModelV2() {
         FoodToEatWithList = new ArrayList<>();
     }
 
-    public BottleModel(BottleModel bottle) {
+    public BottleModelV2(BottleModelV2 bottle) {
         Id = bottle.Id;
         Name = bottle.Name;
         Domain = bottle.Domain;
@@ -65,7 +66,7 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel> {
     }
 
     @Override
-    public int compareTo(@NonNull BottleModel otherBottle) {
+    public int compareTo(@NonNull BottleModelV2 otherBottle) {
         int compareColor = WineColor.Id - otherBottle.WineColor.Id;
         if (compareColor > 0)
             return 1;

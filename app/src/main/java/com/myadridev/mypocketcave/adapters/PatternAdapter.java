@@ -16,8 +16,8 @@ import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
-import com.myadridev.mypocketcave.models.CavePlaceModel;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.CavePlaceModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -3,6 +3,7 @@ package com.myadridev.mypocketcave.models;
 import android.content.Context;
 
 import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
+import com.myadridev.mypocketcave.models.v1.AboutItem;
 
 import org.junit.Before;
 import org.junit.Test;

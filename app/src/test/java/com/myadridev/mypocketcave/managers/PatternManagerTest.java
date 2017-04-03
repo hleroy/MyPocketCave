@@ -3,7 +3,7 @@ package com.myadridev.mypocketcave.managers;
 import android.content.Context;
 
 import com.myadridev.mypocketcave.managers.storage.interfaces.IPatternsStorageManager;
-import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 
 import org.junit.After;
 import org.junit.Before;

@@ -1,10 +1,11 @@
-package com.myadridev.mypocketcave.models;
+package com.myadridev.mypocketcave.models.v1;
 
 import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.models.IStorableModel;
 
 @JsonSerialize(as = CaveLightModel.class)
 public class CaveLightModel implements IStorableModel, Comparable<CaveLightModel> {

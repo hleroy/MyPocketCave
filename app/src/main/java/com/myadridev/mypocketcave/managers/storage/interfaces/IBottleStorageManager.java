@@ -2,7 +2,7 @@ package com.myadridev.mypocketcave.managers.storage.interfaces;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
 
 import java.util.Collection;
 import java.util.List;

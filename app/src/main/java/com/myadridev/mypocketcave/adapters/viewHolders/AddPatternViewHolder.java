@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 
 public class AddPatternViewHolder extends RecyclerView.ViewHolder {
 

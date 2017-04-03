@@ -9,7 +9,7 @@ import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import org.junit.AfterClass;

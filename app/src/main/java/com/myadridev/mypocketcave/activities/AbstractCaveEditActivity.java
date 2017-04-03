@@ -40,10 +40,10 @@ import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
-import com.myadridev.mypocketcave.models.CaveModel;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
-import com.myadridev.mypocketcave.models.PatternModel;
-import com.myadridev.mypocketcave.models.PatternModelWithBottles;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
 import com.myadridev.mypocketcave.tasks.caves.SetCaveValuesTask;
 
 public abstract class AbstractCaveEditActivity extends AppCompatActivity {

@@ -14,7 +14,7 @@ import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.CaveLightModel;
+import com.myadridev.mypocketcave.models.v1.CaveLightModel;
 
 import java.util.List;
 

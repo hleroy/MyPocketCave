@@ -13,7 +13,7 @@ import com.myadridev.mypocketcave.adapters.viewHolders.SelectionPatternViewHolde
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.listeners.OnSelectionPatternClickListener;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 import com.myadridev.mypocketcave.tasks.pattern.CreatePatternAdapterTask;
 
 import java.util.List;

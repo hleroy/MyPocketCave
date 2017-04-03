@@ -8,8 +8,8 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.models.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
 
 import java.util.List;
 

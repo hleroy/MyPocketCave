@@ -16,8 +16,8 @@ import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.BottleModel;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 
 public class SeeBottleAlertDialog extends AlertDialog {
 

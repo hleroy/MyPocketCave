@@ -9,9 +9,9 @@ import com.myadridev.mypocketcave.enums.CaveTypeEnum;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ICavesStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.models.CaveArrangementModel;
-import com.myadridev.mypocketcave.models.CaveLightModel;
-import com.myadridev.mypocketcave.models.CaveModel;
+import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
+import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import org.junit.AfterClass;

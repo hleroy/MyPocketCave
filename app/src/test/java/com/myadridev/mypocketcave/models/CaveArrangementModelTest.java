@@ -7,6 +7,12 @@ import com.myadridev.mypocketcave.enums.PatternTypeEnum;
 import com.myadridev.mypocketcave.enums.WineColorEnum;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
+import com.myadridev.mypocketcave.models.v1.CavePlaceModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

@@ -10,7 +10,7 @@ import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.IBottleStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.models.BottleModel;
+import com.myadridev.mypocketcave.models.v1.BottleModel;
 import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.ArrayList;

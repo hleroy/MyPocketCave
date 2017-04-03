@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.myadridev.mypocketcave.activities.AbstractCaveEditActivity;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.CaveModel;
+import com.myadridev.mypocketcave.models.v1.CaveModel;
 
 public class SaveCaveTask extends AsyncTask<CaveModel, Void, Integer> {
 

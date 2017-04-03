@@ -1,6 +1,5 @@
 package com.myadridev.mypocketcave.adapters.viewHolders;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,7 +7,7 @@ import android.widget.RelativeLayout;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 
 public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
     private final ImageView placeTypeView;

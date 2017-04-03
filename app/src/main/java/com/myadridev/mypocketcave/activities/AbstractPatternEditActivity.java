@@ -37,8 +37,8 @@ import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.CoordinatesModel;
-import com.myadridev.mypocketcave.models.PatternModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 import com.myadridev.mypocketcave.tasks.pattern.SavePatternTask;
 
 public class AbstractPatternEditActivity extends AppCompatActivity {

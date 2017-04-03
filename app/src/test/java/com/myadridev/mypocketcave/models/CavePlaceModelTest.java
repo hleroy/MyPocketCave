@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.models;
 
+import com.myadridev.mypocketcave.models.v1.CavePlaceModel;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

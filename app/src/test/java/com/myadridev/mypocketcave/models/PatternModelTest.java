@@ -2,6 +2,9 @@ package com.myadridev.mypocketcave.models;
 
 import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
 import com.myadridev.mypocketcave.enums.PatternTypeEnum;
+import com.myadridev.mypocketcave.models.v1.CavePlaceModel;
+import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v1.PatternModel;
 
 import org.junit.Test;
 
