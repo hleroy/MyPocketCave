@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.models.migration;
+package com.myadridev.mypocketcave.managers.migration;
 
 import android.content.Context;
 
@@ -6,15 +6,20 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.VersionEnum;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
+import com.myadridev.mypocketcave.managers.migration.from.IMigrationFromManager;
+import com.myadridev.mypocketcave.managers.migration.from.MigrationFromV1Manager;
+import com.myadridev.mypocketcave.managers.migration.to.MigrationToManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.models.IBottleModel;
-import com.myadridev.mypocketcave.models.ICaveLightModel;
-import com.myadridev.mypocketcave.models.ICaveModel;
-import com.myadridev.mypocketcave.models.IPatternModel;
-import com.myadridev.mypocketcave.models.migration.from.IMigrationFromManager;
-import com.myadridev.mypocketcave.models.migration.from.MigrationFromV1Manager;
-import com.myadridev.mypocketcave.models.migration.to.MigrationToManager;
+import com.myadridev.mypocketcave.models.inferfaces.IBottleModel;
+import com.myadridev.mypocketcave.models.inferfaces.ICaveLightModel;
+import com.myadridev.mypocketcave.models.inferfaces.ICaveModel;
+import com.myadridev.mypocketcave.models.inferfaces.IPatternModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class MigrationManager {
@@ -56,24 +61,24 @@ public class MigrationManager {
         return true;
     }
 
-    public static void migrateBottles(Context context) {
+    public static Map<Integer, BottleModelV2> migrateBottles(Context context) {
         Map<Integer, IBottleModel> allBottles = migrationFromManager.loadBottles(context);
-        migrationToManager.migrateBottles(context, allBottles);
+        return migrationToManager.migrateBottles(allBottles);
     }
 
-    public static void migrateCaves(Context context) {
-        Map<Integer, ICaveLightModel> allCaves = migrationFromManager.loadCaves(context);
-        migrationToManager.migrateCaves(context, allCaves);
+    public static Map<Integer, CaveLightModelV2> migrateCaves(Context context) {
+        Map<Integer, ICaveLightModel> allCaves = migrationFromManager.loadCaveLights(context);
+        return migrationToManager.migrateCaves(allCaves);
     }
 
-    public static void migratePatterns(Context context) {
+    public static Map<Integer, PatternModelV2> migratePatterns(Context context) {
         Map<Integer, IPatternModel> allPatterns = migrationFromManager.loadPatterns(context);
-        migrationToManager.migratePatterns(context, allPatterns);
+        return migrationToManager.migratePatterns(allPatterns);
     }
 
-    public static void migrateCave(Context context) {
-        Map<Integer, ICaveModel> allCaves = migrationFromManager.loadCave(context);
-        migrationToManager.migrateCave(context, allCaves);
+    public static Map<Integer, CaveModelV2> migrateCave(Context context, Collection<Integer> caveIds) {
+        Map<Integer, ICaveModel> allCaves = migrationFromManager.loadCaves(context, caveIds);
+        return migrationToManager.migrateCave(allCaves);
     }
 
     public static void finalizeMigration(Context context) {

@@ -2,7 +2,7 @@ package com.myadridev.mypocketcave.managers;
 
 import android.support.annotation.NonNull;
 
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 import org.junit.Test;
 
@@ -17,20 +17,20 @@ public class CoordinatesManagerTest {
 
     @Test
     public void getMaxRowCol() {
-        List<CoordinatesModel> coordinatesList = getCoordinatesCollection();
-        CoordinatesModel expectedMaxRowCol = new CoordinatesModel(5, 4);
-        CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(coordinatesList);
+        List<CoordinatesModelV2> coordinatesList = getCoordinatesCollection();
+        CoordinatesModelV2 expectedMaxRowCol = new CoordinatesModelV2(5, 4);
+        CoordinatesModelV2 maxRowCol = CoordinatesManager.getMaxRowCol(coordinatesList);
         assertEquals(expectedMaxRowCol, maxRowCol);
     }
 
     @NonNull
-    private List<CoordinatesModel> getCoordinatesCollection() {
-        List<CoordinatesModel> coordinatesList = new ArrayList<>(5);
-        coordinatesList.add(new CoordinatesModel(0, 0));
-        coordinatesList.add(new CoordinatesModel(2, 4));
-        coordinatesList.add(new CoordinatesModel(3, 2));
-        coordinatesList.add(new CoordinatesModel(1, 1));
-        coordinatesList.add(new CoordinatesModel(5, 2));
+    private List<CoordinatesModelV2> getCoordinatesCollection() {
+        List<CoordinatesModelV2> coordinatesList = new ArrayList<>(5);
+        coordinatesList.add(new CoordinatesModelV2(0, 0));
+        coordinatesList.add(new CoordinatesModelV2(2, 4));
+        coordinatesList.add(new CoordinatesModelV2(3, 2));
+        coordinatesList.add(new CoordinatesModelV2(1, 1));
+        coordinatesList.add(new CoordinatesModelV2(5, 2));
         return coordinatesList;
     }
 
@@ -46,7 +46,7 @@ public class CoordinatesManagerTest {
 
     @Test
     public void containsRow() {
-        List<CoordinatesModel> coordinatesList = getCoordinatesCollection();
+        List<CoordinatesModelV2> coordinatesList = getCoordinatesCollection();
         assertTrue(CoordinatesManager.containsRow(coordinatesList, 2));
         assertTrue(CoordinatesManager.containsRow(coordinatesList, 4));
         assertFalse(CoordinatesManager.containsRow(coordinatesList, 6));
@@ -54,7 +54,7 @@ public class CoordinatesManagerTest {
 
     @Test
     public void containsCol() {
-        List<CoordinatesModel> coordinatesList = getCoordinatesCollection();
+        List<CoordinatesModelV2> coordinatesList = getCoordinatesCollection();
         assertTrue(CoordinatesManager.containsCol(coordinatesList, 2));
         assertTrue(CoordinatesManager.containsCol(coordinatesList, 4));
         assertFalse(CoordinatesManager.containsCol(coordinatesList, 5));
@@ -62,13 +62,13 @@ public class CoordinatesManagerTest {
 
     @Test
     public void getMaxCol() {
-        List<CoordinatesModel> coordinatesList = getCoordinatesCollection();
+        List<CoordinatesModelV2> coordinatesList = getCoordinatesCollection();
         assertEquals(4, CoordinatesManager.getMaxCol(coordinatesList));
     }
 
     @Test
     public void getMaxRow() {
-        List<CoordinatesModel> coordinatesList = getCoordinatesCollection();
+        List<CoordinatesModelV2> coordinatesList = getCoordinatesCollection();
         assertEquals(5, CoordinatesManager.getMaxRow(coordinatesList));
     }
 }

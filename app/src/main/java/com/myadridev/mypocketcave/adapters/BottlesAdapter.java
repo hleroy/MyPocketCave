@@ -14,7 +14,7 @@ import com.myadridev.mypocketcave.dialogs.PlaceBottleAlertDialog;
 import com.myadridev.mypocketcave.listeners.OnBottleBindListener;
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 import java.util.List;
 
@@ -24,18 +24,18 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final OnBottleClickListener listener;
     private final boolean hasTitle;
     public int MaxBottleToPlace;
-    private List<BottleModel> bottles;
+    private List<BottleModelV2> bottles;
     private OnBottleBindListener onBottleBindListener;
     private OnBottleClickListener onBottleClickListener;
     private OnBottlePlacedClickListener onBottlePlacedClickListener;
     private int bottleIdInHighlight;
     private View.OnClickListener onResetHighlightlistener;
 
-    public BottlesAdapter(Activity activity, List<BottleModel> bottles, boolean hasTitle, int maxBottleToPlace) {
+    public BottlesAdapter(Activity activity, List<BottleModelV2> bottles, boolean hasTitle, int maxBottleToPlace) {
         this(activity, bottles, hasTitle, maxBottleToPlace, -1);
     }
 
-    public BottlesAdapter(Activity activity, List<BottleModel> bottles, boolean hasTitle, int maxBottleToPlace, int bottleIdInHighlight) {
+    public BottlesAdapter(Activity activity, List<BottleModelV2> bottles, boolean hasTitle, int maxBottleToPlace, int bottleIdInHighlight) {
         this.activity = activity;
         this.bottles = bottles;
         this.hasTitle = hasTitle;
@@ -54,7 +54,7 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    public void setBottles(List<BottleModel> bottles) {
+    public void setBottles(List<BottleModelV2> bottles) {
         this.bottles = bottles;
         notifyDataSetChanged();
     }
@@ -134,7 +134,7 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             // Bottle
             BottleViewHolder holder = (BottleViewHolder) viewHolder;
-            BottleModel bottle = bottles.get(position - (hasTitle ? 1 : 0));
+            BottleModelV2 bottle = bottles.get(position - (hasTitle ? 1 : 0));
             if (bottle != null) {
                 onBottleBindListener.onBottleBind(holder, bottle);
                 holder.setOnItemClickListener(listener, bottle.Id);

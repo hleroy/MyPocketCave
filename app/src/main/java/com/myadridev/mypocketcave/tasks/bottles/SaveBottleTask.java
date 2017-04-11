@@ -1,17 +1,15 @@
 package com.myadridev.mypocketcave.tasks.bottles;
 
 import android.os.AsyncTask;
-import android.support.design.widget.CoordinatorLayout;
 
 import com.myadridev.mypocketcave.activities.AbstractBottleEditActivity;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
-public class SaveBottleTask extends AsyncTask<BottleModel, Void, Integer> {
+public class SaveBottleTask extends AsyncTask<BottleModelV2, Void, Integer> {
 
     private AbstractBottleEditActivity bottleEditActivity;
-    private CoordinatorLayout coordinatorLayout;
     private boolean isAddBottle;
 
     public SaveBottleTask(AbstractBottleEditActivity bottleEditActivity, boolean isAddBottle) {
@@ -25,8 +23,8 @@ public class SaveBottleTask extends AsyncTask<BottleModel, Void, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(BottleModel... params) {
-        BottleModel bottle = params[0];
+    protected Integer doInBackground(BottleModelV2... params) {
+        BottleModelV2 bottle = params[0];
 
         if (isAddBottle) {
             bottle.Id = BottleManager.addBottle(bottleEditActivity, bottle);

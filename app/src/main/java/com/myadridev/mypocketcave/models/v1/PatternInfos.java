@@ -1,8 +1,4 @@
-package com.myadridev.mypocketcave.models;
-
-import com.myadridev.mypocketcave.models.v1.CavePlaceModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
-import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
+package com.myadridev.mypocketcave.models.v1;
 
 public class PatternInfos {
     public CavePlaceModel CavePlace;

@@ -1,8 +1,8 @@
 package com.myadridev.mypocketcave.listeners;
 
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 public interface OnBottlePlacedClickListener {
 
-    void onBottlePlaced(int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates);
+    void onBottlePlaced(int bottleId, int quantity, CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates);
 }

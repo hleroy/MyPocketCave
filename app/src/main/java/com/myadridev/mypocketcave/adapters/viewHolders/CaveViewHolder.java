@@ -41,11 +41,6 @@ public class CaveViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setOnItemClickListener(final OnCaveClickListener listener, final int caveId) {
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(caveId);
-            }
-        });
+        itemView.setOnClickListener((View v) -> listener.onItemClick(caveId));
     }
 }

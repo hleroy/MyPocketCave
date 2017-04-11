@@ -23,21 +23,21 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.MillesimeAdapter;
 import com.myadridev.mypocketcave.adapters.WineColorSpinnerAdapter;
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 import com.myadridev.mypocketcave.tasks.bottles.SetBottleValuesTask;
 
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
     public boolean IsSaving = false;
-    public BottleModel bottle;
+    public BottleModelV2 bottle;
 
-    protected final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
+    protected final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnumV2.values().length];
     private final View.OnTouchListener hideKeyboardOnClick;
     protected EditText nameView;
     protected EditText stockView;
@@ -63,7 +63,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isFoodListOpen = false;
-        for (int i = 0; i < FoodToEatWithEnum.values().length; i++) {
+        for (int i = 0; i < FoodToEatWithEnumV2.values().length; i++) {
             foodToEatWithList[i] = false;
         }
     }
@@ -130,7 +130,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             if (!isFoodListOpen) {
                 isFoodListOpen = true;
                 AlertDialog.Builder builder = new AlertDialog.Builder(AbstractBottleEditActivity.this);
-                builder.setMultiChoiceItems(FoodToEatWithEnum.getAllFoodLabels(AbstractBottleEditActivity.this), foodToEatWithList,
+                builder.setMultiChoiceItems(FoodToEatWithEnumV2.getAllFoodLabels(AbstractBottleEditActivity.this), foodToEatWithList,
                         (DialogInterface dialog, int which, boolean isChecked) -> foodView.setText(FoodToEatHelper.computeFoodViewText(AbstractBottleEditActivity.this, foodToEatWithList)));
                 builder.setOnDismissListener((DialogInterface dialog) -> {
                     isFoodListOpen = false;
@@ -166,7 +166,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
                 stockView.setText(String.valueOf(bottle.Stock));
             personView.setText(bottle.PersonToShareWith);
             commentsView.setText(bottle.Comments);
-            for (FoodToEatWithEnum food : bottle.FoodToEatWithList) {
+            for (FoodToEatWithEnumV2 food : bottle.FoodToEatWithList) {
                 foodToEatWithList[food.Id] = true;
             }
             foodView.setText(FoodToEatHelper.computeFoodViewText(this, foodToEatWithList));
@@ -229,13 +229,13 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     public void setValues() {
         bottle.Name = nameView.getText().toString();
         bottle.Domain = domainView.getText().toString();
-        bottle.WineColor = (WineColorEnum) wineColorView.getSelectedItem();
+        bottle.WineColor = (WineColorEnumV2) wineColorView.getSelectedItem();
         bottle.Millesime = (int) millesimeView.getSelectedItem();
         bottle.PersonToShareWith = personView.getText().toString();
         bottle.Comments = commentsView.getText().toString();
 
         bottle.FoodToEatWithList.clear();
-        for (FoodToEatWithEnum food : FoodToEatWithEnum.values()) {
+        for (FoodToEatWithEnumV2 food : FoodToEatWithEnumV2.values()) {
             if (foodToEatWithList[food.Id]) {
                 bottle.FoodToEatWithList.add(food);
             }
@@ -264,7 +264,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             isErrors = true;
         } else {
             String domain = domainView.getText().toString();
-            WineColorEnum wineColor = (WineColorEnum) wineColorView.getSelectedItem();
+            WineColorEnumV2 wineColor = (WineColorEnumV2) wineColorView.getSelectedItem();
             int millesime = (int) millesimeView.getSelectedItem();
 
             final int existingBottleId = BottleManager.getExistingBottleId(bottle.Id, name, domain, wineColor, millesime);

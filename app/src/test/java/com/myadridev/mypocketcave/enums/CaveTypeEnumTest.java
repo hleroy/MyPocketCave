@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.enums;
 
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -8,11 +10,11 @@ public class CaveTypeEnumTest {
 
     @Test
     public void getByIdCaveTypeEnumExisting() {
-        assertEquals(CaveTypeEnum.BOX, CaveTypeEnum.getById(CaveTypeEnum.BOX.Id));
+        assertEquals(CaveTypeEnumV2.bo, CaveTypeEnumV2.getById(CaveTypeEnumV2.bo.Id));
     }
 
     @Test
     public void getByIdCaveTypeEnumNonExisting() {
-        assertEquals(null, CaveTypeEnum.getById(-1));
+        assertEquals(null, CaveTypeEnumV2.getById(-1));
     }
 }

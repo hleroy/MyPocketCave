@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class CavesSharedPreferencesManagerV2 implements ICavesStorageManagerV2 {
 
     public static CavesSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
-    private Map<Integer, CaveLightModelV2> allCavesMap;
+    private final Map<Integer, CaveLightModelV2> allCavesMap = new HashMap<>();
     private String keyIndex;
     private String filename;
     private int keyCaveResourceId = R.string.store_cave;
@@ -44,7 +44,7 @@ public class CavesSharedPreferencesManagerV2 implements ICavesStorageManagerV2 {
         }
     }
 
-    public static void Init(Context context) {
+    public static void init(Context context) {
         if (isInitialized) return;
         Instance = new CavesSharedPreferencesManagerV2(context);
         isInitialized = true;
@@ -69,10 +69,8 @@ public class CavesSharedPreferencesManagerV2 implements ICavesStorageManagerV2 {
         Map<Integer, IStorableModel> allCavesAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(context, filename, keyIndex, keyCaveResourceId, CaveLightModelV2.class);
 
         if (allCavesAsStorableModel == null) {
-            allCavesMap = new HashMap<>();
             return;
         }
-        allCavesMap = new HashMap<>(allCavesAsStorableModel.size());
         for (Map.Entry<Integer, IStorableModel> caveAsStorableModelEntry : allCavesAsStorableModel.entrySet()) {
             IStorableModel caveAsStorableModel = caveAsStorableModelEntry.getValue();
             if (caveAsStorableModel instanceof CaveLightModelV2) {

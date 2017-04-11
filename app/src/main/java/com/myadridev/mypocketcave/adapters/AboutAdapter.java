@@ -12,16 +12,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.models.v1.AboutItem;
+import com.myadridev.mypocketcave.models.v2.AboutItemV2;
 
 import java.util.List;
 
-public class AboutAdapter extends ArrayAdapter<AboutItem> {
+public class AboutAdapter extends ArrayAdapter<AboutItemV2> {
     private LayoutInflater layoutInflater;
     private Context context;
     private String contactSubject;
 
-    public AboutAdapter(Context context, int resource, List<AboutItem> items, String contactSubject) {
+    public AboutAdapter(Context context, int resource, List<AboutItemV2> items, String contactSubject) {
         super(context, resource, items);
 
         this.context = context;
@@ -34,7 +34,7 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = layoutInflater.inflate(R.layout.item_about, null);
 
-        AboutItem item = getItem(position);
+        AboutItemV2 item = getItem(position);
 
         if (item != null) {
             TextView labelView = (TextView) view.findViewById(R.id.about_label);
@@ -44,7 +44,7 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
             valueView.setText(item.Value);
 
             switch (item.AboutFieldsEnum) {
-                case CONTACT:
+                case c:
                     view.setOnClickListener((View v) -> {
                         Intent intent = new Intent(Intent.ACTION_SENDTO);
                         intent.setData(Uri.parse(context.getString(R.string.about_mail_uri)));
@@ -53,13 +53,13 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
                         context.startActivity(Intent.createChooser(intent, context.getString(R.string.about_mail_client_choice_label)));
                     });
                     break;
-                case SOURCES:
+                case s:
                     view.setOnClickListener((View v) -> {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.about_sources_url)));
                         context.startActivity(Intent.createChooser(browserIntent, context.getString(R.string.about_browser_choice_label)));
                     });
                     break;
-                case LICENSE:
+                case l:
                     view.setOnClickListener((View v) -> {
                         AlertDialog.Builder licenseDialogBuilder = new AlertDialog.Builder(context);
                         licenseDialogBuilder.setTitle(context.getString(R.string.about_license));

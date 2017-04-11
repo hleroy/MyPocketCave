@@ -2,8 +2,8 @@ package com.myadridev.mypocketcave.managers;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.managers.storage.interfaces.v1.IPatternsStorageManager;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.IPatternsStorageManagerV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -28,23 +29,23 @@ import static org.mockito.Mockito.when;
 public class PatternManagerTest {
 
     @Mock
-    IPatternsStorageManager mockPatternsStorageManager;
+    IPatternsStorageManagerV2 mockPatternsStorageManager;
 
     @Mock
     private Context context;
 
-    private List<PatternModel> patterns;
+    private List<PatternModelV2> patterns;
 
     @Before
     public void before() {
         patterns = new ArrayList<>(3);
-        PatternModel pattern1 = new PatternModel();
+        PatternModelV2 pattern1 = new PatternModelV2();
         pattern1.Id = 1;
         pattern1.Order = 1;
-        PatternModel pattern2 = new PatternModel();
+        PatternModelV2 pattern2 = new PatternModelV2();
         pattern2.Id = 2;
         pattern2.Order = 2;
-        PatternModel pattern3 = new PatternModel();
+        PatternModelV2 pattern3 = new PatternModelV2();
         pattern3.Id = 3;
         pattern3.Order = 3;
         patterns.add(pattern1);
@@ -53,31 +54,31 @@ public class PatternManagerTest {
 
         DependencyManager.init();
 
-        when(mockPatternsStorageManager.getPatterns()).thenAnswer(new Answer<List<PatternModel>>() {
+        when(mockPatternsStorageManager.getPatterns()).thenAnswer(new Answer<List<PatternModelV2>>() {
             @Override
-            public List<PatternModel> answer(InvocationOnMock invocation) {
+            public List<PatternModelV2> answer(InvocationOnMock invocation) {
                 return patterns;
             }
         });
-        when(mockPatternsStorageManager.getPattern(anyInt())).thenAnswer(new Answer<PatternModel>() {
+        when(mockPatternsStorageManager.getPattern(anyInt())).thenAnswer(new Answer<PatternModelV2>() {
             @Override
-            public PatternModel answer(InvocationOnMock invocation) {
+            public PatternModelV2 answer(InvocationOnMock invocation) {
                 int id = (int) invocation.getArguments()[0];
-                PatternModel pattern = new PatternModel();
+                PatternModelV2 pattern = new PatternModelV2();
                 pattern.Id = id;
                 pattern.Order = id;
                 return pattern;
             }
         });
-        when(mockPatternsStorageManager.getExistingPatternId(any(PatternModel.class))).thenAnswer(new Answer<Integer>() {
+        when(mockPatternsStorageManager.getExistingPatternId(any(PatternModelV2.class))).thenAnswer(new Answer<Integer>() {
             @Override
             public Integer answer(InvocationOnMock invocation) {
-                int id = ((PatternModel) invocation.getArguments()[0]).Id;
+                int id = ((PatternModelV2) invocation.getArguments()[0]).Id;
                 return id == 42 ? 42 : -1;
             }
         });
-        when(mockPatternsStorageManager.insertPattern(any(Context.class), any(PatternModel.class))).thenReturn(17);
-        DependencyManager.registerSingleton(IPatternsStorageManager.class, mockPatternsStorageManager, true);
+        when(mockPatternsStorageManager.insertPattern(any(Context.class), any(PatternModelV2.class), anyBoolean())).thenReturn(17);
+        DependencyManager.registerSingleton(IPatternsStorageManagerV2.class, mockPatternsStorageManager, true);
     }
 
     @After
@@ -87,22 +88,22 @@ public class PatternManagerTest {
 
     @Test
     public void getPatterns() {
-        List<PatternModel> allPatterns = PatternManager.getPatterns();
+        List<PatternModelV2> allPatterns = PatternManager.getPatterns();
         assertEquals(patterns.size(), allPatterns.size());
-        for (PatternModel pattern : patterns) {
+        for (PatternModelV2 pattern : patterns) {
             assertTrue(allPatterns.contains(pattern));
         }
     }
 
     @Test
     public void getPattern() {
-        PatternModel pattern = PatternManager.getPattern(42);
+        PatternModelV2 pattern = PatternManager.getPattern(42);
         assertEquals(42, pattern.Id);
     }
 
     @Test
     public void addExistingPattern() {
-        PatternModel pattern42 = new PatternModel();
+        PatternModelV2 pattern42 = new PatternModelV2();
         pattern42.Id = 42;
         int res = PatternManager.addPattern(context, pattern42);
         assertEquals(42, res);
@@ -110,7 +111,7 @@ public class PatternManagerTest {
 
     @Test
     public void addNonExistingPattern() {
-        PatternModel pattern2 = new PatternModel();
+        PatternModelV2 pattern2 = new PatternModelV2();
         int res2 = PatternManager.addPattern(context, pattern2);
         assertEquals(17, res2);
     }
@@ -118,7 +119,7 @@ public class PatternManagerTest {
     @Test
     public void setLastUsedPattern() {
         PatternManager.setLastUsedPattern(context, 2);
-        for (PatternModel pattern : patterns) {
+        for (PatternModelV2 pattern : patterns) {
             switch (pattern.Id) {
                 case 1:
                     assertEquals(2, pattern.Order);

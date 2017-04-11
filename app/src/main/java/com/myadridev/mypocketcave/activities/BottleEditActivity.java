@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.tasks.bottles.RefreshBottleEditTask;
 import com.myadridev.mypocketcave.tasks.bottles.SaveBottleTask;
@@ -57,7 +57,7 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
         if (!bottle.Comments.equals(commentsView.getText().toString())) {
             return true;
         }
-        for (FoodToEatWithEnum food : FoodToEatWithEnum.values()) {
+        for (FoodToEatWithEnumV2 food : FoodToEatWithEnumV2.values()) {
             boolean oldContains = bottle.FoodToEatWithList.contains(food);
             boolean newContains = foodToEatWithList[food.Id];
             if ((newContains && oldContains) || (!newContains && !oldContains)) {

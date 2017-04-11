@@ -10,7 +10,7 @@ import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICaveStorageManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
@@ -24,7 +24,7 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
 
     public static CaveSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
-    private static final Map<Integer, CaveModelV2> allCavesMap = new HashMap<>();
+    private final Map<Integer, CaveModelV2> allCavesMap = new HashMap<>();
     private int filenameResourceId = R.string.store_cave;
     private int keyCaveResourceId = R.string.store_cave_key;
     private boolean listenerSharedPreferencesRegistered = false;

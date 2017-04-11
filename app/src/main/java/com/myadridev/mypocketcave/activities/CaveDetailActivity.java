@@ -39,9 +39,9 @@ import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
-import com.myadridev.mypocketcave.models.v1.CaveModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 import com.myadridev.mypocketcave.tasks.caves.EditCaveTask;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class CaveDetailActivity extends AppCompatActivity {
 
     private final View.OnTouchListener arrangementTooltipOnClick;
     public int BottleIdInHighlight;
-    private CaveModel cave;
+    private CaveModelV2 cave;
     private ImageView caveTypeIconView;
     private TextView caveTypeView;
     private TextView capacityUsedView;
@@ -186,13 +186,13 @@ public class CaveDetailActivity extends AppCompatActivity {
         capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
                 cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
         switch (cave.CaveType) {
-            case BULK:
+            case bu:
                 arrangementTooltipView.setVisibility(View.GONE);
                 boxesNumberView.setVisibility(View.GONE);
 
                 bottlesAdapter = new BottlesAdapter(this, cave.getBottles(), true, cave.CaveArrangement.TotalCapacity - cave.CaveArrangement.TotalUsed, BottleIdInHighlight);
                 bottlesAdapter.setOnBottleBindListener(this::setHolderPropertiesFromBottle);
-                onBottleDrunkClickListener = (int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+                onBottleDrunkClickListener = (int bottleId, int quantity, CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) -> {
                     cave.CaveArrangement.unplaceBottle(bottleId, quantity);
                     BottleManager.drinkBottle(this, bottleId, quantity);
                     bottlesAdapter.MaxBottleToPlace += quantity;
@@ -201,7 +201,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                             cave.CaveArrangement.TotalUsed, cave.CaveArrangement.TotalCapacity));
                     bottlesAdapter.setBottles(cave.getBottles());
                 };
-                onBottleUnplacedClickListener = (int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+                onBottleUnplacedClickListener = (int bottleId, int quantity, CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) -> {
                     cave.CaveArrangement.unplaceBottle(bottleId, quantity);
                     BottleManager.updateNumberPlaced(this, bottleId, -1 * quantity);
                     bottlesAdapter.MaxBottleToPlace += quantity;
@@ -220,7 +220,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                             BottleIdInHighlight, onSetHighlightlistener, cave.getNumberBottles(bottleId));
                     alertDialog.show();
                 });
-                bottlesAdapter.setOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+                bottlesAdapter.setOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) -> {
                     cave.CaveArrangement.placeBottle(bottleId, quantity);
                     BottleManager.placeBottle(this, bottleId, quantity);
                     bottlesAdapter.MaxBottleToPlace -= quantity;
@@ -234,13 +234,13 @@ public class CaveDetailActivity extends AppCompatActivity {
                     bottlesAdapter.setBottleIdInHighlight(BottleIdInHighlight);
                 });
                 break;
-            case BOX:
+            case bo:
                 arrangementTooltipView.setVisibility(View.VISIBLE);
                 boxesNumberView.setVisibility(View.VISIBLE);
                 boxesNumberView.setText(getResources().getQuantityString(R.plurals.cave_boxes_number_detail, cave.CaveArrangement.NumberBoxes, cave.CaveArrangement.NumberBoxes));
                 break;
-            case RACK:
-            case FRIDGE:
+            case r:
+            case f:
                 arrangementTooltipView.setVisibility(View.VISIBLE);
                 boxesNumberView.setVisibility(View.GONE);
                 break;
@@ -250,24 +250,24 @@ public class CaveDetailActivity extends AppCompatActivity {
 
     private void drawArrangement() {
         switch (cave.CaveType) {
-            case BULK:
+            case bu:
                 arrangementRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 arrangementRecyclerView.setAdapter(bottlesAdapter);
                 arrangementRecyclerView.setVisibility(View.VISIBLE);
                 arrangementRecyclerViewProgress.setVisibility(View.GONE);
                 break;
-            case BOX:
+            case bo:
                 setCaveArrangement(true);
                 break;
-            case RACK:
-            case FRIDGE:
+            case r:
+            case f:
                 setCaveArrangement(false);
                 break;
         }
     }
 
     private void setCaveArrangement(boolean hasBorders) {
-        CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
+        CoordinatesModelV2 maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
         if (maxRowCol.Col >= 0) {
             int nbCols = maxRowCol.Col + 1;
             int nbRows = maxRowCol.Row + 1;
@@ -282,7 +282,7 @@ public class CaveDetailActivity extends AppCompatActivity {
                 arrangementRecyclerView.removeItemDecoration(dividerItemDecoration);
             }
             caveArrangementAdapter = new CaveArrangementAdapter(this, cave.CaveArrangement, nbRows, nbCols, totalWidth, BottleIdInHighlight);
-            caveArrangementAdapter.setOnValueChangedListener((Map<CoordinatesModel, List<CoordinatesModel>> coordinatesToUpdate) -> {
+            caveArrangementAdapter.setOnValueChangedListener((Map<CoordinatesModelV2, List<CoordinatesModelV2>> coordinatesToUpdate) -> {
                 EditCaveTask editCaveTask = new EditCaveTask(this);
                 editCaveTask.execute(cave);
                 capacityUsedView.setText(getResources().getQuantityString(R.plurals.cave_used_capacity, cave.CaveArrangement.TotalCapacity,
@@ -301,7 +301,7 @@ public class CaveDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setHolderPropertiesFromBottle(BottleViewHolder holder, BottleModel bottle) {
+    private void setHolderPropertiesFromBottle(BottleViewHolder holder, BottleModelV2 bottle) {
         holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
         holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
         holder.setStockLabelViewText(getString(R.string.bottles_here,

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.myadridev.mypocketcave.managers.CaveManager;
-import com.myadridev.mypocketcave.models.v1.CaveModel;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
-public class EditCaveTask extends AsyncTask<CaveModel, Void, Void> {
+public class EditCaveTask extends AsyncTask<CaveModelV2, Void, Void> {
 
     private Context context;
 
@@ -15,8 +15,8 @@ public class EditCaveTask extends AsyncTask<CaveModel, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(CaveModel... params) {
-        CaveModel cave = params[0];
+    protected Void doInBackground(CaveModelV2... params) {
+        CaveModelV2 cave = params[0];
 
         CaveManager.editCave(context, cave);
 

@@ -20,14 +20,14 @@ import com.myadridev.mypocketcave.helpers.FloatingActionButtonHelper;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 import java.util.Calendar;
 
 public class BottleDetailActivity extends AppCompatActivity {
 
     public int currentYear;
-    private BottleModel bottle;
+    private BottleModelV2 bottle;
     private TextView stockView;
     private TextView placedView;
     private ImageView wineColorIconView;

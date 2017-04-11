@@ -1,26 +1,29 @@
 package com.myadridev.mypocketcave.models.v2;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.PatternTypeEnum;
-import com.myadridev.mypocketcave.enums.PositionEnum;
+import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
+import com.myadridev.mypocketcave.enums.v2.PositionEnumV2;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
-import com.myadridev.mypocketcave.models.CoordinatesModelDeserializer;
-import com.myadridev.mypocketcave.models.CoordinatesModelSerializer;
+import com.myadridev.mypocketcave.models.inferfaces.IPatternModelWithBottles;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @JsonSerialize(as = PatternModelWithBottlesV2.class)
-public class PatternModelWithBottlesV2 extends PatternModelV2 {
+public class PatternModelWithBottlesV2 extends PatternModelV2 implements IPatternModelWithBottles {
 
-    @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
+    @JsonSerialize(keyUsing = CoordinatesModelV2Serializer.class)
+    @JsonDeserialize(keyUsing = CoordinatesModelV2Deserializer.class)
+    @JsonProperty("pmb")
     public final Map<CoordinatesModelV2, CavePlaceModelV2> PlaceMapWithBottles;
+    @JsonProperty("pi")
     public int PatternWithBottlesId;
 
     // number is float because a bottle can be on 2 patterns at the same time
-    public Map<Integer, Float> FloatNumberPlacedBottlesByIdMap;
+    @JsonProperty("fnp")
+    public final Map<Integer, Float> FloatNumberPlacedBottlesByIdMap;
 
     public PatternModelWithBottlesV2() {
         PlaceMapWithBottles = new HashMap<>();
@@ -44,7 +47,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
 
     public PatternModelWithBottlesV2(PatternModelV2 pattern, PatternModelWithBottlesV2 oldPattern) {
         this(pattern);
-        if (pattern.Type != PatternTypeEnum.LINEAR || oldPattern.Type != PatternTypeEnum.LINEAR)
+        if (pattern.Type != PatternTypeEnumV2.l || oldPattern.Type != PatternTypeEnumV2.l)
             return;
 
         for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> placeModelEntry : oldPattern.PlaceMapWithBottles.entrySet()) {
@@ -60,7 +63,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
     public void setClickablePlaces() {
         for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> placeEntry : PlaceMapWithBottles.entrySet()) {
             CavePlaceModelV2 cavePlace = placeEntry.getValue();
-            if (cavePlace.PlaceType.Position == PositionEnum.TOP_RIGHT) {
+            if (cavePlace.PlaceType.Position == PositionEnumV2.tr) {
                 CoordinatesModelV2 coordinates = placeEntry.getKey();
                 CoordinatesModelV2 coordinatesRight = new CoordinatesModelV2(coordinates.Row, coordinates.Col + 1);
                 CavePlaceModelV2 placeRight;
@@ -86,7 +89,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
                     continue;
                 }
 
-                if (placeRight.PlaceType.Position == PositionEnum.TOP_LEFT && placeTop.PlaceType.Position == PositionEnum.BOTTOM_RIGHT && placeTopRight.PlaceType.Position == PositionEnum.BOTTOM_LEFT) {
+                if (placeRight.PlaceType.Position == PositionEnumV2.tl && placeTop.PlaceType.Position == PositionEnumV2.br && placeTopRight.PlaceType.Position == PositionEnumV2.bl) {
                     cavePlace.IsClickable = true;
                     placeRight.IsClickable = true;
                     placeTop.IsClickable = true;
@@ -100,7 +103,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
         int col = getNumberColumnsGridLayout() - 1;
         for (int row = 0; row < getNumberRowsGridLayout(); row++) {
             CavePlaceModelV2 cavePlace = PlaceMapWithBottles.get(new CoordinatesModelV2(row, col));
-            if (cavePlace.PlaceType.Position == PositionEnum.TOP_RIGHT) {
+            if (cavePlace.PlaceType.Position == PositionEnumV2.tr) {
                 CoordinatesModelV2 coordinatesTop = new CoordinatesModelV2(row + 1, col);
                 CavePlaceModelV2 placeTop;
                 if (PlaceMapWithBottles.containsKey(coordinatesTop)) {
@@ -109,7 +112,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
                     continue;
                 }
 
-                if (placeTop.PlaceType.Position == PositionEnum.BOTTOM_RIGHT) {
+                if (placeTop.PlaceType.Position == PositionEnumV2.br) {
                     cavePlace.IsClickable = true;
                     placeTop.IsClickable = true;
                     row++;
@@ -122,7 +125,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
         int col = 0;
         for (int row = 0; row < getNumberRowsGridLayout(); row++) {
             CavePlaceModelV2 cavePlace = PlaceMapWithBottles.get(new CoordinatesModelV2(row, col));
-            if (cavePlace.PlaceType.Position == PositionEnum.TOP_LEFT) {
+            if (cavePlace.PlaceType.Position == PositionEnumV2.tl) {
                 CoordinatesModelV2 coordinatesTop = new CoordinatesModelV2(row + 1, col);
                 CavePlaceModelV2 placeTop;
                 if (PlaceMapWithBottles.containsKey(coordinatesTop)) {
@@ -131,7 +134,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
                     continue;
                 }
 
-                if (placeTop.PlaceType.Position == PositionEnum.BOTTOM_LEFT) {
+                if (placeTop.PlaceType.Position == PositionEnumV2.bl) {
                     cavePlace.IsClickable = true;
                     placeTop.IsClickable = true;
                     row++;
@@ -144,7 +147,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
         int row = getNumberRowsGridLayout() - 1;
         for (int col = 0; col < getNumberColumnsGridLayout(); col++) {
             CavePlaceModelV2 cavePlace = PlaceMapWithBottles.get(new CoordinatesModelV2(row, col));
-            if (cavePlace.PlaceType.Position == PositionEnum.TOP_RIGHT) {
+            if (cavePlace.PlaceType.Position == PositionEnumV2.tr) {
                 CoordinatesModelV2 coordinatesRight = new CoordinatesModelV2(row, col + 1);
                 CavePlaceModelV2 placeRight;
                 if (PlaceMapWithBottles.containsKey(coordinatesRight)) {
@@ -153,7 +156,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
                     continue;
                 }
 
-                if (placeRight.PlaceType.Position == PositionEnum.TOP_LEFT) {
+                if (placeRight.PlaceType.Position == PositionEnumV2.tl) {
                     cavePlace.IsClickable = true;
                     placeRight.IsClickable = true;
                     col++;
@@ -166,7 +169,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
         int row = 0;
         for (int col = 0; col < getNumberColumnsGridLayout(); col++) {
             CavePlaceModelV2 cavePlace = PlaceMapWithBottles.get(new CoordinatesModelV2(row, col));
-            if (cavePlace.PlaceType.Position == PositionEnum.BOTTOM_RIGHT) {
+            if (cavePlace.PlaceType.Position == PositionEnumV2.br) {
                 CoordinatesModelV2 coordinatesRight = new CoordinatesModelV2(row, col + 1);
                 CavePlaceModelV2 placeRight;
                 if (PlaceMapWithBottles.containsKey(coordinatesRight)) {
@@ -175,7 +178,7 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 {
                     continue;
                 }
 
-                if (placeRight.PlaceType.Position == PositionEnum.BOTTOM_LEFT) {
+                if (placeRight.PlaceType.Position == PositionEnumV2.bl) {
                     cavePlace.IsClickable = true;
                     placeRight.IsClickable = true;
                     col++;

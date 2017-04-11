@@ -2,7 +2,7 @@ package com.myadridev.mypocketcave.managers.storage.interfaces;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 import java.util.Map;
 

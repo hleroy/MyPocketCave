@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
+import com.myadridev.mypocketcave.enums.v1.AboutFieldsEnum;
 
 @JsonSerialize(as = AboutItem.class)
 public class AboutItem implements Comparable<AboutItem> {

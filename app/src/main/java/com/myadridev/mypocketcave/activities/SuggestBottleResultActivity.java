@@ -16,14 +16,14 @@ import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.SuggestBottlesResultAdapter;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.JsonManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleResultModelV2;
 import com.myadridev.mypocketcave.tasks.suggest.GetSuggestBottlesTask;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
 
     private TextView noBottlesLabelView;
     private RecyclerView bottlesRecyclerView;
-    private List<SuggestBottleResultModel> allBottles;
+    private List<SuggestBottleResultModelV2> allBottles;
     private CoordinatorLayout coordinatorLayout;
     private SuggestBottlesResultAdapter bottlesResultAdapter;
     private TextView bottlesCountLabelView;
@@ -80,7 +80,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String serializedSearchCriteria = bundle.getString("searchCriteria");
 
-        SuggestBottleCriteria searchCriteria = JsonManager.readValue(serializedSearchCriteria, SuggestBottleCriteria.class);
+        SuggestBottleCriteriaV2 searchCriteria = JsonManager.readValue(serializedSearchCriteria, SuggestBottleCriteriaV2.class);
         if (searchCriteria == null) {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_technical, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return;
@@ -90,7 +90,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         getSuggestBottlesTask.execute(searchCriteria);
     }
 
-    public void onGetBottlesSucceed(List<SuggestBottleResultModel> allBottles) {
+    public void onGetBottlesSucceed(List<SuggestBottleResultModelV2> allBottles) {
         this.allBottles = allBottles;
         bottlesResultAdapter = new SuggestBottlesResultAdapter(this, allBottles);
         bottlesResultAdapter.setOnSeeMoreClickListener(() -> setVisibility(bottlesResultAdapter));
@@ -117,10 +117,10 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
 
             bottlesCountDetailLabelView.setVisibility(View.GONE);
             bottlesCountDetailLabelView.setText(getString(R.string.bottles_count_detail,
-                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnum.RED),
-                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnum.WHITE),
-                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnum.ROSE),
-                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnum.CHAMPAGNE)));
+                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnumV2.r),
+                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnumV2.w),
+                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnumV2.ro),
+                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnumV2.c)));
         } else {
             bottlesRecyclerView.setVisibility(View.GONE);
             noBottlesLabelView.setVisibility(View.VISIBLE);
@@ -129,17 +129,17 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         }
     }
 
-    private int getBottlesCount(List<SuggestBottleResultModel> allBottles, boolean isAllBottlesVisible) {
-        List<BottleModel> bottles = getBottleModels(allBottles, isAllBottlesVisible);
+    private int getBottlesCount(List<SuggestBottleResultModelV2> allBottles, boolean isAllBottlesVisible) {
+        List<BottleModelV2> bottles = getBottleModels(allBottles, isAllBottlesVisible);
 
         return BottleManager.getBottlesCount(bottles);
     }
 
     @NonNull
-    private List<BottleModel> getBottleModels(List<SuggestBottleResultModel> allBottles, boolean isAllBottlesVisible) {
-        int scoreMin = isAllBottlesVisible ? 0 : SuggestBottleCriteria.NumberOfCriteria;
-        List<BottleModel> bottles = new ArrayList<>();
-        for (SuggestBottleResultModel suggestBottle : allBottles) {
+    private List<BottleModelV2> getBottleModels(List<SuggestBottleResultModelV2> allBottles, boolean isAllBottlesVisible) {
+        int scoreMin = isAllBottlesVisible ? 0 : SuggestBottleCriteriaV2.NumberOfCriteria;
+        List<BottleModelV2> bottles = new ArrayList<>();
+        for (SuggestBottleResultModelV2 suggestBottle : allBottles) {
             if (suggestBottle.Score >= scoreMin) {
                 bottles.add(suggestBottle.Bottle);
             }
@@ -147,8 +147,8 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         return bottles;
     }
 
-    private int getBottlesCount(List<SuggestBottleResultModel> allBottles, boolean isAllBottlesVisible, WineColorEnum wineColor) {
-        List<BottleModel> bottles = getBottleModels(allBottles, isAllBottlesVisible);
+    private int getBottlesCount(List<SuggestBottleResultModelV2> allBottles, boolean isAllBottlesVisible, WineColorEnumV2 wineColor) {
+        List<BottleModelV2> bottles = getBottleModels(allBottles, isAllBottlesVisible);
         return BottleManager.getBottlesCount(bottles, wineColor);
     }
 

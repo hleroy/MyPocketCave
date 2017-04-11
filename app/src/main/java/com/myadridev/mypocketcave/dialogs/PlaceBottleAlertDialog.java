@@ -17,15 +17,15 @@ import com.myadridev.mypocketcave.adapters.BottlesAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
 import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 import java.util.List;
 
 public class PlaceBottleAlertDialog extends AlertDialog {
     private final Activity activity;
 
-    public PlaceBottleAlertDialog(Activity activity, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates,
+    public PlaceBottleAlertDialog(Activity activity, final CoordinatesModelV2 patternCoordinates, final CoordinatesModelV2 coordinates,
                                   final OnBottlePlacedClickListener onBottlePlacedClickListener, int maxBottleToPlace) {
         super(activity);
 
@@ -38,7 +38,7 @@ public class PlaceBottleAlertDialog extends AlertDialog {
         TextView noBottlesView = (TextView) dialogView.findViewById(R.id.alert_add_bottle_no_bottles_label);
         RecyclerView bottlesRecyclerView = (RecyclerView) dialogView.findViewById(R.id.alert_add_bottle_bottles_recyclerview);
 
-        List<BottleModel> nonPlacedBottles = BottleManager.getNonPlacedBottles();
+        List<BottleModelV2> nonPlacedBottles = BottleManager.getNonPlacedBottles();
         final int[] bottleIdToPlace = {-1};
         final int[] quantityToPlace = {1};
         if (nonPlacedBottles.isEmpty()) {
@@ -58,7 +58,7 @@ public class PlaceBottleAlertDialog extends AlertDialog {
                     View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
                     final NumberPicker numberPicker = (NumberPicker) numberPickerView.findViewById(R.id.number_picker);
                     numberPicker.setMinValue(1);
-                    BottleModel bottle = BottleManager.getBottle(bottleId);
+                    BottleModelV2 bottle = BottleManager.getBottle(bottleId);
                     numberPicker.setMaxValue(Math.min(maxBottleToPlace, bottle.Stock - bottle.NumberPlaced));
                     numberPicker.setValue(1);
                     numberPicker.setWrapSelectorWheel(false);
@@ -89,7 +89,7 @@ public class PlaceBottleAlertDialog extends AlertDialog {
 
     @NonNull
     private OnDismissListener getOnDismissListener(OnBottlePlacedClickListener onBottlePlacedClickListener, int[] bottleIdToPlace, int[] quantityToPlace,
-                                                   CoordinatesModel patternCoordinates, CoordinatesModel coordinates) {
+                                                   CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         return (DialogInterface dialog) -> {
             if (bottleIdToPlace[0] != -1) {
                 if (onBottlePlacedClickListener != null) {
@@ -99,7 +99,7 @@ public class PlaceBottleAlertDialog extends AlertDialog {
         };
     }
 
-    private void setHolderPropertiesFromBottle(BottleViewHolder holder, BottleModel bottle) {
+    private void setHolderPropertiesFromBottle(BottleViewHolder holder, BottleModelV2 bottle) {
         holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
         holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
         holder.setStockLabelViewText(activity.getString(R.string.bottles_to_place, bottle.Stock - bottle.NumberPlaced));

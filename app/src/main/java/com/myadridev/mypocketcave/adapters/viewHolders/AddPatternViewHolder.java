@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 public class AddPatternViewHolder extends RecyclerView.ViewHolder {
 
@@ -26,12 +26,7 @@ public class AddPatternViewHolder extends RecyclerView.ViewHolder {
         return imageView;
     }
 
-    public void setOnItemClickListener(final OnPatternClickListener listener, final CoordinatesModel coordinates) {
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onPatternClick(coordinates);
-            }
-        });
+    public void setOnItemClickListener(final OnPatternClickListener listener, final CoordinatesModelV2 coordinates) {
+        itemView.setOnClickListener((View v) -> listener.onPatternClick(coordinates));
     }
 }

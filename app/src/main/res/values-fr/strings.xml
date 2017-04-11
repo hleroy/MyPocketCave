@@ -237,4 +237,12 @@
     <string name="message_remove_pattern">Les bouteilles placées ici ne le seront plus, tous les motifs au dessus vont descendre, et si c\'est le dernier de la colonne, elle sera aussi supprimée. On supprime ce motif d\'ici\u00A0?</string>
     <string name="title_edit_pattern">Modifier le motif</string>
     <string name="title_remove_pattern">Supprimer le motif</string>
+    <string name="migration_bottles">Migration des bouteilles…</string>
+    <string name="migration_patterns">Migration des motifs…</string>
+    <string name="migration_caves">Migration des caves…</string>
+    <string name="migration_finalize">Finalisation de la migration…</string>
+    <string name="startup_bottles">Chargement des bouteilles…</string>
+    <string name="startup_patterns">Chargement des motifs…</string>
+    <string name="startup_caves">Chargement des caves…</string>
+    <string name="startup_finalize">Finalisation du lancement…</string>
 </resources>

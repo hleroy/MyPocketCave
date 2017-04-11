@@ -46,13 +46,13 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
         }
 
         switch (oldCave.CaveType) {
-            case BULK:
+            case bu:
                 String NumberBottlesBulk = bulkBottlesNumberView.getText().toString();
                 if (oldCave.CaveArrangement.NumberBottlesBulk != (NumberBottlesBulk.isEmpty() ? 0 : Integer.valueOf(NumberBottlesBulk))) {
                     return true;
                 }
                 break;
-            case BOX:
+            case bo:
                 String NumberBoxes = boxesNumberView.getText().toString();
                 if (oldCave.CaveArrangement.NumberBoxes != (NumberBoxes.isEmpty() ? 0 : Integer.valueOf(NumberBoxes))) {
                     return true;
@@ -66,8 +66,8 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
                     return true;
                 }
                 break;
-            case FRIDGE:
-            case RACK:
+            case f:
+            case r:
                 if (oldCave.CaveArrangement.hasDifferentPattern(cave.CaveArrangement)) {
                     return true;
                 }

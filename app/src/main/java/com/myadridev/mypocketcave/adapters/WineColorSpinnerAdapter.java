@@ -10,7 +10,7 @@ import android.widget.SpinnerAdapter;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.WineColorViewHolder;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 
 public class WineColorSpinnerAdapter implements SpinnerAdapter {
 
@@ -36,7 +36,7 @@ public class WineColorSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (WineColorViewHolder) convertView.getTag();
         }
 
-        WineColorEnum wineColor = WineColorEnum.getById(getWineColorId(position));
+        WineColorEnumV2 wineColor = WineColorEnumV2.getById(getWineColorId(position));
         if (wineColor != null) {
             int wineColorDrawableId = wineColor.DrawableResourceId;
             viewHolder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(context, wineColorDrawableId) : null);
@@ -56,12 +56,12 @@ public class WineColorSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return containsNone ? WineColorEnum.values().length : WineColorEnum.values().length - 1;
+        return containsNone ? WineColorEnumV2.values().length : WineColorEnumV2.values().length - 1;
     }
 
     @Override
     public Object getItem(int position) {
-        return WineColorEnum.getById(getWineColorId(position));
+        return WineColorEnumV2.getById(getWineColorId(position));
     }
 
     @Override
@@ -86,7 +86,7 @@ public class WineColorSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (WineColorViewHolder) convertView.getTag();
         }
 
-        WineColorEnum wineColor = WineColorEnum.getById(getWineColorId(position));
+        WineColorEnumV2 wineColor = WineColorEnumV2.getById(getWineColorId(position));
         if (wineColor != null) {
             int wineColorDrawableId = wineColor.DrawableResourceId;
             if (wineColorDrawableId != -1)

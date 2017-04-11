@@ -1,10 +1,9 @@
-package com.myadridev.mypocketcave.models;
+package com.myadridev.mypocketcave.models.v1;
 
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdKeyDeserializer;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
 
 public class CoordinatesModelDeserializer extends StdKeyDeserializer {
 

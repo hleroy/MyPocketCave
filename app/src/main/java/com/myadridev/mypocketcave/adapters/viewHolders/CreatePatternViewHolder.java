@@ -16,11 +16,6 @@ public class CreatePatternViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setOnItemClickListener(final OnSelectionPatternClickListener listener, final int position) {
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(position);
-            }
-        });
+        itemView.setOnClickListener((View v) -> listener.onItemClick(position));
     }
 }

@@ -9,10 +9,10 @@ import android.widget.ListView;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.AboutAdapter;
-import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
+import com.myadridev.mypocketcave.enums.v2.AboutFieldsEnumV2;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.VersionManager;
-import com.myadridev.mypocketcave.models.v1.AboutItem;
+import com.myadridev.mypocketcave.models.v2.AboutItemV2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +38,7 @@ public class AboutActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.about_list_view);
 
-        List<AboutItem> items = initializeItems();
+        List<AboutItemV2> items = initializeItems();
 
         AboutAdapter adapter = new AboutAdapter(this, R.layout.item_about, items, contactSubject);
         assert listView != null;
@@ -54,17 +54,17 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    private List<AboutItem> initializeItems() {
-        List<AboutItem> items = new ArrayList<>(2);
+    private List<AboutItemV2> initializeItems() {
+        List<AboutItemV2> items = new ArrayList<>(2);
 
         version = VersionManager.getVersion(this);
 
         contactSubject = computeEmailSubject();
 
-        items.add(new AboutItem(this, AboutFieldsEnum.VERSION, version));
-        items.add(new AboutItem(this, AboutFieldsEnum.CONTACT, getString(R.string.about_mail)));
-        items.add(new AboutItem(this, AboutFieldsEnum.SOURCES, getString(R.string.about_sources_url)));
-        items.add(new AboutItem(this, AboutFieldsEnum.LICENSE, getString(R.string.about_license_value)));
+        items.add(new AboutItemV2(this, AboutFieldsEnumV2.v, version));
+        items.add(new AboutItemV2(this, AboutFieldsEnumV2.c, getString(R.string.about_mail)));
+        items.add(new AboutItemV2(this, AboutFieldsEnumV2.s, getString(R.string.about_sources_url)));
+        items.add(new AboutItemV2(this, AboutFieldsEnumV2.l, getString(R.string.about_license_value)));
 
         Collections.sort(items);
 

@@ -1,15 +1,15 @@
 package com.myadridev.mypocketcave.managers;
 
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 import java.util.Collection;
 
 public class CoordinatesManager {
 
-    public static CoordinatesModel getMaxRowCol(Collection<CoordinatesModel> coordinates) {
+    public static CoordinatesModelV2 getMaxRowCol(Collection<CoordinatesModelV2> coordinates) {
         int maxCol = -1;
         int maxRow = -1;
-        for (CoordinatesModel coordinate : coordinates) {
+        for (CoordinatesModelV2 coordinate : coordinates) {
             if (coordinate.Col > maxCol) {
                 maxCol = coordinate.Col;
             }
@@ -17,7 +17,7 @@ public class CoordinatesManager {
                 maxRow = coordinate.Row;
             }
         }
-        return new CoordinatesModel(maxRow, maxCol);
+        return new CoordinatesModelV2(maxRow, maxCol);
     }
 
     public static int getColFromPosition(int position) {
@@ -32,9 +32,9 @@ public class CoordinatesManager {
         return (nbRows - 1 - row) * nbCols + col;
     }
 
-    public static boolean containsRow(Collection<CoordinatesModel> coordinates, int row) {
+    public static boolean containsRow(Collection<CoordinatesModelV2> coordinates, int row) {
         if (row < 0) return false;
-        for (CoordinatesModel coordinate : coordinates) {
+        for (CoordinatesModelV2 coordinate : coordinates) {
             if (coordinate.Row >= row) {
                 return true;
             }
@@ -42,9 +42,9 @@ public class CoordinatesManager {
         return false;
     }
 
-    public static boolean containsCol(Collection<CoordinatesModel> coordinates, int col) {
+    public static boolean containsCol(Collection<CoordinatesModelV2> coordinates, int col) {
         if (col < 0) return false;
-        for (CoordinatesModel coordinate : coordinates) {
+        for (CoordinatesModelV2 coordinate : coordinates) {
             if (coordinate.Col >= col) {
                 return true;
             }
@@ -52,9 +52,9 @@ public class CoordinatesManager {
         return false;
     }
 
-    public static int getMaxCol(Collection<CoordinatesModel> coordinates) {
+    public static int getMaxCol(Collection<CoordinatesModelV2> coordinates) {
         int maxCol = -1;
-        for (CoordinatesModel coordinate : coordinates) {
+        for (CoordinatesModelV2 coordinate : coordinates) {
             if (coordinate.Col >= maxCol) {
                 maxCol = coordinate.Col;
             }
@@ -62,9 +62,9 @@ public class CoordinatesManager {
         return maxCol;
     }
 
-    public static int getMaxRow(Collection<CoordinatesModel> coordinates) {
+    public static int getMaxRow(Collection<CoordinatesModelV2> coordinates) {
         int maxRow = -1;
-        for (CoordinatesModel coordinate : coordinates) {
+        for (CoordinatesModelV2 coordinate : coordinates) {
             if (coordinate.Row > maxRow) {
                 maxRow = coordinate.Row;
             }

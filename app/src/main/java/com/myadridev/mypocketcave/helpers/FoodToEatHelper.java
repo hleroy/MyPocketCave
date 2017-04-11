@@ -2,7 +2,7 @@ package com.myadridev.mypocketcave.helpers;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class FoodToEatHelper {
     public static String computeFoodViewText(Context context, boolean[] foodToEatWithList) {
         boolean isAtLeastOneFood = false;
         StringBuilder computedText = new StringBuilder();
-        for (FoodToEatWithEnum food : FoodToEatWithEnum.values()) {
+        for (FoodToEatWithEnumV2 food : FoodToEatWithEnumV2.values()) {
             if (foodToEatWithList[food.Id]) {
                 if (isAtLeastOneFood) {
                     computedText.append(foodSeparator);
@@ -24,10 +24,10 @@ public class FoodToEatHelper {
         return computedText.toString();
     }
 
-    public static String computeFoodViewText(Context context, List<FoodToEatWithEnum> foodToEatWithList) {
+    public static String computeFoodViewText(Context context, List<FoodToEatWithEnumV2> foodToEatWithList) {
         boolean isAtLeastOneFood = false;
         StringBuilder computedText = new StringBuilder();
-        for (FoodToEatWithEnum food : foodToEatWithList) {
+        for (FoodToEatWithEnumV2 food : foodToEatWithList) {
             if (isAtLeastOneFood) {
                 computedText.append(foodSeparator);
             }

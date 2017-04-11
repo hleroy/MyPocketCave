@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.AbstractBottleEditActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 public class RefreshBottleEditTask extends AsyncTask<Integer, Void, Void> {
 
@@ -31,9 +31,9 @@ public class RefreshBottleEditTask extends AsyncTask<Integer, Void, Void> {
         int bottleId = params[0];
 
         if (bottleId == 0) {
-            bottleEditActivity.bottle = new BottleModel();
+            bottleEditActivity.bottle = new BottleModelV2();
         } else {
-            bottleEditActivity.bottle = new BottleModel(BottleManager.getBottle(bottleId));
+            bottleEditActivity.bottle = new BottleModelV2(BottleManager.getBottle(bottleId));
         }
 
         return null;

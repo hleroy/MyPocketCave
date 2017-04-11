@@ -2,6 +2,8 @@ package com.myadridev.mypocketcave.enums;
 
 import android.content.Context;
 
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -21,12 +23,12 @@ public class FoodToEatWithEnumTest {
 
     @Test
     public void getByIdFoodToEatWithEnumExisting() {
-        assertEquals(FoodToEatWithEnum.RedMeat, FoodToEatWithEnum.getById(FoodToEatWithEnum.RedMeat.Id));
+        assertEquals(FoodToEatWithEnumV2.rm, FoodToEatWithEnumV2.getById(FoodToEatWithEnumV2.rm.Id));
     }
 
     @Test
     public void getByIdFoodToEatWithEnumNonExisting() {
-        assertEquals(null, FoodToEatWithEnum.getById(-1));
+        assertEquals(null, FoodToEatWithEnumV2.getById(-1));
     }
 
     @Test
@@ -40,10 +42,10 @@ public class FoodToEatWithEnumTest {
             }
         });
 
-        String[] allLabels = FoodToEatWithEnum.getAllFoodLabels(mockContext);
-        assertEquals(FoodToEatWithEnum.values().length, allLabels.length);
-        for (int i = 0; i < FoodToEatWithEnum.values().length; i++) {
-            assertEquals(fakeOutput + FoodToEatWithEnum.getById(i).StringResourceId, allLabels[i]);
+        String[] allLabels = FoodToEatWithEnumV2.getAllFoodLabels(mockContext);
+        assertEquals(FoodToEatWithEnumV2.values().length, allLabels.length);
+        for (int i = 0; i < FoodToEatWithEnumV2.values().length; i++) {
+            assertEquals(fakeOutput + FoodToEatWithEnumV2.getById(i).StringResourceId, allLabels[i]);
         }
     }
 }

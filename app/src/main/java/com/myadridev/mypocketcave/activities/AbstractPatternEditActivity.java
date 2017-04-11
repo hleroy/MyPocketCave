@@ -37,8 +37,8 @@ import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 import com.myadridev.mypocketcave.tasks.pattern.SavePatternTask;
 
 public class AbstractPatternEditActivity extends AppCompatActivity {
@@ -63,7 +63,7 @@ public class AbstractPatternEditActivity extends AppCompatActivity {
 
     private RecyclerView patternOverviewRecyclerView;
     protected PatternAdapter patternAdapter;
-    protected PatternModel pattern;
+    protected PatternModelV2 pattern;
     private CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (CompoundButton compoundButton, boolean b) -> {
         hideKeyboard();
         updateValuesAndAdapter();
@@ -218,7 +218,7 @@ public class AbstractPatternEditActivity extends AppCompatActivity {
 
     private void updateFieldsVisibility() {
         switch (pattern.Type) {
-            case LINEAR:
+            case l:
                 verticallyExpendableTextView.setVisibility(View.INVISIBLE);
                 verticallyExpendableCheckbox.setVisibility(View.INVISIBLE);
                 horizontallyExpendableTextView.setVisibility(View.INVISIBLE);
@@ -226,7 +226,7 @@ public class AbstractPatternEditActivity extends AppCompatActivity {
                 invertPatternTextView.setVisibility(View.INVISIBLE);
                 invertPatternCheckbox.setVisibility(View.INVISIBLE);
                 break;
-            case STAGGERED_ROWS:
+            case s:
                 verticallyExpendableTextView.setVisibility(View.VISIBLE);
                 verticallyExpendableCheckbox.setVisibility(View.VISIBLE);
                 horizontallyExpendableTextView.setVisibility(View.VISIBLE);
@@ -252,7 +252,7 @@ public class AbstractPatternEditActivity extends AppCompatActivity {
     }
 
     private void createAdapter() {
-        patternAdapter = new PatternAdapter(this, pattern.getPlaceMapForDisplay(), new CoordinatesModel(pattern.getNumberRowsGridLayout(), pattern.getNumberColumnsGridLayout()),
+        patternAdapter = new PatternAdapter(this, pattern.getPlaceMapForDisplay(), new CoordinatesModelV2(pattern.getNumberRowsGridLayout(), pattern.getNumberColumnsGridLayout()),
                 false, ScreenHelper.getScreenWidth(this) - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight, null);
     }
 

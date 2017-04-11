@@ -3,14 +3,13 @@ package com.myadridev.mypocketcave.models.v2;
 import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
-import com.myadridev.mypocketcave.enums.PatternTypeEnum;
-import com.myadridev.mypocketcave.models.CoordinatesModelDeserializer;
-import com.myadridev.mypocketcave.models.CoordinatesModelSerializer;
-import com.myadridev.mypocketcave.models.IPatternModel;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.enums.v2.CavePlaceTypeEnumV2;
+import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
+import com.myadridev.mypocketcave.models.inferfaces.IPatternModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,16 +17,25 @@ import java.util.Map;
 @JsonSerialize(as = PatternModelV2.class)
 public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2>, IPatternModel {
 
-    @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
-    public final Map<CoordinatesModelV2, CavePlaceTypeEnum> PlaceMap;
+    @JsonSerialize(keyUsing = CoordinatesModelV2Serializer.class)
+    @JsonDeserialize(keyUsing = CoordinatesModelV2Deserializer.class)
+    @JsonProperty("pm")
+    public final Map<CoordinatesModelV2, CavePlaceTypeEnumV2> PlaceMap;
+    @JsonProperty("i")
     public int Id;
-    public PatternTypeEnum Type;
+    @JsonProperty("t")
+    public PatternTypeEnumV2 Type;
+    @JsonProperty("nbc")
     public int NumberBottlesByColumn;
+    @JsonProperty("nbr")
     public int NumberBottlesByRow;
+    @JsonProperty("ihe")
     public boolean IsHorizontallyExpendable;
+    @JsonProperty("ive")
     public boolean IsVerticallyExpendable;
+    @JsonProperty("ii")
     public boolean IsInverted;
+    @JsonProperty("o")
     public int Order;
 
     public PatternModelV2() {
@@ -49,10 +57,10 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
     public void computePlacesMap() {
         PlaceMap.clear();
         switch (Type) {
-            case LINEAR:
+            case l:
                 computeLinearPlacesMap();
                 break;
-            case STAGGERED_ROWS:
+            case s:
                 computeStaggeredPlacesMap();
                 break;
         }
@@ -89,10 +97,10 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
         }
 
         if (IsVerticallyExpendable && IsHorizontallyExpendable) {
-            PlaceMap.put(new CoordinatesModelV2(0, 0), CavePlaceTypeEnum.NO_PLACE);
-            PlaceMap.put(new CoordinatesModelV2(0, numberCols + 1), CavePlaceTypeEnum.NO_PLACE);
-            PlaceMap.put(new CoordinatesModelV2(numberRows + 1, 0), CavePlaceTypeEnum.NO_PLACE);
-            PlaceMap.put(new CoordinatesModelV2(numberRows + 1, numberCols + 1), CavePlaceTypeEnum.NO_PLACE);
+            PlaceMap.put(new CoordinatesModelV2(0, 0), CavePlaceTypeEnumV2.n);
+            PlaceMap.put(new CoordinatesModelV2(0, numberCols + 1), CavePlaceTypeEnumV2.n);
+            PlaceMap.put(new CoordinatesModelV2(numberRows + 1, 0), CavePlaceTypeEnumV2.n);
+            PlaceMap.put(new CoordinatesModelV2(numberRows + 1, numberCols + 1), CavePlaceTypeEnumV2.n);
         }
     }
 
@@ -104,46 +112,46 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
         }
     }
 
-    private void computeFullPlace(Map<CoordinatesModelV2, CavePlaceTypeEnum> placeMap, int row, int col) {
-        placeMap.put(new CoordinatesModelV2(row, col), CavePlaceTypeEnum.PLACE_TOP_RIGHT);
-        placeMap.put(new CoordinatesModelV2(row, col + 1), CavePlaceTypeEnum.PLACE_TOP_LEFT);
-        placeMap.put(new CoordinatesModelV2(row + 1, col), CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT);
-        placeMap.put(new CoordinatesModelV2(row + 1, col + 1), CavePlaceTypeEnum.PLACE_BOTTOM_LEFT);
+    private void computeFullPlace(Map<CoordinatesModelV2, CavePlaceTypeEnumV2> placeMap, int row, int col) {
+        placeMap.put(new CoordinatesModelV2(row, col), CavePlaceTypeEnumV2.tr);
+        placeMap.put(new CoordinatesModelV2(row, col + 1), CavePlaceTypeEnumV2.tl);
+        placeMap.put(new CoordinatesModelV2(row + 1, col), CavePlaceTypeEnumV2.br);
+        placeMap.put(new CoordinatesModelV2(row + 1, col + 1), CavePlaceTypeEnumV2.bl);
     }
 
-    private void computeFullNoPlace(Map<CoordinatesModelV2, CavePlaceTypeEnum> placeMap, int row, int col) {
-        placeMap.put(new CoordinatesModelV2(row, col), CavePlaceTypeEnum.NO_PLACE);
-        placeMap.put(new CoordinatesModelV2(row, col + 1), CavePlaceTypeEnum.NO_PLACE);
-        placeMap.put(new CoordinatesModelV2(row + 1, col), CavePlaceTypeEnum.NO_PLACE);
-        placeMap.put(new CoordinatesModelV2(row + 1, col + 1), CavePlaceTypeEnum.NO_PLACE);
+    private void computeFullNoPlace(Map<CoordinatesModelV2, CavePlaceTypeEnumV2> placeMap, int row, int col) {
+        placeMap.put(new CoordinatesModelV2(row, col), CavePlaceTypeEnumV2.n);
+        placeMap.put(new CoordinatesModelV2(row, col + 1), CavePlaceTypeEnumV2.n);
+        placeMap.put(new CoordinatesModelV2(row + 1, col), CavePlaceTypeEnumV2.n);
+        placeMap.put(new CoordinatesModelV2(row + 1, col + 1), CavePlaceTypeEnumV2.n);
     }
 
-    private void computePlaceWithRight(Map<CoordinatesModelV2, CavePlaceTypeEnum> placeMap, int row, int col, boolean isInverted) {
-        placeMap.put(new CoordinatesModelV2(row, col), isInverted ? CavePlaceTypeEnum.PLACE_TOP_RIGHT : CavePlaceTypeEnum.NO_PLACE);
-        placeMap.put(new CoordinatesModelV2(row + 1, col), isInverted ? CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT : CavePlaceTypeEnum.NO_PLACE);
+    private void computePlaceWithRight(Map<CoordinatesModelV2, CavePlaceTypeEnumV2> placeMap, int row, int col, boolean isInverted) {
+        placeMap.put(new CoordinatesModelV2(row, col), isInverted ? CavePlaceTypeEnumV2.tr : CavePlaceTypeEnumV2.n);
+        placeMap.put(new CoordinatesModelV2(row + 1, col), isInverted ? CavePlaceTypeEnumV2.br : CavePlaceTypeEnumV2.n);
     }
 
-    private void computePlaceWithLeft(Map<CoordinatesModelV2, CavePlaceTypeEnum> placeMap, int row, int col, boolean isInverted) {
-        placeMap.put(new CoordinatesModelV2(row, col), isInverted ? CavePlaceTypeEnum.PLACE_TOP_LEFT : CavePlaceTypeEnum.NO_PLACE);
-        placeMap.put(new CoordinatesModelV2(row + 1, col), isInverted ? CavePlaceTypeEnum.PLACE_BOTTOM_LEFT : CavePlaceTypeEnum.NO_PLACE);
+    private void computePlaceWithLeft(Map<CoordinatesModelV2, CavePlaceTypeEnumV2> placeMap, int row, int col, boolean isInverted) {
+        placeMap.put(new CoordinatesModelV2(row, col), isInverted ? CavePlaceTypeEnumV2.tl : CavePlaceTypeEnumV2.n);
+        placeMap.put(new CoordinatesModelV2(row + 1, col), isInverted ? CavePlaceTypeEnumV2.bl : CavePlaceTypeEnumV2.n);
     }
 
-    private void computePlaceWithTop(Map<CoordinatesModelV2, CavePlaceTypeEnum> placeMap, int row, int col, boolean isInverted) {
-        placeMap.put(new CoordinatesModelV2(row, col), isInverted ? CavePlaceTypeEnum.PLACE_TOP_RIGHT : CavePlaceTypeEnum.NO_PLACE);
-        placeMap.put(new CoordinatesModelV2(row, col + 1), isInverted ? CavePlaceTypeEnum.PLACE_TOP_LEFT : CavePlaceTypeEnum.NO_PLACE);
+    private void computePlaceWithTop(Map<CoordinatesModelV2, CavePlaceTypeEnumV2> placeMap, int row, int col, boolean isInverted) {
+        placeMap.put(new CoordinatesModelV2(row, col), isInverted ? CavePlaceTypeEnumV2.tr : CavePlaceTypeEnumV2.n);
+        placeMap.put(new CoordinatesModelV2(row, col + 1), isInverted ? CavePlaceTypeEnumV2.tl : CavePlaceTypeEnumV2.n);
     }
 
-    private void computePlaceWithBottom(Map<CoordinatesModelV2, CavePlaceTypeEnum> placeMap, int row, int col, boolean isInverted) {
-        placeMap.put(new CoordinatesModelV2(row, col), isInverted ? CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT : CavePlaceTypeEnum.NO_PLACE);
-        placeMap.put(new CoordinatesModelV2(row, col + 1), isInverted ? CavePlaceTypeEnum.PLACE_BOTTOM_LEFT : CavePlaceTypeEnum.NO_PLACE);
+    private void computePlaceWithBottom(Map<CoordinatesModelV2, CavePlaceTypeEnumV2> placeMap, int row, int col, boolean isInverted) {
+        placeMap.put(new CoordinatesModelV2(row, col), isInverted ? CavePlaceTypeEnumV2.br : CavePlaceTypeEnumV2.n);
+        placeMap.put(new CoordinatesModelV2(row, col + 1), isInverted ? CavePlaceTypeEnumV2.bl : CavePlaceTypeEnumV2.n);
     }
 
     @JsonIgnore
     public int getNumberColumnsGridLayout() {
         switch (Type) {
-            case LINEAR:
+            case l:
                 return 2 * NumberBottlesByRow;
-            case STAGGERED_ROWS:
+            case s:
                 return 4 * NumberBottlesByRow - (IsHorizontallyExpendable ? 0 : 2);
             default:
                 return 0;
@@ -153,9 +161,9 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
     @JsonIgnore
     public int getNumberRowsGridLayout() {
         switch (Type) {
-            case LINEAR:
+            case l:
                 return 2 * NumberBottlesByColumn;
-            case STAGGERED_ROWS:
+            case s:
                 return 4 * NumberBottlesByColumn - (IsVerticallyExpendable ? 0 : 2);
             default:
                 return 0;
@@ -197,7 +205,7 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
     @JsonIgnore
     public Map<CoordinatesModelV2, CavePlaceModelV2> getPlaceMapForDisplay() {
         Map<CoordinatesModelV2, CavePlaceModelV2> placeMapForDisplay = new HashMap<>(PlaceMap.size());
-        for (Map.Entry<CoordinatesModelV2, CavePlaceTypeEnum> placeMapEntry : PlaceMap.entrySet()) {
+        for (Map.Entry<CoordinatesModelV2, CavePlaceTypeEnumV2> placeMapEntry : PlaceMap.entrySet()) {
             CoordinatesModelV2 coordinates = placeMapEntry.getKey();
             CavePlaceModelV2 cavePlace = new CavePlaceModelV2();
             cavePlace.PlaceType = placeMapEntry.getValue();
@@ -209,9 +217,9 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
     @JsonIgnore
     public int getCapacityAlone() {
         switch (Type) {
-            case LINEAR:
+            case l:
                 return NumberBottlesByColumn * NumberBottlesByRow;
-            case STAGGERED_ROWS:
+            case s:
                 return getCapacityForEvenRows() + getCapacityForOddRows();
             default:
                 return 0;

@@ -5,10 +5,12 @@ import android.content.Context;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISyncStorageManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
-import com.myadridev.mypocketcave.models.v1.CaveModel;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.helpers.ModelMigrationHelper;
 import com.myadridev.mypocketcave.models.v1.SyncModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
+import com.myadridev.mypocketcave.models.v2.SyncModelV2;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,10 +54,10 @@ public class SyncManager {
 
     private static String getExportData(Context context) {
         String version = VersionManager.getVersion(context);
-        List<CaveModel> caves = CaveManager.getCaves();
-        List<BottleModel> bottles = BottleManager.getBottles();
-        List<PatternModel> patterns = PatternManager.getPatterns();
-        SyncModel syncData = new SyncModel(version, caves, bottles, patterns);
+        List<CaveModelV2> caves = CaveManager.getCaves();
+        List<BottleModelV2> bottles = BottleManager.getBottles();
+        List<PatternModelV2> patterns = PatternManager.getPatterns();
+        SyncModelV2 syncData = new SyncModelV2(version, caves, bottles, patterns);
         return JsonManager.writeValueAsString(syncData);
     }
 
@@ -86,17 +88,27 @@ public class SyncManager {
 
     public static int importData(Context context, String importLocation) {
         String version = VersionManager.getVersion(context);
-        SyncModel importData = getImportData(importLocation);
 
-        if (importData == null) {
-            return R.string.error_import;
+        SyncModelV2 importDataV2 = getImportDataV2(importLocation);
+
+        if (importDataV2 == null) {
+            SyncModel importData = getImportData(importLocation);
+
+            if (importData == null) {
+                return R.string.error_import;
+            }
+            importDataV2 = ModelMigrationHelper.getSync(importData);
+            if (importDataV2 == null) {
+                return R.string.error_import;
+            }
         }
-        if (importData.Version.compareToIgnoreCase(version) > 0) {
+
+        if (importDataV2.Version.compareToIgnoreCase(version) > 0) {
             // import file was generated with an app with a version greater than current one
             return R.string.error_import_too_old_version;
         }
 
-        performImport(context, importData);
+        performImport(context, importDataV2);
         return -1;
     }
 
@@ -134,7 +146,41 @@ public class SyncManager {
         return sync;
     }
 
-    private static void performImport(Context context, SyncModel importData) {
+    private static SyncModelV2 getImportDataV2(String importLocation) {
+        File file = new File(importLocation);
+        if (!file.exists() || !file.isFile()) {
+            return null;
+        }
+
+        String importDataJson = null;
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+            StringBuilder importDataJsonBuilder = new StringBuilder();
+            byte[] buffer = new byte[1024];
+            int sizeRead;
+            while ((sizeRead = inputStream.read(buffer)) != -1) {
+                importDataJsonBuilder.append(new String(buffer, 0, sizeRead));
+            }
+            importDataJson = importDataJsonBuilder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        SyncModelV2 sync = JsonManager.readValue(importDataJson, SyncModelV2.class);
+
+        try {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return sync;
+    }
+
+    private static void performImport(Context context, SyncModelV2 importData) {
         CaveManager.removeAllCaves(context);
         PatternManager.removeAllPatterns(context);
         BottleManager.removeAllBottles(context);

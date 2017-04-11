@@ -12,14 +12,14 @@ import com.myadridev.mypocketcave.adapters.viewHolders.AddPatternViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder;
 import com.myadridev.mypocketcave.adapters.viewHolders.NoPatternViewHolder;
 import com.myadridev.mypocketcave.dialogs.EditPatternAlertDialog;
-import com.myadridev.mypocketcave.enums.PatternTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
 import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
-import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
+import com.myadridev.mypocketcave.models.v2.CaveArrangementModelV2;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelWithBottlesV2;
 import com.myadridev.mypocketcave.tasks.caves.CaveRemovePatternTask;
 import com.myadridev.mypocketcave.tasks.caves.CreateCaveDetailArrangementTask;
 import com.myadridev.mypocketcave.tasks.caves.CreateCaveEditArrangementTask;
@@ -31,7 +31,7 @@ import java.util.Map;
 public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final AbstractCaveEditActivity editActivity;
     private final CaveDetailActivity detailActivity;
-    private final CaveArrangementModel caveArrangement;
+    private final CaveArrangementModelV2 caveArrangement;
     private final LayoutInflater layoutInflater;
     private final boolean isIndividualPlacesClickable;
 
@@ -44,7 +44,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public int BottleIdInHighlight;
 
-    public CaveArrangementAdapter(AbstractCaveEditActivity activity, CaveArrangementModel caveArrangement, int nbRows, int nbCols, int totalWidth) {
+    public CaveArrangementAdapter(AbstractCaveEditActivity activity, CaveArrangementModelV2 caveArrangement, int nbRows, int nbCols, int totalWidth) {
         editActivity = activity;
         detailActivity = null;
         this.caveArrangement = caveArrangement;
@@ -53,14 +53,14 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.totalWidth = totalWidth;
         layoutInflater = LayoutInflater.from(editActivity);
         isIndividualPlacesClickable = false;
-        listener = (CoordinatesModel coordinates) -> {
-            PatternModelWithBottles oldPattern = this.caveArrangement.PatternMap.containsKey(coordinates) ? this.caveArrangement.PatternMap.get(coordinates) : null;
+        listener = (CoordinatesModelV2 coordinates) -> {
+            PatternModelWithBottlesV2 oldPattern = this.caveArrangement.PatternMap.containsKey(coordinates) ? this.caveArrangement.PatternMap.get(coordinates) : null;
             editActivity.OldClickedPatternId = oldPattern != null ? oldPattern.Id : -1;
             editActivity.ClickedPatternCoordinates = coordinates;
             if (editActivity.OldClickedPatternId == -1) {
                 NavigationManager.navigateToPatternSelection(editActivity);
             } else {
-                EditPatternAlertDialog alertDialog = new EditPatternAlertDialog(editActivity, editActivity.OldClickedPatternId, oldPattern.Type == PatternTypeEnum.LINEAR, () -> {
+                EditPatternAlertDialog alertDialog = new EditPatternAlertDialog(editActivity, editActivity.OldClickedPatternId, oldPattern.Type == PatternTypeEnumV2.l, () -> {
                     CaveRemovePatternTask caveRemovePatternTask = new CaveRemovePatternTask(editActivity);
                     caveRemovePatternTask.execute(coordinates);
                 });
@@ -71,7 +71,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         nbPatternsLeftToLoad = getItemCount();
     }
 
-    public CaveArrangementAdapter(CaveDetailActivity activity, CaveArrangementModel caveArrangement, int nbRows, int nbCols, int totalWidth, int bottleIdInHighlight) {
+    public CaveArrangementAdapter(CaveDetailActivity activity, CaveArrangementModelV2 caveArrangement, int nbRows, int nbCols, int totalWidth, int bottleIdInHighlight) {
         detailActivity = activity;
         editActivity = null;
         this.caveArrangement = caveArrangement;
@@ -91,7 +91,7 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
+        CoordinatesModelV2 coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
 
         if (caveArrangement.PatternMap.containsKey(coordinates)) {
             // Existing pattern
@@ -104,16 +104,16 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private boolean isAddPattern(CoordinatesModel coordinates) {
+    private boolean isAddPattern(CoordinatesModelV2 coordinates) {
         return (caveArrangement.PatternMap.size() == 0 && coordinates.Col == 1 && coordinates.Row == 0)
                 // over existing
-                || caveArrangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))
+                || caveArrangement.PatternMap.containsKey(new CoordinatesModelV2(coordinates.Row - 1, coordinates.Col))
                 // right to existing and no line under or existing under
-                || (caveArrangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col - 1))
-                && (coordinates.Row == 0 || caveArrangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))))
+                || (caveArrangement.PatternMap.containsKey(new CoordinatesModelV2(coordinates.Row, coordinates.Col - 1))
+                && (coordinates.Row == 0 || caveArrangement.PatternMap.containsKey(new CoordinatesModelV2(coordinates.Row - 1, coordinates.Col))))
                 // left to existing and no line under or existing under
-                || (caveArrangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row, coordinates.Col + 1))
-                && (coordinates.Row == 0 || caveArrangement.PatternMap.containsKey(new CoordinatesModel(coordinates.Row - 1, coordinates.Col))));
+                || (caveArrangement.PatternMap.containsKey(new CoordinatesModelV2(coordinates.Row, coordinates.Col + 1))
+                && (coordinates.Row == 0 || caveArrangement.PatternMap.containsKey(new CoordinatesModelV2(coordinates.Row - 1, coordinates.Col))));
     }
 
     @Override
@@ -150,10 +150,10 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
+        CoordinatesModelV2 coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
 
         if (caveArrangement.PatternMap.containsKey(coordinates)) {
-            PatternModelWithBottles patternWithBottles = caveArrangement.PatternMap.get(coordinates);
+            PatternModelWithBottlesV2 patternWithBottles = caveArrangement.PatternMap.get(coordinates);
             if (patternWithBottles == null) {
                 onPatternLoaded();
                 return;
@@ -202,12 +202,12 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {
-        return new CoordinatesModel(rowPosition / nbCols, colPosition % nbCols);
+    private CoordinatesModelV2 getCoordinateByPosition(int rowPosition, int colPosition) {
+        return new CoordinatesModelV2(rowPosition / nbCols, colPosition % nbCols);
     }
 
-    public void updatePositions(RecyclerView recyclerView, Map<CoordinatesModel, List<CoordinatesModel>> coordinatesToUpdate) {
-        for (CoordinatesModel patternCoordinates : coordinatesToUpdate.keySet()) {
+    public void updatePositions(RecyclerView recyclerView, Map<CoordinatesModelV2, List<CoordinatesModelV2>> coordinatesToUpdate) {
+        for (CoordinatesModelV2 patternCoordinates : coordinatesToUpdate.keySet()) {
             int position = CoordinatesManager.getPositionFromCoordinates(patternCoordinates.Row, patternCoordinates.Col, nbRows, nbCols);
             RecyclerView.ViewHolder viewHolder = getViewHolder(recyclerView, position);
             CaveArrangementViewHolder holder = (CaveArrangementViewHolder) viewHolder;

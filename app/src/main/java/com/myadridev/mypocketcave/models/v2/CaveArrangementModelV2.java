@@ -4,17 +4,16 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.CavePlaceTypeEnumV2;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
-import com.myadridev.mypocketcave.models.CoordinatesModelDeserializer;
-import com.myadridev.mypocketcave.models.CoordinatesModelSerializer;
-import com.myadridev.mypocketcave.models.PatternInfos;
+import com.myadridev.mypocketcave.models.inferfaces.ICaveArrangementModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,20 +21,30 @@ import java.util.List;
 import java.util.Map;
 
 @JsonSerialize(as = CaveArrangementModelV2.class)
-public class CaveArrangementModelV2 {
+public class CaveArrangementModelV2 implements ICaveArrangementModel {
 
-    @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)
+    @JsonSerialize(keyUsing = CoordinatesModelV2Serializer.class)
+    @JsonDeserialize(keyUsing = CoordinatesModelV2Deserializer.class)
+    @JsonProperty("pm")
     public final Map<CoordinatesModelV2, PatternModelWithBottlesV2> PatternMap;
+    @JsonProperty("inpm")
     public final Map<Integer, Integer> IntNumberPlacedBottlesByIdMap;
+    @JsonProperty("fnpm")
+    public final Map<Integer, Float> floatNumberPlacedBottlesByIdMap;
+    @JsonProperty("i")
     public int Id;
+    @JsonProperty("tc")
     public int TotalCapacity;
+    @JsonProperty("tu")
     public int TotalUsed;
+    @JsonProperty("nbb")
     public int NumberBottlesBulk;
+    @JsonProperty("nb")
     public int NumberBoxes;
+    @JsonProperty("bnc")
     public int BoxesNumberBottlesByColumn;
+    @JsonProperty("bnr")
     public int BoxesNumberBottlesByRow;
-    private Map<Integer, Float> floatNumberPlacedBottlesByIdMap;
 
     public CaveArrangementModelV2() {
         PatternMap = new HashMap<>();
@@ -241,16 +250,16 @@ public class CaveArrangementModelV2 {
 
         Map<CoordinatesModelV2, List<CoordinatesModelV2>> coordinatesUpdated = new HashMap<>();
         switch (cavePlace.PlaceType.Position) {
-            case BOTTOM_LEFT:
+            case bl:
                 coordinatesUpdated.putAll(updateBottomLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle));
                 break;
-            case BOTTOM_RIGHT:
+            case br:
                 coordinatesUpdated.putAll(updateBottomRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle));
                 break;
-            case TOP_LEFT:
+            case tl:
                 coordinatesUpdated.putAll(updateTopLeftBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle));
                 break;
-            case TOP_RIGHT:
+            case tr:
                 coordinatesUpdated.putAll(updateTopRightBottle(patternCoordinates, coordinates, pattern, cavePlace, bottle, isAddBottle));
                 break;
         }
@@ -273,21 +282,21 @@ public class CaveArrangementModelV2 {
         List<PatternModelWithBottlesV2> notNullPatterns = new ArrayList<>();
         notNullPatterns.add(pattern);
 
-        PatternInfos rightPatternInfos = getRightPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 rightPatternInfos = getRightPatternInfos(patternCoordinates, coordinates);
         if (rightPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(rightPatternInfos.CavePlace, bottle, isAddBottle);
             notNullPatterns.add(rightPatternInfos.Pattern);
             addCoordinateToUpdate(coordinatesUpdated, rightPatternInfos.PatternCoordinates, rightPatternInfos.CavePlaceCoordinates);
         }
-        PatternInfos topPatternInfos = getTopPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 topPatternInfos = getTopPatternInfos(patternCoordinates, coordinates);
         if (topPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(topPatternInfos.CavePlace, bottle, isAddBottle);
             notNullPatterns.add(topPatternInfos.Pattern);
             addCoordinateToUpdate(coordinatesUpdated, topPatternInfos.PatternCoordinates, topPatternInfos.CavePlaceCoordinates);
         }
-        PatternInfos topRightPatternInfos = getTopRightPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 topRightPatternInfos = getTopRightPatternInfos(patternCoordinates, coordinates);
         if (topRightPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(topRightPatternInfos.CavePlace, bottle, isAddBottle);
@@ -309,21 +318,21 @@ public class CaveArrangementModelV2 {
         List<PatternModelWithBottlesV2> notNullPatterns = new ArrayList<>();
         notNullPatterns.add(pattern);
 
-        PatternInfos leftPatternInfos = getLeftPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 leftPatternInfos = getLeftPatternInfos(patternCoordinates, coordinates);
         if (leftPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(leftPatternInfos.CavePlace, bottle, isAddBottle);
             notNullPatterns.add(leftPatternInfos.Pattern);
             addCoordinateToUpdate(coordinatesUpdated, leftPatternInfos.PatternCoordinates, leftPatternInfos.CavePlaceCoordinates);
         }
-        PatternInfos topPatternInfos = getTopPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 topPatternInfos = getTopPatternInfos(patternCoordinates, coordinates);
         if (topPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(topPatternInfos.CavePlace, bottle, isAddBottle);
             notNullPatterns.add(topPatternInfos.Pattern);
             addCoordinateToUpdate(coordinatesUpdated, topPatternInfos.PatternCoordinates, topPatternInfos.CavePlaceCoordinates);
         }
-        PatternInfos topLeftPatternInfos = getTopLeftPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 topLeftPatternInfos = getTopLeftPatternInfos(patternCoordinates, coordinates);
         if (topLeftPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(topLeftPatternInfos.CavePlace, bottle, isAddBottle);
@@ -345,21 +354,21 @@ public class CaveArrangementModelV2 {
         List<PatternModelWithBottlesV2> notNullPatterns = new ArrayList<>();
         notNullPatterns.add(pattern);
 
-        PatternInfos rightPatternInfos = getRightPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 rightPatternInfos = getRightPatternInfos(patternCoordinates, coordinates);
         if (rightPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(rightPatternInfos.CavePlace, bottle, isAddBottle);
             notNullPatterns.add(rightPatternInfos.Pattern);
             addCoordinateToUpdate(coordinatesUpdated, rightPatternInfos.PatternCoordinates, rightPatternInfos.CavePlaceCoordinates);
         }
-        PatternInfos bottomPatternInfos = getBottomPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 bottomPatternInfos = getBottomPatternInfos(patternCoordinates, coordinates);
         if (bottomPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(bottomPatternInfos.CavePlace, bottle, isAddBottle);
             notNullPatterns.add(bottomPatternInfos.Pattern);
             addCoordinateToUpdate(coordinatesUpdated, bottomPatternInfos.PatternCoordinates, bottomPatternInfos.CavePlaceCoordinates);
         }
-        PatternInfos bottomRightPatternInfos = getBottomRightPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 bottomRightPatternInfos = getBottomRightPatternInfos(patternCoordinates, coordinates);
         if (bottomRightPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(bottomRightPatternInfos.CavePlace, bottle, isAddBottle);
@@ -381,21 +390,21 @@ public class CaveArrangementModelV2 {
         List<PatternModelWithBottlesV2> notNullPatterns = new ArrayList<>();
         notNullPatterns.add(pattern);
 
-        PatternInfos leftPatternInfos = getLeftPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 leftPatternInfos = getLeftPatternInfos(patternCoordinates, coordinates);
         if (leftPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(leftPatternInfos.CavePlace, bottle, isAddBottle);
             notNullPatterns.add(leftPatternInfos.Pattern);
             addCoordinateToUpdate(coordinatesUpdated, leftPatternInfos.PatternCoordinates, leftPatternInfos.CavePlaceCoordinates);
         }
-        PatternInfos bottomPatternInfos = getBottomPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 bottomPatternInfos = getBottomPatternInfos(patternCoordinates, coordinates);
         if (bottomPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(bottomPatternInfos.CavePlace, bottle, isAddBottle);
             notNullPatterns.add(bottomPatternInfos.Pattern);
             addCoordinateToUpdate(coordinatesUpdated, bottomPatternInfos.PatternCoordinates, bottomPatternInfos.CavePlaceCoordinates);
         }
-        PatternInfos bottomLeftPatternInfos = getBottomLeftPatternInfos(patternCoordinates, coordinates);
+        PatternInfosV2 bottomLeftPatternInfos = getBottomLeftPatternInfos(patternCoordinates, coordinates);
         if (bottomLeftPatternInfos != null) {
             numberPlaces++;
             updateCavePlace(bottomLeftPatternInfos.CavePlace, bottle, isAddBottle);
@@ -457,16 +466,16 @@ public class CaveArrangementModelV2 {
         if (cavePlaceToUpdate == null) return;
         cavePlaceToUpdate.BottleId = isAddBottle ? bottle.Id : -1;
         cavePlaceToUpdate.PlaceType = isAddBottle
-                ? CavePlaceTypeEnum.getByPositionAndColor(cavePlaceToUpdate.PlaceType.Position, bottle.WineColor)
-                : CavePlaceTypeEnum.getEmptyByPosition(cavePlaceToUpdate.PlaceType.Position);
+                ? CavePlaceTypeEnumV2.getByPositionAndColor(cavePlaceToUpdate.PlaceType.Position, bottle.WineColor)
+                : CavePlaceTypeEnumV2.getEmptyByPosition(cavePlaceToUpdate.PlaceType.Position);
     }
 
     @Nullable
-    private PatternInfos getTopRightPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
+    private PatternInfosV2 getTopRightPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         PatternModelWithBottlesV2 pattern = PatternMap.get(patternCoordinates);
         CoordinatesModelV2 topRightCoordinates = new CoordinatesModelV2(coordinates.Row + 1, coordinates.Col + 1);
         if (pattern.PlaceMapWithBottles.containsKey(topRightCoordinates)) {
-            return new PatternInfos(pattern.PlaceMapWithBottles.get(topRightCoordinates), pattern, patternCoordinates, topRightCoordinates);
+            return new PatternInfosV2(pattern.PlaceMapWithBottles.get(topRightCoordinates), pattern, patternCoordinates, topRightCoordinates);
         } else if (CoordinatesManager.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row + 1)) {
             // if pattern.PlaceMapWithBottles contains the row + 1 -> search rightPattern
             Pair<PatternModelWithBottlesV2, CoordinatesModelV2> rightPatternAndCoordinates = getRightPatternAndCoordinates(patternCoordinates);
@@ -474,7 +483,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 rightPattern = rightPatternAndCoordinates.first;
                 CoordinatesModelV2 topRightOtherCoordinates = new CoordinatesModelV2(coordinates.Row + 1, 0);
                 if (rightPattern.PlaceMapWithBottles.containsKey(topRightOtherCoordinates)) {
-                    return new PatternInfos(rightPattern.PlaceMapWithBottles.get(topRightOtherCoordinates), rightPattern, rightPatternAndCoordinates.second, topRightOtherCoordinates);
+                    return new PatternInfosV2(rightPattern.PlaceMapWithBottles.get(topRightOtherCoordinates), rightPattern, rightPatternAndCoordinates.second, topRightOtherCoordinates);
                 }
             }
         } else if (CoordinatesManager.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
@@ -484,7 +493,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 topPattern = topPatternAndCoordinates.first;
                 CoordinatesModelV2 topRightOtherCoordinates = new CoordinatesModelV2(0, coordinates.Col + 1);
                 if (topPattern.PlaceMapWithBottles.containsKey(topRightOtherCoordinates)) {
-                    return new PatternInfos(topPattern.PlaceMapWithBottles.get(topRightOtherCoordinates), topPattern, topPatternAndCoordinates.second, topRightOtherCoordinates);
+                    return new PatternInfosV2(topPattern.PlaceMapWithBottles.get(topRightOtherCoordinates), topPattern, topPatternAndCoordinates.second, topRightOtherCoordinates);
                 }
             }
         }
@@ -492,11 +501,11 @@ public class CaveArrangementModelV2 {
     }
 
     @Nullable
-    private PatternInfos getTopLeftPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
+    private PatternInfosV2 getTopLeftPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         PatternModelWithBottlesV2 pattern = PatternMap.get(patternCoordinates);
         CoordinatesModelV2 topLeftCoordinates = new CoordinatesModelV2(coordinates.Row + 1, coordinates.Col - 1);
         if (pattern.PlaceMapWithBottles.containsKey(topLeftCoordinates)) {
-            return new PatternInfos(pattern.PlaceMapWithBottles.get(topLeftCoordinates), pattern, patternCoordinates, topLeftCoordinates);
+            return new PatternInfosV2(pattern.PlaceMapWithBottles.get(topLeftCoordinates), pattern, patternCoordinates, topLeftCoordinates);
         } else if (CoordinatesManager.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row + 1)) {
             // if pattern.PlaceMapWithBottles contains the row + 1 -> search leftPattern
             Pair<PatternModelWithBottlesV2, CoordinatesModelV2> leftPatternAndCoordinates = getLeftPatternAndCoordinates(patternCoordinates);
@@ -504,7 +513,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 leftPattern = leftPatternAndCoordinates.first;
                 CoordinatesModelV2 topLeftOtherCoordinates = new CoordinatesModelV2(coordinates.Row + 1, CoordinatesManager.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
                 if (leftPattern.PlaceMapWithBottles.containsKey(topLeftOtherCoordinates)) {
-                    return new PatternInfos(leftPattern.PlaceMapWithBottles.get(topLeftOtherCoordinates), leftPattern, leftPatternAndCoordinates.second, topLeftOtherCoordinates);
+                    return new PatternInfosV2(leftPattern.PlaceMapWithBottles.get(topLeftOtherCoordinates), leftPattern, leftPatternAndCoordinates.second, topLeftOtherCoordinates);
                 }
             }
         } else if (CoordinatesManager.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
@@ -514,7 +523,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 topPattern = topPatternAndCoordinates.first;
                 CoordinatesModelV2 topLeftOtherCoordinates = new CoordinatesModelV2(0, coordinates.Col - 1);
                 if (topPattern.PlaceMapWithBottles.containsKey(topLeftOtherCoordinates)) {
-                    return new PatternInfos(topPattern.PlaceMapWithBottles.get(topLeftOtherCoordinates), topPattern, topPatternAndCoordinates.second, topLeftOtherCoordinates);
+                    return new PatternInfosV2(topPattern.PlaceMapWithBottles.get(topLeftOtherCoordinates), topPattern, topPatternAndCoordinates.second, topLeftOtherCoordinates);
                 }
             }
         }
@@ -522,11 +531,11 @@ public class CaveArrangementModelV2 {
     }
 
     @Nullable
-    private PatternInfos getTopPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
+    private PatternInfosV2 getTopPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         PatternModelWithBottlesV2 pattern = PatternMap.get(patternCoordinates);
         CoordinatesModelV2 topCoordinates = new CoordinatesModelV2(coordinates.Row + 1, coordinates.Col);
         if (pattern.PlaceMapWithBottles.containsKey(topCoordinates)) {
-            return new PatternInfos(pattern.PlaceMapWithBottles.get(topCoordinates), pattern, patternCoordinates, topCoordinates);
+            return new PatternInfosV2(pattern.PlaceMapWithBottles.get(topCoordinates), pattern, patternCoordinates, topCoordinates);
         } else {
             // search topPattern
             Pair<PatternModelWithBottlesV2, CoordinatesModelV2> topPatternAndCoordinates = getTopPatternAndCoordinates(patternCoordinates);
@@ -534,7 +543,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 topPattern = topPatternAndCoordinates.first;
                 CoordinatesModelV2 topOtherCoordinates = new CoordinatesModelV2(0, coordinates.Col);
                 if (topPattern.PlaceMapWithBottles.containsKey(topOtherCoordinates)) {
-                    return new PatternInfos(topPattern.PlaceMapWithBottles.get(topOtherCoordinates), topPattern, topPatternAndCoordinates.second, topOtherCoordinates);
+                    return new PatternInfosV2(topPattern.PlaceMapWithBottles.get(topOtherCoordinates), topPattern, topPatternAndCoordinates.second, topOtherCoordinates);
                 }
             }
         }
@@ -542,11 +551,11 @@ public class CaveArrangementModelV2 {
     }
 
     @Nullable
-    private PatternInfos getBottomRightPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
+    private PatternInfosV2 getBottomRightPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         PatternModelWithBottlesV2 pattern = PatternMap.get(patternCoordinates);
         CoordinatesModelV2 bottomRightCoordinates = new CoordinatesModelV2(coordinates.Row - 1, coordinates.Col + 1);
         if (pattern.PlaceMapWithBottles.containsKey(bottomRightCoordinates)) {
-            return new PatternInfos(pattern.PlaceMapWithBottles.get(bottomRightCoordinates), pattern, patternCoordinates, bottomRightCoordinates);
+            return new PatternInfosV2(pattern.PlaceMapWithBottles.get(bottomRightCoordinates), pattern, patternCoordinates, bottomRightCoordinates);
         } else if (CoordinatesManager.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row - 1)) {
             // if pattern.PlaceMapWithBottles contains the row - 1 -> search rightPattern
             Pair<PatternModelWithBottlesV2, CoordinatesModelV2> rightPatternAndCoordinates = getRightPatternAndCoordinates(patternCoordinates);
@@ -554,7 +563,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 rightPattern = rightPatternAndCoordinates.first;
                 CoordinatesModelV2 bottomRightOtherCoordinates = new CoordinatesModelV2(coordinates.Row - 1, 0);
                 if (rightPattern.PlaceMapWithBottles.containsKey(bottomRightOtherCoordinates)) {
-                    return new PatternInfos(rightPattern.PlaceMapWithBottles.get(bottomRightOtherCoordinates), rightPattern, rightPatternAndCoordinates.second, bottomRightOtherCoordinates);
+                    return new PatternInfosV2(rightPattern.PlaceMapWithBottles.get(bottomRightOtherCoordinates), rightPattern, rightPatternAndCoordinates.second, bottomRightOtherCoordinates);
                 }
             }
         } else if (CoordinatesManager.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col + 1)) {
@@ -564,7 +573,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 bottomPattern = bottomPatternAndCoordinates.first;
                 CoordinatesModelV2 bottomRightOtherCoordinates = new CoordinatesModelV2(CoordinatesManager.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col + 1);
                 if (bottomPattern.PlaceMapWithBottles.containsKey(bottomRightOtherCoordinates)) {
-                    return new PatternInfos(bottomPattern.PlaceMapWithBottles.get(bottomRightOtherCoordinates), bottomPattern, bottomPatternAndCoordinates.second, bottomRightOtherCoordinates);
+                    return new PatternInfosV2(bottomPattern.PlaceMapWithBottles.get(bottomRightOtherCoordinates), bottomPattern, bottomPatternAndCoordinates.second, bottomRightOtherCoordinates);
                 }
             }
         }
@@ -572,11 +581,11 @@ public class CaveArrangementModelV2 {
     }
 
     @Nullable
-    private PatternInfos getRightPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
+    private PatternInfosV2 getRightPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         PatternModelWithBottlesV2 pattern = PatternMap.get(patternCoordinates);
         CoordinatesModelV2 rightCoordinates = new CoordinatesModelV2(coordinates.Row, coordinates.Col + 1);
         if (pattern.PlaceMapWithBottles.containsKey(rightCoordinates)) {
-            return new PatternInfos(pattern.PlaceMapWithBottles.get(rightCoordinates), pattern, patternCoordinates, rightCoordinates);
+            return new PatternInfosV2(pattern.PlaceMapWithBottles.get(rightCoordinates), pattern, patternCoordinates, rightCoordinates);
         } else {
             // search rightPattern
             Pair<PatternModelWithBottlesV2, CoordinatesModelV2> rightPatternAndCoordinates = getRightPatternAndCoordinates(patternCoordinates);
@@ -584,7 +593,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 rightPattern = rightPatternAndCoordinates.first;
                 CoordinatesModelV2 rightOtherCoordinates = new CoordinatesModelV2(coordinates.Row, 0);
                 if (rightPattern.PlaceMapWithBottles.containsKey(rightOtherCoordinates)) {
-                    return new PatternInfos(rightPattern.PlaceMapWithBottles.get(rightOtherCoordinates), rightPattern, rightPatternAndCoordinates.second, rightOtherCoordinates);
+                    return new PatternInfosV2(rightPattern.PlaceMapWithBottles.get(rightOtherCoordinates), rightPattern, rightPatternAndCoordinates.second, rightOtherCoordinates);
                 }
             }
         }
@@ -592,11 +601,11 @@ public class CaveArrangementModelV2 {
     }
 
     @Nullable
-    private PatternInfos getBottomLeftPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
+    private PatternInfosV2 getBottomLeftPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         PatternModelWithBottlesV2 pattern = PatternMap.get(patternCoordinates);
         CoordinatesModelV2 bottomLeftCoordinates = new CoordinatesModelV2(coordinates.Row - 1, coordinates.Col - 1);
         if (pattern.PlaceMapWithBottles.containsKey(bottomLeftCoordinates)) {
-            return new PatternInfos(pattern.PlaceMapWithBottles.get(bottomLeftCoordinates), pattern, patternCoordinates, bottomLeftCoordinates);
+            return new PatternInfosV2(pattern.PlaceMapWithBottles.get(bottomLeftCoordinates), pattern, patternCoordinates, bottomLeftCoordinates);
         } else if (CoordinatesManager.containsRow(pattern.PlaceMapWithBottles.keySet(), coordinates.Row - 1)) {
             // if pattern.PlaceMapWithBottles contains the row - 1 -> search leftPattern
             Pair<PatternModelWithBottlesV2, CoordinatesModelV2> leftPatternAndCoordinates = getLeftPatternAndCoordinates(patternCoordinates);
@@ -604,7 +613,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 leftPattern = leftPatternAndCoordinates.first;
                 CoordinatesModelV2 bottomLeftOtherCoordinates = new CoordinatesModelV2(coordinates.Row - 1, CoordinatesManager.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
                 if (leftPattern.PlaceMapWithBottles.containsKey(bottomLeftOtherCoordinates)) {
-                    return new PatternInfos(leftPattern.PlaceMapWithBottles.get(bottomLeftOtherCoordinates), leftPattern, leftPatternAndCoordinates.second, bottomLeftOtherCoordinates);
+                    return new PatternInfosV2(leftPattern.PlaceMapWithBottles.get(bottomLeftOtherCoordinates), leftPattern, leftPatternAndCoordinates.second, bottomLeftOtherCoordinates);
                 }
             }
         } else if (CoordinatesManager.containsCol(pattern.PlaceMapWithBottles.keySet(), coordinates.Col - 1)) {
@@ -614,7 +623,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 bottomPattern = bottomPatternAndCoordinates.first;
                 CoordinatesModelV2 bottomLeftOtherCoordinates = new CoordinatesModelV2(CoordinatesManager.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col - 1);
                 if (bottomPattern.PlaceMapWithBottles.containsKey(bottomLeftOtherCoordinates)) {
-                    return new PatternInfos(bottomPattern.PlaceMapWithBottles.get(bottomLeftOtherCoordinates), bottomPattern, bottomPatternAndCoordinates.second, bottomLeftOtherCoordinates);
+                    return new PatternInfosV2(bottomPattern.PlaceMapWithBottles.get(bottomLeftOtherCoordinates), bottomPattern, bottomPatternAndCoordinates.second, bottomLeftOtherCoordinates);
                 }
             }
         }
@@ -622,11 +631,11 @@ public class CaveArrangementModelV2 {
     }
 
     @Nullable
-    private PatternInfos getBottomPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
+    private PatternInfosV2 getBottomPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         PatternModelWithBottlesV2 pattern = PatternMap.get(patternCoordinates);
         CoordinatesModelV2 bottomCoordinates = new CoordinatesModelV2(coordinates.Row - 1, coordinates.Col);
         if (pattern.PlaceMapWithBottles.containsKey(bottomCoordinates)) {
-            return new PatternInfos(pattern.PlaceMapWithBottles.get(bottomCoordinates), pattern, patternCoordinates, bottomCoordinates);
+            return new PatternInfosV2(pattern.PlaceMapWithBottles.get(bottomCoordinates), pattern, patternCoordinates, bottomCoordinates);
         } else {
             // search bottomPattern
             Pair<PatternModelWithBottlesV2, CoordinatesModelV2> bottomPatternAndCoordinates = getBottomPatternAndCoordinates(patternCoordinates);
@@ -634,7 +643,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 bottomPattern = bottomPatternAndCoordinates.first;
                 CoordinatesModelV2 bottomOtherCoordinates = new CoordinatesModelV2(CoordinatesManager.getMaxRow(bottomPattern.PlaceMapWithBottles.keySet()), coordinates.Col);
                 if (bottomPattern.PlaceMapWithBottles.containsKey(bottomOtherCoordinates)) {
-                    return new PatternInfos(bottomPattern.PlaceMapWithBottles.get(bottomOtherCoordinates), bottomPattern, bottomPatternAndCoordinates.second, bottomOtherCoordinates);
+                    return new PatternInfosV2(bottomPattern.PlaceMapWithBottles.get(bottomOtherCoordinates), bottomPattern, bottomPatternAndCoordinates.second, bottomOtherCoordinates);
                 }
             }
         }
@@ -642,11 +651,11 @@ public class CaveArrangementModelV2 {
     }
 
     @Nullable
-    private PatternInfos getLeftPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
+    private PatternInfosV2 getLeftPatternInfos(CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) {
         PatternModelWithBottlesV2 pattern = PatternMap.get(patternCoordinates);
         CoordinatesModelV2 leftCoordinates = new CoordinatesModelV2(coordinates.Row, coordinates.Col - 1);
         if (pattern.PlaceMapWithBottles.containsKey(leftCoordinates)) {
-            return new PatternInfos(pattern.PlaceMapWithBottles.get(leftCoordinates), pattern, patternCoordinates, leftCoordinates);
+            return new PatternInfosV2(pattern.PlaceMapWithBottles.get(leftCoordinates), pattern, patternCoordinates, leftCoordinates);
         } else {
             // search leftPattern
             Pair<PatternModelWithBottlesV2, CoordinatesModelV2> leftPatternAndCoordinates = getLeftPatternAndCoordinates(patternCoordinates);
@@ -654,7 +663,7 @@ public class CaveArrangementModelV2 {
                 PatternModelWithBottlesV2 leftPattern = leftPatternAndCoordinates.first;
                 CoordinatesModelV2 leftOtherCoordinates = new CoordinatesModelV2(coordinates.Row, CoordinatesManager.getMaxCol(leftPattern.PlaceMapWithBottles.keySet()));
                 if (leftPattern.PlaceMapWithBottles.containsKey(leftOtherCoordinates)) {
-                    return new PatternInfos(leftPattern.PlaceMapWithBottles.get(leftOtherCoordinates), leftPattern, leftPatternAndCoordinates.second, leftOtherCoordinates);
+                    return new PatternInfosV2(leftPattern.PlaceMapWithBottles.get(leftOtherCoordinates), leftPattern, leftPatternAndCoordinates.second, leftOtherCoordinates);
                 }
             }
         }
@@ -781,7 +790,7 @@ public class CaveArrangementModelV2 {
                                 }
 
                                 cavePlaceTop.BottleId = -1;
-                                cavePlaceTop.PlaceType = CavePlaceTypeEnum.getEmptyByPosition(cavePlaceTop.PlaceType.Position);
+                                cavePlaceTop.PlaceType = CavePlaceTypeEnumV2.getEmptyByPosition(cavePlaceTop.PlaceType.Position);
                             }
                         }
                         // look for half bottles on the bottom : for each 1/2 bottle found, if the second half is not found, remove it
@@ -797,7 +806,7 @@ public class CaveArrangementModelV2 {
                                 }
 
                                 cavePlaceBottom.BottleId = -1;
-                                cavePlaceBottom.PlaceType = CavePlaceTypeEnum.getEmptyByPosition(cavePlaceBottom.PlaceType.Position);
+                                cavePlaceBottom.PlaceType = CavePlaceTypeEnumV2.getEmptyByPosition(cavePlaceBottom.PlaceType.Position);
                             }
                         }
                     }
@@ -829,7 +838,7 @@ public class CaveArrangementModelV2 {
                                 }
 
                                 cavePlaceLeft.BottleId = -1;
-                                cavePlaceLeft.PlaceType = CavePlaceTypeEnum.getEmptyByPosition(cavePlaceLeft.PlaceType.Position);
+                                cavePlaceLeft.PlaceType = CavePlaceTypeEnumV2.getEmptyByPosition(cavePlaceLeft.PlaceType.Position);
                             }
                         }
                         // look for half bottles on the right : for each 1/2 bottle found, if the second half is not found, remove it
@@ -845,7 +854,7 @@ public class CaveArrangementModelV2 {
                                 }
 
                                 cavePlaceRight.BottleId = -1;
-                                cavePlaceRight.PlaceType = CavePlaceTypeEnum.getEmptyByPosition(cavePlaceRight.PlaceType.Position);
+                                cavePlaceRight.PlaceType = CavePlaceTypeEnumV2.getEmptyByPosition(cavePlaceRight.PlaceType.Position);
                             }
                         }
                     }
@@ -895,10 +904,10 @@ public class CaveArrangementModelV2 {
         TotalUsed = totalUsed;
     }
 
-    public void resetBottlesPlacedIfNeeded(Context context, CaveTypeEnum caveType, CaveModelV2 oldCave) {
+    public void resetBottlesPlacedIfNeeded(Context context, CaveTypeEnumV2 caveType, CaveModelV2 oldCave) {
         switch (caveType) {
-            case BULK:
-            case BOX:
+            case bu:
+            case bo:
                 if (oldCave.CaveType != caveType) {
                     resetBottlePlaced(context);
                     resetFloatNumberPlacedBottlesByIdMap();

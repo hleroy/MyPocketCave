@@ -16,14 +16,14 @@ import com.myadridev.mypocketcave.listeners.OnBottleDrunkClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 public class SeeBottleAlertDialog extends AlertDialog {
 
     private final int maxBottlesToUnplace;
 
-    public SeeBottleAlertDialog(Activity activity, int bottleId, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates,
+    public SeeBottleAlertDialog(Activity activity, int bottleId, final CoordinatesModelV2 patternCoordinates, final CoordinatesModelV2 coordinates,
                                 final OnBottleDrunkClickListener onBottleDrunkClickListener, final OnBottleUnplacedClickListener onBottleUnplacedClickListener,
                                 int bottleIdInHighlight, final OnBottleClickListener onBottleHighlightClickListener, int maxBottlesToUnplace) {
         super(activity);
@@ -39,7 +39,7 @@ public class SeeBottleAlertDialog extends AlertDialog {
         TextView unplaceView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_unplace_bottle);
         TextView highlightView = (TextView) dialogView.findViewById(R.id.alert_see_bottle_highlight_bottle);
 
-        BottleModel bottle = BottleManager.getBottle(bottleId);
+        BottleModelV2 bottle = BottleManager.getBottle(bottleId);
         if (bottle == null) {
             // should not occur
             dismiss();

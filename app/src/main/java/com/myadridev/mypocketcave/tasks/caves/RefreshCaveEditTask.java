@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.AbstractCaveEditActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.CaveManager;
-import com.myadridev.mypocketcave.models.v1.CaveModel;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
 public class RefreshCaveEditTask extends AsyncTask<Integer, Void, Void> {
 
@@ -31,11 +31,11 @@ public class RefreshCaveEditTask extends AsyncTask<Integer, Void, Void> {
         int caveId = params[0];
 
         if (caveId == 0) {
-            caveEditActivity.cave = new CaveModel();
+            caveEditActivity.cave = new CaveModelV2();
             caveEditActivity.oldCave = null;
         } else {
-            caveEditActivity.oldCave = new CaveModel(CaveManager.getCave(caveEditActivity, caveId));
-            caveEditActivity.cave = new CaveModel(caveEditActivity.oldCave);
+            caveEditActivity.oldCave = new CaveModelV2(CaveManager.getCave(caveEditActivity, caveId));
+            caveEditActivity.cave = new CaveModelV2(caveEditActivity.oldCave);
         }
 
         return null;

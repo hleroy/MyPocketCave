@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.managers.PatternManager;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 
 public class PatternEditActivity extends AbstractPatternEditActivity {
 
@@ -28,7 +28,7 @@ public class PatternEditActivity extends AbstractPatternEditActivity {
 
     @Override
     protected void setVisibilityIndependantValues() {
-        pattern = new PatternModel(PatternManager.getPattern(patternId));
+        pattern = new PatternModelV2(PatternManager.getPattern(patternId));
         typeSpinner.setVisibility(View.GONE);
         typeImage.setVisibility(View.VISIBLE);
         typeText.setVisibility(View.VISIBLE);

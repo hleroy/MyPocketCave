@@ -14,7 +14,7 @@ import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class SeeCavesAlertDialog extends AlertDialog {
         TextView noCavesView = (TextView) dialogView.findViewById(R.id.alert_see_caves_no_caves_label);
         RecyclerView cavesRecyclerView = (RecyclerView) dialogView.findViewById(R.id.alert_see_caves_caves_recyclerview);
 
-        List<CaveLightModel> caves = CaveManager.getLightCavesWithBottle(bottleId);
+        List<CaveLightModelV2> caves = CaveManager.getLightCavesWithBottle(bottleId);
         if (caves.isEmpty()) {
             noCavesView.setVisibility(View.VISIBLE);
             cavesRecyclerView.setVisibility(View.GONE);
@@ -50,7 +50,7 @@ public class SeeCavesAlertDialog extends AlertDialog {
         }
     }
 
-    private void setHolderPropertiesFromCave(CaveViewHolder holder, CaveLightModel cave) {
+    private void setHolderPropertiesFromCave(CaveViewHolder holder, CaveLightModelV2 cave) {
         holder.setLabelViewText(cave.Name);
         int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
         holder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(activity, caveTypeDrawableId) : null);

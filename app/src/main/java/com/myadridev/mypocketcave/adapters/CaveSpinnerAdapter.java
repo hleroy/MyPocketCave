@@ -11,7 +11,7 @@ import android.widget.SpinnerAdapter;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveSpinnerViewHolder;
 import com.myadridev.mypocketcave.managers.CaveManager;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class CaveSpinnerAdapter implements SpinnerAdapter {
 
     private final Context context;
     private final LayoutInflater layoutInflater;
-    private List<CaveLightModel> allDifferentCavesWithNone;
+    private List<CaveLightModelV2> allDifferentCavesWithNone;
 
     public CaveSpinnerAdapter(Context context) {
         this.context = context;
@@ -41,7 +41,7 @@ public class CaveSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (CaveSpinnerViewHolder) convertView.getTag();
         }
 
-        CaveLightModel cave = allDifferentCavesWithNone.get(position);
+        CaveLightModelV2 cave = allDifferentCavesWithNone.get(position);
         if (cave != null) {
             int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
             viewHolder.setCaveTypeViewImageDrawable(ContextCompat.getDrawable(context, caveTypeDrawableId));
@@ -74,7 +74,7 @@ public class CaveSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public long getItemId(int position) {
-        CaveLightModel cave = allDifferentCavesWithNone.get(position);
+        CaveLightModelV2 cave = allDifferentCavesWithNone.get(position);
         return cave != null ? cave.Id : -1;
     }
 
@@ -95,7 +95,7 @@ public class CaveSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (CaveSpinnerViewHolder) convertView.getTag();
         }
 
-        CaveLightModel cave = allDifferentCavesWithNone.get(position);
+        CaveLightModelV2 cave = allDifferentCavesWithNone.get(position);
         if (cave != null) {
             int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
             viewHolder.setCaveTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);

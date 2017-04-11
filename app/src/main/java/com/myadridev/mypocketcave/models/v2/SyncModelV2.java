@@ -1,17 +1,23 @@
 package com.myadridev.mypocketcave.models.v2;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.myadridev.mypocketcave.models.inferfaces.ISyncModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @JsonSerialize(as = SyncModelV2.class)
-public class SyncModelV2 {
+public class SyncModelV2 implements ISyncModel {
 
+    @JsonProperty("v")
     public String Version;
-    public List<CaveModelV2> Caves;
-    public List<BottleModelV2> Bottles;
-    public List<PatternModelV2> Patterns;
+    @JsonProperty("c")
+    public final List<CaveModelV2> Caves;
+    @JsonProperty("b")
+    public final List<BottleModelV2> Bottles;
+    @JsonProperty("p")
+    public final List<PatternModelV2> Patterns;
 
     public SyncModelV2() {
         Caves = new ArrayList<>();

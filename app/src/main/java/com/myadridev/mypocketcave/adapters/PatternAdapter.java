@@ -16,8 +16,8 @@ import com.myadridev.mypocketcave.listeners.OnBottlePlacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnBottleUnplacedClickListener;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
-import com.myadridev.mypocketcave.models.v1.CavePlaceModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.CavePlaceModelV2;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Activity activity;
-    private final Map<CoordinatesModel, CavePlaceModel> patternPlace;
+    private final Map<CoordinatesModelV2, CavePlaceModelV2> patternPlace;
     private final LayoutInflater layoutInflater;
 
     private final OnPlaceClickListener listener;
@@ -38,19 +38,19 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private OnBottlePlacedClickListener onBottlePlacedClickListener;
     private OnBottleDrunkClickListener onBottleDrunkClickListener;
     private OnBottleUnplacedClickListener onBottleUnplacedClickListener;
-    private CoordinatesModel patternCoordinates;
+    private CoordinatesModelV2 patternCoordinates;
 
     private int itemCount;
     private int itemWidth;
     private int itemHeight;
 
-    public PatternAdapter(Activity activity, Map<CoordinatesModel, CavePlaceModel> patternPlace, CoordinatesModel maxRawCol,
-                          boolean isClickable, int totalWidth, CoordinatesModel patternCoordinates) {
+    public PatternAdapter(Activity activity, Map<CoordinatesModelV2, CavePlaceModelV2> patternPlace, CoordinatesModelV2 maxRawCol,
+                          boolean isClickable, int totalWidth, CoordinatesModelV2 patternCoordinates) {
         this(activity, patternPlace, maxRawCol, isClickable, totalWidth, patternCoordinates, -1);
     }
 
-    public PatternAdapter(Activity activity, Map<CoordinatesModel, CavePlaceModel> patternPlace, CoordinatesModel maxRawCol,
-                          boolean isClickable, int totalWidth, CoordinatesModel patternCoordinates, int bottleIdInHighlight) {
+    public PatternAdapter(Activity activity, Map<CoordinatesModelV2, CavePlaceModelV2> patternPlace, CoordinatesModelV2 maxRawCol,
+                          boolean isClickable, int totalWidth, CoordinatesModelV2 patternCoordinates, int bottleIdInHighlight) {
         this.activity = activity;
         this.patternPlace = patternPlace;
         this.nbRows = maxRawCol.Row;
@@ -59,8 +59,8 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.bottleIdInHighlight = bottleIdInHighlight;
         this.isClickable = isClickable;
         layoutInflater = LayoutInflater.from(this.activity);
-        listener = (CoordinatesModel patternCoordinates1, CoordinatesModel coordinates) -> {
-            CavePlaceModel cavePlace = this.patternPlace.get(coordinates);
+        listener = (CoordinatesModelV2 patternCoordinates1, CoordinatesModelV2 coordinates) -> {
+            CavePlaceModelV2 cavePlace = this.patternPlace.get(coordinates);
             if (cavePlace.BottleId != -1) {
                 SeeBottleAlertDialog alertDialog = new SeeBottleAlertDialog(this.activity, cavePlace.BottleId, patternCoordinates1, coordinates,
                         onBottleDrunkClickListener, onBottleUnplacedClickListener, bottleIdInHighlight, onSetHighlightlistener, 0);
@@ -122,8 +122,8 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         PatternPlaceViewHolder holder = (PatternPlaceViewHolder) viewHolder;
-        CoordinatesModel coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
-        CavePlaceModel cavePlace = patternPlace.get(coordinates);
+        CoordinatesModelV2 coordinates = getCoordinateByPosition(CoordinatesManager.getRowFromPosition(position, getItemCount()), CoordinatesManager.getColFromPosition(position));
+        CavePlaceModelV2 cavePlace = patternPlace.get(coordinates);
         if (cavePlace != null) {
             holder.itemView.setMinimumWidth(itemWidth);
             holder.itemView.setMinimumHeight(itemHeight);
@@ -161,12 +161,12 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private CoordinatesModel getCoordinateByPosition(int rowPosition, int colPosition) {
-        return new CoordinatesModel(rowPosition / nbCols, colPosition % nbCols);
+    private CoordinatesModelV2 getCoordinateByPosition(int rowPosition, int colPosition) {
+        return new CoordinatesModelV2(rowPosition / nbCols, colPosition % nbCols);
     }
 
-    public void updatePositions(List<CoordinatesModel> coordinatesModelList) {
-        for (CoordinatesModel coordinatesModel : coordinatesModelList) {
+    public void updatePositions(List<CoordinatesModelV2> coordinatesModelList) {
+        for (CoordinatesModelV2 coordinatesModel : coordinatesModelList) {
             notifyItemChanged(CoordinatesManager.getPositionFromCoordinates(coordinatesModel.Row, coordinatesModel.Col, nbRows, nbCols));
         }
     }

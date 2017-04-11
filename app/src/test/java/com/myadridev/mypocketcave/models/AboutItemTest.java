@@ -2,8 +2,8 @@ package com.myadridev.mypocketcave.models;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
-import com.myadridev.mypocketcave.models.v1.AboutItem;
+import com.myadridev.mypocketcave.enums.v2.AboutFieldsEnumV2;
+import com.myadridev.mypocketcave.models.v2.AboutItemV2;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,10 +36,10 @@ public class AboutItemTest {
 
     @Test
     public void compareEqualAboutItem() {
-        AboutItem item1 = new AboutItem(mockContext, AboutFieldsEnum.SOURCES, "value1");
-        AboutItem item2 = new AboutItem(mockContext, AboutFieldsEnum.CONTACT, "value2");
-        AboutItem item3 = new AboutItem(mockContext, AboutFieldsEnum.LICENSE, "value2");
-        AboutItem item4 = new AboutItem(mockContext, AboutFieldsEnum.SOURCES, "value2");
+        AboutItemV2 item1 = new AboutItemV2(mockContext, AboutFieldsEnumV2.s, "value1");
+        AboutItemV2 item2 = new AboutItemV2(mockContext, AboutFieldsEnumV2.c, "value2");
+        AboutItemV2 item3 = new AboutItemV2(mockContext, AboutFieldsEnumV2.l, "value2");
+        AboutItemV2 item4 = new AboutItemV2(mockContext, AboutFieldsEnumV2.s, "value2");
 
         assertEquals(0, item1.compareTo(item4));
         assertEquals(1, item1.compareTo(item2));

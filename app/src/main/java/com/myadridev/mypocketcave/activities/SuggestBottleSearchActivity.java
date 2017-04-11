@@ -22,19 +22,19 @@ import com.myadridev.mypocketcave.adapters.DomainSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.MillesimeSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.PersonSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.WineColorSpinnerAdapter;
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.enums.MillesimeEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
+import com.myadridev.mypocketcave.enums.v2.MillesimeEnumV2;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
 import com.myadridev.mypocketcave.views.SeekbarRange;
 
 public class SuggestBottleSearchActivity extends AppCompatActivity {
 
-    private final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
+    private final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnumV2.values().length];
     private Spinner wineColorSpinner;
     private CheckBox wineColorCheckBox;
     private Spinner domainSpinner;
@@ -70,7 +70,7 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
         }
 
         isFoodListOpen = false;
-        for (int i = 0; i < FoodToEatWithEnum.values().length; i++) {
+        for (int i = 0; i < FoodToEatWithEnumV2.values().length; i++) {
             foodToEatWithList[i] = false;
         }
 
@@ -115,7 +115,7 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
             if (!isFoodListOpen) {
                 isFoodListOpen = true;
                 AlertDialog.Builder builder = new AlertDialog.Builder(SuggestBottleSearchActivity.this);
-                builder.setMultiChoiceItems(FoodToEatWithEnum.getAllFoodLabels(SuggestBottleSearchActivity.this), foodToEatWithList,
+                builder.setMultiChoiceItems(FoodToEatWithEnumV2.getAllFoodLabels(SuggestBottleSearchActivity.this), foodToEatWithList,
                         (DialogInterface dialog, int which, boolean isChecked) -> foodTextView.setText(FoodToEatHelper.computeFoodViewText(SuggestBottleSearchActivity.this, foodToEatWithList)));
                 builder.setOnDismissListener((DialogInterface dialog) -> {
                     isFoodListOpen = false;
@@ -137,12 +137,12 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
 
     private View.OnClickListener onSearchButtonClick() {
         return (View view) -> {
-            SuggestBottleCriteria searchCriteria = new SuggestBottleCriteria();
-            searchCriteria.WineColor = (WineColorEnum) wineColorSpinner.getSelectedItem();
+            SuggestBottleCriteriaV2 searchCriteria = new SuggestBottleCriteriaV2();
+            searchCriteria.WineColor = (WineColorEnumV2) wineColorSpinner.getSelectedItem();
             searchCriteria.IsWineColorRequired = wineColorCheckBox.isChecked();
             searchCriteria.Domain = domainSpinner.getSelectedItemPosition() != 0 ? (String) domainSpinner.getSelectedItem() : "";
             searchCriteria.IsDomainRequired = domainCheckBox.isChecked();
-            searchCriteria.Millesime = (MillesimeEnum) millesimeSpinner.getSelectedItem();
+            searchCriteria.Millesime = (MillesimeEnumV2) millesimeSpinner.getSelectedItem();
             searchCriteria.IsMillesimeRequired = millesimeCheckBox.isChecked();
             searchCriteria.RatingMinValue = seekbarRating.getSelectedMinValue();
             searchCriteria.RatingMaxValue = seekbarRating.getSelectedMaxValue();
@@ -152,13 +152,13 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
             searchCriteria.IsPriceRatingRequired = priceRatingCheckBox.isChecked();
             for (int i = 0; i < foodToEatWithList.length; i++) {
                 if (foodToEatWithList[i]) {
-                    searchCriteria.FoodToEatWithList.add(FoodToEatWithEnum.getById(i));
+                    searchCriteria.FoodToEatWithList.add(FoodToEatWithEnumV2.getById(i));
                 }
             }
             searchCriteria.IsFoodRequired = foodCheckBox.isChecked();
             searchCriteria.PersonToShareWith = personSpinner.getSelectedItemPosition() != 0 ? (String) personSpinner.getSelectedItem() : "";
             searchCriteria.IsPersonRequired = personCheckBox.isChecked();
-            searchCriteria.Cave = (CaveLightModel) caveSpinner.getSelectedItem();
+            searchCriteria.Cave = (CaveLightModelV2) caveSpinner.getSelectedItem();
             searchCriteria.IsCaveRequired = caveCheckBox.isChecked();
 
             if (checkCriteria(searchCriteria)) {
@@ -169,15 +169,15 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
         };
     }
 
-    private boolean checkCriteria(SuggestBottleCriteria searchCriteria) {
+    private boolean checkCriteria(SuggestBottleCriteriaV2 searchCriteria) {
         boolean isErrors = false;
-        if (searchCriteria.IsWineColorRequired && searchCriteria.WineColor == WineColorEnum.ANY) {
+        if (searchCriteria.IsWineColorRequired && searchCriteria.WineColor == WineColorEnumV2.a) {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_suggest_wine_color, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         } else if (searchCriteria.IsDomainRequired && searchCriteria.Domain.isEmpty()) {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_suggest_domain, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
-        } else if (searchCriteria.IsMillesimeRequired && searchCriteria.Millesime == MillesimeEnum.ANY) {
+        } else if (searchCriteria.IsMillesimeRequired && searchCriteria.Millesime == MillesimeEnumV2.a) {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_suggest_millesime, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         } else if (searchCriteria.IsFoodRequired && searchCriteria.FoodToEatWithList.isEmpty()) {

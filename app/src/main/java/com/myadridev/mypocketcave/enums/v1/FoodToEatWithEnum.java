@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.enums;
+package com.myadridev.mypocketcave.enums.v1;
 
 import android.content.Context;
 

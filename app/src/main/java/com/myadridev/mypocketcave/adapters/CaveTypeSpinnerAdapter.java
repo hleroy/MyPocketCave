@@ -10,7 +10,7 @@ import android.widget.SpinnerAdapter;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveTypeViewHolder;
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 
 public class CaveTypeSpinnerAdapter implements SpinnerAdapter {
 
@@ -36,7 +36,7 @@ public class CaveTypeSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (CaveTypeViewHolder) convertView.getTag();
         }
 
-        CaveTypeEnum caveType = CaveTypeEnum.getById(getCaveTypeId(position));
+        CaveTypeEnumV2 caveType = CaveTypeEnumV2.getById(getCaveTypeId(position));
         if (caveType != null) {
             int caveTypeDrawableId = caveType.DrawableResourceId;
             viewHolder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(context, caveTypeDrawableId) : null);
@@ -56,12 +56,12 @@ public class CaveTypeSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return containsNone ? CaveTypeEnum.values().length : CaveTypeEnum.values().length - 1;
+        return containsNone ? CaveTypeEnumV2.values().length : CaveTypeEnumV2.values().length - 1;
     }
 
     @Override
     public Object getItem(int position) {
-        return CaveTypeEnum.getById(getCaveTypeId(position));
+        return CaveTypeEnumV2.getById(getCaveTypeId(position));
     }
 
     @Override
@@ -86,7 +86,7 @@ public class CaveTypeSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (CaveTypeViewHolder) convertView.getTag();
         }
 
-        CaveTypeEnum caveType = CaveTypeEnum.getById(getCaveTypeId(position));
+        CaveTypeEnumV2 caveType = CaveTypeEnumV2.getById(getCaveTypeId(position));
         if (caveType != null) {
             int caveTypeDrawableId = caveType.DrawableResourceId;
             if (caveTypeDrawableId != -1)

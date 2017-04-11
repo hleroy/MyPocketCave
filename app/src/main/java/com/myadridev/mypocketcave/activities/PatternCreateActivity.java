@@ -5,8 +5,8 @@ import android.view.View;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternTypeSpinnerAdapter;
-import com.myadridev.mypocketcave.enums.PatternTypeEnum;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 
 public class PatternCreateActivity extends AbstractPatternEditActivity {
 
@@ -24,12 +24,12 @@ public class PatternCreateActivity extends AbstractPatternEditActivity {
 
     @Override
     protected void updateVisibilityIndependantValuesInner() {
-        pattern.Type = (PatternTypeEnum) typeSpinner.getSelectedItem();
+        pattern.Type = (PatternTypeEnumV2) typeSpinner.getSelectedItem();
     }
 
     @Override
     protected void setVisibilityIndependantValues() {
-        pattern = new PatternModel();
+        pattern = new PatternModelV2();
         typeSpinner.setVisibility(View.VISIBLE);
         typeImage.setVisibility(View.GONE);
         typeText.setVisibility(View.GONE);

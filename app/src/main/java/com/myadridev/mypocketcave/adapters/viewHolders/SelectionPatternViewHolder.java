@@ -33,12 +33,7 @@ public class SelectionPatternViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setOnItemClickListener(final OnSelectionPatternClickListener listener, final int patternId) {
-        clickableSpace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(patternId);
-            }
-        });
+        clickableSpace.setOnClickListener((View v) -> listener.onItemClick(patternId));
     }
 
     public void setClickableSpaceDimensions(int width, int height) {

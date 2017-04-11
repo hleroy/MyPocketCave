@@ -14,21 +14,21 @@ import com.myadridev.mypocketcave.adapters.viewHolders.SuggestBottleResultSeeMor
 import com.myadridev.mypocketcave.listeners.OnBottleClickListener;
 import com.myadridev.mypocketcave.listeners.OnSeeMoreClickListener;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleResultModelV2;
 
 import java.util.List;
 
 public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
-    private final List<SuggestBottleResultModel> bottles;
+    private final List<SuggestBottleResultModelV2> bottles;
     private final LayoutInflater layoutInflater;
     private final OnBottleClickListener onBottleClickListener;
     private OnSeeMoreClickListener onSeeMoreClickListener;
     private boolean isAllBottlesVisible;
     private int numberBottlesAllCriteria;
 
-    public SuggestBottlesResultAdapter(Context context, List<SuggestBottleResultModel> bottles) {
+    public SuggestBottlesResultAdapter(Context context, List<SuggestBottleResultModelV2> bottles) {
         this.context = context;
         this.bottles = bottles;
         isAllBottlesVisible = false;
@@ -51,8 +51,8 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private void computeVisibleBottlesCount() {
         int count = 0;
-        for (SuggestBottleResultModel bottle : bottles) {
-            if (bottle.Score == SuggestBottleCriteria.NumberOfCriteria)
+        for (SuggestBottleResultModelV2 bottle : bottles) {
+            if (bottle.Score == SuggestBottleCriteriaV2.NumberOfCriteria)
                 count++;
         }
         numberBottlesAllCriteria = count;
@@ -133,7 +133,7 @@ public class SuggestBottlesResultAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    private void BindBottleViewHolder(BottleViewHolder viewHolder, SuggestBottleResultModel bottle) {
+    private void BindBottleViewHolder(BottleViewHolder viewHolder, SuggestBottleResultModelV2 bottle) {
         if (bottle != null) {
             viewHolder.setLabelViewText(bottle.Bottle.Domain + " - " + bottle.Bottle.Name);
             viewHolder.setMillesimeViewText(bottle.Bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Bottle.Millesime));

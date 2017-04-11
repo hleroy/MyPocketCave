@@ -3,20 +3,25 @@ package com.myadridev.mypocketcave.models.v2;
 import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.models.ICaveModel;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.models.inferfaces.ICaveModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 import java.util.List;
 
 @JsonSerialize(as = CaveModelV2.class)
 public class CaveModelV2 implements IStorableModel, Comparable<CaveModelV2>, ICaveModel {
 
+    @JsonProperty("i")
     public int Id;
+    @JsonProperty("n")
     public String Name;
-    public CaveTypeEnum CaveType;
+    @JsonProperty("ct")
+    public CaveTypeEnumV2 CaveType;
+    @JsonProperty("ca")
     public CaveArrangementModelV2 CaveArrangement;
 
     //TODO : photo

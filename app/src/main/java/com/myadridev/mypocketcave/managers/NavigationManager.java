@@ -21,7 +21,7 @@ import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
 import com.myadridev.mypocketcave.activities.SuggestBottleSearchActivity;
 import com.myadridev.mypocketcave.activities.SyncActivity;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
 
 public class NavigationManager {
 
@@ -57,7 +57,7 @@ public class NavigationManager {
         context.startActivity(new Intent(context, SuggestBottleSearchActivity.class));
     }
 
-    public static boolean navigateToSuggestBottleResult(Context context, SuggestBottleCriteria searchCriteria) {
+    public static boolean navigateToSuggestBottleResult(Context context, SuggestBottleCriteriaV2 searchCriteria) {
         String searchCriteriaJson = JsonManager.writeValueAsString(searchCriteria);
         if (searchCriteriaJson == null) {
             return false;

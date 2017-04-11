@@ -5,13 +5,13 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.BottlesSharedPreferencesManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v2.BottlesSharedPreferencesManagerV2;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -50,7 +50,7 @@ import static org.mockito.Mockito.when;
 public class BottlesSharedPreferencesManagerTest {
 
     private static Map<Integer, IStorableModel> bottleMap;
-    private static List<BottleModel> sortedBottles;
+    private static List<BottleModelV2> sortedBottles;
     private static List<Integer> bottleIds;
 
     @Mock
@@ -62,7 +62,7 @@ public class BottlesSharedPreferencesManagerTest {
         DependencyManager.init();
 
         ISharedPreferencesManager mockSharedPreferencesManager = mock(ISharedPreferencesManager.class);
-        when(mockSharedPreferencesManager.loadStoredDataMap(any(Context.class), anyString(), anyString(), anyInt(), eq(BottleModel.class))).thenAnswer(new Answer<Map<Integer, IStorableModel>>() {
+        when(mockSharedPreferencesManager.loadStoredDataMap(any(Context.class), anyString(), anyString(), anyInt(), eq(BottleModelV2.class))).thenAnswer(new Answer<Map<Integer, IStorableModel>>() {
             @Override
             public Map<Integer, IStorableModel> answer(InvocationOnMock invocation) {
                 return bottleMap;
@@ -75,7 +75,7 @@ public class BottlesSharedPreferencesManagerTest {
                 for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
                     String key = entry.getKey();
                     if (key.startsWith("bottle_")) {
-                        BottleModel bottle = (BottleModel) entry.getValue();
+                        BottleModelV2 bottle = (BottleModelV2) entry.getValue();
                         bottleMap.put(bottle.Id, bottle);
                         sortedBottles.removeIf(existingBottle -> existingBottle.Id == bottle.Id);
                         sortedBottles.add(bottle);
@@ -128,18 +128,18 @@ public class BottlesSharedPreferencesManagerTest {
         bottleMap = new HashMap<>();
         bottleIds = new ArrayList<>();
         sortedBottles = new ArrayList<>();
-        List<List<FoodToEatWithEnum>> foods = new ArrayList<>();
+        List<List<FoodToEatWithEnumV2>> foods = new ArrayList<>();
         foods.add(new ArrayList<>());
         foods.add(new ArrayList<>());
-        foods.get(1).add(FoodToEatWithEnum.PorkProduct);
-        foods.get(1).add(FoodToEatWithEnum.Fish);
+        foods.get(1).add(FoodToEatWithEnumV2.po);
+        foods.get(1).add(FoodToEatWithEnumV2.fi);
 
         int count = 0;
         int numberDifferentDomains = 2;
         for (int i = 0; i < numberDifferentDomains; i++) {
             String domain = "AA - Domaine " + (i + 1);
             for (int c = 0; c < 2; c++) {
-                WineColorEnum color = WineColorEnum.getById(c + 1);
+                WineColorEnumV2 color = WineColorEnumV2.getById(c + 1);
                 int millesime = 42;
                 for (int k = 0; k < 2; k++) {
                     String person = "Person " + (k + 1);
@@ -147,7 +147,7 @@ public class BottlesSharedPreferencesManagerTest {
                         count++;
                         String name = "AA - Suggest " + count;
 
-                        BottleModel bottle = new BottleModel();
+                        BottleModelV2 bottle = new BottleModelV2();
                         bottle.Id = count;
                         bottle.Domain = domain;
                         bottle.WineColor = color;
@@ -185,12 +185,12 @@ public class BottlesSharedPreferencesManagerTest {
                 return "bottle_" + (int) invocation.getArguments()[1];
             }
         });
-        BottlesSharedPreferencesManager.init(context);
+        BottlesSharedPreferencesManagerV2.init(context);
     }
 
     @Test
     public void getBottles() {
-        List<BottleModel> outputBottles = BottlesSharedPreferencesManager.Instance.getBottles();
+        List<BottleModelV2> outputBottles = BottlesSharedPreferencesManagerV2.Instance.getBottles();
         assertEquals(sortedBottles.size(), outputBottles.size());
         for (int i = 0; i < sortedBottles.size(); i++) {
             assertEquals(sortedBottles.get(i), outputBottles.get(i));
@@ -199,36 +199,36 @@ public class BottlesSharedPreferencesManagerTest {
 
     @Test
     public void getBottleWhenNoBottle() {
-        BottleModel outputBottle = BottlesSharedPreferencesManager.Instance.getBottle(-1);
+        BottleModelV2 outputBottle = BottlesSharedPreferencesManagerV2.Instance.getBottle(-1);
         assertNull(outputBottle);
     }
 
     @Test
     public void getBottleWhenBottleExists() {
-        BottleModel outputBottle = BottlesSharedPreferencesManager.Instance.getBottle(1);
-        BottleModel expectedBottle = (BottleModel) bottleMap.get(1);
+        BottleModelV2 outputBottle = BottlesSharedPreferencesManagerV2.Instance.getBottle(1);
+        BottleModelV2 expectedBottle = (BottleModelV2) bottleMap.get(1);
         assertNotNull(outputBottle);
         assertEquals(expectedBottle, outputBottle);
     }
 
     @Test
     public void insertBottle() {
-        BottleModel newBottle = new BottleModel();
-        newBottle.WineColor = WineColorEnum.CHAMPAGNE;
+        BottleModelV2 newBottle = new BottleModelV2();
+        newBottle.WineColor = WineColorEnumV2.c;
         newBottle.Domain = "New domain";
         newBottle.PersonToShareWith = "new Person";
         newBottle.Stock = 42;
         newBottle.Millesime = 2012;
         newBottle.Name = "new name";
-        newBottle.FoodToEatWithList.add(FoodToEatWithEnum.Exotic);
-        newBottle.FoodToEatWithList.add(FoodToEatWithEnum.Cheese);
+        newBottle.FoodToEatWithList.add(FoodToEatWithEnumV2.ex);
+        newBottle.FoodToEatWithList.add(FoodToEatWithEnumV2.ch);
 
         int expectedBottleId = 17;
         assertFalse(bottleIds.contains(expectedBottleId));
         assertFalse(bottleMap.containsKey(expectedBottleId));
         assertTrue(sortedBottles.parallelStream().noneMatch(bottle -> bottle.Id == expectedBottleId));
 
-        int outputBottleId = BottlesSharedPreferencesManager.Instance.insertBottle(context, newBottle);
+        int outputBottleId = BottlesSharedPreferencesManagerV2.Instance.insertBottle(context, newBottle, true);
 
         assertEquals(expectedBottleId, outputBottleId);
         assertEquals(expectedBottleId, newBottle.Id);
@@ -250,20 +250,20 @@ public class BottlesSharedPreferencesManagerTest {
 
     @Test
     public void updateBottle() {
-        BottleModel updatedBottle = new BottleModel();
+        BottleModelV2 updatedBottle = new BottleModelV2();
         updatedBottle.Id = 1;
-        updatedBottle.WineColor = WineColorEnum.CHAMPAGNE;
+        updatedBottle.WineColor = WineColorEnumV2.c;
         updatedBottle.Domain = "New domain";
         updatedBottle.PersonToShareWith = "new Person";
         updatedBottle.Stock = 42;
         updatedBottle.Millesime = 2012;
         updatedBottle.Name = "new name";
-        updatedBottle.FoodToEatWithList.add(FoodToEatWithEnum.Exotic);
-        updatedBottle.FoodToEatWithList.add(FoodToEatWithEnum.Cheese);
+        updatedBottle.FoodToEatWithList.add(FoodToEatWithEnumV2.ex);
+        updatedBottle.FoodToEatWithList.add(FoodToEatWithEnumV2.ch);
 
         IStorableModel oldBottle = bottleMap.get(updatedBottle.Id);
 
-        BottlesSharedPreferencesManager.Instance.updateBottle(context, updatedBottle);
+        BottlesSharedPreferencesManagerV2.Instance.updateBottle(context, updatedBottle);
 
         assertTrue(bottleIds.contains(updatedBottle.Id));
         assertTrue(bottleMap.containsKey(updatedBottle.Id));
@@ -277,15 +277,15 @@ public class BottlesSharedPreferencesManagerTest {
 
         // clean
         bottleMap.put(updatedBottle.Id, oldBottle);
-        sortedBottles.replaceAll(bottle -> bottle.Id == updatedBottle.Id ? (BottleModel) oldBottle : bottle);
+        sortedBottles.replaceAll(bottle -> bottle.Id == updatedBottle.Id ? (BottleModelV2) oldBottle : bottle);
     }
 
     @Test
     public void deleteBottle() {
         int idToRemove = 1;
-        BottleModel oldBottle = (BottleModel) bottleMap.get(idToRemove);
+        BottleModelV2 oldBottle = (BottleModelV2) bottleMap.get(idToRemove);
 
-        BottlesSharedPreferencesManager.Instance.deleteBottle(context, idToRemove);
+        BottlesSharedPreferencesManagerV2.Instance.deleteBottle(context, idToRemove);
 
         assertFalse(bottleIds.contains(idToRemove));
         assertTrue(sortedBottles.parallelStream().noneMatch(bottle -> bottle.Id == idToRemove));
@@ -302,36 +302,36 @@ public class BottlesSharedPreferencesManagerTest {
     @Test
     public void getExistingBottleId() {
         int expectedId = 1;
-        BottleModel existingBottle = (BottleModel) bottleMap.get(expectedId);
+        BottleModelV2 existingBottle = (BottleModelV2) bottleMap.get(expectedId);
 
-        int existingId = BottlesSharedPreferencesManager.Instance.getExistingBottleId(42, existingBottle.Name, existingBottle.Domain, existingBottle.WineColor.Id, existingBottle.Millesime);
+        int existingId = BottlesSharedPreferencesManagerV2.Instance.getExistingBottleId(42, existingBottle.Name, existingBottle.Domain, existingBottle.WineColor.Id, existingBottle.Millesime);
         assertEquals(expectedId, existingId);
 
-        int nonExistingId = BottlesSharedPreferencesManager.Instance.getExistingBottleId(existingBottle.Id, existingBottle.Name, existingBottle.Domain, existingBottle.WineColor.Id, existingBottle.Millesime);
+        int nonExistingId = BottlesSharedPreferencesManagerV2.Instance.getExistingBottleId(existingBottle.Id, existingBottle.Name, existingBottle.Domain, existingBottle.WineColor.Id, existingBottle.Millesime);
         assertEquals(0, nonExistingId);
     }
 
     @Test
     public void getBottlesCount() {
-        assertEquals(bottleMap.values().parallelStream().mapToInt(bottle -> ((BottleModel) bottle).Stock).sum(),
-                BottlesSharedPreferencesManager.Instance.getBottlesCount());
+        assertEquals(bottleMap.values().parallelStream().mapToInt(bottle -> ((BottleModelV2) bottle).Stock).sum(),
+                BottlesSharedPreferencesManagerV2.Instance.getBottlesCount());
 
         int numberRed = sortedBottles.parallelStream()
-                .filter(bottle -> bottle.WineColor == WineColorEnum.RED)
+                .filter(bottle -> bottle.WineColor == WineColorEnumV2.r)
                 .mapToInt(bottle -> bottle.Stock).sum();
-        assertEquals(numberRed, BottlesSharedPreferencesManager.Instance.getBottlesCount(WineColorEnum.RED.Id));
+        assertEquals(numberRed, BottlesSharedPreferencesManagerV2.Instance.getBottlesCount(WineColorEnumV2.r.Id));
 
-        List<BottleModel> filteredBottles = sortedBottles.parallelStream()
+        List<BottleModelV2> filteredBottles = sortedBottles.parallelStream()
                 .filter(bottle -> bottle.PersonToShareWith.equalsIgnoreCase("Person 1"))
                 .collect(Collectors.toList());
         assertEquals(filteredBottles.parallelStream().mapToInt(bottle -> bottle.Stock).sum(),
-                BottlesSharedPreferencesManager.Instance.getBottlesCount(filteredBottles));
+                BottlesSharedPreferencesManagerV2.Instance.getBottlesCount(filteredBottles));
 
         int numberFilteredRed = filteredBottles.parallelStream()
-                .filter(bottle -> bottle.WineColor == WineColorEnum.RED)
+                .filter(bottle -> bottle.WineColor == WineColorEnumV2.r)
                 .mapToInt(bottle -> bottle.Stock).sum();
         assertEquals(numberFilteredRed,
-                BottlesSharedPreferencesManager.Instance.getBottlesCount(filteredBottles, WineColorEnum.RED.Id));
+                BottlesSharedPreferencesManagerV2.Instance.getBottlesCount(filteredBottles, WineColorEnumV2.r.Id));
     }
 
     @Test
@@ -344,7 +344,7 @@ public class BottlesSharedPreferencesManagerTest {
         int size = expectedDistinctPersonsList.size();
         String[] expectedDistinctPersons = new String[size];
         expectedDistinctPersonsList.toArray(expectedDistinctPersons);
-        List<String> distinctPersons = BottlesSharedPreferencesManager.Instance.getDistinctPersons();
+        List<String> distinctPersons = BottlesSharedPreferencesManagerV2.Instance.getDistinctPersons();
 
         assertEquals(size, distinctPersons.size());
         for (int i = 0; i < size; i++) {
@@ -362,7 +362,7 @@ public class BottlesSharedPreferencesManagerTest {
         int size = expectedDistinctDomainsList.size();
         String[] expectedDistinctDomains = new String[size];
         expectedDistinctDomainsList.toArray(expectedDistinctDomains);
-        List<String> distinctDomains = BottlesSharedPreferencesManager.Instance.getDistinctDomains();
+        List<String> distinctDomains = BottlesSharedPreferencesManagerV2.Instance.getDistinctDomains();
 
         assertEquals(size, distinctDomains.size());
         for (int i = 0; i < size; i++) {
@@ -372,9 +372,9 @@ public class BottlesSharedPreferencesManagerTest {
 
     @Test
     public void getNonPlacedBottles() {
-        List<BottleModel> expectedNonPlaced = sortedBottles.parallelStream()
+        List<BottleModelV2> expectedNonPlaced = sortedBottles.parallelStream()
                 .filter(bottle -> bottle.NumberPlaced != bottle.Stock).collect(Collectors.toList());
-        List<BottleModel> nonPlacedBottles = BottlesSharedPreferencesManager.Instance.getNonPlacedBottles();
+        List<BottleModelV2> nonPlacedBottles = BottlesSharedPreferencesManagerV2.Instance.getNonPlacedBottles();
 
         int size = expectedNonPlaced.size();
         assertEquals(size, nonPlacedBottles.size());
@@ -386,10 +386,10 @@ public class BottlesSharedPreferencesManagerTest {
     @Test
     public void updateNumberPlaced() {
         int bottleId = 5;
-        BottleModel bottleToUpdate = (BottleModel) bottleMap.get(bottleId);
+        BottleModelV2 bottleToUpdate = (BottleModelV2) bottleMap.get(bottleId);
         int numberPlacedBefore = bottleToUpdate.NumberPlaced;
         int increment = -1;
-        BottlesSharedPreferencesManager.Instance.updateNumberPlaced(context, bottleId, increment);
+        BottlesSharedPreferencesManagerV2.Instance.updateNumberPlaced(context, bottleId, increment);
         int numberPlacedAfter = bottleToUpdate.NumberPlaced;
         assertEquals(numberPlacedBefore + increment, numberPlacedAfter);
     }

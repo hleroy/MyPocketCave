@@ -8,9 +8,9 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.AbstractPatternEditActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.PatternManager;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 
-public class SavePatternTask extends AsyncTask<PatternModel, Void, Integer> {
+public class SavePatternTask extends AsyncTask<PatternModelV2, Void, Integer> {
 
     private AbstractPatternEditActivity patternEditActivity;
     private CoordinatorLayout coordinatorLayout;
@@ -26,8 +26,8 @@ public class SavePatternTask extends AsyncTask<PatternModel, Void, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(PatternModel... params) {
-        PatternModel pattern = params[0];
+    protected Integer doInBackground(PatternModelV2... params) {
+        PatternModelV2 pattern = params[0];
 
         pattern.Id = PatternManager.addPattern(patternEditActivity, pattern);
         PatternManager.setLastUsedPattern(patternEditActivity, pattern.Id);

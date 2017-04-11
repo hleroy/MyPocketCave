@@ -31,8 +31,8 @@ import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.CaveTypeSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
-import com.myadridev.mypocketcave.enums.PatternTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
+import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
 import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
@@ -40,10 +40,10 @@ import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.CoordinatesManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.managers.PatternManager;
-import com.myadridev.mypocketcave.models.v1.CaveModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
-import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelWithBottlesV2;
 import com.myadridev.mypocketcave.tasks.caves.SetCaveValuesTask;
 
 public abstract class AbstractCaveEditActivity extends AppCompatActivity {
@@ -52,13 +52,13 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     public static final int overviewScreenWidthMarginRight = 8;
 
     public boolean IsSaving = false;
-    public CaveModel cave;
-    public CaveModel oldCave;
+    public CaveModelV2 cave;
+    public CaveModelV2 oldCave;
 
     private final View.OnTouchListener hideKeyboardOnClick;
     private final View.OnTouchListener arrangementTooltipOnClick;
     public int OldClickedPatternId;
-    public CoordinatesModel ClickedPatternCoordinates;
+    public CoordinatesModelV2 ClickedPatternCoordinates;
     protected EditText nameView;
     protected Spinner caveTypeView;
     protected CoordinatorLayout coordinatorLayout;
@@ -75,7 +75,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     protected EditText boxesPatternNumberBottlesByRowView;
     protected TextInputLayout boxesPatternNumberBottlesByRowInputLayout;
 
-    protected PatternModel boxesPattern;
+    protected PatternModelV2 boxesPattern;
     private TextView arrangementView;
     private ImageView arrangementTooltipView;
     private TextView arrangementWarningView;
@@ -213,9 +213,9 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     }
 
     private void setArrangementByCaveType() {
-        CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+        CaveTypeEnumV2 caveType = (CaveTypeEnumV2) caveTypeView.getSelectedItem();
         switch (caveType) {
-            case BULK:
+            case bu:
                 bulkBottlesNumberInputLayout.setVisibility(View.VISIBLE);
                 if (cave.Id > 0) {
                     bulkBottlesNumberView.setText(String.valueOf(cave.CaveArrangement.NumberBottlesBulk));
@@ -229,7 +229,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 caveArrangementRecyclerView.setVisibility(View.GONE);
                 caveArrangementRecyclerViewProgress.setVisibility(View.GONE);
                 break;
-            case BOX:
+            case bo:
                 arrangementTooltipView.setVisibility(View.VISIBLE);
                 bulkBottlesNumberInputLayout.setVisibility(View.GONE);
                 boxesNumberInputLayout.setVisibility(View.VISIBLE);
@@ -246,8 +246,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                     boxesPatternNumberBottlesByRowView.setText(String.valueOf(cave.CaveArrangement.BoxesNumberBottlesByRow));
                 }
                 break;
-            case RACK:
-            case FRIDGE:
+            case r:
+            case f:
                 arrangementTooltipView.setVisibility(View.VISIBLE);
                 bulkBottlesNumberInputLayout.setVisibility(View.GONE);
                 boxesNumberInputLayout.setVisibility(View.GONE);
@@ -269,8 +269,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     }
 
     private void setBoxesPatternValues() {
-        boxesPattern = new PatternModel();
-        boxesPattern.Type = PatternTypeEnum.LINEAR;
+        boxesPattern = new PatternModelV2();
+        boxesPattern.Type = PatternTypeEnumV2.l;
         String NumberBottlesByColumnString = boxesPatternNumberBottlesByColumnView.getText().toString();
         boxesPattern.NumberBottlesByColumn = NumberBottlesByColumnString.isEmpty() ? 0 : Integer.valueOf(NumberBottlesByColumnString);
         String NumberBottlesByRowString = boxesPatternNumberBottlesByRowView.getText().toString();
@@ -288,7 +288,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     }
 
     private void createBoxesPatternAdapter() {
-        patternAdapter = new PatternAdapter(this, boxesPattern.getPlaceMapForDisplay(), new CoordinatesModel(boxesPattern.getNumberRowsGridLayout(), boxesPattern.getNumberColumnsGridLayout()),
+        patternAdapter = new PatternAdapter(this, boxesPattern.getPlaceMapForDisplay(), new CoordinatesModelV2(boxesPattern.getNumberRowsGridLayout(), boxesPattern.getNumberColumnsGridLayout()),
                 false, ScreenHelper.getScreenWidth(this) - overviewScreenWidthMarginLeft - overviewScreenWidthMarginRight, null);
     }
 
@@ -301,7 +301,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     }
 
     private void drawCaveArrangement() {
-        CoordinatesModel maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
+        CoordinatesModelV2 maxRowCol = CoordinatesManager.getMaxRowCol(cave.CaveArrangement.PatternMap.keySet());
         int nbCols = Math.max(maxRowCol.Col + 2, 3);
         int nbRows = maxRowCol.Row + 2;
         caveArrangementRecyclerView.setLayoutManager(new GridLayoutManager(this, nbCols));
@@ -315,7 +315,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         ActivityRequestEnum requestEnum = ActivityRequestEnum.getById(requestCode);
         if (requestEnum == null) return;
         int patternId;
-        PatternModelWithBottles oldPattern;
+        PatternModelWithBottlesV2 oldPattern;
         switch (requestEnum) {
             case PATTERN_SELECTION:
                 if (resultCode != RESULT_OK || ClickedPatternCoordinates == null) return;
@@ -332,10 +332,10 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                     if (oldPattern.Id == patternId) {
                         cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, oldPattern);
                     } else {
-                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId), oldPattern));
+                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottlesV2(PatternManager.getPattern(patternId), oldPattern));
                     }
                 } else {
-                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
+                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottlesV2(PatternManager.getPattern(patternId)));
                 }
                 createCaveArrangementAdapter();
                 break;
@@ -351,10 +351,10 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                     if (oldPattern.Id == patternId) {
                         cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, oldPattern);
                     } else {
-                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId), oldPattern));
+                        cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottlesV2(PatternManager.getPattern(patternId), oldPattern));
                     }
                 } else {
-                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottles(PatternManager.getPattern(patternId)));
+                    cave.CaveArrangement.PatternMap.put(ClickedPatternCoordinates, new PatternModelWithBottlesV2(PatternManager.getPattern(patternId)));
                 }
                 createCaveArrangementAdapter();
                 break;
@@ -404,8 +404,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private void resetPatternPositionIfNeeded() {
         if (oldCave != null) {
             switch (oldCave.CaveType) {
-                case FRIDGE:
-                case RACK:
+                case f:
+                case r:
                     oldCave.CaveArrangement.movePatternMapToLeft();
                     break;
             }
@@ -427,13 +427,13 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
     public void setValues() {
         cave.Name = nameView.getText().toString();
-        cave.CaveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+        cave.CaveType = (CaveTypeEnumV2) caveTypeView.getSelectedItem();
         if (oldCave != null && cave.CaveType != oldCave.CaveType) {
             cave.CaveArrangement.TotalUsed = 0;
         }
 
         switch (cave.CaveType) {
-            case BULK:
+            case bu:
                 String NumberBottlesBulk = bulkBottlesNumberView.getText().toString();
                 cave.CaveArrangement.NumberBottlesBulk = NumberBottlesBulk.isEmpty() ? 0 : Integer.valueOf(NumberBottlesBulk);
                 cave.CaveArrangement.NumberBoxes = 0;
@@ -445,7 +445,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                     cave.CaveArrangement.resetBottlesPlacedIfNeeded(this, cave.CaveType, oldCave);
                 }
                 break;
-            case BOX:
+            case bo:
                 cave.CaveArrangement.NumberBottlesBulk = 0;
                 String NumberBoxes = boxesNumberView.getText().toString();
                 cave.CaveArrangement.NumberBoxes = NumberBoxes.isEmpty() ? 0 : Integer.valueOf(NumberBoxes);
@@ -462,8 +462,8 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
                 cave.CaveArrangement.computeTotalCapacityWithBoxes();
                 cave.CaveArrangement.resetFloatNumberPlacedBottlesByIdMap();
                 break;
-            case FRIDGE:
-            case RACK:
+            case f:
+            case r:
                 cave.CaveArrangement.NumberBottlesBulk = 0;
                 cave.CaveArrangement.NumberBoxes = 0;
                 cave.CaveArrangement.BoxesNumberBottlesByColumn = 0;
@@ -496,14 +496,14 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_cave_no_name, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         } else {
-            CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+            CaveTypeEnumV2 caveType = (CaveTypeEnumV2) caveTypeView.getSelectedItem();
             String numberBottlesBulkString = bulkBottlesNumberView.getText().toString();
             int numberBottlesBulk = numberBottlesBulkString.isEmpty() ? 0 : Integer.valueOf(numberBottlesBulkString);
 
-            if (cave.CaveType == caveType && caveType == CaveTypeEnum.BULK && numberBottlesBulk < cave.CaveArrangement.TotalUsed) {
+            if (cave.CaveType == caveType && caveType == CaveTypeEnumV2.bu && numberBottlesBulk < cave.CaveArrangement.TotalUsed) {
                 SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_cave_bulk_not_enough, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
                 isErrors = true;
-            } else if (caveType == CaveTypeEnum.BOX && boxesPattern != null && (boxesPattern.NumberBottlesByColumn == 0 || boxesPattern.NumberBottlesByRow == 0)) {
+            } else if (caveType == CaveTypeEnumV2.bo && boxesPattern != null && (boxesPattern.NumberBottlesByColumn == 0 || boxesPattern.NumberBottlesByRow == 0)) {
                 SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_pattern_incorrect_rows_cols, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
                 isErrors = true;
             }
@@ -522,13 +522,13 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         // redraw the grid
 
-        CaveTypeEnum caveType = (CaveTypeEnum) caveTypeView.getSelectedItem();
+        CaveTypeEnumV2 caveType = (CaveTypeEnumV2) caveTypeView.getSelectedItem();
         switch (caveType) {
-            case BOX:
+            case bo:
                 RotationHelper.rotateWhenPossible(boxesOverviewRecyclerView, this::updateBoxesPatternAdapter);
                 break;
-            case RACK:
-            case FRIDGE:
+            case r:
+            case f:
                 RotationHelper.rotateWhenPossible(caveArrangementRecyclerView, this::drawCaveArrangement);
                 break;
         }

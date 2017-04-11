@@ -2,7 +2,7 @@ package com.myadridev.mypocketcave.helpers;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,17 +39,17 @@ public class FoodToEatHelperTest {
 
     @Test
     public void computeFoodViewTextWithBooleans() {
-        boolean[] foodToEatWithList = new boolean[FoodToEatWithEnum.values().length];
+        boolean[] foodToEatWithList = new boolean[FoodToEatWithEnumV2.values().length];
 
         StringBuilder expectedSb = new StringBuilder();
         boolean isAtLeastOneFood = false;
-        for (int i = 0; i < FoodToEatWithEnum.values().length; i++) {
+        for (int i = 0; i < FoodToEatWithEnumV2.values().length; i++) {
             foodToEatWithList[i] = i % 3 == 0;
             if (foodToEatWithList[i]) {
                 if (isAtLeastOneFood) {
                     expectedSb.append(foodSeparator);
                 }
-                expectedSb.append(fakeOutput).append(FoodToEatWithEnum.getById(i).StringResourceId);
+                expectedSb.append(fakeOutput).append(FoodToEatWithEnumV2.getById(i).StringResourceId);
                 isAtLeastOneFood = true;
             }
         }
@@ -60,13 +60,13 @@ public class FoodToEatHelperTest {
 
     @Test
     public void computeFoodViewTextWithLists() {
-        List<FoodToEatWithEnum> foodToEatWithList = new ArrayList<>();
+        List<FoodToEatWithEnumV2> foodToEatWithList = new ArrayList<>();
 
         StringBuilder expectedSb = new StringBuilder();
         boolean isAtLeastOneFood = false;
-        for (int i = 0; i < FoodToEatWithEnum.values().length; i++) {
+        for (int i = 0; i < FoodToEatWithEnumV2.values().length; i++) {
             if (i % 3 == 0) {
-                FoodToEatWithEnum food = FoodToEatWithEnum.getById(i);
+                FoodToEatWithEnumV2 food = FoodToEatWithEnumV2.getById(i);
                 foodToEatWithList.add(food);
                 if (isAtLeastOneFood) {
                     expectedSb.append(foodSeparator);

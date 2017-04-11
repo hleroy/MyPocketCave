@@ -1,6 +1,6 @@
 package com.myadridev.mypocketcave.models;
 
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 import org.junit.Test;
 
@@ -11,23 +11,23 @@ public class CoordinatesModelTest {
 
     @Test
     public void createVoidCoordinatesModel() {
-        CoordinatesModel coordinates = new CoordinatesModel();
+        CoordinatesModelV2 coordinates = new CoordinatesModelV2();
         assertEquals(0, coordinates.Row);
         assertEquals(0, coordinates.Col);
     }
 
     @Test
     public void createCoordinatesModelFromExisting() {
-        CoordinatesModel coordinates = new CoordinatesModel(2, 3);
+        CoordinatesModelV2 coordinates = new CoordinatesModelV2(2, 3);
         assertEquals(2, coordinates.Row);
         assertEquals(3, coordinates.Col);
     }
 
     @Test
     public void equals() {
-        CoordinatesModel coordinates1 = new CoordinatesModel(2, 3);
-        CoordinatesModel coordinates2 = new CoordinatesModel(3, 3);
-        CoordinatesModel coordinates3 = new CoordinatesModel(2, 3);
+        CoordinatesModelV2 coordinates1 = new CoordinatesModelV2(2, 3);
+        CoordinatesModelV2 coordinates2 = new CoordinatesModelV2(3, 3);
+        CoordinatesModelV2 coordinates3 = new CoordinatesModelV2(2, 3);
 
         assertNotEquals(null, coordinates1);
         assertNotEquals("", coordinates1);

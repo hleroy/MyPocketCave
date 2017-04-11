@@ -8,7 +8,7 @@ import android.widget.Button;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 public class CaveArrangementViewHolder extends RecyclerView.ViewHolder {
     private final RecyclerView patternView;
@@ -51,7 +51,7 @@ public class CaveArrangementViewHolder extends RecyclerView.ViewHolder {
         clickableSpace.setMinimumHeight(height);
     }
 
-    public void setOnItemClickListener(final OnPatternClickListener listener, final CoordinatesModel coordinates) {
+    public void setOnItemClickListener(final OnPatternClickListener listener, final CoordinatesModelV2 coordinates) {
         clickableSpace.setOnClickListener((View v) -> listener.onPatternClick(coordinates));
     }
 

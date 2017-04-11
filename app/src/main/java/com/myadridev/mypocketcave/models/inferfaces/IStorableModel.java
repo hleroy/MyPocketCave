@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.models;
+package com.myadridev.mypocketcave.models.inferfaces;
 
 public interface IStorableModel {
     int getId();

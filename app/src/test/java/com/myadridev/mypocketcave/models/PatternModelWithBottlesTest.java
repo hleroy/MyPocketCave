@@ -1,11 +1,11 @@
 package com.myadridev.mypocketcave.models;
 
-import com.myadridev.mypocketcave.enums.CavePlaceTypeEnum;
-import com.myadridev.mypocketcave.enums.PatternTypeEnum;
-import com.myadridev.mypocketcave.models.v1.CavePlaceModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
-import com.myadridev.mypocketcave.models.v1.PatternModel;
-import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
+import com.myadridev.mypocketcave.enums.v2.CavePlaceTypeEnumV2;
+import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
+import com.myadridev.mypocketcave.models.v2.CavePlaceModelV2;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelWithBottlesV2;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class PatternModelWithBottlesTest {
 
     @Test
     public void createVoidPatternModelWithBottles() {
-        PatternModelWithBottles pattern = new PatternModelWithBottles();
+        PatternModelWithBottlesV2 pattern = new PatternModelWithBottlesV2();
 
         assertEquals(0, pattern.Id);
         assertNull(pattern.Type);
@@ -36,51 +36,51 @@ public class PatternModelWithBottlesTest {
 
     @Test
     public void createPatternModelWithBottlesFromPatternModel() {
-        PatternModel pattern = new PatternModel();
-        pattern.PlaceMap.put(new CoordinatesModel(0, 0), CavePlaceTypeEnum.PLACE_BOTTOM_RIGHT);
-        pattern.PlaceMap.put(new CoordinatesModel(1, 0), CavePlaceTypeEnum.NO_PLACE);
-        pattern.PlaceMap.put(new CoordinatesModel(0, 1), CavePlaceTypeEnum.PLACE_TOP_LEFT);
+        PatternModelV2 pattern = new PatternModelV2();
+        pattern.PlaceMap.put(new CoordinatesModelV2(0, 0), CavePlaceTypeEnumV2.br);
+        pattern.PlaceMap.put(new CoordinatesModelV2(1, 0), CavePlaceTypeEnumV2.n);
+        pattern.PlaceMap.put(new CoordinatesModelV2(0, 1), CavePlaceTypeEnumV2.tl);
 
-        PatternModelWithBottles patternWithBottles = new PatternModelWithBottles(pattern);
+        PatternModelWithBottlesV2 patternWithBottles = new PatternModelWithBottlesV2(pattern);
 
         assertEquals(patternWithBottles.PlaceMap.size(), patternWithBottles.PlaceMapWithBottles.size());
     }
 
     @Test
     public void setClickablePlacesLinear() {
-        PatternModel pattern = new PatternModel();
-        pattern.Type = PatternTypeEnum.LINEAR;
+        PatternModelV2 pattern = new PatternModelV2();
+        pattern.Type = PatternTypeEnumV2.l;
         pattern.NumberBottlesByColumn = 3;
         pattern.NumberBottlesByRow = 2;
         pattern.computePlacesMap();
 
-        PatternModelWithBottles patternWithBottles = new PatternModelWithBottles(pattern);
+        PatternModelWithBottlesV2 patternWithBottles = new PatternModelWithBottlesV2(pattern);
         patternWithBottles.setClickablePlaces();
 
-        for (CavePlaceModel placeWithBottle : patternWithBottles.PlaceMapWithBottles.values()) {
+        for (CavePlaceModelV2 placeWithBottle : patternWithBottles.PlaceMapWithBottles.values()) {
             assertTrue(placeWithBottle.IsClickable);
         }
     }
 
     @Test
     public void setClickablePlacesStaggered() {
-        PatternModel pattern = new PatternModel();
-        pattern.Type = PatternTypeEnum.STAGGERED_ROWS;
+        PatternModelV2 pattern = new PatternModelV2();
+        pattern.Type = PatternTypeEnumV2.s;
         pattern.NumberBottlesByColumn = 2;
         pattern.NumberBottlesByRow = 2;
         pattern.IsHorizontallyExpendable = true;
         pattern.IsVerticallyExpendable = true;
         pattern.computePlacesMap();
 
-        PatternModelWithBottles patternWithBottles = new PatternModelWithBottles(pattern);
+        PatternModelWithBottlesV2 patternWithBottles = new PatternModelWithBottlesV2(pattern);
         patternWithBottles.setClickablePlaces();
 
-        for (Map.Entry<CoordinatesModel, CavePlaceModel> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
-            CoordinatesModel coordinates = placeWithBottleEntry.getKey();
-            CavePlaceModel place = placeWithBottleEntry.getValue();
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
+            CoordinatesModelV2 coordinates = placeWithBottleEntry.getKey();
+            CavePlaceModelV2 place = placeWithBottleEntry.getValue();
 
             if (coordinates.Row == 0 || coordinates.Row == 7 || coordinates.Col == 0 || coordinates.Col == 7
-                    || place.PlaceType == CavePlaceTypeEnum.NO_PLACE) {
+                    || place.PlaceType == CavePlaceTypeEnumV2.n) {
                 assertFalse(place.IsClickable);
             } else {
                 assertTrue(place.IsClickable);
@@ -90,22 +90,22 @@ public class PatternModelWithBottlesTest {
 
     @Test
     public void setRightClickablePlaces() {
-        PatternModel pattern = new PatternModel();
-        pattern.Type = PatternTypeEnum.STAGGERED_ROWS;
+        PatternModelV2 pattern = new PatternModelV2();
+        pattern.Type = PatternTypeEnumV2.s;
         pattern.NumberBottlesByColumn = 2;
         pattern.NumberBottlesByRow = 2;
         pattern.IsHorizontallyExpendable = true;
         pattern.IsVerticallyExpendable = true;
         pattern.computePlacesMap();
 
-        PatternModelWithBottles patternWithBottles = new PatternModelWithBottles(pattern);
+        PatternModelWithBottlesV2 patternWithBottles = new PatternModelWithBottlesV2(pattern);
         patternWithBottles.setRightClickablePlaces();
 
-        for (Map.Entry<CoordinatesModel, CavePlaceModel> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
-            CoordinatesModel coordinates = placeWithBottleEntry.getKey();
-            CavePlaceModel place = placeWithBottleEntry.getValue();
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
+            CoordinatesModelV2 coordinates = placeWithBottleEntry.getKey();
+            CavePlaceModelV2 place = placeWithBottleEntry.getValue();
 
-            if (coordinates.Col != 7 || place.PlaceType == CavePlaceTypeEnum.NO_PLACE) {
+            if (coordinates.Col != 7 || place.PlaceType == CavePlaceTypeEnumV2.n) {
                 assertFalse(place.IsClickable);
             } else {
                 assertTrue(place.IsClickable);
@@ -115,22 +115,22 @@ public class PatternModelWithBottlesTest {
 
     @Test
     public void setLeftClickablePlaces() {
-        PatternModel pattern = new PatternModel();
-        pattern.Type = PatternTypeEnum.STAGGERED_ROWS;
+        PatternModelV2 pattern = new PatternModelV2();
+        pattern.Type = PatternTypeEnumV2.s;
         pattern.NumberBottlesByColumn = 2;
         pattern.NumberBottlesByRow = 2;
         pattern.IsHorizontallyExpendable = true;
         pattern.IsVerticallyExpendable = true;
         pattern.computePlacesMap();
 
-        PatternModelWithBottles patternWithBottles = new PatternModelWithBottles(pattern);
+        PatternModelWithBottlesV2 patternWithBottles = new PatternModelWithBottlesV2(pattern);
         patternWithBottles.setLeftClickablePlaces();
 
-        for (Map.Entry<CoordinatesModel, CavePlaceModel> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
-            CoordinatesModel coordinates = placeWithBottleEntry.getKey();
-            CavePlaceModel place = placeWithBottleEntry.getValue();
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
+            CoordinatesModelV2 coordinates = placeWithBottleEntry.getKey();
+            CavePlaceModelV2 place = placeWithBottleEntry.getValue();
 
-            if (coordinates.Col != 0 || place.PlaceType == CavePlaceTypeEnum.NO_PLACE) {
+            if (coordinates.Col != 0 || place.PlaceType == CavePlaceTypeEnumV2.n) {
                 assertFalse(place.IsClickable);
             } else {
                 assertTrue(place.IsClickable);
@@ -140,22 +140,22 @@ public class PatternModelWithBottlesTest {
 
     @Test
     public void setTopClickablePlaces() {
-        PatternModel pattern = new PatternModel();
-        pattern.Type = PatternTypeEnum.STAGGERED_ROWS;
+        PatternModelV2 pattern = new PatternModelV2();
+        pattern.Type = PatternTypeEnumV2.s;
         pattern.NumberBottlesByColumn = 2;
         pattern.NumberBottlesByRow = 2;
         pattern.IsHorizontallyExpendable = true;
         pattern.IsVerticallyExpendable = true;
         pattern.computePlacesMap();
 
-        PatternModelWithBottles patternWithBottles = new PatternModelWithBottles(pattern);
+        PatternModelWithBottlesV2 patternWithBottles = new PatternModelWithBottlesV2(pattern);
         patternWithBottles.setTopClickablePlaces();
 
-        for (Map.Entry<CoordinatesModel, CavePlaceModel> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
-            CoordinatesModel coordinates = placeWithBottleEntry.getKey();
-            CavePlaceModel place = placeWithBottleEntry.getValue();
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
+            CoordinatesModelV2 coordinates = placeWithBottleEntry.getKey();
+            CavePlaceModelV2 place = placeWithBottleEntry.getValue();
 
-            if (coordinates.Row != 7 || place.PlaceType == CavePlaceTypeEnum.NO_PLACE) {
+            if (coordinates.Row != 7 || place.PlaceType == CavePlaceTypeEnumV2.n) {
                 assertFalse(place.IsClickable);
             } else {
                 assertTrue(place.IsClickable);
@@ -165,22 +165,22 @@ public class PatternModelWithBottlesTest {
 
     @Test
     public void setBottomClickablePlaces() {
-        PatternModel pattern = new PatternModel();
-        pattern.Type = PatternTypeEnum.STAGGERED_ROWS;
+        PatternModelV2 pattern = new PatternModelV2();
+        pattern.Type = PatternTypeEnumV2.s;
         pattern.NumberBottlesByColumn = 2;
         pattern.NumberBottlesByRow = 2;
         pattern.IsHorizontallyExpendable = true;
         pattern.IsVerticallyExpendable = true;
         pattern.computePlacesMap();
 
-        PatternModelWithBottles patternWithBottles = new PatternModelWithBottles(pattern);
+        PatternModelWithBottlesV2 patternWithBottles = new PatternModelWithBottlesV2(pattern);
         patternWithBottles.setBottomClickablePlaces();
 
-        for (Map.Entry<CoordinatesModel, CavePlaceModel> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
-            CoordinatesModel coordinates = placeWithBottleEntry.getKey();
-            CavePlaceModel place = placeWithBottleEntry.getValue();
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> placeWithBottleEntry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
+            CoordinatesModelV2 coordinates = placeWithBottleEntry.getKey();
+            CavePlaceModelV2 place = placeWithBottleEntry.getValue();
 
-            if (coordinates.Row != 0 || place.PlaceType == CavePlaceTypeEnum.NO_PLACE) {
+            if (coordinates.Row != 0 || place.PlaceType == CavePlaceTypeEnumV2.n) {
                 assertFalse(place.IsClickable);
             } else {
                 assertTrue(place.IsClickable);

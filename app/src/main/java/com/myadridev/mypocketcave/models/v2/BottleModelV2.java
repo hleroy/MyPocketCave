@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
-import com.myadridev.mypocketcave.models.IBottleModel;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
+import com.myadridev.mypocketcave.models.inferfaces.IBottleModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +17,28 @@ import java.util.List;
 public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2>, IBottleModel {
 
     @JsonProperty("ftewl")
-    public final List<FoodToEatWithEnum> FoodToEatWithList;
+    public final List<FoodToEatWithEnumV2> FoodToEatWithList;
+    @JsonProperty("i")
     public int Id;
+    @JsonProperty("n")
     public String Name;
+    @JsonProperty("m")
     public int Millesime;
+    @JsonProperty("d")
     public String Domain;
+    @JsonProperty("c")
     public String Comments;
     @JsonProperty("ptsw")
     public String PersonToShareWith;
     @JsonProperty("wc")
-    public WineColorEnum WineColor;
+    public WineColorEnumV2 WineColor;
+    @JsonProperty("s")
     public int Stock;
+    @JsonProperty("np")
     public int NumberPlaced;
+    @JsonProperty("r")
     public int Rating;
+    @JsonProperty("pr")
     public int PriceRating;
 
     // Whisky, Rum, Liqueur : Age

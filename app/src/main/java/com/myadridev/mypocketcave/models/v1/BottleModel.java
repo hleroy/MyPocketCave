@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
-import com.myadridev.mypocketcave.models.IBottleModel;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.enums.v1.FoodToEatWithEnum;
+import com.myadridev.mypocketcave.enums.v1.WineColorEnum;
+import com.myadridev.mypocketcave.models.inferfaces.IBottleModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 import java.util.ArrayList;
 import java.util.List;

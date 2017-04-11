@@ -5,15 +5,15 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICavesStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.CaveSharedPreferencesManager;
-import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
-import com.myadridev.mypocketcave.models.v1.CaveModel;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v2.CaveSharedPreferencesManagerV2;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
+import com.myadridev.mypocketcave.models.v2.CaveArrangementModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -51,7 +51,7 @@ import static org.mockito.Mockito.when;
 public class CaveSharedPreferencesManagerTest {
 
     private static Map<Integer, IStorableModel> caveMap;
-    private static List<CaveModel> sortedCaves;
+    private static List<CaveModelV2> sortedCaves;
     private static List<Integer> caveIds;
 
     @Mock
@@ -62,19 +62,19 @@ public class CaveSharedPreferencesManagerTest {
         initBottleMap();
         DependencyManager.init();
 
-        ICavesStorageManager mockCavesStorageManager = mock(ICavesStorageManager.class);
+        ICavesStorageManagerV2 mockCavesStorageManager = mock(ICavesStorageManagerV2.class);
         when(mockCavesStorageManager.getLightCaves())
-                .thenAnswer(new Answer<List<CaveLightModel>>() {
+                .thenAnswer(new Answer<List<CaveLightModelV2>>() {
                     @Override
-                    public List<CaveLightModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ArrayList<CaveLightModel> caveLightModels = new ArrayList<>();
-                        for (CaveModel cave : sortedCaves) {
-                            caveLightModels.add(new CaveLightModel(cave));
+                    public List<CaveLightModelV2> answer(InvocationOnMock invocation) throws Throwable {
+                        ArrayList<CaveLightModelV2> caveLightModels = new ArrayList<>();
+                        for (CaveModelV2 cave : sortedCaves) {
+                            caveLightModels.add(new CaveLightModelV2(cave));
                         }
                         return caveLightModels;
                     }
                 });
-        DependencyManager.registerSingleton(ICavesStorageManager.class, mockCavesStorageManager, true);
+        DependencyManager.registerSingleton(ICavesStorageManagerV2.class, mockCavesStorageManager, true);
 
         ISharedPreferencesManager mockSharedPreferencesManager = mock(ISharedPreferencesManager.class);
         doAnswer(new Answer<Void>() {
@@ -85,7 +85,7 @@ public class CaveSharedPreferencesManagerTest {
                 for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
                     String key = entry.getKey();
                     if (key.equalsIgnoreCase("cave") && fileName.startsWith("cave_")) {
-                        CaveModel cave = (CaveModel) entry.getValue();
+                        CaveModelV2 cave = (CaveModelV2) entry.getValue();
                         caveMap.put(cave.Id, cave);
                         sortedCaves.removeIf(existingCave -> existingCave.Id == cave.Id);
                         sortedCaves.add(cave);
@@ -128,14 +128,14 @@ public class CaveSharedPreferencesManagerTest {
             }
         }).when(mockSharedPreferencesManager).delete(any(Context.class), anyString());
 
-        when(mockSharedPreferencesManager.loadStoredStringData(any(Context.class), anyString(), eq(R.string.store_cave_key), eq(CaveModel.class)))
-                .thenAnswer(new Answer<CaveModel>() {
+        when(mockSharedPreferencesManager.loadStoredStringData(any(Context.class), anyString(), eq(R.string.store_cave_key), eq(CaveModelV2.class)))
+                .thenAnswer(new Answer<CaveModelV2>() {
                     @Override
-                    public CaveModel answer(InvocationOnMock invocation) throws Throwable {
+                    public CaveModelV2 answer(InvocationOnMock invocation) throws Throwable {
                         String fileName = (String) invocation.getArguments()[1];
                         if (fileName.startsWith("cave_")) {
                             int caveId = Integer.parseInt(fileName.substring(5, fileName.length()));
-                            return caveMap.containsKey(caveId) ? (CaveModel) caveMap.get(caveId) : null;
+                            return caveMap.containsKey(caveId) ? (CaveModelV2) caveMap.get(caveId) : null;
                         }
                         return null;
                     }
@@ -148,11 +148,11 @@ public class CaveSharedPreferencesManagerTest {
         caveIds = new ArrayList<>();
         sortedCaves = new ArrayList<>();
 
-        CaveModel cave = new CaveModel();
+        CaveModelV2 cave = new CaveModelV2();
         cave.Id = 1;
-        cave.CaveType = CaveTypeEnum.BULK;
+        cave.CaveType = CaveTypeEnumV2.bu;
         cave.Name = "Name cave";
-        CaveArrangementModel caveArrangement = new CaveArrangementModel();
+        CaveArrangementModelV2 caveArrangement = new CaveArrangementModelV2();
         caveArrangement.Id = 42;
         caveArrangement.TotalUsed = 17;
         caveArrangement.TotalCapacity = 20;
@@ -181,19 +181,19 @@ public class CaveSharedPreferencesManagerTest {
                 return "cave_" + (int) invocation.getArguments()[1];
             }
         });
-        CaveSharedPreferencesManager.init(context);
+        CaveSharedPreferencesManagerV2.init(context);
     }
 
     @Test
     public void getCaveWhenNoCave() {
-        CaveModel outputCave = CaveSharedPreferencesManager.Instance.getCave(context, -1);
+        CaveModelV2 outputCave = CaveSharedPreferencesManagerV2.Instance.getCave(context, -1);
         assertNull(outputCave);
     }
 
     @Test
     public void getCaveWhenCaveExists() {
-        CaveModel outputCave = CaveSharedPreferencesManager.Instance.getCave(context, 1);
-        CaveModel expectedCave = (CaveModel) caveMap.get(1);
+        CaveModelV2 outputCave = CaveSharedPreferencesManagerV2.Instance.getCave(context, 1);
+        CaveModelV2 expectedCave = (CaveModelV2) caveMap.get(1);
         assertNotNull(outputCave);
         assertEquals(expectedCave, outputCave);
     }
@@ -201,11 +201,11 @@ public class CaveSharedPreferencesManagerTest {
     @Test
     public void insertOrUpdateCave() {
         int newCaveId = 3;
-        CaveModel newCave = new CaveModel();
+        CaveModelV2 newCave = new CaveModelV2();
         newCave.Id = newCaveId;
-        newCave.CaveType = CaveTypeEnum.BULK;
+        newCave.CaveType = CaveTypeEnumV2.bu;
         newCave.Name = "Name cave 3";
-        CaveArrangementModel caveArrangement = new CaveArrangementModel();
+        CaveArrangementModelV2 caveArrangement = new CaveArrangementModelV2();
         caveArrangement.Id = 14;
         caveArrangement.TotalUsed = 12;
         caveArrangement.TotalCapacity = 27;
@@ -216,7 +216,7 @@ public class CaveSharedPreferencesManagerTest {
         assertFalse(caveMap.containsKey(newCaveId));
         assertTrue(sortedCaves.parallelStream().noneMatch(cave -> cave.Id == newCaveId));
 
-        CaveSharedPreferencesManager.Instance.insertOrUpdateCave(context, newCave);
+        CaveSharedPreferencesManagerV2.Instance.insertOrUpdateCave(context, newCave);
 
         assertTrue(caveIds.contains(newCaveId));
         assertTrue(caveMap.containsKey(newCaveId));
@@ -237,9 +237,9 @@ public class CaveSharedPreferencesManagerTest {
     @Test
     public void deleteCave() {
         int idToRemove = 1;
-        CaveModel oldCave = (CaveModel) caveMap.get(idToRemove);
+        CaveModelV2 oldCave = (CaveModelV2) caveMap.get(idToRemove);
 
-        CaveSharedPreferencesManager.Instance.deleteCave(context, oldCave);
+        CaveSharedPreferencesManagerV2.Instance.deleteCave(context, oldCave);
 
         assertFalse(caveIds.contains(idToRemove));
         assertTrue(sortedCaves.parallelStream().noneMatch(cave -> cave.Id == idToRemove));

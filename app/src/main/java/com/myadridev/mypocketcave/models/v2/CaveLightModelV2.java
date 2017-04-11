@@ -3,18 +3,24 @@ package com.myadridev.mypocketcave.models.v2;
 import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
-import com.myadridev.mypocketcave.models.ICaveLightModel;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
+import com.myadridev.mypocketcave.models.inferfaces.ICaveLightModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 @JsonSerialize(as = CaveLightModelV2.class)
 public class CaveLightModelV2 implements IStorableModel, Comparable<CaveLightModelV2>, ICaveLightModel {
 
+    @JsonProperty("i")
     public int Id;
+    @JsonProperty("n")
     public String Name;
-    public CaveTypeEnum CaveType;
+    @JsonProperty("ct")
+    public CaveTypeEnumV2 CaveType;
+    @JsonProperty("tc")
     public int TotalCapacity;
+    @JsonProperty("tu")
     public int TotalUsed;
 
     //TODO : photo

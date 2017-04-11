@@ -2,9 +2,9 @@ package com.myadridev.mypocketcave.models.v1;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.enums.MillesimeEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v1.FoodToEatWithEnum;
+import com.myadridev.mypocketcave.enums.v1.MillesimeEnum;
+import com.myadridev.mypocketcave.enums.v1.WineColorEnum;
 
 import java.util.ArrayList;
 import java.util.List;

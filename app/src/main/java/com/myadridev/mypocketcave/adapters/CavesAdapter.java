@@ -10,19 +10,19 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
 import com.myadridev.mypocketcave.listeners.OnCaveBindListener;
 import com.myadridev.mypocketcave.listeners.OnCaveClickListener;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 
 import java.util.List;
 
 public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final List<CaveLightModel> caves;
+    private final List<CaveLightModelV2> caves;
     private final LayoutInflater layoutInflater;
 
     private final OnCaveClickListener listener;
     private final OnCaveBindListener onCaveBindListener;
     private OnCaveClickListener onCaveClickListener;
 
-    public CavesAdapter(Context context, List<CaveLightModel> caves, OnCaveBindListener onCaveBindListener) {
+    public CavesAdapter(Context context, List<CaveLightModelV2> caves, OnCaveBindListener onCaveBindListener) {
         this.caves = caves;
         this.onCaveBindListener = onCaveBindListener;
         layoutInflater = LayoutInflater.from(context);
@@ -64,7 +64,7 @@ public class CavesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         CaveViewHolder holder = (CaveViewHolder) viewHolder;
-        CaveLightModel cave = caves.get(position);
+        CaveLightModelV2 cave = caves.get(position);
         if (cave != null) {
             onCaveBindListener.onCaveBind(holder, cave);
             holder.setOnItemClickListener(listener, cave.Id);

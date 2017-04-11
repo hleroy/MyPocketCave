@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.listeners.OnPlaceClickListener;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 
 public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
     private final ImageView placeTypeView;
@@ -39,7 +39,7 @@ public class PatternPlaceViewHolder extends RecyclerView.ViewHolder {
         return container;
     }
 
-    public void setOnItemClickListener(final OnPlaceClickListener listener, final CoordinatesModel patternCoordinates, final CoordinatesModel coordinates) {
+    public void setOnItemClickListener(final OnPlaceClickListener listener, final CoordinatesModelV2 patternCoordinates, final CoordinatesModelV2 coordinates) {
         placeTypeView.setOnClickListener((View v) -> listener.onPlaceClick(patternCoordinates, coordinates));
     }
 

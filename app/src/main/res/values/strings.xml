@@ -256,4 +256,12 @@
     <string name="title_edit_pattern">Edit pattern</string>
     <string name="filename_migration" translatable="false">migration</string>
     <string name="store_version_key" translatable="false">version</string>
+    <string name="migration_bottles">Migrating bottles…</string>
+    <string name="migration_patterns">Migrating patterns…</string>
+    <string name="migration_caves">Migrating caves…</string>
+    <string name="migration_finalize">Finalizing migration…</string>
+    <string name="startup_bottles">Loading bottles…</string>
+    <string name="startup_patterns">Loading patterns…</string>
+    <string name="startup_caves">Loading caves…</string>
+    <string name="startup_finalize">Finalizing startup…</string>
 </resources>

@@ -10,7 +10,7 @@ import android.widget.SpinnerAdapter;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.PatternTypeViewHolder;
-import com.myadridev.mypocketcave.enums.PatternTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
 
 public class PatternTypeSpinnerAdapter implements SpinnerAdapter {
 
@@ -34,7 +34,7 @@ public class PatternTypeSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (PatternTypeViewHolder) convertView.getTag();
         }
 
-        PatternTypeEnum patternType = PatternTypeEnum.getById(position);
+        PatternTypeEnumV2 patternType = PatternTypeEnumV2.getById(position);
         if (patternType != null) {
             int drawableResourceId = patternType.DrawableResourceId;
             if (drawableResourceId != -1) {
@@ -56,12 +56,12 @@ public class PatternTypeSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return PatternTypeEnum.values().length;
+        return PatternTypeEnumV2.values().length;
     }
 
     @Override
     public Object getItem(int position) {
-        return PatternTypeEnum.getById(position);
+        return PatternTypeEnumV2.getById(position);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class PatternTypeSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (PatternTypeViewHolder) convertView.getTag();
         }
 
-        PatternTypeEnum patternType = PatternTypeEnum.getById(position);
+        PatternTypeEnumV2 patternType = PatternTypeEnumV2.getById(position);
         if (patternType != null) {
             int drawableResourceId = patternType.DrawableResourceId;
             if (drawableResourceId != -1) {

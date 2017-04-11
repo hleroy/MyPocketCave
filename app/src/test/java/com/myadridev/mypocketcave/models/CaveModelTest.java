@@ -1,8 +1,8 @@
 package com.myadridev.mypocketcave.models;
 
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
-import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
-import com.myadridev.mypocketcave.models.v1.CaveModel;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
+import com.myadridev.mypocketcave.models.v2.CaveArrangementModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class CaveModelTest {
 
     @Test
     public void createVoidCaveModel() {
-        CaveModel cave = new CaveModel();
+        CaveModelV2 cave = new CaveModelV2();
 
         assertEquals(0, cave.Id);
         assertNull(cave.Name);
@@ -26,14 +26,14 @@ public class CaveModelTest {
 
     @Test
     public void createCaveModelFromExisting() {
-        CaveModel expectedCave = new CaveModel();
+        CaveModelV2 expectedCave = new CaveModelV2();
         expectedCave.Id = 42;
         expectedCave.Name = "cave";
-        expectedCave.CaveType = CaveTypeEnum.BULK;
+        expectedCave.CaveType = CaveTypeEnumV2.bu;
         expectedCave.CaveArrangement.TotalCapacity = 17;
         expectedCave.CaveArrangement.TotalUsed = 3;
 
-        CaveModel cave = new CaveModel(expectedCave);
+        CaveModelV2 cave = new CaveModelV2(expectedCave);
 
         assertEquals(expectedCave.Id, cave.Id);
         assertEquals(expectedCave.Name, cave.Name);
@@ -44,7 +44,7 @@ public class CaveModelTest {
 
     @Test
     public void getId() {
-        CaveModel cave = new CaveModel();
+        CaveModelV2 cave = new CaveModelV2();
         cave.Id = 42;
 
         assertEquals(cave.Id, cave.getId());
@@ -52,39 +52,39 @@ public class CaveModelTest {
 
     @Test
     public void isValid() {
-        CaveModel cave = new CaveModel();
+        CaveModelV2 cave = new CaveModelV2();
         assertFalse(cave.isValid());
 
-        cave.CaveType = CaveTypeEnum.BOX;
+        cave.CaveType = CaveTypeEnumV2.bo;
         assertFalse(cave.isValid());
 
         cave.Name = "name";
         cave.CaveArrangement = null;
         assertFalse(cave.isValid());
 
-        cave.CaveArrangement = new CaveArrangementModel();
+        cave.CaveArrangement = new CaveArrangementModelV2();
         assertTrue(cave.isValid());
     }
 
     @Test
     public void compare() {
-        CaveModel cave1 = new CaveModel();
-        cave1.CaveType = CaveTypeEnum.BOX;
+        CaveModelV2 cave1 = new CaveModelV2();
+        cave1.CaveType = CaveTypeEnumV2.bo;
         cave1.Name = "name";
-        CaveModel cave2 = new CaveModel();
-        cave2.CaveType = CaveTypeEnum.BULK;
+        CaveModelV2 cave2 = new CaveModelV2();
+        cave2.CaveType = CaveTypeEnumV2.bu;
         cave2.Name = "name";
-        CaveModel cave3 = new CaveModel();
-        cave3.CaveType = CaveTypeEnum.FRIDGE;
+        CaveModelV2 cave3 = new CaveModelV2();
+        cave3.CaveType = CaveTypeEnumV2.f;
         cave3.Name = "name";
-        CaveModel cave4 = new CaveModel();
-        cave4.CaveType = CaveTypeEnum.BOX;
+        CaveModelV2 cave4 = new CaveModelV2();
+        cave4.CaveType = CaveTypeEnumV2.bo;
         cave4.Name = "aname";
-        CaveModel cave5 = new CaveModel();
-        cave5.CaveType = CaveTypeEnum.BOX;
+        CaveModelV2 cave5 = new CaveModelV2();
+        cave5.CaveType = CaveTypeEnumV2.bo;
         cave5.Name = "zname";
-        CaveModel cave6 = new CaveModel();
-        cave6.CaveType = CaveTypeEnum.BOX;
+        CaveModelV2 cave6 = new CaveModelV2();
+        cave6.CaveType = CaveTypeEnumV2.bo;
         cave6.Name = "name";
 
         assertEquals(1, cave1.compareTo(cave2));

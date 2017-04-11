@@ -8,24 +8,24 @@ import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder;
 import com.myadridev.mypocketcave.listeners.OnPatternClickListener;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
-import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelWithBottlesV2;
 
 public class CreateCaveEditArrangementTask extends AsyncTask<Void, Void, PatternAdapter> {
 
     private final CaveArrangementAdapter caveArrangementAdapter;
     private final CaveArrangementViewHolder holder;
     private final AbstractCaveEditActivity editActivity;
-    private final PatternModelWithBottles patternWithBottles;
+    private final PatternModelWithBottlesV2 patternWithBottles;
     private final int numberRowsGridLayout;
     private final int numberColumnsGridLayout;
     private final int itemWidth;
-    private final CoordinatesModel coordinates;
+    private final CoordinatesModelV2 coordinates;
     private final OnPatternClickListener listener;
 
     public CreateCaveEditArrangementTask(CaveArrangementAdapter caveArrangementAdapter, CaveArrangementViewHolder holder, AbstractCaveEditActivity editActivity,
-                                         PatternModelWithBottles patternWithBottles, int numberRowsGridLayout,
-                                         int numberColumnsGridLayout, int itemWidth, CoordinatesModel coordinates,
+                                         PatternModelWithBottlesV2 patternWithBottles, int numberRowsGridLayout,
+                                         int numberColumnsGridLayout, int itemWidth, CoordinatesModelV2 coordinates,
                                          OnPatternClickListener listener) {
         this.caveArrangementAdapter = caveArrangementAdapter;
         this.holder = holder;
@@ -41,7 +41,7 @@ public class CreateCaveEditArrangementTask extends AsyncTask<Void, Void, Pattern
     @Override
     protected PatternAdapter doInBackground(Void... params) {
         return new PatternAdapter(editActivity, patternWithBottles.PlaceMapWithBottles,
-                new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
+                new CoordinatesModelV2(numberRowsGridLayout, numberColumnsGridLayout),
                 false, itemWidth, null);
     }
 

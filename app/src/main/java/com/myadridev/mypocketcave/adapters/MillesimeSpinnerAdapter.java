@@ -9,7 +9,7 @@ import android.widget.SpinnerAdapter;
 
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.viewHolders.MillesimeViewHolder;
-import com.myadridev.mypocketcave.enums.MillesimeEnum;
+import com.myadridev.mypocketcave.enums.v2.MillesimeEnumV2;
 
 public class MillesimeSpinnerAdapter implements SpinnerAdapter {
 
@@ -35,7 +35,7 @@ public class MillesimeSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (MillesimeViewHolder) convertView.getTag();
         }
 
-        MillesimeEnum millesime = MillesimeEnum.getById(getMillesimeEnumId(position));
+        MillesimeEnumV2 millesime = MillesimeEnumV2.getById(getMillesimeEnumId(position));
         if (millesime != null) {
             viewHolder.setLabelViewText(context.getString(millesime.StringResourceId));
         }
@@ -57,12 +57,12 @@ public class MillesimeSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return containsNone ? MillesimeEnum.values().length : MillesimeEnum.values().length - 1;
+        return containsNone ? MillesimeEnumV2.values().length : MillesimeEnumV2.values().length - 1;
     }
 
     @Override
     public Object getItem(int position) {
-        return MillesimeEnum.getById(getMillesimeEnumId(position));
+        return MillesimeEnumV2.getById(getMillesimeEnumId(position));
     }
 
     @Override
@@ -87,7 +87,7 @@ public class MillesimeSpinnerAdapter implements SpinnerAdapter {
             viewHolder = (MillesimeViewHolder) convertView.getTag();
         }
 
-        MillesimeEnum millesime = MillesimeEnum.getById(getMillesimeEnumId(position));
+        MillesimeEnumV2 millesime = MillesimeEnumV2.getById(getMillesimeEnumId(position));
         if (millesime != null) {
             viewHolder.setLabelViewText(context.getString(millesime.StringResourceId));
         }

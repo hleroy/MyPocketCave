@@ -14,19 +14,19 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.CavesAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveViewHolder;
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.layoutManagers.GridAutofitLayoutManager;
 import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 
 import java.util.Collections;
 import java.util.List;
 
 public class CavesFragment extends Fragment implements IVisibleFragment {
 
-    private List<CaveLightModel> allCaves;
+    private List<CaveLightModelV2> allCaves;
     private TextView noCavesLabelView;
     private View rootView;
     private RecyclerView cavesRecyclerView;
@@ -81,10 +81,10 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
 
             cavesCountDetailLabelView.setVisibility(View.GONE);
             cavesCountDetailLabelView.setText(getString(R.string.caves_count_detail,
-                    CaveManager.getCavesCount(CaveTypeEnum.BULK),
-                    CaveManager.getCavesCount(CaveTypeEnum.BOX),
-                    CaveManager.getCavesCount(CaveTypeEnum.FRIDGE),
-                    CaveManager.getCavesCount(CaveTypeEnum.RACK)));
+                    CaveManager.getCavesCount(CaveTypeEnumV2.bu),
+                    CaveManager.getCavesCount(CaveTypeEnumV2.bo),
+                    CaveManager.getCavesCount(CaveTypeEnumV2.f),
+                    CaveManager.getCavesCount(CaveTypeEnumV2.r)));
         }
     }
 
@@ -94,7 +94,7 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
         cavesRecyclerView.setAdapter(cavesAdapter);
     }
 
-    private void setHolderPropertiesFromCave(CaveViewHolder holder, CaveLightModel cave) {
+    private void setHolderPropertiesFromCave(CaveViewHolder holder, CaveLightModelV2 cave) {
         holder.setLabelViewText(cave.Name);
         int caveTypeDrawableId = cave.CaveType.DrawableResourceId;
         holder.setTypeViewImageDrawable(caveTypeDrawableId != -1 ? ContextCompat.getDrawable(getActivity(), caveTypeDrawableId) : null);

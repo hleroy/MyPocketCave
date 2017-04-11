@@ -2,14 +2,14 @@ package com.myadridev.mypocketcave.managers;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v1.IBottleStorageManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.IBottleStorageManagerV2;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleResultModelV2;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,25 +21,25 @@ import java.util.Set;
 public class BottleManager {
 
     private static boolean listenerBottleRegistered = false;
-    private static IBottleStorageManager bottleStorageManager = null;
+    private static IBottleStorageManagerV2 bottleStorageManager = null;
 
-    private static IBottleStorageManager getBottleStorageManager() {
+    private static IBottleStorageManagerV2 getBottleStorageManager() {
         if (bottleStorageManager == null) {
-            bottleStorageManager = DependencyManager.getSingleton(IBottleStorageManager.class,
+            bottleStorageManager = DependencyManager.getSingleton(IBottleStorageManagerV2.class,
                     listenerBottleRegistered ? null : (OnDependencyChangeListener) () -> bottleStorageManager = null);
             listenerBottleRegistered = true;
         }
         return bottleStorageManager;
     }
 
-    public static List<BottleModel> getBottles() {
+    public static List<BottleModelV2> getBottles() {
         return getBottleStorageManager().getBottles();
     }
 
-    public static List<BottleModel> getBottles(Set<Integer> bottleIds) {
-        List<BottleModel> allBottles = getBottles();
-        List<BottleModel> bottles = new ArrayList<>(allBottles.size());
-        for (BottleModel bottle : allBottles) {
+    public static List<BottleModelV2> getBottles(Set<Integer> bottleIds) {
+        List<BottleModelV2> allBottles = getBottles();
+        List<BottleModelV2> bottles = new ArrayList<>(allBottles.size());
+        for (BottleModelV2 bottle : allBottles) {
             if (bottleIds.contains(bottle.Id)) {
                 bottles.add(bottle);
             }
@@ -47,16 +47,16 @@ public class BottleManager {
         return bottles;
     }
 
-    public static BottleModel getBottle(int bottleId) {
+    public static BottleModelV2 getBottle(int bottleId) {
         return getBottleStorageManager().getBottle(bottleId);
     }
 
-    public static int addBottle(Context context, BottleModel bottle) {
-        return getBottleStorageManager().insertBottle(context, bottle);
+    public static int addBottle(Context context, BottleModelV2 bottle) {
+        return getBottleStorageManager().insertBottle(context, bottle, true);
     }
 
-    public static void addBottles(Context context, List<BottleModel> bottles) {
-        for (BottleModel bottle : bottles) {
+    public static void addBottles(Context context, List<BottleModelV2> bottles) {
+        for (BottleModelV2 bottle : bottles) {
             // we want to keep the ids of the bottles
             editBottle(context, bottle);
         }
@@ -67,7 +67,7 @@ public class BottleManager {
         getBottleStorageManager().updateIndexes(context);
     }
 
-    public static void editBottle(Context context, BottleModel bottle) {
+    public static void editBottle(Context context, BottleModelV2 bottle) {
         getBottleStorageManager().updateBottle(context, bottle);
     }
 
@@ -76,12 +76,12 @@ public class BottleManager {
     }
 
     public static void removeAllBottles(Context context) {
-        for (BottleModel bottle : getBottles()) {
+        for (BottleModelV2 bottle : getBottles()) {
             removeBottle(context, bottle.Id);
         }
     }
 
-    public static int getExistingBottleId(int id, String name, String domain, WineColorEnum wineColor, int millesime) {
+    public static int getExistingBottleId(int id, String name, String domain, WineColorEnumV2 wineColor, int millesime) {
         return getBottleStorageManager().getExistingBottleId(id, name, domain, wineColor.Id, millesime);
     }
 
@@ -93,15 +93,15 @@ public class BottleManager {
         return getBottleStorageManager().getBottlesCount();
     }
 
-    public static int getBottlesCount(Collection<BottleModel> bottles) {
+    public static int getBottlesCount(Collection<BottleModelV2> bottles) {
         return getBottleStorageManager().getBottlesCount(bottles);
     }
 
-    public static int getBottlesCount(WineColorEnum wineColor) {
+    public static int getBottlesCount(WineColorEnumV2 wineColor) {
         return getBottleStorageManager().getBottlesCount(wineColor.Id);
     }
 
-    public static int getBottlesCount(Collection<BottleModel> bottles, WineColorEnum wineColor) {
+    public static int getBottlesCount(Collection<BottleModelV2> bottles, WineColorEnumV2 wineColor) {
         return getBottleStorageManager().getBottlesCount(bottles, wineColor.Id);
     }
 
@@ -113,11 +113,11 @@ public class BottleManager {
         return getBottleStorageManager().getDistinctDomains();
     }
 
-    public static List<SuggestBottleResultModel> getSuggestBottles(SuggestBottleCriteria searchCriteria) {
-        List<BottleModel> allBottles = getBottles();
-        List<SuggestBottleResultModel> suggestBottles = new ArrayList<>(allBottles.size());
+    public static List<SuggestBottleResultModelV2> getSuggestBottles(SuggestBottleCriteriaV2 searchCriteria) {
+        List<BottleModelV2> allBottles = getBottles();
+        List<SuggestBottleResultModelV2> suggestBottles = new ArrayList<>(allBottles.size());
 
-        for (BottleModel bottle : allBottles) {
+        for (BottleModelV2 bottle : allBottles) {
             int wineColorScore = computeWineColorScore(bottle, searchCriteria);
             if (searchCriteria.IsWineColorRequired && wineColorScore == 0) {
                 continue;
@@ -151,7 +151,7 @@ public class BottleManager {
                 continue;
             }
 
-            SuggestBottleResultModel suggestedBottle = new SuggestBottleResultModel();
+            SuggestBottleResultModelV2 suggestedBottle = new SuggestBottleResultModelV2();
             suggestedBottle.Bottle = bottle;
             suggestedBottle.Score = wineColorScore + domainScore + millesimeScore + ratingScore + priceRatingScore + foodScore + personScore + caveScore;
 
@@ -162,35 +162,35 @@ public class BottleManager {
         return suggestBottles;
     }
 
-    private static int computeWineColorScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
-        if (searchCriteria.WineColor == WineColorEnum.ANY) return 1;
+    private static int computeWineColorScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
+        if (searchCriteria.WineColor == WineColorEnumV2.a) return 1;
         if (searchCriteria.WineColor == bottle.WineColor) return 1;
         return 0;
     }
 
-    private static int computeDomainScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+    private static int computeDomainScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
         if (searchCriteria.Domain == null || searchCriteria.Domain.isEmpty()) return 1;
         if (searchCriteria.Domain.equalsIgnoreCase(bottle.Domain)) return 1;
         return 0;
     }
 
-    private static int computeMillesimeScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+    private static int computeMillesimeScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int age = currentYear - bottle.Millesime;
 
         switch (searchCriteria.Millesime) {
-            case ANY:
+            case a:
                 return 1;
-            case LESS_THAN_TWO:
+            case ltt:
                 if (bottle.Millesime == 0) return 0;
                 return age <= 2 ? 1 : 0;
-            case THREE_TO_FIVE:
+            case ttf:
                 if (bottle.Millesime == 0) return 0;
                 return age > 2 && age <= 5 ? 1 : 0;
-            case SIX_TO_TEN:
+            case stt:
                 if (bottle.Millesime == 0) return 0;
                 return age > 5 && age <= 10 ? 1 : 0;
-            case OVER_TEN:
+            case ot:
                 if (bottle.Millesime == 0) return 0;
                 return age > 10 ? 1 : 0;
             default:
@@ -198,43 +198,43 @@ public class BottleManager {
         }
     }
 
-    private static int computeRatingScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+    private static int computeRatingScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
         if (searchCriteria.RatingMinValue <= bottle.Rating && searchCriteria.RatingMaxValue >= bottle.Rating)
             return 1;
         return 0;
     }
 
-    private static int computePriceRatingScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+    private static int computePriceRatingScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
         if (searchCriteria.PriceRatingMinValue <= bottle.PriceRating && searchCriteria.PriceRatingMaxValue >= bottle.PriceRating)
             return 1;
         return 0;
     }
 
-    private static int computeFoodScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+    private static int computeFoodScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
         if (searchCriteria.FoodToEatWithList.isEmpty()) return 1;
 
-        for (FoodToEatWithEnum food : searchCriteria.FoodToEatWithList) {
+        for (FoodToEatWithEnumV2 food : searchCriteria.FoodToEatWithList) {
             if (bottle.FoodToEatWithList.contains(food)) return 1;
         }
 
         return 0;
     }
 
-    private static int computePersonScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+    private static int computePersonScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
         if (searchCriteria.PersonToShareWith == null || searchCriteria.PersonToShareWith.isEmpty())
             return 1;
         if (searchCriteria.PersonToShareWith.equalsIgnoreCase(bottle.PersonToShareWith)) return 1;
         return 0;
     }
 
-    private static int computeCaveScore(BottleModel bottle, SuggestBottleCriteria searchCriteria) {
+    private static int computeCaveScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
         if (searchCriteria.Cave == null) {
             return 1;
         }
         return CaveManager.isBottleInTheCave(bottle.Id, searchCriteria.Cave.Id) ? 1 : 0;
     }
 
-    public static List<BottleModel> getNonPlacedBottles() {
+    public static List<BottleModelV2> getNonPlacedBottles() {
         return getBottleStorageManager().getNonPlacedBottles();
     }
 
@@ -260,10 +260,10 @@ public class BottleManager {
     }
 
     public static void recomputeNumberPlaced(Context context) {
-        for (BottleModel bottle : getBottles()) {
-            List<CaveLightModel> caves = CaveManager.getLightCavesWithBottle(bottle.Id);
+        for (BottleModelV2 bottle : getBottles()) {
+            List<CaveLightModelV2> caves = CaveManager.getLightCavesWithBottle(bottle.Id);
             int totalPlaced = 0;
-            for (CaveLightModel cave : caves) {
+            for (CaveLightModelV2 cave : caves) {
                 totalPlaced += cave.TotalUsed;
             }
             if (bottle.NumberPlaced != totalPlaced) {

@@ -2,17 +2,16 @@ package com.myadridev.mypocketcave.models.v1;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.myadridev.mypocketcave.enums.PatternTypeEnum;
-import com.myadridev.mypocketcave.enums.PositionEnum;
+import com.myadridev.mypocketcave.enums.v1.PatternTypeEnum;
+import com.myadridev.mypocketcave.enums.v1.PositionEnum;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
-import com.myadridev.mypocketcave.models.CoordinatesModelDeserializer;
-import com.myadridev.mypocketcave.models.CoordinatesModelSerializer;
+import com.myadridev.mypocketcave.models.inferfaces.IPatternModelWithBottles;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @JsonSerialize(as = PatternModelWithBottles.class)
-public class PatternModelWithBottles extends PatternModel {
+public class PatternModelWithBottles extends PatternModel implements IPatternModelWithBottles {
 
     @JsonSerialize(keyUsing = CoordinatesModelSerializer.class)
     @JsonDeserialize(keyUsing = CoordinatesModelDeserializer.class)

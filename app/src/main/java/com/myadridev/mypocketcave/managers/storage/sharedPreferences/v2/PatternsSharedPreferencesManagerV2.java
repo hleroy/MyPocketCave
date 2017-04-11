@@ -9,7 +9,7 @@ import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.IPatternsStorageManagerV2;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class PatternsSharedPreferencesManagerV2 implements IPatternsStorageManag
 
     public static PatternsSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
-    private Map<Integer, PatternModelV2> allPatternsMap;
+    private final Map<Integer, PatternModelV2> allPatternsMap = new HashMap<>();;
     private String keyIndex;
     private String filename;
     private int keyPatternResourceId = R.string.store_pattern;
@@ -70,10 +70,8 @@ public class PatternsSharedPreferencesManagerV2 implements IPatternsStorageManag
         Map<Integer, IStorableModel> allPatternsAsStorableModel = getSharedPreferencesManager().loadStoredDataMap(context, filename, keyIndex, keyPatternResourceId, PatternModelV2.class);
 
         if (allPatternsAsStorableModel == null) {
-            allPatternsMap = new HashMap<>();
             return;
         }
-        allPatternsMap = new HashMap<>(allPatternsAsStorableModel.size());
         for (Map.Entry<Integer, IStorableModel> patternAsStorableModelEntry : allPatternsAsStorableModel.entrySet()) {
             IStorableModel patternAsStorableModel = patternAsStorableModelEntry.getValue();
             if (patternAsStorableModel instanceof PatternModelV2) {

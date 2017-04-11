@@ -15,10 +15,10 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.BottlesAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,7 @@ import java.util.List;
 
 public class BottlesFragment extends Fragment implements IVisibleFragment {
 
-    private List<BottleModel> allBottles;
+    private List<BottleModelV2> allBottles;
     private TextView noBottlesLabelView;
     private View rootView;
     private RecyclerView bottlesRecyclerView;
@@ -117,10 +117,10 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
 
             bottlesCountDetailLabelView.setVisibility(View.GONE);
             bottlesCountDetailLabelView.setText(getString(R.string.bottles_count_detail,
-                    BottleManager.getBottlesCount(WineColorEnum.RED),
-                    BottleManager.getBottlesCount(WineColorEnum.WHITE),
-                    BottleManager.getBottlesCount(WineColorEnum.ROSE),
-                    BottleManager.getBottlesCount(WineColorEnum.CHAMPAGNE)));
+                    BottleManager.getBottlesCount(WineColorEnumV2.r),
+                    BottleManager.getBottlesCount(WineColorEnumV2.w),
+                    BottleManager.getBottlesCount(WineColorEnumV2.ro),
+                    BottleManager.getBottlesCount(WineColorEnumV2.c)));
         }
     }
 
@@ -131,7 +131,7 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
         bottlesRecyclerView.setAdapter(bottlesAdapter);
     }
 
-    private void setHolderPropertiesFromBottle(BottleViewHolder holder, BottleModel bottle) {
+    private void setHolderPropertiesFromBottle(BottleViewHolder holder, BottleModelV2 bottle) {
         holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
         holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
         holder.setStockLabelViewText(getActivity().getString(R.string.bottles_stock, bottle.Stock));

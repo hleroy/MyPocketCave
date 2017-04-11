@@ -9,9 +9,9 @@ import com.myadridev.mypocketcave.adapters.CaveArrangementAdapter;
 import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.CaveArrangementViewHolder;
 import com.myadridev.mypocketcave.listeners.OnValueChangedListener;
-import com.myadridev.mypocketcave.models.v1.CaveArrangementModel;
-import com.myadridev.mypocketcave.models.v1.CoordinatesModel;
-import com.myadridev.mypocketcave.models.v1.PatternModelWithBottles;
+import com.myadridev.mypocketcave.models.v2.CaveArrangementModelV2;
+import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelWithBottlesV2;
 import com.myadridev.mypocketcave.tasks.bottles.DrinkBottleTask;
 import com.myadridev.mypocketcave.tasks.bottles.PlaceBottleTask;
 import com.myadridev.mypocketcave.tasks.bottles.UpdateNumberPlacedTask;
@@ -24,19 +24,19 @@ public class CreateCaveDetailArrangementTask extends AsyncTask<Void, Void, Patte
     private final CaveArrangementViewHolder holder;
     private final CaveArrangementAdapter caveArrangementAdapter;
     private final CaveDetailActivity detailActivity;
-    private final PatternModelWithBottles patternWithBottles;
+    private final PatternModelWithBottlesV2 patternWithBottles;
     private final int numberRowsGridLayout;
     private final int numberColumnsGridLayout;
     private final int itemWidth;
-    private final CoordinatesModel coordinates;
+    private final CoordinatesModelV2 coordinates;
     private final int bottleIdInHighlight;
-    private final CaveArrangementModel caveArrangement;
+    private final CaveArrangementModelV2 caveArrangement;
     private final OnValueChangedListener onValueChangedListener;
 
     public CreateCaveDetailArrangementTask(CaveArrangementAdapter caveArrangementAdapter, CaveArrangementViewHolder holder,
-                                           CaveDetailActivity detailActivity, PatternModelWithBottles patternWithBottles,
+                                           CaveDetailActivity detailActivity, PatternModelWithBottlesV2 patternWithBottles,
                                            int numberRowsGridLayout, int numberColumnsGridLayout, int itemWidth,
-                                           CoordinatesModel coordinates, int bottleIdInHighlight, CaveArrangementModel caveArrangement,
+                                           CoordinatesModelV2 coordinates, int bottleIdInHighlight, CaveArrangementModelV2 caveArrangement,
                                            OnValueChangedListener onValueChangedListener) {
         this.caveArrangementAdapter = caveArrangementAdapter;
         this.holder = holder;
@@ -54,30 +54,30 @@ public class CreateCaveDetailArrangementTask extends AsyncTask<Void, Void, Patte
     @Override
     protected PatternAdapter doInBackground(Void... params) {
         PatternAdapter patternAdapter = new PatternAdapter(detailActivity, patternWithBottles.PlaceMapWithBottles,
-                new CoordinatesModel(numberRowsGridLayout, numberColumnsGridLayout),
+                new CoordinatesModelV2(numberRowsGridLayout, numberColumnsGridLayout),
                 true, itemWidth, coordinates, bottleIdInHighlight);
 
-        patternAdapter.setOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+        patternAdapter.setOnBottlePlacedClickListener((int bottleId, int quantity, CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) -> {
             // here quantity is 1 in all cases : we ignore it
-            Map<CoordinatesModel, List<CoordinatesModel>> coordinatesUpdated = caveArrangement.placeBottle(patternCoordinates, coordinates, bottleId);
+            Map<CoordinatesModelV2, List<CoordinatesModelV2>> coordinatesUpdated = caveArrangement.placeBottle(patternCoordinates, coordinates, bottleId);
             PlaceBottleTask placeBottleTask = new PlaceBottleTask(detailActivity);
             placeBottleTask.execute(bottleId);
             if (onValueChangedListener != null) {
                 onValueChangedListener.onValueChanged(coordinatesUpdated);
             }
         });
-        patternAdapter.setOnBottleDrunkClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+        patternAdapter.setOnBottleDrunkClickListener((int bottleId, int quantity, CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) -> {
             // here quantity is 1 in all cases : we ignore it
-            Map<CoordinatesModel, List<CoordinatesModel>> coordinatesUpdated = caveArrangement.unplaceBottle(patternCoordinates, coordinates, bottleId);
+            Map<CoordinatesModelV2, List<CoordinatesModelV2>> coordinatesUpdated = caveArrangement.unplaceBottle(patternCoordinates, coordinates, bottleId);
             DrinkBottleTask drinkBottleTask = new DrinkBottleTask(detailActivity);
             drinkBottleTask.execute(bottleId);
             if (onValueChangedListener != null) {
                 onValueChangedListener.onValueChanged(coordinatesUpdated);
             }
         });
-        patternAdapter.setOnBottleUnplacedClickListener((int bottleId, int quantity, CoordinatesModel patternCoordinates, CoordinatesModel coordinates) -> {
+        patternAdapter.setOnBottleUnplacedClickListener((int bottleId, int quantity, CoordinatesModelV2 patternCoordinates, CoordinatesModelV2 coordinates) -> {
             // here quantity is 1 in all cases : we ignore it
-            Map<CoordinatesModel, List<CoordinatesModel>> coordinatesUpdated = caveArrangement.unplaceBottle(patternCoordinates, coordinates, bottleId);
+            Map<CoordinatesModelV2, List<CoordinatesModelV2>> coordinatesUpdated = caveArrangement.unplaceBottle(patternCoordinates, coordinates, bottleId);
             UpdateNumberPlacedTask updateNumberPlacedTask = new UpdateNumberPlacedTask(detailActivity);
             updateNumberPlacedTask.execute(bottleId, -1);
             if (onValueChangedListener != null) {

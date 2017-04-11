@@ -1,14 +1,14 @@
 package com.myadridev.mypocketcave.managers;
 
-import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-import com.myadridev.mypocketcave.enums.MillesimeEnum;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v1.IBottleStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICavesStorageManager;
-import com.myadridev.mypocketcave.models.v1.BottleModel;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
+import com.myadridev.mypocketcave.enums.v2.MillesimeEnumV2;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.IBottleStorageManagerV2;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleResultModelV2;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -27,40 +27,40 @@ import static org.mockito.Mockito.when;
 
 public class BottleManagerTest {
 
-    private static List<BottleModel> bottles;
+    private static List<BottleModelV2> bottles;
     private static int currentYear;
 
     @BeforeClass
     public static void beforeClass() {
         createSearchBottleSet();
         DependencyManager.init();
-        IBottleStorageManager mockBottleStorageManager = mock(IBottleStorageManager.class);
-        when(mockBottleStorageManager.getBottles()).thenAnswer(new Answer<List<BottleModel>>() {
+        IBottleStorageManagerV2 mockBottleStorageManager = mock(IBottleStorageManagerV2.class);
+        when(mockBottleStorageManager.getBottles()).thenAnswer(new Answer<List<BottleModelV2>>() {
             @Override
-            public List<BottleModel> answer(InvocationOnMock invocation) {
+            public List<BottleModelV2> answer(InvocationOnMock invocation) {
                 return bottles;
             }
         });
-        DependencyManager.registerSingleton(IBottleStorageManager.class, mockBottleStorageManager, true);
+        DependencyManager.registerSingleton(IBottleStorageManagerV2.class, mockBottleStorageManager, true);
 
-        ICavesStorageManager mockCavesStorageManager = mock(ICavesStorageManager.class);
+        ICavesStorageManagerV2 mockCavesStorageManager = mock(ICavesStorageManagerV2.class);
         when(mockCavesStorageManager.getLightCaves())
-                .thenAnswer(new Answer<List<CaveLightModel>>() {
+                .thenAnswer(new Answer<List<CaveLightModelV2>>() {
                     @Override
-                    public List<CaveLightModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public List<CaveLightModelV2> answer(InvocationOnMock invocation) throws Throwable {
                         return new ArrayList<>();
                     }
                 });
-        DependencyManager.registerSingleton(ICavesStorageManager.class, mockCavesStorageManager, true);
+        DependencyManager.registerSingleton(ICavesStorageManagerV2.class, mockCavesStorageManager, true);
     }
 
     private static void createSearchBottleSet() {
         bottles = new ArrayList<>();
-        List<List<FoodToEatWithEnum>> foods = new ArrayList<>();
+        List<List<FoodToEatWithEnumV2>> foods = new ArrayList<>();
         foods.add(new ArrayList<>());
         foods.add(new ArrayList<>());
-        foods.get(1).add(FoodToEatWithEnum.PorkProduct);
-        foods.get(1).add(FoodToEatWithEnum.Fish);
+        foods.get(1).add(FoodToEatWithEnumV2.po);
+        foods.get(1).add(FoodToEatWithEnumV2.fi);
 
         Calendar cal = Calendar.getInstance();
         currentYear = cal.get(Calendar.YEAR);
@@ -70,7 +70,7 @@ public class BottleManagerTest {
         for (int i = 0; i < numberDifferentDomains; i++) {
             String domain = "AA - Domaine " + (i + 1);
             for (int c = 0; c < 2; c++) {
-                WineColorEnum color = WineColorEnum.getById(c + 1);
+                WineColorEnumV2 color = WineColorEnumV2.getById(c + 1);
                 for (int j = 0; j < 4; j++) {
                     int millesime = currentYear - (3 * j);
                     for (int k = 0; k < 2; k++) {
@@ -79,7 +79,7 @@ public class BottleManagerTest {
                             count++;
                             String name = "AA - Suggest " + count;
 
-                            BottleModel bottle = new BottleModel();
+                            BottleModelV2 bottle = new BottleModelV2();
                             bottle.Domain = domain;
                             bottle.WineColor = color;
                             bottle.Millesime = millesime;
@@ -103,27 +103,27 @@ public class BottleManagerTest {
 
     @Test
     public void getSuggestBottlesWhenNoCriteria() {
-        SuggestBottleCriteria searchCriteria = new SuggestBottleCriteria();
-        List<SuggestBottleResultModel> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
+        SuggestBottleCriteriaV2 searchCriteria = new SuggestBottleCriteriaV2();
+        List<SuggestBottleResultModelV2> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
 
         assertEquals(bottles.size(), suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
+            assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
     }
 
     @Test
     public void getSuggestBottlesWhenDomainMandatory() {
-        SuggestBottleCriteria searchCriteria = new SuggestBottleCriteria();
+        SuggestBottleCriteriaV2 searchCriteria = new SuggestBottleCriteriaV2();
         searchCriteria.IsDomainRequired = true;
         searchCriteria.Domain = "AA - Domaine 1";
 
-        List<SuggestBottleResultModel> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
+        List<SuggestBottleResultModelV2> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
+            assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
             assertEquals(searchCriteria.Domain, suggestBottle.Bottle.Domain);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
@@ -131,15 +131,15 @@ public class BottleManagerTest {
 
     @Test
     public void getSuggestBottlesWhenWineColorMandatory() {
-        SuggestBottleCriteria searchCriteria = new SuggestBottleCriteria();
+        SuggestBottleCriteriaV2 searchCriteria = new SuggestBottleCriteriaV2();
         searchCriteria.IsWineColorRequired = true;
-        searchCriteria.WineColor = WineColorEnum.getById(1);
+        searchCriteria.WineColor = WineColorEnumV2.getById(1);
 
-        List<SuggestBottleResultModel> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
+        List<SuggestBottleResultModelV2> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
+            assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
             assertEquals(searchCriteria.WineColor, suggestBottle.Bottle.WineColor);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
@@ -147,76 +147,76 @@ public class BottleManagerTest {
 
     @Test
     public void getSuggestBottlesWhenMillesimeMandatory() {
-        SuggestBottleCriteria searchCriteria = new SuggestBottleCriteria();
+        SuggestBottleCriteriaV2 searchCriteria = new SuggestBottleCriteriaV2();
         searchCriteria.IsMillesimeRequired = true;
 
-        searchCriteria.Millesime = MillesimeEnum.LESS_THAN_TWO;
-        List<SuggestBottleResultModel> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
+        searchCriteria.Millesime = MillesimeEnumV2.ltt;
+        List<SuggestBottleResultModelV2> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
         assertEquals(bottles.size() / 4, suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
+            assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
             assertTrue(suggestBottle.Bottle.Millesime <= currentYear);
             assertTrue(suggestBottle.Bottle.Millesime >= currentYear - 2);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
 
-        searchCriteria.Millesime = MillesimeEnum.THREE_TO_FIVE;
+        searchCriteria.Millesime = MillesimeEnumV2.ttf;
         suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
         assertEquals(bottles.size() / 4, suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
+            assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
             assertTrue(suggestBottle.Bottle.Millesime <= currentYear - 3);
             assertTrue(suggestBottle.Bottle.Millesime >= currentYear - 5);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
 
-        searchCriteria.Millesime = MillesimeEnum.SIX_TO_TEN;
+        searchCriteria.Millesime = MillesimeEnumV2.stt;
         suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
         assertEquals(bottles.size() / 2, suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
+            assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
             assertTrue(suggestBottle.Bottle.Millesime <= currentYear - 6);
             assertTrue(suggestBottle.Bottle.Millesime >= currentYear - 10);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
 
-        searchCriteria.Millesime = MillesimeEnum.OVER_TEN;
+        searchCriteria.Millesime = MillesimeEnumV2.ot;
         suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
         assertEquals(0, suggestBottles.size());
     }
 
     @Test
     public void getSuggestBottlesWhenFoodMandatory() {
-        SuggestBottleCriteria searchCriteria = new SuggestBottleCriteria();
+        SuggestBottleCriteriaV2 searchCriteria = new SuggestBottleCriteriaV2();
         searchCriteria.IsFoodRequired = true;
-        List<FoodToEatWithEnum> foodCriteria = new ArrayList<>();
-        foodCriteria.add(FoodToEatWithEnum.PorkProduct);
-        foodCriteria.add(FoodToEatWithEnum.Dessert);
+        List<FoodToEatWithEnumV2> foodCriteria = new ArrayList<>();
+        foodCriteria.add(FoodToEatWithEnumV2.po);
+        foodCriteria.add(FoodToEatWithEnumV2.de);
         searchCriteria.FoodToEatWithList.clear();
         searchCriteria.FoodToEatWithList.addAll(foodCriteria);
 
-        List<SuggestBottleResultModel> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
+        List<SuggestBottleResultModelV2> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
-            assertTrue(suggestBottle.Bottle.FoodToEatWithList.contains(FoodToEatWithEnum.PorkProduct)
-                    || suggestBottle.Bottle.FoodToEatWithList.contains(FoodToEatWithEnum.Dessert));
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
+            assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
+            assertTrue(suggestBottle.Bottle.FoodToEatWithList.contains(FoodToEatWithEnumV2.po)
+                    || suggestBottle.Bottle.FoodToEatWithList.contains(FoodToEatWithEnumV2.de));
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
     }
 
     @Test
     public void getSuggestBottlesWhenPersonMandatory() {
-        SuggestBottleCriteria searchCriteria = new SuggestBottleCriteria();
+        SuggestBottleCriteriaV2 searchCriteria = new SuggestBottleCriteriaV2();
         searchCriteria.IsPersonRequired = true;
         searchCriteria.PersonToShareWith = "Person 1";
 
-        List<SuggestBottleResultModel> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
+        List<SuggestBottleResultModelV2> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
-            assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
+            assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
             assertEquals(searchCriteria.PersonToShareWith, suggestBottle.Bottle.PersonToShareWith);
             assertTrue(bottles.contains(suggestBottle.Bottle));
         }
@@ -224,21 +224,21 @@ public class BottleManagerTest {
 
     @Test
     public void getSuggestBottlesWhenWineColorMandatoryAndOtherCriteriaNonMandatory() {
-        SuggestBottleCriteria searchCriteria = new SuggestBottleCriteria();
+        SuggestBottleCriteriaV2 searchCriteria = new SuggestBottleCriteriaV2();
         searchCriteria.IsWineColorRequired = true;
-        searchCriteria.WineColor = WineColorEnum.getById(1);
-        searchCriteria.Millesime = MillesimeEnum.THREE_TO_FIVE;
+        searchCriteria.WineColor = WineColorEnumV2.getById(1);
+        searchCriteria.Millesime = MillesimeEnumV2.ttf;
 
-        List<SuggestBottleResultModel> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
+        List<SuggestBottleResultModelV2> suggestBottles = BottleManager.getSuggestBottles(searchCriteria);
 
         assertEquals(bottles.size() / 2, suggestBottles.size());
-        for (SuggestBottleResultModel suggestBottle : suggestBottles) {
+        for (SuggestBottleResultModelV2 suggestBottle : suggestBottles) {
             assertEquals(searchCriteria.WineColor, suggestBottle.Bottle.WineColor);
             assertTrue(bottles.contains(suggestBottle.Bottle));
             if (suggestBottle.Bottle.Millesime <= currentYear - 3 && suggestBottle.Bottle.Millesime >= currentYear - 5) {
-                assertEquals(SuggestBottleCriteria.NumberOfCriteria, suggestBottle.Score);
+                assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria, suggestBottle.Score);
             } else {
-                assertEquals(SuggestBottleCriteria.NumberOfCriteria - 1, suggestBottle.Score);
+                assertEquals(SuggestBottleCriteriaV2.NumberOfCriteria - 1, suggestBottle.Score);
             }
         }
     }

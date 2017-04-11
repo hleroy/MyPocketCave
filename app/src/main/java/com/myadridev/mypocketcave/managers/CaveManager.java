@@ -2,12 +2,12 @@ package com.myadridev.mypocketcave.managers;
 
 import android.content.Context;
 
-import com.myadridev.mypocketcave.enums.CaveTypeEnum;
+import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICaveStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICavesStorageManager;
-import com.myadridev.mypocketcave.models.v1.CaveLightModel;
-import com.myadridev.mypocketcave.models.v1.CaveModel;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICaveStorageManagerV2;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
+import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
 import java.util.List;
 import java.util.Map;
@@ -15,49 +15,49 @@ import java.util.Map;
 public class CaveManager {
 
     private static boolean listenerCavesRegistered = false;
-    private static ICavesStorageManager cavesStorageManager = null;
+    private static ICavesStorageManagerV2 cavesStorageManager = null;
     private static boolean listenerCaveRegistered = false;
-    private static ICaveStorageManager caveStorageManager = null;
+    private static ICaveStorageManagerV2 caveStorageManager = null;
 
-    private static ICavesStorageManager getCavesStorageManager() {
+    private static ICavesStorageManagerV2 getCavesStorageManager() {
         if (cavesStorageManager == null) {
-            cavesStorageManager = DependencyManager.getSingleton(ICavesStorageManager.class,
+            cavesStorageManager = DependencyManager.getSingleton(ICavesStorageManagerV2.class,
                     listenerCavesRegistered ? null : (OnDependencyChangeListener) () -> cavesStorageManager = null);
             listenerCavesRegistered = true;
         }
         return cavesStorageManager;
     }
 
-    private static ICaveStorageManager getCaveStorageManager() {
+    private static ICaveStorageManagerV2 getCaveStorageManager() {
         if (caveStorageManager == null) {
-            caveStorageManager = DependencyManager.getSingleton(ICaveStorageManager.class,
+            caveStorageManager = DependencyManager.getSingleton(ICaveStorageManagerV2.class,
                     listenerCaveRegistered ? null : (OnDependencyChangeListener) () -> caveStorageManager = null);
             listenerCaveRegistered = true;
         }
         return caveStorageManager;
     }
 
-    public static List<CaveModel> getCaves() {
+    public static List<CaveModelV2> getCaves() {
         return getCaveStorageManager().getCaves();
     }
 
-    public static List<CaveLightModel> getLightCaves() {
+    public static List<CaveLightModelV2> getLightCaves() {
         return getCavesStorageManager().getLightCaves();
     }
 
-    public static CaveModel getCave(Context context, int caveId) {
+    public static CaveModelV2 getCave(Context context, int caveId) {
         return getCaveStorageManager().getCave(context, caveId);
     }
 
-    public static int addCave(Context context, CaveModel cave) {
-        CaveLightModel caveLight = new CaveLightModel(cave);
+    public static int addCave(Context context, CaveModelV2 cave) {
+        CaveLightModelV2 caveLight = new CaveLightModelV2(cave);
         cave.Id = getCavesStorageManager().insertCave(context, caveLight, true);
         getCaveStorageManager().insertOrUpdateCave(context, cave);
         return cave.Id;
     }
 
-    public static void addCaves(Context context, List<CaveModel> caves) {
-        for (CaveModel cave : caves) {
+    public static void addCaves(Context context, List<CaveModelV2> caves) {
+        for (CaveModelV2 cave : caves) {
             // we want to keep the ids of the caves
             editCave(context, cave);
         }
@@ -68,31 +68,31 @@ public class CaveManager {
         getCavesStorageManager().updateIndexes(context);
     }
 
-    public static void editCave(Context context, CaveModel cave) {
-        CaveLightModel caveLight = new CaveLightModel(cave);
+    public static void editCave(Context context, CaveModelV2 cave) {
+        CaveLightModelV2 caveLight = new CaveLightModelV2(cave);
         getCavesStorageManager().updateCave(context, caveLight);
         getCaveStorageManager().insertOrUpdateCave(context, cave);
     }
 
-    public static void removeCave(Context context, CaveModel cave) {
+    public static void removeCave(Context context, CaveModelV2 cave) {
         getCavesStorageManager().deleteCave(context, cave.Id);
         unplaceBottles(context, cave);
         getCaveStorageManager().deleteCave(context, cave);
     }
 
     public static void removeAllCaves(Context context) {
-        for (CaveModel cave : getCaves()) {
+        for (CaveModelV2 cave : getCaves()) {
             removeCave(context, cave);
         }
     }
 
-    private static void unplaceBottles(Context context, CaveModel cave) {
+    private static void unplaceBottles(Context context, CaveModelV2 cave) {
         for (Map.Entry<Integer, Float> numberPlacedBottleEntry : cave.CaveArrangement.getFloatNumberPlacedBottlesByIdMap().entrySet()) {
             BottleManager.updateNumberPlaced(context, numberPlacedBottleEntry.getKey(), -(int) Math.ceil(numberPlacedBottleEntry.getValue()));
         }
     }
 
-    public static int getExistingCaveId(int id, String name, CaveTypeEnum caveType) {
+    public static int getExistingCaveId(int id, String name, CaveTypeEnumV2 caveType) {
         return getCavesStorageManager().getExistingCaveId(id, name, caveType.Id);
     }
 
@@ -100,11 +100,11 @@ public class CaveManager {
         return getCavesStorageManager().getCavesCount();
     }
 
-    public static int getCavesCount(CaveTypeEnum caveType) {
+    public static int getCavesCount(CaveTypeEnumV2 caveType) {
         return getCavesStorageManager().getCavesCount(caveType.Id);
     }
 
-    public static List<CaveLightModel> getLightCavesWithBottle(int bottleId) {
+    public static List<CaveLightModelV2> getLightCavesWithBottle(int bottleId) {
         return getCaveStorageManager().getLightCavesWithBottle(bottleId);
     }
 

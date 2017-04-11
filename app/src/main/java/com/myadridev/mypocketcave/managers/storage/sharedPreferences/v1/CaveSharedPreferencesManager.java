@@ -7,14 +7,15 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICaveStorageManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ICavesStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v1.CaveLightModel;
 import com.myadridev.mypocketcave.models.v1.CaveModel;
-import com.myadridev.mypocketcave.models.IStorableModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -36,14 +37,24 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
         loadAllCaves(context);
     }
 
-    public static Map<Integer, CaveModel> getAllCaves(Context context) {
-        init(context);
+    private CaveSharedPreferencesManager(Context context, Collection<Integer> caveIds) {
+        loadAllCaves(context, caveIds);
+    }
+
+    public static Map<Integer, CaveModel> getAllCaves(Context context, Collection<Integer> caveIds) {
+        init(context, caveIds);
         return allCavesMap;
     }
 
     public static void init(Context context) {
         if (isInitialized) return;
         Instance = new CaveSharedPreferencesManager(context);
+        isInitialized = true;
+    }
+
+    public static void init(Context context, Collection<Integer> caveIds) {
+        if (isInitialized) return;
+        Instance = new CaveSharedPreferencesManager(context, caveIds);
         isInitialized = true;
     }
 
@@ -67,10 +78,18 @@ public class CaveSharedPreferencesManager implements ICaveStorageManager {
 
     private void loadAllCaves(Context context) {
         List<CaveLightModel> cavesLight = getCavesStorageManager().getLightCaves();
-        for (CaveLightModel caveLight : cavesLight) {
-            CaveModel cave = loadCave(context, caveLight.Id);
+        List<Integer> caveIds = new ArrayList<>(cavesLight.size());
+        for (CaveLightModel cave : cavesLight) {
+            caveIds.add(cave.Id);
+        }
+        loadAllCaves(context, caveIds);
+    }
+
+    private void loadAllCaves(Context context, Collection<Integer> caveIds) {
+        for (int caveId : caveIds) {
+            CaveModel cave = loadCave(context, caveId);
             if (cave != null) {
-                allCavesMap.put(caveLight.Id, cave);
+                allCavesMap.put(caveId, cave);
             }
         }
     }

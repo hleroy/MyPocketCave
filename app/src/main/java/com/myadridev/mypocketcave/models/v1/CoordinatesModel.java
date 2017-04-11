@@ -1,9 +1,10 @@
 package com.myadridev.mypocketcave.models.v1;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.myadridev.mypocketcave.models.inferfaces.ICoordinatesModel;
 
 @JsonSerialize(as = CoordinatesModel.class)
-public class CoordinatesModel {
+public class CoordinatesModel implements ICoordinatesModel {
 
     public int Row;
     public int Col;

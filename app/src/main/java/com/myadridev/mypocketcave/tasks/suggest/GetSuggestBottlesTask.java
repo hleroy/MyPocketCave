@@ -8,12 +8,12 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.activities.SuggestBottleResultActivity;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleCriteria;
-import com.myadridev.mypocketcave.models.v1.SuggestBottleResultModel;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
+import com.myadridev.mypocketcave.models.v2.SuggestBottleResultModelV2;
 
 import java.util.List;
 
-public class GetSuggestBottlesTask extends AsyncTask<SuggestBottleCriteria, Void, List<SuggestBottleResultModel>> {
+public class GetSuggestBottlesTask extends AsyncTask<SuggestBottleCriteriaV2, Void, List<SuggestBottleResultModelV2>> {
 
     private SuggestBottleResultActivity suggestBottleResultActivity;
     private CoordinatorLayout coordinatorLayout;
@@ -30,14 +30,14 @@ public class GetSuggestBottlesTask extends AsyncTask<SuggestBottleCriteria, Void
     }
 
     @Override
-    protected List<SuggestBottleResultModel> doInBackground(SuggestBottleCriteria... params) {
-        SuggestBottleCriteria searchCriteria = params[0];
+    protected List<SuggestBottleResultModelV2> doInBackground(SuggestBottleCriteriaV2... params) {
+        SuggestBottleCriteriaV2 searchCriteria = params[0];
 
         return BottleManager.getSuggestBottles(searchCriteria);
     }
 
     @Override
-    protected void onPostExecute(List<SuggestBottleResultModel> allBottles) {
+    protected void onPostExecute(List<SuggestBottleResultModelV2> allBottles) {
         if (snackbar != null) {
             snackbar.dismiss();
         }

@@ -3,14 +3,14 @@ package com.myadridev.mypocketcave.managers.storage.sharedPreferences.v2;
 import android.content.Context;
 
 import com.myadridev.mypocketcave.R;
-import com.myadridev.mypocketcave.enums.WineColorEnum;
+import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.IBottleStorageManagerV2;
-import com.myadridev.mypocketcave.models.IStorableModel;
+import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class BottlesSharedPreferencesManagerV2 implements IBottleStorageManagerV
 
     public static BottlesSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
-    private static Map<Integer, BottleModelV2> allBottlesMap = new HashMap<>();
+    private final Map<Integer, BottleModelV2> allBottlesMap = new HashMap<>();
     private String keyIndex;
     private String filename;
     private int keyBottleResourceId = R.string.store_bottle;
@@ -140,12 +140,12 @@ public class BottlesSharedPreferencesManagerV2 implements IBottleStorageManagerV
     }
 
     public int getBottlesPlacedCount() {
-        return getBottlesPlacedCount(allBottlesMap.values(), WineColorEnum.ANY.Id);
+        return getBottlesPlacedCount(allBottlesMap.values(), WineColorEnumV2.a.Id);
     }
 
     public int getBottlesPlacedCount(Collection<BottleModelV2> bottles, int wineColorId) {
         int bottlesCount = 0;
-        boolean isAnyBottles = wineColorId == WineColorEnum.ANY.Id;
+        boolean isAnyBottles = wineColorId == WineColorEnumV2.a.Id;
 
         for (BottleModelV2 bottle : bottles) {
             if (isAnyBottles || bottle.WineColor.Id == wineColorId) {
@@ -156,11 +156,11 @@ public class BottlesSharedPreferencesManagerV2 implements IBottleStorageManagerV
     }
 
     public int getBottlesCount() {
-        return getBottlesCount(allBottlesMap.values(), WineColorEnum.ANY.Id);
+        return getBottlesCount(allBottlesMap.values(), WineColorEnumV2.a.Id);
     }
 
     public int getBottlesCount(Collection<BottleModelV2> bottles) {
-        return getBottlesCount(bottles, WineColorEnum.ANY.Id);
+        return getBottlesCount(bottles, WineColorEnumV2.a.Id);
     }
 
     public int getBottlesCount(int wineColorId) {
@@ -169,7 +169,7 @@ public class BottlesSharedPreferencesManagerV2 implements IBottleStorageManagerV
 
     public int getBottlesCount(Collection<BottleModelV2> bottles, int wineColorId) {
         int bottlesCount = 0;
-        boolean isAnyBottles = wineColorId == WineColorEnum.ANY.Id;
+        boolean isAnyBottles = wineColorId == WineColorEnumV2.a.Id;
 
         for (BottleModelV2 bottle : bottles) {
             if (isAnyBottles || bottle.WineColor.Id == wineColorId) {
