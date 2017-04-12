@@ -19,12 +19,12 @@ public class BottleModel implements IStorableModel, Comparable<BottleModel>, IBo
     @JsonProperty("ftewl")
     public final List<FoodToEatWithEnum> FoodToEatWithList;
     public int Id;
-    public String Name;
+    public String Name = "";
     public int Millesime;
-    public String Domain;
-    public String Comments;
+    public String Domain = "";
+    public String Comments = "";
     @JsonProperty("ptsw")
-    public String PersonToShareWith;
+    public String PersonToShareWith = "";
     @JsonProperty("wc")
     public WineColorEnum WineColor;
     public int Stock;

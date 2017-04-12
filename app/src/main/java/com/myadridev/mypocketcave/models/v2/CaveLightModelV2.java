@@ -15,7 +15,7 @@ public class CaveLightModelV2 implements IStorableModel, Comparable<CaveLightMod
     @JsonProperty("i")
     public int Id;
     @JsonProperty("n")
-    public String Name;
+    public String Name = "";
     @JsonProperty("ct")
     public CaveTypeEnumV2 CaveType;
     @JsonProperty("tc")

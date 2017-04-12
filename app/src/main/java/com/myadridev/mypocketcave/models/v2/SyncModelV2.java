@@ -11,7 +11,7 @@ import java.util.List;
 public class SyncModelV2 implements ISyncModel {
 
     @JsonProperty("v")
-    public String Version;
+    public String Version = "";
     @JsonProperty("c")
     public final List<CaveModelV2> Caves;
     @JsonProperty("b")

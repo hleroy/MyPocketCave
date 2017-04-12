@@ -12,7 +12,7 @@ import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 public class CaveLightModel implements IStorableModel, Comparable<CaveLightModel>, ICaveLightModel {
 
     public int Id;
-    public String Name;
+    public String Name = "";
     public CaveTypeEnum CaveType;
     public int TotalCapacity;
     public int TotalUsed;

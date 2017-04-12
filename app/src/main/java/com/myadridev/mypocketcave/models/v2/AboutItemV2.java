@@ -13,9 +13,9 @@ public class AboutItemV2 implements Comparable<AboutItemV2> {
     @JsonProperty("afe")
     public AboutFieldsEnumV2 AboutFieldsEnum;
     @JsonProperty("l")
-    public String Label;
+    public String Label = "";
     @JsonProperty("v")
-    public String Value;
+    public String Value = "";
 
     public AboutItemV2(Context context, AboutFieldsEnumV2 aboutFieldsEnum, String value) {
         AboutFieldsEnum = aboutFieldsEnum;

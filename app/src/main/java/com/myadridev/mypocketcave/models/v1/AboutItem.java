@@ -9,8 +9,8 @@ import com.myadridev.mypocketcave.enums.v1.AboutFieldsEnum;
 @JsonSerialize(as = AboutItem.class)
 public class AboutItem implements Comparable<AboutItem> {
     public AboutFieldsEnum AboutFieldsEnum;
-    public String Label;
-    public String Value;
+    public String Label = "";
+    public String Value = "";
 
     public AboutItem(Context context, AboutFieldsEnum aboutFieldsEnum, String value) {
         AboutFieldsEnum = aboutFieldsEnum;

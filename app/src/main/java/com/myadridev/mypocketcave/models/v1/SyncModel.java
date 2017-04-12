@@ -9,7 +9,7 @@ import java.util.List;
 @JsonSerialize(as = SyncModel.class)
 public class SyncModel implements ISyncModel {
 
-    public String Version;
+    public String Version = "";
     public List<CaveModel> Caves;
     public List<BottleModel> Bottles;
     public List<PatternModel> Patterns;

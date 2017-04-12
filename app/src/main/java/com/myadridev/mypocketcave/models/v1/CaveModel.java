@@ -12,7 +12,7 @@ import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 public class CaveModel implements IStorableModel, Comparable<CaveModel>, ICaveModel {
 
     public int Id;
-    public String Name;
+    public String Name = "";
     public CaveTypeEnum CaveType;
     public CaveArrangementModel CaveArrangement;
 

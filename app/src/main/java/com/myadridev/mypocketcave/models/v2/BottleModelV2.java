@@ -21,15 +21,15 @@ public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2>,
     @JsonProperty("i")
     public int Id;
     @JsonProperty("n")
-    public String Name;
+    public String Name = "";
     @JsonProperty("m")
     public int Millesime;
     @JsonProperty("d")
-    public String Domain;
+    public String Domain = "";
     @JsonProperty("c")
-    public String Comments;
+    public String Comments = "";
     @JsonProperty("ptsw")
-    public String PersonToShareWith;
+    public String PersonToShareWith = "";
     @JsonProperty("wc")
     public WineColorEnumV2 WineColor;
     @JsonProperty("s")
