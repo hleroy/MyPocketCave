@@ -4,9 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 import com.myadridev.mypocketcave.enums.v2.CavePlaceTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
@@ -20,30 +18,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@JsonSerialize(as = CaveArrangementModelV2.class)
 public class CaveArrangementModelV2 implements ICaveArrangementModel {
 
-    @JsonSerialize(keyUsing = CoordinatesModelV2Serializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelV2Deserializer.class)
-    @JsonProperty("pm")
+    @SerializedName("pm")
     public final Map<CoordinatesModelV2, PatternModelWithBottlesV2> PatternMap;
-    @JsonProperty("inpm")
+    @SerializedName("inpm")
     public final Map<Integer, Integer> IntNumberPlacedBottlesByIdMap;
-    @JsonProperty("fnpm")
+    @SerializedName("fnpm")
     public final Map<Integer, Float> floatNumberPlacedBottlesByIdMap;
-    @JsonProperty("i")
+    @SerializedName("i")
     public int Id;
-    @JsonProperty("tc")
+    @SerializedName("tc")
     public int TotalCapacity;
-    @JsonProperty("tu")
+    @SerializedName("tu")
     public int TotalUsed;
-    @JsonProperty("nbb")
+    @SerializedName("nbb")
     public int NumberBottlesBulk;
-    @JsonProperty("nb")
+    @SerializedName("nb")
     public int NumberBoxes;
-    @JsonProperty("bnc")
+    @SerializedName("bnc")
     public int BoxesNumberBottlesByColumn;
-    @JsonProperty("bnr")
+    @SerializedName("bnr")
     public int BoxesNumberBottlesByRow;
 
     public CaveArrangementModelV2() {

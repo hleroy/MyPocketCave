@@ -3,18 +3,16 @@ package com.myadridev.mypocketcave.models.v2;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 import com.myadridev.mypocketcave.enums.v2.AboutFieldsEnumV2;
 
-@JsonSerialize(as = AboutItemV2.class)
 public class AboutItemV2 implements Comparable<AboutItemV2> {
 
-    @JsonProperty("afe")
+    @SerializedName("afe")
     public AboutFieldsEnumV2 AboutFieldsEnum;
-    @JsonProperty("l")
+    @SerializedName("l")
     public String Label = "";
-    @JsonProperty("v")
+    @SerializedName("v")
     public String Value = "";
 
     public AboutItemV2(Context context, AboutFieldsEnumV2 aboutFieldsEnum, String value) {

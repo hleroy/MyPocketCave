@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v2.BottlesSharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
@@ -61,7 +61,7 @@ public class BottlesSharedPreferencesManagerTest {
         initBottleMap();
         DependencyManager.init();
 
-        ISharedPreferencesManager mockSharedPreferencesManager = mock(ISharedPreferencesManager.class);
+        ISharedPreferencesManagerV2 mockSharedPreferencesManager = mock(ISharedPreferencesManagerV2.class);
         when(mockSharedPreferencesManager.loadStoredDataMap(any(Context.class), anyString(), anyString(), anyInt(), eq(BottleModelV2.class))).thenAnswer(new Answer<Map<Integer, IStorableModel>>() {
             @Override
             public Map<Integer, IStorableModel> answer(InvocationOnMock invocation) {
@@ -121,7 +121,7 @@ public class BottlesSharedPreferencesManagerTest {
                 return null;
             }
         }).when(mockSharedPreferencesManager).removeData(any(Context.class), eq("bottles"), anyString());
-        DependencyManager.registerSingleton(ISharedPreferencesManager.class, mockSharedPreferencesManager, true);
+        DependencyManager.registerSingleton(ISharedPreferencesManagerV2.class, mockSharedPreferencesManager, true);
     }
 
     private static void initBottleMap() {

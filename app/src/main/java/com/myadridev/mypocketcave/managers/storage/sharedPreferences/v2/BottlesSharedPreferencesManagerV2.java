@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.IBottleStorageManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
@@ -30,7 +30,7 @@ public class BottlesSharedPreferencesManagerV2 implements IBottleStorageManagerV
     private String filename;
     private int keyBottleResourceId = R.string.store_bottle;
     private boolean listenerSharedPreferencesRegistered = false;
-    private ISharedPreferencesManager sharedPreferencesManager = null;
+    private ISharedPreferencesManagerV2 sharedPreferencesManager = null;
 
     private BottlesSharedPreferencesManagerV2(Context context) {
         keyIndex = context.getString(R.string.store_indexes);
@@ -60,9 +60,9 @@ public class BottlesSharedPreferencesManagerV2 implements IBottleStorageManagerV
         isInitialized = true;
     }
 
-    private ISharedPreferencesManager getSharedPreferencesManager() {
+    private ISharedPreferencesManagerV2 getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
-            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class,
+            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManagerV2.class,
                     listenerSharedPreferencesRegistered ? null : (OnDependencyChangeListener) () -> sharedPreferencesManager = null);
             listenerSharedPreferencesRegistered = true;
         }

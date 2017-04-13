@@ -1,10 +1,10 @@
-package com.myadridev.mypocketcave.managers.storage.sharedPreferences;
+package com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.myadridev.mypocketcave.managers.JsonManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ISharedPreferencesManager;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 import java.io.File;

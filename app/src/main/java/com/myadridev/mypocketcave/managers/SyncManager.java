@@ -3,9 +3,9 @@ package com.myadridev.mypocketcave.managers;
 import android.content.Context;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.helpers.ModelMigrationHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISyncStorageManager;
-import com.myadridev.mypocketcave.helpers.ModelMigrationHelper;
 import com.myadridev.mypocketcave.models.v1.SyncModel;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 import com.myadridev.mypocketcave.models.v2.CaveModelV2;
@@ -58,7 +58,7 @@ public class SyncManager {
         List<BottleModelV2> bottles = BottleManager.getBottles();
         List<PatternModelV2> patterns = PatternManager.getPatterns();
         SyncModelV2 syncData = new SyncModelV2(version, caves, bottles, patterns);
-        return JsonManager.writeValueAsString(syncData);
+        return JsonManagerV2.writeValueAsString(syncData);
     }
 
     private static String performExport(String exportLocation, String extension, String exportData) {
@@ -91,7 +91,7 @@ public class SyncManager {
 
         SyncModelV2 importDataV2 = getImportDataV2(importLocation);
 
-        if (importDataV2 == null) {
+        if (importDataV2 == null || importDataV2.Version.isEmpty()) {
             SyncModel importData = getImportData(importLocation);
 
             if (importData == null) {
@@ -167,7 +167,7 @@ public class SyncManager {
             e.printStackTrace();
         }
 
-        SyncModelV2 sync = JsonManager.readValue(importDataJson, SyncModelV2.class);
+        SyncModelV2 sync = JsonManagerV2.readValue(importDataJson, SyncModelV2.class);
 
         try {
             if (inputStream != null) {

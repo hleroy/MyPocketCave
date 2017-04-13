@@ -2,15 +2,13 @@ package com.myadridev.mypocketcave.models.v2;
 
 import android.support.annotation.NonNull;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 
-@JsonSerialize(as = SuggestBottleResultModelV2.class)
 public class SuggestBottleResultModelV2 implements Comparable<SuggestBottleResultModelV2> {
 
-    @JsonProperty("s")
+    @SerializedName("s")
     public int Score;
-    @JsonProperty("b")
+    @SerializedName("b")
     public BottleModelV2 Bottle;
 
     @Override

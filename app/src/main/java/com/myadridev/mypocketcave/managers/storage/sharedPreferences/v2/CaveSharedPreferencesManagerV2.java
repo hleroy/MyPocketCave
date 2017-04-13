@@ -7,7 +7,7 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICaveStorageManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
@@ -28,7 +28,7 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
     private int filenameResourceId = R.string.store_cave;
     private int keyCaveResourceId = R.string.store_cave_key;
     private boolean listenerSharedPreferencesRegistered = false;
-    private ISharedPreferencesManager sharedPreferencesManager = null;
+    private ISharedPreferencesManagerV2 sharedPreferencesManager = null;
     private boolean listenerCavesStorageRegistered = false;
     private ICavesStorageManagerV2 cavesStorageManager = null;
 
@@ -63,9 +63,9 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
         return cavesStorageManager;
     }
 
-    private ISharedPreferencesManager getSharedPreferencesManager() {
+    private ISharedPreferencesManagerV2 getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
-            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class,
+            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManagerV2.class,
                     listenerSharedPreferencesRegistered ? null : (OnDependencyChangeListener) () -> sharedPreferencesManager = null);
             listenerSharedPreferencesRegistered = true;
         }

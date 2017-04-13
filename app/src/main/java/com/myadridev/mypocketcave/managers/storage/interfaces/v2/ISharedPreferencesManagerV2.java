@@ -1,4 +1,4 @@
-package com.myadridev.mypocketcave.managers.storage.interfaces;
+package com.myadridev.mypocketcave.managers.storage.interfaces.v2;
 
 import android.content.Context;
 
@@ -6,7 +6,7 @@ import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 import java.util.Map;
 
-public interface ISharedPreferencesManager {
+public interface ISharedPreferencesManagerV2 {
 
     void delete(Context context, String filename);
 

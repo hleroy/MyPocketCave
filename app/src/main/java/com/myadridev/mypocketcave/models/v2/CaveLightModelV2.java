@@ -2,25 +2,22 @@ package com.myadridev.mypocketcave.models.v2;
 
 import android.support.annotation.NonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.models.inferfaces.ICaveLightModel;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
-@JsonSerialize(as = CaveLightModelV2.class)
 public class CaveLightModelV2 implements IStorableModel, Comparable<CaveLightModelV2>, ICaveLightModel {
 
-    @JsonProperty("i")
+    @SerializedName("i")
     public int Id;
-    @JsonProperty("n")
+    @SerializedName("n")
     public String Name = "";
-    @JsonProperty("ct")
+    @SerializedName("ct")
     public CaveTypeEnumV2 CaveType;
-    @JsonProperty("tc")
+    @SerializedName("tc")
     public int TotalCapacity;
-    @JsonProperty("tu")
+    @SerializedName("tu")
     public int TotalUsed;
 
     //TODO : photo
@@ -63,17 +60,14 @@ public class CaveLightModelV2 implements IStorableModel, Comparable<CaveLightMod
         }
     }
 
-    @JsonIgnore
     public int getId() {
         return Id;
     }
 
-    @JsonIgnore
     public boolean isValid() {
         return CaveType != null && Name != null;
     }
 
-    @JsonIgnore
     public void trimAll() {
         Name = Name.trim();
     }

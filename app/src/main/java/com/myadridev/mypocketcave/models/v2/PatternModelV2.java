@@ -2,10 +2,7 @@ package com.myadridev.mypocketcave.models.v2;
 
 import android.support.annotation.NonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 import com.myadridev.mypocketcave.enums.v2.CavePlaceTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
 import com.myadridev.mypocketcave.models.inferfaces.IPatternModel;
@@ -14,28 +11,25 @@ import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import java.util.HashMap;
 import java.util.Map;
 
-@JsonSerialize(as = PatternModelV2.class)
 public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2>, IPatternModel {
 
-    @JsonSerialize(keyUsing = CoordinatesModelV2Serializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelV2Deserializer.class)
-    @JsonProperty("pm")
+    @SerializedName("pm")
     public final Map<CoordinatesModelV2, CavePlaceTypeEnumV2> PlaceMap;
-    @JsonProperty("i")
+    @SerializedName("i")
     public int Id;
-    @JsonProperty("t")
+    @SerializedName("t")
     public PatternTypeEnumV2 Type;
-    @JsonProperty("nbc")
+    @SerializedName("nbc")
     public int NumberBottlesByColumn;
-    @JsonProperty("nbr")
+    @SerializedName("nbr")
     public int NumberBottlesByRow;
-    @JsonProperty("ihe")
+    @SerializedName("ihe")
     public boolean IsHorizontallyExpendable;
-    @JsonProperty("ive")
+    @SerializedName("ive")
     public boolean IsVerticallyExpendable;
-    @JsonProperty("ii")
+    @SerializedName("ii")
     public boolean IsInverted;
-    @JsonProperty("o")
+    @SerializedName("o")
     public int Order;
 
     public PatternModelV2() {
@@ -146,7 +140,6 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
         placeMap.put(new CoordinatesModelV2(row, col + 1), isInverted ? CavePlaceTypeEnumV2.bl : CavePlaceTypeEnumV2.n);
     }
 
-    @JsonIgnore
     public int getNumberColumnsGridLayout() {
         switch (Type) {
             case l:
@@ -158,7 +151,6 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
         }
     }
 
-    @JsonIgnore
     public int getNumberRowsGridLayout() {
         switch (Type) {
             case l:
@@ -181,7 +173,6 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
             return 0;
     }
 
-    @JsonIgnore
     public boolean hasSameValues(PatternModelV2 otherPattern) {
         return otherPattern != null
                 && Type == otherPattern.Type
@@ -192,17 +183,14 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
                 && NumberBottlesByColumn == otherPattern.NumberBottlesByColumn;
     }
 
-    @JsonIgnore
     public boolean isValid() {
         return Type != null && NumberBottlesByColumn != 0 && NumberBottlesByRow != 0;
     }
 
-    @JsonIgnore
     public int getId() {
         return Id;
     }
 
-    @JsonIgnore
     public Map<CoordinatesModelV2, CavePlaceModelV2> getPlaceMapForDisplay() {
         Map<CoordinatesModelV2, CavePlaceModelV2> placeMapForDisplay = new HashMap<>(PlaceMap.size());
         for (Map.Entry<CoordinatesModelV2, CavePlaceTypeEnumV2> placeMapEntry : PlaceMap.entrySet()) {
@@ -214,7 +202,6 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
         return placeMapForDisplay;
     }
 
-    @JsonIgnore
     public int getCapacityAlone() {
         switch (Type) {
             case l:
@@ -226,21 +213,18 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
         }
     }
 
-    @JsonIgnore
     private int getCapacityForEvenRows() {
         // on an even row : NumberBottlesByRow (-1 if inverted))
         // number of even rows : NumberBottlesByColumn
         return NumberBottlesByColumn * (NumberBottlesByRow - (IsInverted ? 1 : 0));
     }
 
-    @JsonIgnore
     private int getCapacityForOddRows() {
         // on an odd row : NumberBottlesByRow (-1 if not inverted)
         // number of odd rows : NumberBottlesByColumn -1
         return (NumberBottlesByColumn - 1) * (NumberBottlesByRow - (IsInverted ? 0 : 1));
     }
 
-    @JsonIgnore
     public boolean isPatternHorizontallyCompatible(PatternModelV2 otherPattern) {
         // if both patterns not IsHorizontallyExpendable -> false
         // if otherPattern null -> false
@@ -251,7 +235,6 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
         return IsInverted == otherPattern.IsInverted && NumberBottlesByColumn == otherPattern.NumberBottlesByColumn;
     }
 
-    @JsonIgnore
     public boolean isPatternVerticallyCompatible(PatternModelV2 otherPattern) {
         // if both patterns not IsVerticallyExpendable -> false
         // if otherPattern null -> false
@@ -262,7 +245,6 @@ public class PatternModelV2 implements IStorableModel, Comparable<PatternModelV2
         return IsInverted == otherPattern.IsInverted && NumberBottlesByRow == otherPattern.NumberBottlesByRow;
     }
 
-    @JsonIgnore
     public void trimAll() {
     }
 }

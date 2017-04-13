@@ -1,8 +1,6 @@
 package com.myadridev.mypocketcave.models.v2;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.PositionEnumV2;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
@@ -11,18 +9,15 @@ import com.myadridev.mypocketcave.models.inferfaces.IPatternModelWithBottles;
 import java.util.HashMap;
 import java.util.Map;
 
-@JsonSerialize(as = PatternModelWithBottlesV2.class)
 public class PatternModelWithBottlesV2 extends PatternModelV2 implements IPatternModelWithBottles {
 
-    @JsonSerialize(keyUsing = CoordinatesModelV2Serializer.class)
-    @JsonDeserialize(keyUsing = CoordinatesModelV2Deserializer.class)
-    @JsonProperty("pmb")
+    @SerializedName("pmb")
     public final Map<CoordinatesModelV2, CavePlaceModelV2> PlaceMapWithBottles;
-    @JsonProperty("pi")
+    @SerializedName("pi")
     public int PatternWithBottlesId;
 
     // number is float because a bottle can be on 2 patterns at the same time
-    @JsonProperty("fnp")
+    @SerializedName("fnp")
     public final Map<Integer, Float> FloatNumberPlacedBottlesByIdMap;
 
     public PatternModelWithBottlesV2() {

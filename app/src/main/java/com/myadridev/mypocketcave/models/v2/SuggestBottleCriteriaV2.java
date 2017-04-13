@@ -1,8 +1,7 @@
 package com.myadridev.mypocketcave.models.v2;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.enums.v2.MillesimeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
@@ -10,47 +9,46 @@ import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonSerialize(as = SuggestBottleCriteriaV2.class)
 public class SuggestBottleCriteriaV2 {
 
-    @JsonIgnore
+    @Expose(serialize = false, deserialize = false)
     public static int NumberOfCriteria = 8;
 
-    @JsonProperty("wc")
+    @SerializedName("wc")
     public WineColorEnumV2 WineColor;
-    @JsonProperty("iwcr")
+    @SerializedName("iwcr")
     public boolean IsWineColorRequired;
-    @JsonProperty("d")
+    @SerializedName("d")
     public String Domain;
-    @JsonProperty("idr")
+    @SerializedName("idr")
     public boolean IsDomainRequired;
-    @JsonProperty("m")
+    @SerializedName("m")
     public MillesimeEnumV2 Millesime;
-    @JsonProperty("imr")
+    @SerializedName("imr")
     public boolean IsMillesimeRequired;
-    @JsonProperty("rmi")
+    @SerializedName("rmi")
     public int RatingMinValue;
-    @JsonProperty("rma")
+    @SerializedName("rma")
     public int RatingMaxValue;
-    @JsonProperty("irr")
+    @SerializedName("irr")
     public boolean IsRatingRequired;
-    @JsonProperty("prmi")
+    @SerializedName("prmi")
     public int PriceRatingMinValue;
-    @JsonProperty("prma")
+    @SerializedName("prma")
     public int PriceRatingMaxValue;
-    @JsonProperty("iprr")
+    @SerializedName("iprr")
     public boolean IsPriceRatingRequired;
-    @JsonProperty("f")
+    @SerializedName("f")
     public final List<FoodToEatWithEnumV2> FoodToEatWithList;
-    @JsonProperty("ifr")
+    @SerializedName("ifr")
     public boolean IsFoodRequired;
-    @JsonProperty("p")
+    @SerializedName("p")
     public String PersonToShareWith;
-    @JsonProperty("ipr")
+    @SerializedName("ipr")
     public boolean IsPersonRequired;
-    @JsonProperty("c")
+    @SerializedName("c")
     public CaveLightModelV2 Cave;
-    @JsonProperty("icr")
+    @SerializedName("icr")
     public boolean IsCaveRequired;
 
     public SuggestBottleCriteriaV2() {

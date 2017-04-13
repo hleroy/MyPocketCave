@@ -58,7 +58,7 @@ public class NavigationManager {
     }
 
     public static boolean navigateToSuggestBottleResult(Context context, SuggestBottleCriteriaV2 searchCriteria) {
-        String searchCriteriaJson = JsonManager.writeValueAsString(searchCriteria);
+        String searchCriteriaJson = JsonManagerV2.writeValueAsString(searchCriteria);
         if (searchCriteriaJson == null) {
             return false;
         }

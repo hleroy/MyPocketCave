@@ -2,9 +2,7 @@ package com.myadridev.mypocketcave.models.v2;
 
 import android.support.annotation.NonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.models.inferfaces.IBottleModel;
@@ -13,32 +11,31 @@ import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonSerialize(as = BottleModelV2.class)
 public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2>, IBottleModel {
 
-    @JsonProperty("ftewl")
+    @SerializedName("ftewl")
     public final List<FoodToEatWithEnumV2> FoodToEatWithList;
-    @JsonProperty("i")
+    @SerializedName("i")
     public int Id;
-    @JsonProperty("n")
+    @SerializedName("n")
     public String Name = "";
-    @JsonProperty("m")
+    @SerializedName("m")
     public int Millesime;
-    @JsonProperty("d")
+    @SerializedName("d")
     public String Domain = "";
-    @JsonProperty("c")
+    @SerializedName("c")
     public String Comments = "";
-    @JsonProperty("ptsw")
+    @SerializedName("ptsw")
     public String PersonToShareWith = "";
-    @JsonProperty("wc")
+    @SerializedName("wc")
     public WineColorEnumV2 WineColor;
-    @JsonProperty("s")
+    @SerializedName("s")
     public int Stock;
-    @JsonProperty("np")
+    @SerializedName("np")
     public int NumberPlaced;
-    @JsonProperty("r")
+    @SerializedName("r")
     public int Rating;
-    @JsonProperty("pr")
+    @SerializedName("pr")
     public int PriceRating;
 
     // Whisky, Rum, Liqueur : Age
@@ -107,17 +104,14 @@ public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2>,
         }
     }
 
-    @JsonIgnore
     public int getId() {
         return Id;
     }
 
-    @JsonIgnore
     public boolean isValid() {
         return WineColor != null && Domain != null && Name != null;
     }
 
-    @JsonIgnore
     public void trimAll() {
         Name = Name.trim();
         Domain = Domain.trim();

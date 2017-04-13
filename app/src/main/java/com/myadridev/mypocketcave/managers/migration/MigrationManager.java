@@ -9,7 +9,7 @@ import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.migration.from.IMigrationFromManager;
 import com.myadridev.mypocketcave.managers.migration.from.MigrationFromV1Manager;
 import com.myadridev.mypocketcave.managers.migration.to.MigrationToManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IBottleModel;
 import com.myadridev.mypocketcave.models.inferfaces.ICaveLightModel;
 import com.myadridev.mypocketcave.models.inferfaces.ICaveModel;
@@ -34,11 +34,11 @@ public class MigrationManager {
     private static int keyResourceId = R.string.store_version_key;
 
     private static boolean listenerSharedPreferencesRegistered = false;
-    private static ISharedPreferencesManager sharedPreferencesManager = null;
+    private static ISharedPreferencesManagerV2 sharedPreferencesManager = null;
 
-    private static ISharedPreferencesManager getSharedPreferencesManager() {
+    private static ISharedPreferencesManagerV2 getSharedPreferencesManager() {
         if (sharedPreferencesManager == null) {
-            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManager.class,
+            sharedPreferencesManager = DependencyManager.getSingleton(ISharedPreferencesManagerV2.class,
                     listenerSharedPreferencesRegistered ? null : (OnDependencyChangeListener) () -> sharedPreferencesManager = null);
             listenerSharedPreferencesRegistered = true;
         }

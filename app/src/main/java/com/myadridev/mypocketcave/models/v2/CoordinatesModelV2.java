@@ -1,15 +1,13 @@
 package com.myadridev.mypocketcave.models.v2;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.SerializedName;
 import com.myadridev.mypocketcave.models.inferfaces.ICoordinatesModel;
 
-@JsonSerialize(as = CoordinatesModelV2.class)
 public class CoordinatesModelV2 implements ICoordinatesModel {
 
-    @JsonProperty("r")
+    @SerializedName("r")
     public int Row;
-    @JsonProperty("c")
+    @SerializedName("c")
     public int Col;
 
     public CoordinatesModelV2() {

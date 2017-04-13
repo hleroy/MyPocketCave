@@ -7,7 +7,7 @@ import android.support.annotation.RequiresApi;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v2.CaveSharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
@@ -76,7 +76,7 @@ public class CaveSharedPreferencesManagerTest {
                 });
         DependencyManager.registerSingleton(ICavesStorageManagerV2.class, mockCavesStorageManager, true);
 
-        ISharedPreferencesManager mockSharedPreferencesManager = mock(ISharedPreferencesManager.class);
+        ISharedPreferencesManagerV2 mockSharedPreferencesManager = mock(ISharedPreferencesManagerV2.class);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -140,7 +140,7 @@ public class CaveSharedPreferencesManagerTest {
                         return null;
                     }
                 });
-        DependencyManager.registerSingleton(ISharedPreferencesManager.class, mockSharedPreferencesManager, true);
+        DependencyManager.registerSingleton(ISharedPreferencesManagerV2.class, mockSharedPreferencesManager, true);
     }
 
     private static void initBottleMap() {
