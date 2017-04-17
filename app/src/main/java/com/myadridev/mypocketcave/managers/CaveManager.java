@@ -46,7 +46,7 @@ public class CaveManager {
         return getCavesStorageManager().getLightCaves();
     }
 
-    public static CaveModelV2 getCave(Context context, int caveId) {
+    public static CaveModelV2 getCave(int caveId) {
         return getCaveStorageManager().getCave(caveId);
     }
 
@@ -88,7 +88,7 @@ public class CaveManager {
     }
 
     private static void unplaceBottles(Context context, CaveModelV2 cave) {
-        for (Map.Entry<Integer, Float> numberPlacedBottleEntry : cave.CaveArrangement.getFloatNumberPlacedBottlesByIdMap().entrySet()) {
+        for (Map.Entry<Integer, Float> numberPlacedBottleEntry : CaveArrangementModelManager.getFloatNumberPlacedBottlesByIdMap(cave.CaveArrangement).entrySet()) {
             BottleManager.updateNumberPlaced(context, numberPlacedBottleEntry.getKey(), -(int) Math.ceil(numberPlacedBottleEntry.getValue()));
         }
     }

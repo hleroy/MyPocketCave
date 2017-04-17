@@ -33,16 +33,15 @@ public class PatternAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int nbRows;
     private final int nbCols;
     private final int bottleIdInHighlight;
+    private final CoordinatesModelV2 patternCoordinates;
+    private final int itemCount;
+    private final int itemWidth;
+    private final int itemHeight;
     private View.OnClickListener onResetHighlightlistener;
     private OnBottleClickListener onSetHighlightlistener;
     private OnBottlePlacedClickListener onBottlePlacedClickListener;
     private OnBottleDrunkClickListener onBottleDrunkClickListener;
     private OnBottleUnplacedClickListener onBottleUnplacedClickListener;
-    private final CoordinatesModelV2 patternCoordinates;
-
-    private final int itemCount;
-    private final int itemWidth;
-    private final int itemHeight;
 
     public PatternAdapter(Activity activity, Map<CoordinatesModelV2, CavePlaceModelV2> patternPlace, CoordinatesModelV2 maxRawCol,
                           boolean isClickable, int totalWidth, CoordinatesModelV2 patternCoordinates) {

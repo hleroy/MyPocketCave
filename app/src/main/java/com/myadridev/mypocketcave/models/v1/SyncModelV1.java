@@ -10,10 +10,10 @@ import java.util.List;
 @JsonSerialize(as = SyncModelV1.class)
 public class SyncModelV1 implements ISyncModel {
 
-    public String Version = "";
     public final List<CaveModelV1> Caves;
     public final List<BottleModelV1> Bottles;
     public final List<PatternModelV1> Patterns;
+    public String Version = "";
 
     public SyncModelV1() {
         Caves = new ArrayList<>();

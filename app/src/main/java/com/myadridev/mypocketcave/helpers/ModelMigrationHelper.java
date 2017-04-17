@@ -173,9 +173,9 @@ public class ModelMigrationHelper {
             newCaveArrangement.NumberBoxes = caveArrangement.NumberBoxes;
             newCaveArrangement.BoxesNumberBottlesByColumn = caveArrangement.BoxesNumberBottlesByColumn;
             newCaveArrangement.BoxesNumberBottlesByRow = caveArrangement.BoxesNumberBottlesByRow;
-            newCaveArrangement.floatNumberPlacedBottlesByIdMap.clear();
+            newCaveArrangement.FloatNumberPlacedBottlesByIdMap.clear();
             for (Map.Entry<Integer, Float> entry : caveArrangement.floatNumberPlacedBottlesByIdMap.entrySet()) {
-                newCaveArrangement.floatNumberPlacedBottlesByIdMap.put(entry.getKey(), entry.getValue());
+                newCaveArrangement.FloatNumberPlacedBottlesByIdMap.put(entry.getKey(), entry.getValue());
             }
             newCaveArrangement.IntNumberPlacedBottlesByIdMap.clear();
             for (Map.Entry<Integer, Integer> entry : caveArrangement.IntNumberPlacedBottlesByIdMap.entrySet()) {

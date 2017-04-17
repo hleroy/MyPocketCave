@@ -163,13 +163,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         if (NavigationManager.restartIfNeeded(this)) {
             finish();
-        } else {
-            super.onResume();
-            setupFloatingActionButtonsVisibility();
-            if (isPaused) {
-                viewPagerAdapter.allFragments.get(currentVisibleFragment).setIsVisible(true);
-                isPaused = false;
-            }
+            return;
+        }
+        super.onResume();
+        setupFloatingActionButtonsVisibility();
+        if (isPaused) {
+            viewPagerAdapter.allFragments.get(currentVisibleFragment).setIsVisible(true);
+            isPaused = false;
         }
     }
 

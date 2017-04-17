@@ -46,24 +46,22 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
     public static final int overviewScreenWidthMarginLeft = 8;
     public static final int overviewScreenWidthMarginRight = 8;
     private final View.OnTouchListener hideKeyboardOnClick;
-
-    private CoordinatorLayout coordinatorLayout;
     protected Spinner typeSpinner;
     protected ImageView typeImage;
     protected TextView typeText;
     protected EditText numberBottlesByColumnEditText;
     protected EditText numberBottlesByRowEditText;
-    private TextView verticallyExpendableTextView;
     protected CheckBox verticallyExpendableCheckbox;
-    private TextView horizontallyExpendableTextView;
     protected CheckBox horizontallyExpendableCheckbox;
-    private TextView invertPatternTextView;
     protected CheckBox invertPatternCheckbox;
-    private PercentRelativeLayout containerLayout;
-
-    private RecyclerView patternOverviewRecyclerView;
     protected PatternAdapter patternAdapter;
     protected PatternModelV2 pattern;
+    private CoordinatorLayout coordinatorLayout;
+    private TextView verticallyExpendableTextView;
+    private TextView horizontallyExpendableTextView;
+    private TextView invertPatternTextView;
+    private PercentRelativeLayout containerLayout;
+    private RecyclerView patternOverviewRecyclerView;
     private final CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (CompoundButton compoundButton, boolean b) -> {
         hideKeyboard();
         updateValuesAndAdapter();
@@ -325,8 +323,8 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
     protected void onResume() {
         if (NavigationManager.restartIfNeeded(this)) {
             finish();
-        } else {
-            super.onResume();
+            return;
         }
+        super.onResume();
     }
 }

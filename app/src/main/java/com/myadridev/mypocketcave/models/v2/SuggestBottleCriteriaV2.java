@@ -13,7 +13,8 @@ public class SuggestBottleCriteriaV2 {
 
     @Expose(serialize = false, deserialize = false)
     public static final int NumberOfCriteria = 8;
-
+    @SerializedName("f")
+    public final List<FoodToEatWithEnumV2> FoodToEatWithList;
     @SerializedName("wc")
     public WineColorEnumV2 WineColor;
     @SerializedName("iwcr")
@@ -38,8 +39,6 @@ public class SuggestBottleCriteriaV2 {
     public int PriceRatingMaxValue;
     @SerializedName("iprr")
     public boolean IsPriceRatingRequired;
-    @SerializedName("f")
-    public final List<FoodToEatWithEnumV2> FoodToEatWithList;
     @SerializedName("ifr")
     public boolean IsFoodRequired;
     @SerializedName("p")

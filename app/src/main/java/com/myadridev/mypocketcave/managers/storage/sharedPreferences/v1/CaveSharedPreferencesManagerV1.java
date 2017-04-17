@@ -24,9 +24,9 @@ import java.util.Map;
 @Deprecated
 public class CaveSharedPreferencesManagerV1 implements ICaveStorageManagerV1 {
 
+    private static final Map<Integer, CaveModelV1> allCavesMap = new HashMap<>();
     public static CaveSharedPreferencesManagerV1 Instance;
     private static boolean isInitialized;
-    private static final Map<Integer, CaveModelV1> allCavesMap = new HashMap<>();
     private int filenameResourceId = R.string.store_cave;
     private int keyCaveResourceId = R.string.store_cave_key;
     private boolean listenerSharedPreferencesRegistered = false;

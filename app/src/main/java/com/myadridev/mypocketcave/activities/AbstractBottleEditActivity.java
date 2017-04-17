@@ -34,11 +34,10 @@ import com.myadridev.mypocketcave.tasks.bottles.SetBottleValuesTask;
 
 public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
-    public boolean IsSaving = false;
-    public BottleModelV2 bottle;
-
     protected final boolean[] foodToEatWithList = new boolean[FoodToEatWithEnumV2.values().length];
     private final View.OnTouchListener hideKeyboardOnClick;
+    public boolean IsSaving = false;
+    public BottleModelV2 bottle;
     protected EditText nameView;
     protected EditText stockView;
     protected Spinner wineColorView;
@@ -280,8 +279,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected void onResume() {
         if (NavigationManager.restartIfNeeded(this)) {
             finish();
-        } else {
-            super.onResume();
+            return;
         }
+        super.onResume();
     }
 }

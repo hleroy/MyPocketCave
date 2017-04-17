@@ -318,8 +318,8 @@ public class ModelMigrationHelperTest {
         arrangementV2.TotalUsed = 6;
         arrangementV2.IntNumberPlacedBottlesByIdMap.put(42, 4);
         arrangementV2.IntNumberPlacedBottlesByIdMap.put(4, 7);
-        arrangementV2.floatNumberPlacedBottlesByIdMap.put(5, 2.4f);
-        arrangementV2.floatNumberPlacedBottlesByIdMap.put(3, 1f);
+        arrangementV2.FloatNumberPlacedBottlesByIdMap.put(5, 2.4f);
+        arrangementV2.FloatNumberPlacedBottlesByIdMap.put(3, 1f);
         PatternModelWithBottlesV2 pattern2 = new PatternModelWithBottlesV2();
         pattern2.NumberBottlesByColumn = 5;
         pattern2.Type = PatternTypeEnumV2.l;
@@ -342,12 +342,12 @@ public class ModelMigrationHelperTest {
             assertTrue(arrangementV2.IntNumberPlacedBottlesByIdMap.containsKey(key));
             assertEquals(value, (int) arrangementV2.IntNumberPlacedBottlesByIdMap.get(key));
         }
-        assertEquals(arrangementV2.floatNumberPlacedBottlesByIdMap.size(), migratedArrangement.floatNumberPlacedBottlesByIdMap.size());
-        for (Map.Entry<Integer, Float> entry : migratedArrangement.floatNumberPlacedBottlesByIdMap.entrySet()) {
+        assertEquals(arrangementV2.FloatNumberPlacedBottlesByIdMap.size(), migratedArrangement.FloatNumberPlacedBottlesByIdMap.size());
+        for (Map.Entry<Integer, Float> entry : migratedArrangement.FloatNumberPlacedBottlesByIdMap.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();
-            assertTrue(arrangementV2.floatNumberPlacedBottlesByIdMap.containsKey(key));
-            assertEquals(value, arrangementV2.floatNumberPlacedBottlesByIdMap.get(key), 0.5f);
+            assertTrue(arrangementV2.FloatNumberPlacedBottlesByIdMap.containsKey(key));
+            assertEquals(value, arrangementV2.FloatNumberPlacedBottlesByIdMap.get(key), 0.5f);
         }
         assertEquals(arrangementV2.PatternMap.size(), migratedArrangement.PatternMap.size());
         for (Map.Entry<CoordinatesModelV2, PatternModelWithBottlesV2> entry : migratedArrangement.PatternMap.entrySet()) {
