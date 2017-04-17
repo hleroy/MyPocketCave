@@ -6,7 +6,9 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.ModelMigrationHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISyncStorageManager;
-import com.myadridev.mypocketcave.models.v1.SyncModel;
+import com.myadridev.mypocketcave.managers.v1.JsonManagerV1;
+import com.myadridev.mypocketcave.managers.v2.JsonManagerV2;
+import com.myadridev.mypocketcave.models.v1.SyncModelV1;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 import com.myadridev.mypocketcave.models.v2.PatternModelV2;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class SyncManager {
     public static final String separator = "/";
@@ -64,7 +67,7 @@ public class SyncManager {
     private static String performExport(String exportLocation, String extension, String exportData) {
         boolean isExportSuccessful = true;
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault());
         String exportFileName = String.format("export_%s.%s", dateFormat.format(cal.getTime()), extension);
         File file = new File(exportLocation, exportFileName);
         FileOutputStream outputStream = null;
@@ -86,13 +89,14 @@ public class SyncManager {
         return isExportSuccessful ? exportFileName : "";
     }
 
+    @SuppressWarnings("deprecation")
     public static int importData(Context context, String importLocation) {
         String version = VersionManager.getVersion(context);
 
         SyncModelV2 importDataV2 = getImportDataV2(importLocation);
 
         if (importDataV2 == null || importDataV2.Version.isEmpty()) {
-            SyncModel importData = getImportData(importLocation);
+            SyncModelV1 importData = getImportData(importLocation);
 
             if (importData == null) {
                 return R.string.error_import;
@@ -112,7 +116,8 @@ public class SyncManager {
         return -1;
     }
 
-    private static SyncModel getImportData(String importLocation) {
+    @SuppressWarnings("deprecation")
+    private static SyncModelV1 getImportData(String importLocation) {
         File file = new File(importLocation);
         if (!file.exists() || !file.isFile()) {
             return null;
@@ -133,7 +138,7 @@ public class SyncManager {
             e.printStackTrace();
         }
 
-        SyncModel sync = JsonManager.readValue(importDataJson, SyncModel.class);
+        SyncModelV1 sync = JsonManagerV1.readValue(importDataJson, SyncModelV1.class);
 
         try {
             if (inputStream != null) {

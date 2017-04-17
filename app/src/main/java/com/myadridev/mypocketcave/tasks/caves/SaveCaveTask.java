@@ -9,8 +9,8 @@ import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
 public class SaveCaveTask extends AsyncTask<CaveModelV2, Void, Integer> {
 
-    private AbstractCaveEditActivity caveEditActivity;
-    private boolean isAddCave;
+    private final AbstractCaveEditActivity caveEditActivity;
+    private final boolean isAddCave;
 
     public SaveCaveTask(AbstractCaveEditActivity caveEditActivity, boolean isAddCave) {
         this.caveEditActivity = caveEditActivity;

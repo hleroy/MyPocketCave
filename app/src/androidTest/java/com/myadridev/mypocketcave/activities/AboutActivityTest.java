@@ -7,8 +7,8 @@
 //import android.widget.TextView;
 //
 //import com.myadridev.mypocketcave.R;
-//import com.myadridev.mypocketcave.enums.AboutFieldsEnum;
-//import com.myadridev.mypocketcave.models.v1.AboutItem;
+//import com.myadridev.mypocketcave.enums.AboutFieldsEnumV1;
+//import com.myadridev.mypocketcave.models.v1.AboutItemV1;
 //
 //import org.junit.Before;
 //import org.junit.Rule;
@@ -43,14 +43,14 @@
 //    @Test
 //    public void isActivityInitialized() {
 //        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(aboutActivity.getString(R.string.title_about))));
-//        onData(instanceOf(AboutItem.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()));
-//        onData(instanceOf(AboutItem.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
-//                .atPosition(0).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(aboutActivity.getString(AboutFieldsEnum.VERSION.getStringResource()))))));
-//        onData(instanceOf(AboutItem.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
-//                .atPosition(1).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(aboutActivity.getString(AboutFieldsEnum.CONTACT.getStringResource()))))));
-//        onData(instanceOf(AboutItem.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
-//                .atPosition(2).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(aboutActivity.getString(AboutFieldsEnum.SOURCES.getStringResource()))))));
-//        onData(instanceOf(AboutItem.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
-//                .atPosition(3).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(aboutActivity.getString(AboutFieldsEnum.LICENSE.getStringResource()))))));
+//        onData(instanceOf(AboutItemV1.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()));
+//        onData(instanceOf(AboutItemV1.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
+//                .atPosition(0).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(aboutActivity.getString(AboutFieldsEnumV1.VERSION.getStringResource()))))));
+//        onData(instanceOf(AboutItemV1.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
+//                .atPosition(1).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(aboutActivity.getString(AboutFieldsEnumV1.CONTACT.getStringResource()))))));
+//        onData(instanceOf(AboutItemV1.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
+//                .atPosition(2).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(aboutActivity.getString(AboutFieldsEnumV1.SOURCES.getStringResource()))))));
+//        onData(instanceOf(AboutItemV1.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
+//                .atPosition(3).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(aboutActivity.getString(AboutFieldsEnumV1.LICENSE.getStringResource()))))));
 //    }
 //}

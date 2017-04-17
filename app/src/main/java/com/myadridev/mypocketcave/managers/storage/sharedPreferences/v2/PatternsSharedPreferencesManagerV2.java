@@ -22,10 +22,10 @@ public class PatternsSharedPreferencesManagerV2 implements IPatternsStorageManag
 
     public static PatternsSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
-    private final Map<Integer, PatternModelV2> allPatternsMap = new HashMap<>();;
-    private String keyIndex;
-    private String filename;
-    private int keyPatternResourceId = R.string.store_pattern;
+    private final Map<Integer, PatternModelV2> allPatternsMap = new HashMap<>();
+    private final String keyIndex;
+    private final String filename;
+    private final int keyPatternResourceId = R.string.store_pattern;
     private boolean listenerSharedPreferencesRegistered = false;
     private ISharedPreferencesManagerV2 sharedPreferencesManager = null;
 

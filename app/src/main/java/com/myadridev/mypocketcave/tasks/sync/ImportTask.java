@@ -11,8 +11,8 @@ import com.myadridev.mypocketcave.managers.SyncManager;
 
 public class ImportTask extends AsyncTask<String, Void, Integer> {
 
-    private SyncActivity syncActivity;
-    private CoordinatorLayout coordinatorLayout;
+    private final SyncActivity syncActivity;
+    private final CoordinatorLayout coordinatorLayout;
 
     public ImportTask(SyncActivity syncActivity, CoordinatorLayout coordinatorLayout) {
         this.syncActivity = syncActivity;

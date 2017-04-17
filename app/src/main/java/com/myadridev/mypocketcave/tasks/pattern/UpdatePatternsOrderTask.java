@@ -7,7 +7,7 @@ import com.myadridev.mypocketcave.managers.PatternManager;
 
 public class UpdatePatternsOrderTask extends AsyncTask<Integer, Void, Void> {
 
-    private Context context;
+    private final Context context;
 
     public UpdatePatternsOrderTask(Context context) {
         this.context = context;

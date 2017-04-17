@@ -18,7 +18,7 @@ public class PersonSpinnerAdapter implements SpinnerAdapter {
     private final Context context;
     private final LayoutInflater layoutInflater;
     private final boolean containsNone;
-    private List<String> allDifferentPersonsWithNone;
+    private final List<String> allDifferentPersonsWithNone;
 
     public PersonSpinnerAdapter(Context context, boolean containsNone) {
         this.context = context;

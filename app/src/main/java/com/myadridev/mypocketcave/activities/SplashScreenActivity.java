@@ -9,14 +9,15 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.managers.DependencyManager;
 import com.myadridev.mypocketcave.managers.migration.MigrationManager;
 import com.myadridev.mypocketcave.managers.storage.interfaces.ISyncStorageManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ISharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v1.ISharedPreferencesManagerV1;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.SyncSharedPreferencesManager;
-import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.SharedPreferencesManager;
+import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v1.SharedPreferencesManagerV1;
 import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v2.SharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.tasks.startup.MigrationTask;
 import com.myadridev.mypocketcave.tasks.startup.StartupTask;
 
+@SuppressWarnings("deprecation")
 public class SplashScreenActivity extends AppCompatActivity {
 
     private ImageView splashImageView;
@@ -49,8 +50,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         if (MigrationManager.needsMigration(this)) {
             // SharedPreferences
-            SharedPreferencesManager.Init(this);
-            DependencyManager.registerSingleton(ISharedPreferencesManager.class, SharedPreferencesManager.Instance);
+            SharedPreferencesManagerV1.Init(this);
+            DependencyManager.registerSingleton(ISharedPreferencesManagerV1.class, SharedPreferencesManagerV1.Instance);
 
             MigrationTask migrationTask = new MigrationTask(this, splashImageView, progressView);
             migrationTask.execute();

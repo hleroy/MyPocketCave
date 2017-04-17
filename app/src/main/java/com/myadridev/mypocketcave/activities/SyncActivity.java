@@ -138,14 +138,12 @@ public class SyncActivity extends AppCompatActivity {
     private View.OnClickListener onLocationLabelClick() {
         return (View v) -> {
             if (importButton.isSelected()) {
-                PathChooserDialog pathChooserDialog = new PathChooserDialog(SyncActivity.this, defaultLocation + SyncManager.separator + locationValue.getText().toString(), defaultLocation, false, allowedFileExtensions, (String chosenFile) -> {
-                    locationValue.setText(chosenFile.length() >= defaultLocation.length() + 1 ? chosenFile.substring(defaultLocation.length() + 1) : "");
-                });
+                PathChooserDialog pathChooserDialog = new PathChooserDialog(SyncActivity.this, defaultLocation + SyncManager.separator + locationValue.getText().toString(), defaultLocation, false, allowedFileExtensions,
+                        (String chosenFile) -> locationValue.setText(chosenFile.length() >= defaultLocation.length() + 1 ? chosenFile.substring(defaultLocation.length() + 1) : ""));
                 pathChooserDialog.choosePath();
             } else if (exportButton.isSelected()) {
-                PathChooserDialog pathChooserDialog = new PathChooserDialog(SyncActivity.this, defaultLocation + SyncManager.separator + locationValue.getText().toString(), defaultLocation, true, (String chosenFolder) -> {
-                    locationValue.setText(chosenFolder.length() >= defaultLocation.length() + 1 ? chosenFolder.substring(defaultLocation.length() + 1) : "");
-                });
+                PathChooserDialog pathChooserDialog = new PathChooserDialog(SyncActivity.this, defaultLocation + SyncManager.separator + locationValue.getText().toString(), defaultLocation, true,
+                        (String chosenFolder) -> locationValue.setText(chosenFolder.length() >= defaultLocation.length() + 1 ? chosenFolder.substring(defaultLocation.length() + 1) : ""));
                 pathChooserDialog.choosePath();
             }
         };

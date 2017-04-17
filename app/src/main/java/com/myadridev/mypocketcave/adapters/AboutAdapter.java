@@ -17,9 +17,9 @@ import com.myadridev.mypocketcave.models.v2.AboutItemV2;
 import java.util.List;
 
 public class AboutAdapter extends ArrayAdapter<AboutItemV2> {
-    private LayoutInflater layoutInflater;
-    private Context context;
-    private String contactSubject;
+    private final LayoutInflater layoutInflater;
+    private final Context context;
+    private final String contactSubject;
 
     public AboutAdapter(Context context, int resource, List<AboutItemV2> items, String contactSubject) {
         super(context, resource, items);
@@ -32,7 +32,7 @@ public class AboutAdapter extends ArrayAdapter<AboutItemV2> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        View view = layoutInflater.inflate(R.layout.item_about, null);
+        View view = layoutInflater.inflate(R.layout.item_about, parent);
 
         AboutItemV2 item = getItem(position);
 

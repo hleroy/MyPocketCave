@@ -9,7 +9,7 @@ import com.myadridev.mypocketcave.enums.v2.AboutFieldsEnumV2;
 public class AboutItemV2 implements Comparable<AboutItemV2> {
 
     @SerializedName("afe")
-    public AboutFieldsEnumV2 AboutFieldsEnum;
+    public final AboutFieldsEnumV2 AboutFieldsEnum;
     @SerializedName("l")
     public String Label = "";
     @SerializedName("v")

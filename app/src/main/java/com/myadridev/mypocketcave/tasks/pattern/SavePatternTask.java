@@ -12,8 +12,8 @@ import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 
 public class SavePatternTask extends AsyncTask<PatternModelV2, Void, Integer> {
 
-    private AbstractPatternEditActivity patternEditActivity;
-    private CoordinatorLayout coordinatorLayout;
+    private final AbstractPatternEditActivity patternEditActivity;
+    private final CoordinatorLayout coordinatorLayout;
 
     public SavePatternTask(AbstractPatternEditActivity patternEditActivity, CoordinatorLayout coordinatorLayout) {
         this.patternEditActivity = patternEditActivity;

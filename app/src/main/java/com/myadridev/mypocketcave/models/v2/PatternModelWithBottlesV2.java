@@ -13,8 +13,6 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 implements IPatter
 
     @SerializedName("pmb")
     public final Map<CoordinatesModelV2, CavePlaceModelV2> PlaceMapWithBottles;
-    @SerializedName("pi")
-    public int PatternWithBottlesId;
 
     // number is float because a bottle can be on 2 patterns at the same time
     @SerializedName("fnp")

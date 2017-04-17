@@ -21,7 +21,7 @@ import java.util.List;
 public class PatternSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final PatternSelectionActivity activity;
     private final List<PatternModelV2> patternList;
-    private GridAutofitLayoutManager layoutManager;
+    private final GridAutofitLayoutManager layoutManager;
     private final LayoutInflater layoutInflater;
 
     private final OnSelectionPatternClickListener onItemClickListener;

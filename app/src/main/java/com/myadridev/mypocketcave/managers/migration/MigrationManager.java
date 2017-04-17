@@ -27,11 +27,10 @@ public class MigrationManager {
     private static final VersionEnum CURRENT_VERSION = VersionEnum.V2;
 
     private static IMigrationFromManager migrationFromManager;
-    private static MigrationToManager migrationToManager = new MigrationToManager();
-    ;
+    private static final MigrationToManager migrationToManager = new MigrationToManager();
 
-    private static int fileResourceId = R.string.filename_migration;
-    private static int keyResourceId = R.string.store_version_key;
+    private static final int fileResourceId = R.string.filename_migration;
+    private static final int keyResourceId = R.string.store_version_key;
 
     private static boolean listenerSharedPreferencesRegistered = false;
     private static ISharedPreferencesManagerV2 sharedPreferencesManager = null;

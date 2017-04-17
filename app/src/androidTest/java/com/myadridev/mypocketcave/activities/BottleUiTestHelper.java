@@ -4,10 +4,10 @@
 //import android.support.test.espresso.core.deps.guava.collect.ImmutableList;
 //
 //import com.myadridev.mypocketcave.R;
-//import com.myadridev.mypocketcave.enums.FoodToEatWithEnum;
-//import com.myadridev.mypocketcave.enums.WineColorEnum;
+//import com.myadridev.mypocketcave.enums.FoodToEatWithEnumV1;
+//import com.myadridev.mypocketcave.enums.WineColorEnumV1;
 //import com.myadridev.mypocketcave.managers.BottleManager;
-//import com.myadridev.mypocketcave.models.BottleModel;
+//import com.myadridev.mypocketcave.models.BottleModelV1;
 //
 //import java.util.ArrayList;
 //import java.util.Calendar;
@@ -31,10 +31,10 @@
 //    public static final String modifiedTestName = "Bouteille modifiée pour les tests";
 //    public static final String defaultTestDomain = "AAA Domaine pour les tests";
 //    public static final int defaultTestStock = 42;
-//    public static final WineColorEnum defaultTestWineColor = WineColorEnum.RED;
+//    public static final WineColorEnumV1 defaultTestWineColor = WineColorEnumV1.RED;
 //    public static final String defaultTestPerson = "Avec qui la boire";
 //    public static final String defaultTestComments = "Commentaire";
-//    public static final ImmutableList<FoodToEatWithEnum> defaultTestFood = ImmutableList.of(FoodToEatWithEnum.Aperitif, FoodToEatWithEnum.Fish);
+//    public static final ImmutableList<FoodToEatWithEnumV1> defaultTestFood = ImmutableList.of(FoodToEatWithEnumV1.Aperitif, FoodToEatWithEnumV1.Fish);
 //    public static final String defaultTestMillesime = "2015";
 //
 //    public static void tryCreateBottleFromCreatePage(Activity activity) {
@@ -95,14 +95,14 @@
 //        createBottleInner(activity, name, defaultTestWineColor, defaultTestDomain, defaultTestMillesime, defaultTestPerson, defaultTestFood, defaultTestStock);
 //    }
 //
-//    private static void createBottle(Activity activity, String name, WineColorEnum color, String domain, String millesime, String person, ImmutableList<FoodToEatWithEnum> foodList, int stock) {
+//    private static void createBottle(Activity activity, String name, WineColorEnumV1 color, String domain, String millesime, String person, ImmutableList<FoodToEatWithEnumV1> foodList, int stock) {
 //        onView(withId(R.id.fab_add_bottle)).perform(click());
 //        createBottleInner(activity, name, color, domain, millesime, person, foodList, stock);
 //        pressBack();
 //        pressBack();
 //    }
 //
-//    private static void createBottleInner(Activity activity, String name, WineColorEnum color, String domaine, String millesime, String person, List<FoodToEatWithEnum> foodList, int stock) {
+//    private static void createBottleInner(Activity activity, String name, WineColorEnumV1 color, String domaine, String millesime, String person, List<FoodToEatWithEnumV1> foodList, int stock) {
 //        onView(withId(R.id.bottle_edit_name)).perform(typeText(name));
 //        if (!name.isEmpty())
 //            hideKeyboardFromCreate();
@@ -118,7 +118,7 @@
 //        onView(withId(R.id.bottle_edit_comments)).perform(typeText(defaultTestComments));
 //        hideKeyboardFromCreate();
 //        onView(withId(R.id.bottle_edit_food)).perform(click());
-//        for (FoodToEatWithEnum food : foodList) {
+//        for (FoodToEatWithEnumV1 food : foodList) {
 //            onView(withText(food.stringResourceId)).perform(click());
 //        }
 //        pressBack();
@@ -131,7 +131,7 @@
 //        List<Integer> bottleCreatedIndexList = new ArrayList<>();
 //        ImmutableList[] foods = new ImmutableList[]{
 //                ImmutableList.of(),
-//                ImmutableList.of(FoodToEatWithEnum.PorkProduct, FoodToEatWithEnum.Fish)
+//                ImmutableList.of(FoodToEatWithEnumV1.PorkProduct, FoodToEatWithEnumV1.Fish)
 //        };
 //
 //        Calendar cal = Calendar.getInstance();
@@ -142,7 +142,7 @@
 //        for (int i = 0; i < numberDifferentDomains; i++) {
 //            String domain = "AA - Domaine " + (i + 1);
 //            for (int c = 0; c < 2; c++) {
-//                WineColorEnum color = WineColorEnum.getById(c);
+//                WineColorEnumV1 color = WineColorEnumV1.getById(c);
 //                for (int j = 0; j < 4; j++) {
 //                    int millesime = currentYear - (3 * j);
 //                    for (int k = 0; k < 2; k++) {
@@ -151,7 +151,7 @@
 //                            count++;
 //                            String name = "AA - Suggest " + count;
 //
-//                            BottleModel bottle = new BottleModel();
+//                            BottleModelV1 bottle = new BottleModelV1();
 //                            bottle.Domain = domain;
 //                            bottle.WineColor = color;
 //                            bottle.Millesime = millesime;

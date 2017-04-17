@@ -9,7 +9,7 @@
 //import com.myadridev.mypocketcave.R;
 //import com.myadridev.mypocketcave.activities.BottleUiTestHelper;
 //import com.myadridev.mypocketcave.activities.SplashScreenActivity;
-//import com.myadridev.mypocketcave.enums.WineColorEnum;
+//import com.myadridev.mypocketcave.enums.WineColorEnumV1;
 //import com.myadridev.mypocketcave.managers.BottleManager;
 //
 //import org.junit.After;
@@ -68,32 +68,32 @@
 //        onView(withId(R.id.bottles_count)).check(matches(not(isDisplayed())));
 //        onView(withId(R.id.bottles_count_detail)).check(matches(isDisplayed()));
 //
-//        Map<WineColorEnum, Integer> bottlesCountByColor = new HashMap<>(WineColorEnum.number);
-//        for (WineColorEnum color : WineColorEnum.values()) {
+//        Map<WineColorEnumV1, Integer> bottlesCountByColor = new HashMap<>(WineColorEnumV1.number);
+//        for (WineColorEnumV1 color : WineColorEnumV1.values()) {
 //            bottlesCountByColor.put(color, BottleManager.Instance.getBottlesCount(color));
 //        }
 //
 //        onView(withId(R.id.bottles_count_detail)).check(matches(withText(activity.getString(R.string.bottles_count_detail,
-//                bottlesCountByColor.get(WineColorEnum.RED),
-//                bottlesCountByColor.get(WineColorEnum.WHITE),
-//                bottlesCountByColor.get(WineColorEnum.ROSE),
-//                bottlesCountByColor.get(WineColorEnum.CHAMPAGNE)))));
+//                bottlesCountByColor.get(WineColorEnumV1.RED),
+//                bottlesCountByColor.get(WineColorEnumV1.WHITE),
+//                bottlesCountByColor.get(WineColorEnumV1.ROSE),
+//                bottlesCountByColor.get(WineColorEnumV1.CHAMPAGNE)))));
 //    }
 //
 //    @Test
 //    public void isClickOnTotalBottlesPossibleThenClickOnDetailTotalPossible() {
 //        onView(withId(R.id.bottles_count)).perform(click());
 //
-//        Map<WineColorEnum, Integer> bottlesCountByColor = new HashMap<>(WineColorEnum.number);
-//        for (WineColorEnum color : WineColorEnum.values()) {
+//        Map<WineColorEnumV1, Integer> bottlesCountByColor = new HashMap<>(WineColorEnumV1.number);
+//        for (WineColorEnumV1 color : WineColorEnumV1.values()) {
 //            bottlesCountByColor.put(color, BottleManager.Instance.getBottlesCount(color));
 //        }
 //
 //        onView(withId(R.id.bottles_count_detail)).check(matches(withText(activity.getString(R.string.bottles_count_detail,
-//                bottlesCountByColor.get(WineColorEnum.RED),
-//                bottlesCountByColor.get(WineColorEnum.WHITE),
-//                bottlesCountByColor.get(WineColorEnum.ROSE),
-//                bottlesCountByColor.get(WineColorEnum.CHAMPAGNE)))));
+//                bottlesCountByColor.get(WineColorEnumV1.RED),
+//                bottlesCountByColor.get(WineColorEnumV1.WHITE),
+//                bottlesCountByColor.get(WineColorEnumV1.ROSE),
+//                bottlesCountByColor.get(WineColorEnumV1.CHAMPAGNE)))));
 //
 //        onView(withId(R.id.bottles_count_detail)).perform(click());
 //        onView(withId(R.id.bottles_count)).check(matches(isDisplayed()));

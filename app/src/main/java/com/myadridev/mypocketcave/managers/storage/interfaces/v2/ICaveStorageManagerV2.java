@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ICaveStorageManagerV2 {
 
-    CaveModelV2 getCave(Context context, int caveId);
+    CaveModelV2 getCave(int caveId);
 
     void insertOrUpdateCave(Context context, CaveModelV2 cave);
 

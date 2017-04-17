@@ -305,7 +305,9 @@ public class CaveDetailActivity extends AppCompatActivity {
         holder.setLabelViewText(bottle.Domain + " - " + bottle.Name);
         holder.setMillesimeViewText(bottle.Millesime == 0 ? "-" : String.valueOf(bottle.Millesime));
         holder.setStockLabelViewText(getString(R.string.bottles_here,
-                cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id) ? (int) cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottle.Id) : 0));
+                (int) (cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottle.Id)
+                        ? cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottle.Id)
+                        : 0)));
         int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
         holder.setColorViewImageDrawable(wineColorDrawableId != -1 ? ContextCompat.getDrawable(this, wineColorDrawableId) : null);
         holder.setRating(bottle.Rating);

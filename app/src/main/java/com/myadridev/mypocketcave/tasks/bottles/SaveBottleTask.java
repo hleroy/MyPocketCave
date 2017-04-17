@@ -9,8 +9,8 @@ import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 public class SaveBottleTask extends AsyncTask<BottleModelV2, Void, Integer> {
 
-    private AbstractBottleEditActivity bottleEditActivity;
-    private boolean isAddBottle;
+    private final AbstractBottleEditActivity bottleEditActivity;
+    private final boolean isAddBottle;
 
     public SaveBottleTask(AbstractBottleEditActivity bottleEditActivity, boolean isAddBottle) {
         this.bottleEditActivity = bottleEditActivity;

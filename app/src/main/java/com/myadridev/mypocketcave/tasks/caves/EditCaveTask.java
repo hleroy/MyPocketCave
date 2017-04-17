@@ -8,7 +8,7 @@ import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
 public class EditCaveTask extends AsyncTask<CaveModelV2, Void, Void> {
 
-    private Context context;
+    private final Context context;
 
     public EditCaveTask(Context context) {
         this.context = context;
