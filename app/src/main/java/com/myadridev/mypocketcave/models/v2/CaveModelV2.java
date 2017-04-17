@@ -61,14 +61,6 @@ public class CaveModelV2 implements IStorableModel, Comparable<CaveModelV2>, ICa
         return CaveType != null && Name != null && CaveArrangement != null;
     }
 
-    public int getNumberBottles(int bottleId) {
-        return CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottleId) ? CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottleId) : 0;
-    }
-
-    public List<BottleModelV2> getBottles() {
-        return BottleManager.getBottles(CaveArrangement.IntNumberPlacedBottlesByIdMap.keySet());
-    }
-
     public void trimAll() {
         Name = Name.trim();
     }

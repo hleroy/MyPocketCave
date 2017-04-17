@@ -45,6 +45,11 @@ public class CoordinatesManagerTest {
     }
 
     @Test
+    public void getPositionFromCoordinates() {
+        assertEquals(5, CoordinatesManager.getPositionFromCoordinates(4, 2, 6, 3));
+    }
+
+    @Test
     public void containsRow() {
         List<CoordinatesModelV2> coordinatesList = getCoordinatesCollection();
         assertTrue(CoordinatesManager.containsRow(coordinatesList, 2));

@@ -19,7 +19,7 @@ public class CaveModelTest {
         CaveModelV2 cave = new CaveModelV2();
 
         assertEquals(0, cave.Id);
-        assertNull(cave.Name);
+        assertEquals("", cave.Name);
         assertNull(cave.CaveType);
         assertNotNull(cave.CaveArrangement);
     }
@@ -53,13 +53,10 @@ public class CaveModelTest {
     @Test
     public void isValid() {
         CaveModelV2 cave = new CaveModelV2();
+        cave.CaveArrangement = null;
         assertFalse(cave.isValid());
 
         cave.CaveType = CaveTypeEnumV2.bo;
-        assertFalse(cave.isValid());
-
-        cave.Name = "name";
-        cave.CaveArrangement = null;
         assertFalse(cave.isValid());
 
         cave.CaveArrangement = new CaveArrangementModelV2();
@@ -92,5 +89,19 @@ public class CaveModelTest {
         assertEquals(1, cave1.compareTo(cave4));
         assertEquals(-1, cave1.compareTo(cave5));
         assertEquals(0, cave1.compareTo(cave6));
+    }
+
+    @Test
+    public void trimAll() {
+        CaveModelV2 cave = new CaveModelV2();
+        cave.Id = 42;
+        cave.Name = " cave  ";
+        cave.CaveType = CaveTypeEnumV2.bu;
+        cave.CaveArrangement.TotalCapacity = 17;
+        cave.CaveArrangement.TotalUsed = 3;
+
+        cave.trimAll();
+
+        assertEquals("cave", cave.Name);
     }
 }

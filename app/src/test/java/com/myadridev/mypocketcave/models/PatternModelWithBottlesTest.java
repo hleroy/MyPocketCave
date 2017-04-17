@@ -44,6 +44,142 @@ public class PatternModelWithBottlesTest {
         PatternModelWithBottlesV2 patternWithBottles = new PatternModelWithBottlesV2(pattern);
 
         assertEquals(patternWithBottles.PlaceMap.size(), patternWithBottles.PlaceMapWithBottles.size());
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> entry : patternWithBottles.PlaceMapWithBottles.entrySet()) {
+            CoordinatesModelV2 key = entry.getKey();
+            CavePlaceModelV2 value = entry.getValue();
+            assertTrue(patternWithBottles.PlaceMap.containsKey(key));
+            assertEquals(patternWithBottles.PlaceMap.get(key), value.PlaceType);
+        }
+    }
+
+    @Test
+    public void createPatternModelWithBottlesFromExisting() {
+        PatternModelWithBottlesV2 expectedPattern = new PatternModelWithBottlesV2();
+
+        expectedPattern.Id = 4;
+        expectedPattern.Type = PatternTypeEnumV2.s;
+        expectedPattern.NumberBottlesByColumn = 7;
+        expectedPattern.NumberBottlesByRow = 5;
+        expectedPattern.IsHorizontallyExpendable = true;
+        expectedPattern.IsVerticallyExpendable = false;
+        expectedPattern.IsInverted = true;
+        expectedPattern.Order = 8;
+        expectedPattern.PlaceMap.put(new CoordinatesModelV2(0, 0), CavePlaceTypeEnumV2.br);
+        expectedPattern.PlaceMap.put(new CoordinatesModelV2(1, 0), CavePlaceTypeEnumV2.n);
+        expectedPattern.PlaceMap.put(new CoordinatesModelV2(0, 1), CavePlaceTypeEnumV2.tl);
+        CavePlaceModelV2 place1 = new CavePlaceModelV2();
+        place1.BottleId = 5;
+        expectedPattern.PlaceMapWithBottles.put(new CoordinatesModelV2(0, 0), place1);
+        CavePlaceModelV2 place2 = new CavePlaceModelV2();
+        place2.BottleId = 4;
+        expectedPattern.PlaceMapWithBottles.put(new CoordinatesModelV2(1, 0), place2);
+        CavePlaceModelV2 place3 = new CavePlaceModelV2();
+        place3.BottleId = 1;
+        expectedPattern.PlaceMapWithBottles.put(new CoordinatesModelV2(0, 1), place3);
+
+        PatternModelWithBottlesV2 pattern = new PatternModelWithBottlesV2(expectedPattern);
+
+        assertEquals(expectedPattern.Id, pattern.Id);
+        assertEquals(expectedPattern.Type, pattern.Type);
+        assertEquals(expectedPattern.NumberBottlesByColumn, pattern.NumberBottlesByColumn);
+        assertEquals(expectedPattern.NumberBottlesByRow, pattern.NumberBottlesByRow);
+        assertEquals(expectedPattern.IsHorizontallyExpendable, pattern.IsHorizontallyExpendable);
+        assertEquals(expectedPattern.IsVerticallyExpendable, pattern.IsVerticallyExpendable);
+        assertEquals(expectedPattern.IsInverted, pattern.IsInverted);
+        assertEquals(expectedPattern.Order, pattern.Order);
+        assertEquals(expectedPattern.PlaceMap.size(), pattern.PlaceMap.size());
+        for (Map.Entry<CoordinatesModelV2, CavePlaceTypeEnumV2> entry : pattern.PlaceMap.entrySet()) {
+            CoordinatesModelV2 key = entry.getKey();
+            CavePlaceTypeEnumV2 value = entry.getValue();
+            assertTrue(expectedPattern.PlaceMap.containsKey(key));
+            assertEquals(expectedPattern.PlaceMap.get(key), value);
+        }
+        assertEquals(expectedPattern.PlaceMapWithBottles.size(), pattern.PlaceMapWithBottles.size());
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> entry : pattern.PlaceMapWithBottles.entrySet()) {
+            CoordinatesModelV2 key = entry.getKey();
+            CavePlaceModelV2 value = entry.getValue();
+            assertTrue(expectedPattern.PlaceMapWithBottles.containsKey(key));
+            assertEquals(expectedPattern.PlaceMapWithBottles.get(key).BottleId, value.BottleId);
+        }
+    }
+
+    @Test
+    public void createPatternModelWithBottlesFromPatternModelAndExisting() {
+        PatternModelWithBottlesV2 oldPattern = new PatternModelWithBottlesV2();
+        oldPattern.Id = 4;
+        oldPattern.Type = PatternTypeEnumV2.l;
+        oldPattern.NumberBottlesByColumn = 7;
+        oldPattern.NumberBottlesByRow = 5;
+        oldPattern.IsHorizontallyExpendable = true;
+        oldPattern.IsVerticallyExpendable = false;
+        oldPattern.IsInverted = true;
+        oldPattern.Order = 8;
+        oldPattern.PlaceMap.put(new CoordinatesModelV2(0, 0), CavePlaceTypeEnumV2.br);
+        oldPattern.PlaceMap.put(new CoordinatesModelV2(1, 0), CavePlaceTypeEnumV2.n);
+        oldPattern.PlaceMap.put(new CoordinatesModelV2(0, 1), CavePlaceTypeEnumV2.tl);
+        oldPattern.PlaceMap.put(new CoordinatesModelV2(1, 1), CavePlaceTypeEnumV2.tl);
+        CavePlaceModelV2 place1 = new CavePlaceModelV2();
+        place1.BottleId = 5;
+        oldPattern.PlaceMapWithBottles.put(new CoordinatesModelV2(0, 0), place1);
+        CavePlaceModelV2 place2 = new CavePlaceModelV2();
+        place2.BottleId = 4;
+        oldPattern.PlaceMapWithBottles.put(new CoordinatesModelV2(1, 0), place2);
+        CavePlaceModelV2 place3 = new CavePlaceModelV2();
+        place3.BottleId = 1;
+        oldPattern.PlaceMapWithBottles.put(new CoordinatesModelV2(0, 1), place3);
+        CavePlaceModelV2 place4 = new CavePlaceModelV2();
+        place4.BottleId = 1;
+        oldPattern.PlaceMapWithBottles.put(new CoordinatesModelV2(1, 1), place4);
+
+        PatternModelV2 patternModel = new PatternModelV2();
+        patternModel.Type = PatternTypeEnumV2.s;
+        patternModel.Id = 4;
+        patternModel.PlaceMap.put(new CoordinatesModelV2(0, 0), CavePlaceTypeEnumV2.br);
+        patternModel.PlaceMap.put(new CoordinatesModelV2(1, 0), CavePlaceTypeEnumV2.n);
+
+        PatternModelWithBottlesV2 pattern = new PatternModelWithBottlesV2(patternModel, oldPattern);
+
+        assertEquals(patternModel.Id, pattern.Id);
+        assertEquals(patternModel.Type, pattern.Type);
+        assertEquals(patternModel.NumberBottlesByColumn, pattern.NumberBottlesByColumn);
+        assertEquals(patternModel.NumberBottlesByRow, pattern.NumberBottlesByRow);
+        assertEquals(patternModel.IsHorizontallyExpendable, pattern.IsHorizontallyExpendable);
+        assertEquals(patternModel.IsVerticallyExpendable, pattern.IsVerticallyExpendable);
+        assertEquals(patternModel.IsInverted, pattern.IsInverted);
+        assertEquals(patternModel.Order, pattern.Order);
+        assertEquals(patternModel.PlaceMap.size(), pattern.PlaceMap.size());
+        for (Map.Entry<CoordinatesModelV2, CavePlaceTypeEnumV2> entry : pattern.PlaceMap.entrySet()) {
+            CoordinatesModelV2 key = entry.getKey();
+            CavePlaceTypeEnumV2 value = entry.getValue();
+            assertTrue(oldPattern.PlaceMap.containsKey(key));
+            assertEquals(oldPattern.PlaceMap.get(key), value);
+        }
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> entry : pattern.PlaceMapWithBottles.entrySet()) {
+            assertEquals(-1, entry.getValue().BottleId);
+        }
+
+        patternModel.Type = PatternTypeEnumV2.l;
+        oldPattern.Type = PatternTypeEnumV2.s;
+        pattern = new PatternModelWithBottlesV2(patternModel, oldPattern);
+
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> entry : pattern.PlaceMapWithBottles.entrySet()) {
+            assertEquals(-1, entry.getValue().BottleId);
+        }
+
+        patternModel.Type = PatternTypeEnumV2.l;
+        oldPattern.Type = PatternTypeEnumV2.l;
+        pattern = new PatternModelWithBottlesV2(patternModel, oldPattern);
+
+        assertEquals(2, pattern.PlaceMapWithBottles.size());
+        assertTrue(pattern.PlaceMapWithBottles.containsKey(new CoordinatesModelV2(0, 0)));
+        assertTrue(pattern.PlaceMapWithBottles.containsKey(new CoordinatesModelV2(1, 0)));
+
+        for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> entry : pattern.PlaceMapWithBottles.entrySet()) {
+            CoordinatesModelV2 key = entry.getKey();
+            CavePlaceModelV2 value = entry.getValue();
+            assertTrue(oldPattern.PlaceMapWithBottles.containsKey(key));
+            assertEquals(oldPattern.PlaceMapWithBottles.get(key).BottleId, value.BottleId);
+        }
     }
 
     @Test

@@ -81,8 +81,12 @@ public class CaveArrangementModelTest {
         expectedArrangement.Id = 3;
         expectedArrangement.TotalCapacity = 3;
         expectedArrangement.TotalUsed = 1;
-        expectedArrangement.PatternMap.put(new CoordinatesModelV2(0, 0), new PatternModelWithBottlesV2());
-        expectedArrangement.PatternMap.put(new CoordinatesModelV2(1, 0), new PatternModelWithBottlesV2());
+        PatternModelWithBottlesV2 pattern1 = new PatternModelWithBottlesV2();
+        pattern1.Id = 5;
+        expectedArrangement.PatternMap.put(new CoordinatesModelV2(0, 0), pattern1);
+        PatternModelWithBottlesV2 pattern2 = new PatternModelWithBottlesV2();
+        pattern2.Id = 9;
+        expectedArrangement.PatternMap.put(new CoordinatesModelV2(1, 0), pattern2);
         expectedArrangement.NumberBottlesBulk = 43;
         expectedArrangement.NumberBoxes = 17;
         expectedArrangement.BoxesNumberBottlesByColumn = 2;
@@ -96,7 +100,8 @@ public class CaveArrangementModelTest {
         assertEquals(expectedArrangement.PatternMap.size(), arrangement.PatternMap.size());
         for (Map.Entry<CoordinatesModelV2, PatternModelWithBottlesV2> patternEntry : expectedArrangement.PatternMap.entrySet()) {
             assertTrue(arrangement.PatternMap.containsKey(patternEntry.getKey()));
-            assertEquals(patternEntry.getValue(), arrangement.PatternMap.get(patternEntry.getKey()));
+            PatternModelWithBottlesV2 patternModelWithBottlesV2 = arrangement.PatternMap.get(patternEntry.getKey());
+            assertEquals(patternEntry.getValue().Id, patternModelWithBottlesV2.Id);
         }
         assertEquals(expectedArrangement.NumberBottlesBulk, arrangement.NumberBottlesBulk);
         assertEquals(expectedArrangement.NumberBoxes, arrangement.NumberBoxes);
