@@ -12,7 +12,7 @@ import java.util.List;
 public class SuggestBottleCriteriaV2 {
 
     @Expose(serialize = false, deserialize = false)
-    public static int NumberOfCriteria = 8;
+    public static final int NumberOfCriteria = 8;
 
     @SerializedName("wc")
     public WineColorEnumV2 WineColor;

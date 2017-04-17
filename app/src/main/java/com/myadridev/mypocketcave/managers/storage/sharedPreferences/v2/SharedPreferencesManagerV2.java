@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.reflect.TypeToken;
-import com.myadridev.mypocketcave.managers.JsonManagerV2;
+import com.myadridev.mypocketcave.managers.v2.JsonManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
@@ -18,7 +18,7 @@ public class SharedPreferencesManagerV2 implements ISharedPreferencesManagerV2 {
     public static SharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
     private final int openMode = Context.MODE_PRIVATE;
-    private String sharedPreferencesFolder;
+    private final String sharedPreferencesFolder;
 
     private SharedPreferencesManagerV2(Context context) {
         sharedPreferencesFolder = context.getFilesDir().getParent() + File.separator + "shared_prefs" + File.separator;
@@ -89,7 +89,10 @@ public class SharedPreferencesManagerV2 implements ISharedPreferencesManagerV2 {
 
         if (indexListJson.isEmpty()) return dataMap;
 
-        List<Integer> indexList = JsonManagerV2.readValue(indexListJson, new TypeToken<List<Integer>>(){}.getType());
+        List<Integer> indexList = JsonManagerV2.readValue(indexListJson, new TypeToken<List<Integer>>() {
+        }.getType());
+
+        if (indexList == null) return dataMap;
 
         for (int id : indexList) {
             String keyDetail = context.getString(keyDetailResourceId, id);

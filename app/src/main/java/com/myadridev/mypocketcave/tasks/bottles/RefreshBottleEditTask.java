@@ -12,8 +12,8 @@ import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 public class RefreshBottleEditTask extends AsyncTask<Integer, Void, Void> {
 
-    private AbstractBottleEditActivity bottleEditActivity;
-    private CoordinatorLayout coordinatorLayout;
+    private final AbstractBottleEditActivity bottleEditActivity;
+    private final CoordinatorLayout coordinatorLayout;
     private Snackbar snackbar;
 
     public RefreshBottleEditTask(AbstractBottleEditActivity bottleEditActivity, CoordinatorLayout coordinatorLayout) {

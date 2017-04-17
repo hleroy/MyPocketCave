@@ -10,8 +10,8 @@ import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 
 public class SetBottleValuesTask extends AsyncTask<Void, Void, Void> {
 
-    private AbstractBottleEditActivity bottleEditActivity;
-    private CoordinatorLayout coordinatorLayout;
+    private final AbstractBottleEditActivity bottleEditActivity;
+    private final CoordinatorLayout coordinatorLayout;
 
     public SetBottleValuesTask(AbstractBottleEditActivity bottleEditActivity, CoordinatorLayout coordinatorLayout) {
         this.bottleEditActivity = bottleEditActivity;

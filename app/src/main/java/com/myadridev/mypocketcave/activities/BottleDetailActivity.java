@@ -22,11 +22,8 @@ import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
-import java.util.Calendar;
-
 public class BottleDetailActivity extends AppCompatActivity {
 
-    public int currentYear;
     private BottleModelV2 bottle;
     private TextView stockView;
     private TextView placedView;
@@ -52,7 +49,6 @@ public class BottleDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottle_detail);
-        currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_bottle_detail);
         setSupportActionBar(toolbar);

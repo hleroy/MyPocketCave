@@ -46,7 +46,7 @@ public class CaveManager {
     }
 
     public static CaveModelV2 getCave(Context context, int caveId) {
-        return getCaveStorageManager().getCave(context, caveId);
+        return getCaveStorageManager().getCave(caveId);
     }
 
     public static int addCave(Context context, CaveModelV2 cave) {

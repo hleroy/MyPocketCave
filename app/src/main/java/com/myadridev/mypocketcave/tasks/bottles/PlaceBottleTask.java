@@ -7,7 +7,7 @@ import com.myadridev.mypocketcave.managers.BottleManager;
 
 public class PlaceBottleTask extends AsyncTask<Integer, Void, Void> {
 
-    private Context context;
+    private final Context context;
 
     public PlaceBottleTask(Context context) {
         this.context = context;

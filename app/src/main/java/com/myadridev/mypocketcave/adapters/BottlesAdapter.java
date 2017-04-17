@@ -125,7 +125,7 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else if (MaxBottleToPlace > 0 && position == getItemCount() - 1) {
             // Place bottle
             PlaceBottleViewHolder holder = (PlaceBottleViewHolder) viewHolder;
-            holder.setOnItemClickListener(this::onPlaceButtonClickListener);
+            holder.setOnItemClickListener((view) -> onPlaceButtonClickListener());
             if (bottleIdInHighlight != -1) {
                 setHighlightProperties(holder, false);
             } else {
@@ -170,7 +170,7 @@ public class BottlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private void onPlaceButtonClickListener(View view) {
+    private void onPlaceButtonClickListener() {
         PlaceBottleAlertDialog alertDialog = new PlaceBottleAlertDialog(activity, null, null, onBottlePlacedClickListener, MaxBottleToPlace);
         alertDialog.show();
     }

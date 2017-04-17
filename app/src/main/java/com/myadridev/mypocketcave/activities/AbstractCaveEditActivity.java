@@ -87,7 +87,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     private PatternAdapter patternAdapter;
     private int lastCaveTypeSelected;
 
-    private TextWatcher dispositionChangedListener = new TextWatcher() {
+    private final TextWatcher dispositionChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
             updateBoxesPatternValuesAndAdapter();
@@ -110,11 +110,6 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
             SnackbarHelper.displayInfoSnackbar(this, coordinatorLayout, R.string.message_cave_edit_arrangement_info, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return false;
         };
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

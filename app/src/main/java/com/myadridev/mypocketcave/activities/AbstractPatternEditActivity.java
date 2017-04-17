@@ -41,7 +41,7 @@ import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 import com.myadridev.mypocketcave.models.v2.PatternModelV2;
 import com.myadridev.mypocketcave.tasks.pattern.SavePatternTask;
 
-public class AbstractPatternEditActivity extends AppCompatActivity {
+public abstract class AbstractPatternEditActivity extends AppCompatActivity {
 
     public static final int overviewScreenWidthMarginLeft = 8;
     public static final int overviewScreenWidthMarginRight = 8;
@@ -64,11 +64,11 @@ public class AbstractPatternEditActivity extends AppCompatActivity {
     private RecyclerView patternOverviewRecyclerView;
     protected PatternAdapter patternAdapter;
     protected PatternModelV2 pattern;
-    private CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (CompoundButton compoundButton, boolean b) -> {
+    private final CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (CompoundButton compoundButton, boolean b) -> {
         hideKeyboard();
         updateValuesAndAdapter();
     };
-    private AdapterView.OnItemSelectedListener patternTypeChangedListener = new AdapterView.OnItemSelectedListener() {
+    private final AdapterView.OnItemSelectedListener patternTypeChangedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             updateValuesAndAdapter();
@@ -78,7 +78,7 @@ public class AbstractPatternEditActivity extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> adapterView) {
         }
     };
-    private TextWatcher dispositionChangedListener = new TextWatcher() {
+    private final TextWatcher dispositionChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
             updateValuesAndAdapter();

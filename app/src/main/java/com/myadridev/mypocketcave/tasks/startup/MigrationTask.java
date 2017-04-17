@@ -28,9 +28,9 @@ import java.util.Map;
 
 public class MigrationTask extends AsyncTask<Void, Integer, Void> {
 
-    private SplashScreenActivity splashScreenActivity;
-    private ImageView splashImageView;
-    private TextView progressView;
+    private final SplashScreenActivity splashScreenActivity;
+    private final ImageView splashImageView;
+    private final TextView progressView;
 
     public MigrationTask(SplashScreenActivity splashScreenActivity, ImageView splashImageView, TextView progressView) {
         this.splashScreenActivity = splashScreenActivity;

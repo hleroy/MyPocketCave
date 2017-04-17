@@ -26,9 +26,9 @@ public class BottlesSharedPreferencesManagerV2 implements IBottleStorageManagerV
     public static BottlesSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
     private final Map<Integer, BottleModelV2> allBottlesMap = new HashMap<>();
-    private String keyIndex;
-    private String filename;
-    private int keyBottleResourceId = R.string.store_bottle;
+    private final String keyIndex;
+    private final String filename;
+    private final int keyBottleResourceId = R.string.store_bottle;
     private boolean listenerSharedPreferencesRegistered = false;
     private ISharedPreferencesManagerV2 sharedPreferencesManager = null;
 

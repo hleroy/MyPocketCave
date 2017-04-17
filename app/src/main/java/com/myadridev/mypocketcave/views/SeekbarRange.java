@@ -42,6 +42,7 @@ public class SeekbarRange extends RelativeLayout {
     private int maxCurrentX;
     private int maxLeftX;
     private int maxRightX;
+    private int totalRange;
 
     public SeekbarRange(Context context) {
         super(context);
@@ -109,8 +110,6 @@ public class SeekbarRange extends RelativeLayout {
         totalRange = maxValue - minValue;
         isInit = true;
     }
-
-    private int totalRange;
 
     private OnTouchListener onMinViewTouch() {
         return (View v, MotionEvent event) -> {

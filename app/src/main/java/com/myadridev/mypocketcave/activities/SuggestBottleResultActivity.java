@@ -19,8 +19,8 @@ import com.myadridev.mypocketcave.adapters.SuggestBottlesResultAdapter;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
-import com.myadridev.mypocketcave.managers.JsonManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
+import com.myadridev.mypocketcave.managers.v2.JsonManagerV2;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
 import com.myadridev.mypocketcave.models.v2.SuggestBottleResultModelV2;
@@ -80,7 +80,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String serializedSearchCriteria = bundle.getString("searchCriteria");
 
-        SuggestBottleCriteriaV2 searchCriteria = JsonManager.readValue(serializedSearchCriteria, SuggestBottleCriteriaV2.class);
+        SuggestBottleCriteriaV2 searchCriteria = JsonManagerV2.readValue(serializedSearchCriteria, SuggestBottleCriteriaV2.class);
         if (searchCriteria == null) {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_technical, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return;

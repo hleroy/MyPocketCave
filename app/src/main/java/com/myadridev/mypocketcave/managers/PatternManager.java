@@ -10,7 +10,6 @@ import java.util.List;
 
 public class PatternManager {
 
-    public static final int numberOfColumnsForDisplay = 3;
     private static boolean listenerPatternsRegistered = false;
     private static IPatternsStorageManagerV2 patternsStorageManager = null;
 

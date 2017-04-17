@@ -186,13 +186,13 @@ public class CaveSharedPreferencesManagerTest {
 
     @Test
     public void getCaveWhenNoCave() {
-        CaveModelV2 outputCave = CaveSharedPreferencesManagerV2.Instance.getCave(context, -1);
+        CaveModelV2 outputCave = CaveSharedPreferencesManagerV2.Instance.getCave(-1);
         assertNull(outputCave);
     }
 
     @Test
     public void getCaveWhenCaveExists() {
-        CaveModelV2 outputCave = CaveSharedPreferencesManagerV2.Instance.getCave(context, 1);
+        CaveModelV2 outputCave = CaveSharedPreferencesManagerV2.Instance.getCave(1);
         CaveModelV2 expectedCave = (CaveModelV2) caveMap.get(1);
         assertNotNull(outputCave);
         assertEquals(expectedCave, outputCave);

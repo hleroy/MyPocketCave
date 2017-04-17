@@ -19,7 +19,7 @@ public class CaveSpinnerAdapter implements SpinnerAdapter {
 
     private final Context context;
     private final LayoutInflater layoutInflater;
-    private List<CaveLightModelV2> allDifferentCavesWithNone;
+    private final List<CaveLightModelV2> allDifferentCavesWithNone;
 
     public CaveSpinnerAdapter(Context context) {
         this.context = context;

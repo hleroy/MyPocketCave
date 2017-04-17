@@ -18,7 +18,7 @@ public class DomainSpinnerAdapter implements SpinnerAdapter {
     private final Context context;
     private final LayoutInflater layoutInflater;
     private final boolean containsNone;
-    private List<String> allDifferentDomainsWithNone;
+    private final List<String> allDifferentDomainsWithNone;
 
     public DomainSpinnerAdapter(Context context, boolean containsNone) {
         this.context = context;

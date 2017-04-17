@@ -15,8 +15,8 @@ import java.util.List;
 
 public class GetSuggestBottlesTask extends AsyncTask<SuggestBottleCriteriaV2, Void, List<SuggestBottleResultModelV2>> {
 
-    private SuggestBottleResultActivity suggestBottleResultActivity;
-    private CoordinatorLayout coordinatorLayout;
+    private final SuggestBottleResultActivity suggestBottleResultActivity;
+    private final CoordinatorLayout coordinatorLayout;
     private Snackbar snackbar;
 
     public GetSuggestBottlesTask(SuggestBottleResultActivity suggestBottleResultActivity, CoordinatorLayout coordinatorLayout) {

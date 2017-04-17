@@ -25,8 +25,8 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
     public static CaveSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
     private final Map<Integer, CaveModelV2> allCavesMap = new HashMap<>();
-    private int filenameResourceId = R.string.store_cave;
-    private int keyCaveResourceId = R.string.store_cave_key;
+    private final int filenameResourceId = R.string.store_cave;
+    private final int keyCaveResourceId = R.string.store_cave_key;
     private boolean listenerSharedPreferencesRegistered = false;
     private ISharedPreferencesManagerV2 sharedPreferencesManager = null;
     private boolean listenerCavesStorageRegistered = false;
@@ -88,7 +88,7 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
         return caves;
     }
 
-    public CaveModelV2 getCave(Context context, int caveId) {
+    public CaveModelV2 getCave(int caveId) {
         return CollectionsHelper.getValueOrDefault(allCavesMap, caveId, null);
     }
 

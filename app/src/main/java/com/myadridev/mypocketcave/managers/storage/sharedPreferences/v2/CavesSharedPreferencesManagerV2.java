@@ -22,9 +22,9 @@ public class CavesSharedPreferencesManagerV2 implements ICavesStorageManagerV2 {
     public static CavesSharedPreferencesManagerV2 Instance;
     private static boolean isInitialized;
     private final Map<Integer, CaveLightModelV2> allCavesMap = new HashMap<>();
-    private String keyIndex;
-    private String filename;
-    private int keyCaveResourceId = R.string.store_cave;
+    private final String keyIndex;
+    private final String filename;
+    private final int keyCaveResourceId = R.string.store_cave;
     private boolean listenerSharedPreferencesRegistered = false;
     private ISharedPreferencesManagerV2 sharedPreferencesManager = null;
 

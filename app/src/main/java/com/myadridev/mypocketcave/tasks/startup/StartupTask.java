@@ -21,9 +21,9 @@ import com.myadridev.mypocketcave.managers.storage.sharedPreferences.v2.Patterns
 
 public class StartupTask extends AsyncTask<Void, Integer, Void> {
 
-    private SplashScreenActivity splashScreenActivity;
-    private ImageView splashImageView;
-    private TextView progressView;
+    private final SplashScreenActivity splashScreenActivity;
+    private final ImageView splashImageView;
+    private final TextView progressView;
 
     public StartupTask(SplashScreenActivity splashScreenActivity, ImageView splashImageView, TextView progressView) {
         this.splashScreenActivity = splashScreenActivity;
