@@ -32,7 +32,7 @@ public class AboutAdapter extends ArrayAdapter<AboutItemV2> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        View view = layoutInflater.inflate(R.layout.item_about, parent);
+        View view = layoutInflater.inflate(R.layout.item_about, null);
 
         AboutItemV2 item = getItem(position);
 
