@@ -17,17 +17,14 @@ public final class SetRating implements ViewAction {
         this.value = value;
     }
 
-    @Override
     public Matcher<View> getConstraints() {
         return isAssignableFrom(RatingBar.class);
     }
 
-    @Override
     public String getDescription() {
         return "Custom view action to set rating.";
     }
 
-    @Override
     public void perform(UiController uiController, View view) {
         RatingBar ratingBar = (RatingBar) view;
         ratingBar.setRating(value);
