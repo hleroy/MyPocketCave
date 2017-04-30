@@ -20,6 +20,7 @@ import com.myadridev.mypocketcave.tasks.startup.StartupTask;
 @SuppressWarnings("deprecation")
 public class SplashScreenActivity extends AppCompatActivity {
 
+    public static final long minTimeForEachStepMilliseconds = 250;
     private ImageView splashImageView;
     private TextView progressView;
 
