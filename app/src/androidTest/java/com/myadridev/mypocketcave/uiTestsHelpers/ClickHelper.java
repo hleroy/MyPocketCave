@@ -1,6 +1,5 @@
 package com.myadridev.mypocketcave.uiTestsHelpers;
 
-import android.content.Context;
 import android.support.test.espresso.NoMatchingViewException;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
@@ -12,12 +11,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class ClickHelper {
 
-    public static void clickOnMenuItem(Context context, int menuItemId, int menuItemTextResourceId) {
+    public static void clickOnMenuItem(int menuItemId, int menuItemTextResourceId) {
         try {
             onView(withId(menuItemId)).perform(click());
         } catch (NoMatchingViewException e) {
             openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-            onView(withText(context.getString(menuItemTextResourceId))).perform(click());
+            onView(withText(menuItemTextResourceId)).perform(click());
         }
     }
 }

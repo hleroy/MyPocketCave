@@ -1,6 +1,5 @@
 package com.myadridev.mypocketcave.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -21,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -63,7 +61,7 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
     private PercentRelativeLayout containerLayout;
     private RecyclerView patternOverviewRecyclerView;
     private final CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (CompoundButton compoundButton, boolean b) -> {
-        hideKeyboard();
+        ControlsHelper.hideKeyboard(this);
         updateValuesAndAdapter();
     };
     private final AdapterView.OnItemSelectedListener patternTypeChangedListener = new AdapterView.OnItemSelectedListener() {
@@ -91,7 +89,7 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
 
     public AbstractPatternEditActivity() {
         hideKeyboardOnClick = (View v, MotionEvent event) -> {
-            hideKeyboard();
+            ControlsHelper.hideKeyboard(this);
             return false;
         };
     }
@@ -131,7 +129,7 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                hideKeyboard();
+                ControlsHelper.hideKeyboard(this);
                 if (checkValues()) {
                     SavePatternTask savePatternTask = new SavePatternTask(this, coordinatorLayout);
                     savePatternTask.execute(pattern);
@@ -293,16 +291,6 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
             setResultAndFinish(RESULT_CANCELED, -1);
         });
         exitDialogBuilder.show();
-    }
-
-    private void hideKeyboard() {
-        View view = getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm.isAcceptingText()) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        }
     }
 
     private void setResultAndFinish(int resultCode, int patternId) {

@@ -1,6 +1,5 @@
 package com.myadridev.mypocketcave.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +31,7 @@ import com.myadridev.mypocketcave.adapters.PatternAdapter;
 import com.myadridev.mypocketcave.enums.ActivityRequestEnum;
 import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.PatternTypeEnumV2;
+import com.myadridev.mypocketcave.helpers.ControlsHelper;
 import com.myadridev.mypocketcave.helpers.RotationHelper;
 import com.myadridev.mypocketcave.helpers.ScreenHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
@@ -100,11 +99,11 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
 
     protected AbstractCaveEditActivity() {
         hideKeyboardOnClick = (View v, MotionEvent event) -> {
-            hideKeyboard();
+            ControlsHelper.hideKeyboard(this);
             return false;
         };
         arrangementTooltipOnClick = (View v, MotionEvent event) -> {
-            hideKeyboard();
+            ControlsHelper.hideKeyboard(this);
             SnackbarHelper.displayInfoSnackbar(this, coordinatorLayout, R.string.message_cave_edit_arrangement_info, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return false;
         };
@@ -128,7 +127,7 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                hideKeyboard();
+                ControlsHelper.hideKeyboard(this);
                 if (checkValues()) {
                     SetCaveValuesTask setCaveValuesTask = new SetCaveValuesTask(this, coordinatorLayout);
                     setCaveValuesTask.execute();
@@ -357,23 +356,13 @@ public abstract class AbstractCaveEditActivity extends AppCompatActivity {
         return id - 1;
     }
 
-    private void hideKeyboard() {
-        View view = getCurrentFocus();
-        if (view == null) return;
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isAcceptingText()) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
     @Override
     public void onBackPressed() {
         if (IsSaving) {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.ongoig_cave_save, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return;
         }
-        hideKeyboard();
+        ControlsHelper.hideKeyboard(this);
         if (hasDifferences()) {
             AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(this);
             exitDialogBuilder.setCancelable(true);

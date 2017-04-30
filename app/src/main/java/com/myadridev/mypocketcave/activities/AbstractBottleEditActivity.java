@@ -1,6 +1,5 @@
 package com.myadridev.mypocketcave.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -25,6 +23,7 @@ import com.myadridev.mypocketcave.adapters.MillesimeAdapter;
 import com.myadridev.mypocketcave.adapters.WineColorSpinnerAdapter;
 import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
+import com.myadridev.mypocketcave.helpers.ControlsHelper;
 import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.helpers.SnackbarHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
@@ -53,7 +52,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
     protected AbstractBottleEditActivity() {
         hideKeyboardOnClick = (View v, MotionEvent event) -> {
-            hideKeyboard();
+            ControlsHelper.hideKeyboard(this);
             return false;
         };
     }
@@ -85,7 +84,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                hideKeyboard();
+                ControlsHelper.hideKeyboard(this);
                 if (checkValues()) {
                     SetBottleValuesTask setBottleValuesTask = new SetBottleValuesTask(this, coordinatorLayout);
                     setBottleValuesTask.execute();
@@ -178,23 +177,13 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         return id - 1;
     }
 
-    private void hideKeyboard() {
-        View view = getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm.isAcceptingText()) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        }
-    }
-
     @Override
     public void onBackPressed() {
         if (IsSaving) {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.ongoig_bottle_save, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             return;
         }
-        hideKeyboard();
+        ControlsHelper.hideKeyboard(this);
         if (hasDifferences()) {
             AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(this);
             exitDialogBuilder.setCancelable(true);

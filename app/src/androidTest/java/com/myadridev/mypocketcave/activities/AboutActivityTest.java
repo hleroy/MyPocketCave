@@ -34,25 +34,23 @@ public class AboutActivityTest {
 
     @Rule
     public ActivityTestRule<SplashScreenActivity> activityTestRule = new ActivityTestRule<>(SplashScreenActivity.class);
-    private SplashScreenActivity activity;
 
     @Before
     public void before() {
-        activity = activityTestRule.getActivity();
-        ClickHelper.clickOnMenuItem(activity, R.id.about, R.string.about);
+        ClickHelper.clickOnMenuItem(R.id.about, R.string.about);
     }
 
     @Test
     public void isActivityInitialized() {
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_about))));
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_about)));
         onData(instanceOf(AboutItemV2.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()));
         onData(instanceOf(AboutItemV2.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
-                .atPosition(0).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(activity.getString(AboutFieldsEnumV2.v.StringResourceId))))));
+                .atPosition(0).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(AboutFieldsEnumV2.v.StringResourceId)))));
         onData(instanceOf(AboutItemV2.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
-                .atPosition(1).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(activity.getString(AboutFieldsEnumV2.c.StringResourceId))))));
+                .atPosition(1).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(AboutFieldsEnumV2.c.StringResourceId)))));
         onData(instanceOf(AboutItemV2.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
-                .atPosition(2).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(activity.getString(AboutFieldsEnumV2.s.StringResourceId))))));
+                .atPosition(2).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(AboutFieldsEnumV2.s.StringResourceId)))));
         onData(instanceOf(AboutItemV2.class)).inAdapterView(allOf(withId(R.id.about_list_view), isDisplayed()))
-                .atPosition(3).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(activity.getString(AboutFieldsEnumV2.l.StringResourceId))))));
+                .atPosition(3).check(matches(hasDescendant(allOf(withId(R.id.about_label), withText(AboutFieldsEnumV2.l.StringResourceId)))));
     }
 }

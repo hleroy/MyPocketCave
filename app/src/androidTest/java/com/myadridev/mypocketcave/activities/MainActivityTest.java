@@ -31,20 +31,18 @@ public class MainActivityTest {
 
     @Rule
     public ActivityTestRule<SplashScreenActivity> activityTestRule = new ActivityTestRule<>(SplashScreenActivity.class);
-    private SplashScreenActivity activity;
 
     @Before
     public void before() {
-        activity = activityTestRule.getActivity();
     }
 
     @Test
     public void isActivityInitialized() {
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_main))));
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_main)));
         onView(withId(R.id.container)).check(matches(isDisplayed()));
         onView(withId(R.id.tabs)).check(matches(isDisplayed()));
-        onView(withText(activity.getString(R.string.title_caves))).check(matches(isDisplayed()));
-        onView(withText(activity.getString(R.string.title_bottles))).check(matches(isDisplayed()));
+        onView(withText(R.string.title_caves)).check(matches(isDisplayed()));
+        onView(withText(R.string.title_bottles)).check(matches(isDisplayed()));
 
         onView(withId(R.id.fab_menu_main)).check(matches(isDisplayed()));
         onView(withId(R.id.fab_add_cave)).check(matches(not(isDisplayed())));
@@ -53,20 +51,20 @@ public class MainActivityTest {
 
     @Test
     public void isNavigationToAboutPossible() {
-        ClickHelper.clickOnMenuItem(activity, R.id.about, R.string.about);
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_about))));
+        ClickHelper.clickOnMenuItem(R.id.about, R.string.about);
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_about)));
     }
 
     @Test
     public void isNavigationToSyncPossible() {
-        ClickHelper.clickOnMenuItem(activity, R.id.sync, R.string.import_export);
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_sync))));
+        ClickHelper.clickOnMenuItem(R.id.sync, R.string.import_export);
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_sync)));
     }
 
     @Test
     public void isNavigationToSuggestBottlePossible() {
-        ClickHelper.clickOnMenuItem(activity, R.id.suggest, R.string.suggest_me_a_bottle_button);
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_suggest_bottle_search))));
+        ClickHelper.clickOnMenuItem(R.id.suggest, R.string.suggest_me_a_bottle_button);
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_suggest_bottle_search)));
     }
 
     @Test
@@ -77,7 +75,7 @@ public class MainActivityTest {
         onView(withId(R.id.fab_add_cave)).check(matches(isDisplayed()));
 
         onView(withId(R.id.fab_add_bottle)).perform(click());
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_create_bottle))));
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_create_bottle)));
     }
 
     @Test
@@ -88,6 +86,6 @@ public class MainActivityTest {
         onView(withId(R.id.fab_add_cave)).check(matches(isDisplayed()));
 
         onView(withId(R.id.fab_add_cave)).perform(click());
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_create_cave))));
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_create_cave)));
     }
 }
