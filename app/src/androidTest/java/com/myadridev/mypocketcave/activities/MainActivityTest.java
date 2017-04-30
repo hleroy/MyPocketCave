@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.uiTestsHelpers.ClickHelper;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,9 +45,6 @@ public class MainActivityTest {
         onView(withId(R.id.tabs)).check(matches(isDisplayed()));
         onView(withText(activity.getString(R.string.title_caves))).check(matches(isDisplayed()));
         onView(withText(activity.getString(R.string.title_bottles))).check(matches(isDisplayed()));
-        onView(withId(R.id.about)).check(matches(isDisplayed()));
-        onView(withId(R.id.sync)).check(matches(isDisplayed()));
-        onView(withId(R.id.suggest)).check(matches(isDisplayed()));
 
         onView(withId(R.id.fab_menu_main)).check(matches(isDisplayed()));
         onView(withId(R.id.fab_add_cave)).check(matches(not(isDisplayed())));
@@ -55,19 +53,19 @@ public class MainActivityTest {
 
     @Test
     public void isNavigationToAboutPossible() {
-        onView(withId(R.id.about)).perform(click());
+        ClickHelper.clickOnMenuItem(activity, R.id.about, R.string.about);
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_about))));
     }
 
     @Test
     public void isNavigationToSyncPossible() {
-        onView(withId(R.id.sync)).perform(click());
+        ClickHelper.clickOnMenuItem(activity, R.id.sync, R.string.import_export);
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_sync))));
     }
 
     @Test
     public void isNavigationToSuggestBottlePossible() {
-        onView(withId(R.id.suggest)).perform(click());
+        ClickHelper.clickOnMenuItem(activity, R.id.suggest, R.string.suggest_me_a_bottle_button);
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(activity.getString(R.string.title_suggest_bottle_search))));
     }
 
