@@ -100,7 +100,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     }
 
     private void setVisibility(SuggestBottlesResultAdapter bottlesResultAdapter) {
-        if (bottlesResultAdapter.isRecyclerViewDisplayed()) {
+        if (bottlesResultAdapter.isRecyclerViewDisplayed() || bottlesResultAdapter.getNumberDisplayedBottles() == 0) {
             bottlesRecyclerView.setVisibility(View.VISIBLE);
             if (bottlesResultAdapter.getNumberDisplayedBottles() == 0) {
                 noBottlesLabelView.setVisibility(View.VISIBLE);

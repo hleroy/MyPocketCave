@@ -4,6 +4,11 @@
     tools:context=".activities.MainActivity">
 
     <item
+        android:id="@+id/suggest"
+        android:icon="@drawable/magic_button"
+        android:title="@string/suggest_me_a_bottle_button"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/sync"
         android:icon="@drawable/sync"
         android:title="@string/import_export"
