@@ -27,12 +27,14 @@ public class FoodToEatHelper {
     public static String computeFoodViewText(Context context, List<FoodToEatWithEnumV2> foodToEatWithList) {
         boolean isAtLeastOneFood = false;
         StringBuilder computedText = new StringBuilder();
-        for (FoodToEatWithEnumV2 food : foodToEatWithList) {
-            if (isAtLeastOneFood) {
-                computedText.append(foodSeparator);
+        for (FoodToEatWithEnumV2 food : FoodToEatWithEnumV2.values()) {
+            if (foodToEatWithList.contains(food)) {
+                if (isAtLeastOneFood) {
+                    computedText.append(foodSeparator);
+                }
+                computedText.append(context.getString(food.StringResourceId));
+                isAtLeastOneFood = true;
             }
-            computedText.append(context.getString(food.StringResourceId));
-            isAtLeastOneFood = true;
         }
         return computedText.toString();
     }

@@ -85,16 +85,15 @@ public class BottleDetailActivityTest {
         onView(withId(R.id.fab_menu_bottle)).check(matches(isDisplayed()));
 
         onView(withId(R.id.bottle_detail_domain)).check(matches(isDisplayed())).check(matches(withText(bottle.Domain)));
-        onView(withId(R.id.bottle_detail_domain)).check(matches(withText(bottle.Domain)));
-        onView(withId(R.id.bottle_detail_stock)).check(matches(withText(activity.getString(R.string.bottles_stock, bottle.Stock))));
-        onView(withId(R.id.bottle_detail_placed)).check(matches(withText(activity.getResources().getQuantityString(R.plurals.bottles_placed, bottle.NumberPlaced, bottle.NumberPlaced))));
-        onView(withId(R.id.bottle_detail_wine_color)).check(matches(withText(bottle.WineColor.StringResourceId)));
-        onView(withId(R.id.bottle_detail_person)).check(matches(withText(bottle.PersonToShareWith)));
-        onView(withId(R.id.bottle_detail_comments)).check(matches(withText(bottle.Comments)));
-        onView(withId(R.id.bottle_detail_food)).check(matches(withText(FoodToEatHelper.computeFoodViewText(activity, bottle.FoodToEatWithList))));
-        onView(withId(R.id.bottle_detail_millesime)).check(matches(withText(String.valueOf(bottle.Millesime))));
-        onView(withId(R.id.bottle_detail_rating)).check(matches(withRating(bottle.Rating)));
-        onView(withId(R.id.bottle_detail_price_rating)).check(matches(withRating(bottle.PriceRating)));
+        onView(withId(R.id.bottle_detail_stock)).check(matches(isDisplayed())).check(matches(withText(activity.getString(R.string.bottles_stock, bottle.Stock))));
+        onView(withId(R.id.bottle_detail_placed)).check(matches(isDisplayed())).check(matches(withText(activity.getResources().getQuantityString(R.plurals.bottles_placed, bottle.NumberPlaced, bottle.NumberPlaced))));
+        onView(withId(R.id.bottle_detail_wine_color)).check(matches(isDisplayed())).check(matches(withText(bottle.WineColor.StringResourceId)));
+        onView(withId(R.id.bottle_detail_person)).check(matches(isDisplayed())).check(matches(withText(bottle.PersonToShareWith)));
+        onView(withId(R.id.bottle_detail_comments)).check(matches(isDisplayed())).check(matches(withText(bottle.Comments)));
+        onView(withId(R.id.bottle_detail_food)).check(matches(isDisplayed())).check(matches(withText(FoodToEatHelper.computeFoodViewText(activity, bottle.FoodToEatWithList))));
+        onView(withId(R.id.bottle_detail_millesime)).check(matches(isDisplayed())).check(matches(withText(String.valueOf(bottle.Millesime))));
+        onView(withId(R.id.bottle_detail_rating)).check(matches(isDisplayed())).check(matches(withRating(bottle.Rating)));
+        onView(withId(R.id.bottle_detail_price_rating)).check(matches(isDisplayed())).check(matches(withRating(bottle.PriceRating)));
     }
 
     @Test

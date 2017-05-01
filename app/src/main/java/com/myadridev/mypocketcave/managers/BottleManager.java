@@ -82,7 +82,7 @@ public class BottleManager {
     }
 
     public static int getExistingBottleId(int id, String name, String domain, WineColorEnumV2 wineColor, int millesime) {
-        return getBottleStorageManager().getExistingBottleId(id, name.trim(), domain.trim(), wineColor.Id, millesime);
+        return getBottleStorageManager().getExistingBottleId(id, name, domain, wineColor.Id, millesime);
     }
 
     public static int getBottlesPlacedCount() {

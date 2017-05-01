@@ -240,7 +240,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     private boolean checkValues() {
         boolean isErrors = false;
 
-        String name = nameView.getText().toString();
+        String name = nameView.getText().toString().trim();
         String stockString = stockView.getText().toString();
         int stock = stockString.isEmpty() ? 0 : Integer.valueOf(stockString);
 
@@ -251,7 +251,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             SnackbarHelper.displayErrorSnackbar(this, coordinatorLayout, R.string.error_bottle_not_enough, R.string.global_ok, Snackbar.LENGTH_INDEFINITE);
             isErrors = true;
         } else {
-            String domain = domainView.getText().toString();
+            String domain = domainView.getText().toString().trim();
             WineColorEnumV2 wineColor = (WineColorEnumV2) wineColorView.getSelectedItem();
             int millesime = (int) millesimeView.getSelectedItem();
 

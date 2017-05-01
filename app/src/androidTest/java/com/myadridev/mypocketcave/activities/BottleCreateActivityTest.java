@@ -142,8 +142,7 @@ public class BottleCreateActivityTest {
         int bottleId = BottleManager.addBottle(activity, new BottleModelV2(bottle));
 
         bottle.Id = 0;
-        bottle.Name = " Name";
-        bottle.Comments = " default TestComments";
+        bottle.Name = " AAA";
         BottleHelper.createBottle(bottle);
 
         onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(R.string.error_bottle_already_exists))).check(matches(isDisplayed()));
