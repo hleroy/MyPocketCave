@@ -43,7 +43,7 @@ public class BottleDetailActivity extends AppCompatActivity {
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
 
-    private int bottleId;
+    public int bottleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

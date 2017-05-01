@@ -13,6 +13,7 @@ import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 import com.myadridev.mypocketcave.uiTestsHelpers.BottleHelper;
 import com.myadridev.mypocketcave.uiTestsHelpers.ClickHelper;
+import com.myadridev.mypocketcave.uiTestsHelpers.ContextHelper;
 import com.myadridev.mypocketcave.uiTestsHelpers.ControlHelper;
 
 import junit.framework.Assert;
@@ -33,6 +34,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -82,12 +86,17 @@ public class BottleCreateActivityTest {
 
         BottleHelper.createBottle(bottle);
 
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText("Name")));
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(bottle.Name.trim())));
         Assert.assertEquals(totalBottlesBefore + 2, BottleManager.getBottlesCount());
 
-        onView(withId(R.id.fab_menu_bottle)).perform(click());
-        onView(withId(R.id.fab_delete_bottle)).perform(click());
-        onView(withText(R.string.global_yes)).check(matches(isDisplayed())).perform(click());
+        Activity currentActivity = ContextHelper.getCurrentActivity();
+        assertTrue(currentActivity instanceof BottleDetailActivity);
+        BottleDetailActivity bottleDetailActivity = (BottleDetailActivity) currentActivity;
+        int bottleId = bottleDetailActivity.bottleId;
+
+        assertNotEquals(0, bottleId);
+        BottleManager.removeBottle(activity, bottleId);
+        assertNull(BottleManager.getBottle(bottleId));
     }
 
     @Test
@@ -128,8 +137,14 @@ public class BottleCreateActivityTest {
         bottle.Comments = " default TestComments";
         bottle.Rating = 4;
         bottle.PriceRating = 2;
+        bottle.trimAll();
 
         int bottleId = BottleManager.addBottle(activity, bottle);
+
+        bottle = new BottleModelV2(bottle);
+        bottle.Id = 0;
+        bottle.Name = " Name";
+        bottle.Comments = " default TestComments";
         BottleHelper.createBottle(bottle);
 
         onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(R.string.error_bottle_already_exists))).check(matches(isDisplayed()));
