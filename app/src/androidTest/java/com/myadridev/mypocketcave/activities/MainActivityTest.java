@@ -50,12 +50,6 @@ public class MainActivityTest {
     }
 
     @Test
-    public void isNavigationToAboutPossible() {
-        ClickHelper.clickOnMenuItem(R.id.about, R.string.about);
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_about)));
-    }
-
-    @Test
     public void isNavigationToSyncPossible() {
         ClickHelper.clickOnMenuItem(R.id.sync, R.string.import_export);
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_sync)));
@@ -65,17 +59,6 @@ public class MainActivityTest {
     public void isNavigationToSuggestBottlePossible() {
         ClickHelper.clickOnMenuItem(R.id.suggest, R.string.suggest_me_a_bottle_button);
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_suggest_bottle_search)));
-    }
-
-    @Test
-    public void isNavigationToCreateBottlePossible() {
-        onView(withId(R.id.fab_menu_main)).perform(click());
-
-        onView(withId(R.id.fab_add_bottle)).check(matches(isDisplayed()));
-        onView(withId(R.id.fab_add_cave)).check(matches(isDisplayed()));
-
-        onView(withId(R.id.fab_add_bottle)).perform(click());
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_create_bottle)));
     }
 
     @Test

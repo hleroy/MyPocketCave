@@ -57,16 +57,16 @@ public class BottleCreateActivityTest {
     public void isActivityInitialized() {
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(R.string.title_create_bottle)));
 
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_name);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_domain);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_stock);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_wine_color);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_millesime);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_rating);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_price_rating);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_food);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_person);
-        ControlHelper.checkIfDisplayed(R.id.bottle_edit_comments);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_name);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_domain);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_stock);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_wine_color);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_millesime);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_rating);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_price_rating);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_food);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_person);
+        ControlHelper.checkIfDisplayedWithScroll(R.id.bottle_edit_comments);
     }
 
     @Test
@@ -74,8 +74,8 @@ public class BottleCreateActivityTest {
         int totalBottlesBefore = BottleManager.getBottlesCount();
 
         BottleModelV2 bottle = new BottleModelV2();
-        bottle.Name = " Name";
-        bottle.Domain = "Doma";
+        bottle.Name = " AA";
+        bottle.Domain = "AAAA";
         bottle.Stock = 2;
         bottle.WineColor = WineColorEnumV2.w;
         bottle.Millesime = 2015;
@@ -87,7 +87,7 @@ public class BottleCreateActivityTest {
         BottleHelper.createBottle(bottle);
 
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(bottle.Name.trim())));
-        Assert.assertEquals(totalBottlesBefore + 2, BottleManager.getBottlesCount());
+        Assert.assertEquals(totalBottlesBefore + bottle.Stock, BottleManager.getBottlesCount());
 
         Activity currentActivity = ContextHelper.getCurrentActivity();
         assertTrue(currentActivity instanceof BottleDetailActivity);
@@ -128,8 +128,8 @@ public class BottleCreateActivityTest {
     @Test
     public void isErrorSnackbarWhenCreatingExistingBottle() {
         BottleModelV2 bottle = new BottleModelV2();
-        bottle.Name = " Name";
-        bottle.Domain = "Doma";
+        bottle.Name = " AAA";
+        bottle.Domain = "AAAA";
         bottle.Stock = 2;
         bottle.WineColor = WineColorEnumV2.w;
         bottle.Millesime = 2015;
@@ -139,9 +139,8 @@ public class BottleCreateActivityTest {
         bottle.PriceRating = 2;
         bottle.trimAll();
 
-        int bottleId = BottleManager.addBottle(activity, bottle);
+        int bottleId = BottleManager.addBottle(activity, new BottleModelV2(bottle));
 
-        bottle = new BottleModelV2(bottle);
         bottle.Id = 0;
         bottle.Name = " Name";
         bottle.Comments = " default TestComments";
@@ -152,4 +151,3 @@ public class BottleCreateActivityTest {
         BottleManager.removeBottle(activity, bottleId);
     }
 }
-

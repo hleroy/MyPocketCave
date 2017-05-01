@@ -1,5 +1,7 @@
 package com.myadridev.mypocketcave.uiTestsHelpers;
 
+import android.support.test.espresso.ViewInteraction;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -10,19 +12,19 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class ControlHelper {
 
-    public static void checkIfDisplayed(int controlId) {
-        checkIfDisplayed(controlId, true);
+    public static ViewInteraction checkIfDisplayedWithScroll(int controlId) {
+        return checkIfDisplayedWithScroll(controlId, true);
     }
 
-    public static void checkIfNotDisplayed(int controlId) {
-        checkIfDisplayed(controlId, false);
+    public static ViewInteraction checkIfNotDisplayedWithScroll(int controlId) {
+        return checkIfDisplayedWithScroll(controlId, false);
     }
 
-    private static void checkIfDisplayed(int controlId, boolean isDisplayed) {
+    private static ViewInteraction checkIfDisplayedWithScroll(int controlId, boolean isDisplayed) {
         if (isDisplayed) {
-            onView(withId(controlId)).perform(scrollTo()).check(matches(isDisplayed()));
+            return onView(withId(controlId)).perform(scrollTo()).check(matches(isDisplayed()));
         } else {
-            onView(withId(controlId)).perform(scrollTo()).check(matches(not(isDisplayed())));
+            return onView(withId(controlId)).perform(scrollTo()).check(matches(not(isDisplayed())));
         }
     }
 
