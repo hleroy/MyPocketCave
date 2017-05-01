@@ -9,7 +9,7 @@ import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 
-public final class SetRating implements ViewAction {
+public class SetRating implements ViewAction {
 
     private final int value;
 
