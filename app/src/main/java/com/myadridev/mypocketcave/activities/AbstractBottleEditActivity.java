@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -50,6 +51,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
     protected CoordinatorLayout coordinatorLayout;
     protected RatingBar ratingBar;
     protected RatingBar priceRatingBar;
+    protected CheckBox organicView;
     private boolean isFoodListOpen;
 
     protected AbstractBottleEditActivity() {
@@ -121,6 +123,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
         millesimeView.setOnTouchListener(hideKeyboardOnClick);
         ratingBar = (RatingBar) findViewById(R.id.bottle_edit_rating);
         priceRatingBar = (RatingBar) findViewById(R.id.bottle_edit_price_rating);
+        organicView = (CheckBox) findViewById(R.id.bottle_edit_organic);
     }
 
     protected abstract void setCoordinatorLayout();
@@ -172,6 +175,7 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
             foodView.setText(FoodToEatHelper.computeFoodViewText(this, foodToEatWithList));
             ratingBar.setProgress(bottle.Rating);
             priceRatingBar.setProgress(bottle.PriceRating);
+            organicView.setChecked(bottle.Organic);
         }
     }
 
@@ -245,6 +249,8 @@ public abstract class AbstractBottleEditActivity extends AppCompatActivity {
 
         bottle.Rating = ratingBar.getProgress();
         bottle.PriceRating = priceRatingBar.getProgress();
+
+        bottle.Organic = organicView.isChecked();
 
         bottle.trimAll();
     }
