@@ -17,14 +17,17 @@ public class BottleModelTest {
     public void createVoidBottleModel() {
         BottleModelV2 bottle = new BottleModelV2();
         assertEquals(0, bottle.Id);
-        assertNull(bottle.Name);
-        assertNull(bottle.Domain);
+        assertEquals("", bottle.Name);
         assertEquals(0, bottle.Millesime);
-        assertNull(bottle.Comments);
-        assertNull(bottle.PersonToShareWith);
+        assertEquals("", bottle.Domain);
+        assertEquals("", bottle.Comments);
+        assertEquals("", bottle.PersonToShareWith);
         assertNull(bottle.WineColor);
         assertEquals(0, bottle.FoodToEatWithList.size());
         assertEquals(0, bottle.Stock);
+        assertEquals(0, bottle.NumberPlaced);
+        assertEquals(0, bottle.Rating);
+        assertEquals(0, bottle.PriceRating);
     }
 
     @Test
@@ -214,7 +217,7 @@ public class BottleModelTest {
         BottleModelV2 bottle = new BottleModelV2();
         bottle.Id = 4;
         bottle.Name = "Name";
-        bottle.Domain = "Domain";
+        bottle.Domain = "";
         bottle.Millesime = 2016;
         bottle.Comments = "Comments";
         bottle.PersonToShareWith = "Person";
@@ -250,14 +253,14 @@ public class BottleModelTest {
     }
 
     @Test
-    public void getIsValidWhenBottleNoDomain() {
+    public void trimAll() {
         BottleModelV2 bottle = new BottleModelV2();
         bottle.Id = 4;
-        bottle.Name = "Name";
-//        bottle.Domain = "Domain";
+        bottle.Name = "Name ";
+        bottle.Domain = "  Domain";
         bottle.Millesime = 2016;
         bottle.Comments = "Comments";
-        bottle.PersonToShareWith = "Person";
+        bottle.PersonToShareWith = " Person  ";
         bottle.WineColor = WineColorEnumV2.ro;
         bottle.FoodToEatWithList.add(FoodToEatWithEnumV2.a);
         bottle.FoodToEatWithList.add(FoodToEatWithEnumV2.ga);
@@ -266,26 +269,11 @@ public class BottleModelTest {
         bottle.FoodToEatWithList.add(FoodToEatWithEnumV2.so);
         bottle.Stock = 42;
 
-        assertFalse(bottle.isValid());
-    }
+        bottle.trimAll();
 
-    @Test
-    public void getIsValidWhenBottleNoName() {
-        BottleModelV2 bottle = new BottleModelV2();
-        bottle.Id = 4;
-//        bottle.Name = "Name";
-        bottle.Domain = "Domain";
-        bottle.Millesime = 2016;
-        bottle.Comments = "Comments";
-        bottle.PersonToShareWith = "Person";
-        bottle.WineColor = WineColorEnumV2.ro;
-        bottle.FoodToEatWithList.add(FoodToEatWithEnumV2.a);
-        bottle.FoodToEatWithList.add(FoodToEatWithEnumV2.ga);
-        bottle.FoodToEatWithList.add(FoodToEatWithEnumV2.de);
-        bottle.FoodToEatWithList.add(FoodToEatWithEnumV2.st);
-        bottle.FoodToEatWithList.add(FoodToEatWithEnumV2.so);
-        bottle.Stock = 42;
-
-        assertFalse(bottle.isValid());
+        assertEquals("Name", bottle.Name);
+        assertEquals("Domain", bottle.Domain);
+        assertEquals("Comments", bottle.Comments);
+        assertEquals("Person", bottle.PersonToShareWith);
     }
 }

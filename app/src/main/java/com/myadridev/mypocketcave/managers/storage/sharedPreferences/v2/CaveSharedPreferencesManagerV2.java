@@ -6,10 +6,11 @@ import android.support.annotation.Nullable;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.CollectionsHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
+import com.myadridev.mypocketcave.managers.CaveManager;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICaveStorageManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 import com.myadridev.mypocketcave.models.v2.CaveModelV2;
@@ -115,7 +116,7 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
         List<CaveLightModelV2> cavesWithBottle = new ArrayList<>(allCavesMap.size());
 
         for (CaveModelV2 cave : allCavesMap.values()) {
-            int numberBottlesInTheCave = cave.getNumberBottles(bottleId);
+            int numberBottlesInTheCave = CaveManager.getNumberBottles(cave, bottleId);
             if (numberBottlesInTheCave > 0) {
                 CaveLightModelV2 caveLight = new CaveLightModelV2();
                 caveLight.Id = cave.Id;
@@ -133,7 +134,7 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
     public boolean isBottleInTheCave(int bottleId, int caveId) {
         if (allCavesMap.containsKey(caveId)) {
             CaveModelV2 cave = allCavesMap.get(caveId);
-            return cave.getNumberBottles(bottleId) > 0;
+            return CaveManager.getNumberBottles(cave, bottleId) > 0;
         }
         return false;
     }

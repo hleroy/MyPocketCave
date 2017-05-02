@@ -29,18 +29,17 @@ import java.util.List;
 
 public class PathChooserDialog {
     private final boolean isNewFolderEnabled;
-    private String defaultPath = "";
-    private String rootPath = "";
     private final Context context;
-    private TextView titleView;
-
-    private String currentPath = "";
-    private List<String> subFoldersAndAllowedFiles = null;
     private final List<String> allowedFileExtensions;
     private final OnPathChosenListener onPathChosenListener;
+    private final boolean needToSelectFile;
+    private String defaultPath = "";
+    private String rootPath = "";
+    private TextView titleView;
+    private String currentPath = "";
+    private List<String> subFoldersAndAllowedFiles = null;
     private ArrayAdapter<String> listAdapter = null;
     private Button parentButton = null;
-    private final boolean needToSelectFile;
 
     public PathChooserDialog(Context context, String defaultPath, String rootPath, boolean isNewFolderEnabled, @NonNull List<String> allowedFileExtensions, OnPathChosenListener onPathChosenListener) {
         this.context = context;

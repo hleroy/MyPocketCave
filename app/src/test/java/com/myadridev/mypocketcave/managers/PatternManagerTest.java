@@ -41,13 +41,13 @@ public class PatternManagerTest {
         patterns = new ArrayList<>(3);
         PatternModelV2 pattern1 = new PatternModelV2();
         pattern1.Id = 1;
-        pattern1.Order = 1;
+        pattern1.Order = 0;
         PatternModelV2 pattern2 = new PatternModelV2();
         pattern2.Id = 2;
-        pattern2.Order = 2;
+        pattern2.Order = 1;
         PatternModelV2 pattern3 = new PatternModelV2();
         pattern3.Id = 3;
-        pattern3.Order = 3;
+        pattern3.Order = 2;
         patterns.add(pattern1);
         patterns.add(pattern2);
         patterns.add(pattern3);
@@ -64,10 +64,7 @@ public class PatternManagerTest {
             @Override
             public PatternModelV2 answer(InvocationOnMock invocation) {
                 int id = (int) invocation.getArguments()[0];
-                PatternModelV2 pattern = new PatternModelV2();
-                pattern.Id = id;
-                pattern.Order = id;
-                return pattern;
+                return patterns.get(id - 1);
             }
         });
         when(mockPatternsStorageManager.getExistingPatternId(any(PatternModelV2.class))).thenAnswer(new Answer<Integer>() {
@@ -97,8 +94,8 @@ public class PatternManagerTest {
 
     @Test
     public void getPattern() {
-        PatternModelV2 pattern = PatternManager.getPattern(42);
-        assertEquals(42, pattern.Id);
+        PatternModelV2 pattern = PatternManager.getPattern(2);
+        assertEquals(2, pattern.Id);
     }
 
     @Test
@@ -122,13 +119,13 @@ public class PatternManagerTest {
         for (PatternModelV2 pattern : patterns) {
             switch (pattern.Id) {
                 case 1:
-                    assertEquals(2, pattern.Order);
-                    break;
-                case 2:
                     assertEquals(1, pattern.Order);
                     break;
+                case 2:
+                    assertEquals(0, pattern.Order);
+                    break;
                 case 3:
-                    assertEquals(3, pattern.Order);
+                    assertEquals(2, pattern.Order);
                     break;
                 default:
                     fail();

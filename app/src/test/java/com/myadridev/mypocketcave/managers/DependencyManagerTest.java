@@ -20,6 +20,13 @@ public class DependencyManagerTest {
     }
 
     @Test
+    public void needsRestart() {
+        assertTrue(DependencyManager.needsRestart());
+        DependencyManager.init();
+        assertFalse(DependencyManager.needsRestart());
+    }
+
+    @Test
     public void WhenRegisterWithoutInit_ThenItThrows() {
         try {
             DependencyManager.registerSingleton(MyInterface.class, new MyImplA());

@@ -6,8 +6,8 @@ import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.helpers.StorageHelper;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.DependencyManager;
-import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
+import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 

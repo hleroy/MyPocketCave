@@ -18,7 +18,7 @@ public class CaveLightModelTest {
         CaveLightModelV2 caveLight = new CaveLightModelV2();
 
         assertEquals(0, caveLight.Id);
-        assertNull(caveLight.Name);
+        assertEquals("", caveLight.Name);
         assertNull(caveLight.CaveType);
         assertEquals(0, caveLight.TotalCapacity);
         assertEquals(0, caveLight.TotalUsed);
@@ -73,6 +73,7 @@ public class CaveLightModelTest {
         CaveLightModelV2 caveLight = new CaveLightModelV2();
         assertFalse(caveLight.isValid());
 
+        caveLight.Name = null;
         caveLight.CaveType = CaveTypeEnumV2.bo;
         assertFalse(caveLight.isValid());
 
@@ -106,5 +107,19 @@ public class CaveLightModelTest {
         assertEquals(1, caveLight1.compareTo(caveLight4));
         assertEquals(-1, caveLight1.compareTo(caveLight5));
         assertEquals(0, caveLight1.compareTo(caveLight6));
+    }
+
+    @Test
+    public void trimAll() {
+        CaveLightModelV2 caveLight = new CaveLightModelV2();
+        caveLight.Id = 42;
+        caveLight.Name = "cave ";
+        caveLight.CaveType = CaveTypeEnumV2.bu;
+        caveLight.TotalCapacity = 17;
+        caveLight.TotalUsed = 3;
+
+        caveLight.trimAll();
+
+        assertEquals("cave", caveLight.Name);
     }
 }

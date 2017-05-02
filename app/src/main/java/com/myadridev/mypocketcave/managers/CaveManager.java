@@ -6,6 +6,7 @@ import com.myadridev.mypocketcave.enums.v2.CaveTypeEnumV2;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICaveStorageManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ICavesStorageManagerV2;
+import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
 import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 
@@ -45,7 +46,7 @@ public class CaveManager {
         return getCavesStorageManager().getLightCaves();
     }
 
-    public static CaveModelV2 getCave(Context context, int caveId) {
+    public static CaveModelV2 getCave(int caveId) {
         return getCaveStorageManager().getCave(caveId);
     }
 
@@ -87,7 +88,7 @@ public class CaveManager {
     }
 
     private static void unplaceBottles(Context context, CaveModelV2 cave) {
-        for (Map.Entry<Integer, Float> numberPlacedBottleEntry : cave.CaveArrangement.getFloatNumberPlacedBottlesByIdMap().entrySet()) {
+        for (Map.Entry<Integer, Float> numberPlacedBottleEntry : CaveArrangementModelManager.getFloatNumberPlacedBottlesByIdMap(cave.CaveArrangement).entrySet()) {
             BottleManager.updateNumberPlaced(context, numberPlacedBottleEntry.getKey(), -(int) Math.ceil(numberPlacedBottleEntry.getValue()));
         }
     }
@@ -110,5 +111,15 @@ public class CaveManager {
 
     public static boolean isBottleInTheCave(int bottleId, int caveId) {
         return getCaveStorageManager().isBottleInTheCave(bottleId, caveId);
+    }
+
+    public static int getNumberBottles(CaveModelV2 cave, int bottleId) {
+        return cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottleId)
+                ? cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottleId)
+                : 0;
+    }
+
+    public static List<BottleModelV2> getBottles(CaveModelV2 cave) {
+        return BottleManager.getBottles(cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.keySet());
     }
 }

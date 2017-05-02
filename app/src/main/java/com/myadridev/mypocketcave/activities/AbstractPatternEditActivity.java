@@ -1,6 +1,5 @@
 package com.myadridev.mypocketcave.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -21,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -46,26 +44,24 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
     public static final int overviewScreenWidthMarginLeft = 8;
     public static final int overviewScreenWidthMarginRight = 8;
     private final View.OnTouchListener hideKeyboardOnClick;
-
-    private CoordinatorLayout coordinatorLayout;
     protected Spinner typeSpinner;
     protected ImageView typeImage;
     protected TextView typeText;
     protected EditText numberBottlesByColumnEditText;
     protected EditText numberBottlesByRowEditText;
-    private TextView verticallyExpendableTextView;
     protected CheckBox verticallyExpendableCheckbox;
-    private TextView horizontallyExpendableTextView;
     protected CheckBox horizontallyExpendableCheckbox;
-    private TextView invertPatternTextView;
     protected CheckBox invertPatternCheckbox;
-    private PercentRelativeLayout containerLayout;
-
-    private RecyclerView patternOverviewRecyclerView;
     protected PatternAdapter patternAdapter;
     protected PatternModelV2 pattern;
+    private CoordinatorLayout coordinatorLayout;
+    private TextView verticallyExpendableTextView;
+    private TextView horizontallyExpendableTextView;
+    private TextView invertPatternTextView;
+    private PercentRelativeLayout containerLayout;
+    private RecyclerView patternOverviewRecyclerView;
     private final CompoundButton.OnCheckedChangeListener checkboxCheckedChangeListener = (CompoundButton compoundButton, boolean b) -> {
-        hideKeyboard();
+        ControlsHelper.hideKeyboard(this);
         updateValuesAndAdapter();
     };
     private final AdapterView.OnItemSelectedListener patternTypeChangedListener = new AdapterView.OnItemSelectedListener() {
@@ -93,7 +89,7 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
 
     public AbstractPatternEditActivity() {
         hideKeyboardOnClick = (View v, MotionEvent event) -> {
-            hideKeyboard();
+            ControlsHelper.hideKeyboard(this);
             return false;
         };
     }
@@ -133,7 +129,7 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                hideKeyboard();
+                ControlsHelper.hideKeyboard(this);
                 if (checkValues()) {
                     SavePatternTask savePatternTask = new SavePatternTask(this, coordinatorLayout);
                     savePatternTask.execute(pattern);
@@ -297,16 +293,6 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
         exitDialogBuilder.show();
     }
 
-    private void hideKeyboard() {
-        View view = getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm.isAcceptingText()) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        }
-    }
-
     private void setResultAndFinish(int resultCode, int patternId) {
         Intent intent = new Intent();
         intent.putExtra("patternId", patternId);
@@ -325,8 +311,8 @@ public abstract class AbstractPatternEditActivity extends AppCompatActivity {
     protected void onResume() {
         if (NavigationManager.restartIfNeeded(this)) {
             finish();
-        } else {
-            super.onResume();
+            return;
         }
+        super.onResume();
     }
 }

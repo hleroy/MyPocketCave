@@ -34,7 +34,7 @@ public class RefreshCaveEditTask extends AsyncTask<Integer, Void, Void> {
             caveEditActivity.cave = new CaveModelV2();
             caveEditActivity.oldCave = null;
         } else {
-            caveEditActivity.oldCave = new CaveModelV2(CaveManager.getCave(caveEditActivity, caveId));
+            caveEditActivity.oldCave = new CaveModelV2(CaveManager.getCave(caveId));
             caveEditActivity.cave = new CaveModelV2(caveEditActivity.oldCave);
         }
 

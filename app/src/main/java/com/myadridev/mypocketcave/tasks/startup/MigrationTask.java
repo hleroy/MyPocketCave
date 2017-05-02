@@ -40,40 +40,59 @@ public class MigrationTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        int step = 0;
-        publishProgress(step);
+        try {
+            int step = 0;
+            publishProgress(step);
+            long startTime = System.currentTimeMillis();
 
-        // Bottles
-        Map<Integer, BottleModelV2> allBottlesMapV2 = MigrationManager.migrateBottles(splashScreenActivity);
+            // Bottles
+            Map<Integer, BottleModelV2> allBottlesMapV2 = MigrationManager.migrateBottles(splashScreenActivity);
 
-        BottlesSharedPreferencesManagerV2.init(splashScreenActivity, allBottlesMapV2);
-        DependencyManager.registerSingleton(IBottleStorageManagerV2.class, BottlesSharedPreferencesManagerV2.Instance);
-        publishProgress(++step);
+            BottlesSharedPreferencesManagerV2.init(splashScreenActivity, allBottlesMapV2);
+            DependencyManager.registerSingleton(IBottleStorageManagerV2.class, BottlesSharedPreferencesManagerV2.Instance);
 
-        // Patterns
-        Map<Integer, PatternModelV2> allPatternsMapV2 = MigrationManager.migratePatterns(splashScreenActivity);
+            long remainingTime = Math.max(0, SplashScreenActivity.minTimeForEachStepMilliseconds - (System.currentTimeMillis() - startTime));
+            Thread.sleep(remainingTime);
+            publishProgress(++step);
+            startTime = System.currentTimeMillis();
 
-        PatternsSharedPreferencesManagerV2.init(splashScreenActivity, allPatternsMapV2);
-        DependencyManager.registerSingleton(IPatternsStorageManagerV2.class, PatternsSharedPreferencesManagerV2.Instance);
-        publishProgress(++step);
+            // Patterns
+            Map<Integer, PatternModelV2> allPatternsMapV2 = MigrationManager.migratePatterns(splashScreenActivity);
 
-        // Caves
-        Map<Integer, CaveLightModelV2> allCavesLightMapV2 = MigrationManager.migrateCaves(splashScreenActivity);
+            PatternsSharedPreferencesManagerV2.init(splashScreenActivity, allPatternsMapV2);
+            DependencyManager.registerSingleton(IPatternsStorageManagerV2.class, PatternsSharedPreferencesManagerV2.Instance);
 
-        CavesSharedPreferencesManagerV2.init(splashScreenActivity, allCavesLightMapV2);
-        DependencyManager.registerSingleton(ICavesStorageManagerV2.class, CavesSharedPreferencesManagerV2.Instance);
-        publishProgress(++step);
+            remainingTime = Math.max(0, SplashScreenActivity.minTimeForEachStepMilliseconds - (System.currentTimeMillis() - startTime));
+            Thread.sleep(remainingTime);
+            publishProgress(++step);
+            startTime = System.currentTimeMillis();
 
-        // Cave
-        Map<Integer, CaveModelV2> allCavesMapV2 = MigrationManager.migrateCave(splashScreenActivity, allCavesLightMapV2.keySet());
+            // Caves
+            Map<Integer, CaveLightModelV2> allCavesLightMapV2 = MigrationManager.migrateCaves(splashScreenActivity);
 
-        CaveSharedPreferencesManagerV2.init(splashScreenActivity, allCavesMapV2);
-        DependencyManager.registerSingleton(ICaveStorageManagerV2.class, CaveSharedPreferencesManagerV2.Instance);
-        publishProgress(++step);
+            CavesSharedPreferencesManagerV2.init(splashScreenActivity, allCavesLightMapV2);
+            DependencyManager.registerSingleton(ICavesStorageManagerV2.class, CavesSharedPreferencesManagerV2.Instance);
 
-        MigrationManager.finalizeMigration(splashScreenActivity);
+            remainingTime = Math.max(0, SplashScreenActivity.minTimeForEachStepMilliseconds - (System.currentTimeMillis() - startTime));
+            Thread.sleep(remainingTime);
+            publishProgress(++step);
+            startTime = System.currentTimeMillis();
 
-        BottleManager.recomputeNumberPlaced(splashScreenActivity);
+            // Cave
+            Map<Integer, CaveModelV2> allCavesMapV2 = MigrationManager.migrateCave(splashScreenActivity, allCavesLightMapV2.keySet());
+
+            CaveSharedPreferencesManagerV2.init(splashScreenActivity, allCavesMapV2);
+            DependencyManager.registerSingleton(ICaveStorageManagerV2.class, CaveSharedPreferencesManagerV2.Instance);
+
+            remainingTime = Math.max(0, SplashScreenActivity.minTimeForEachStepMilliseconds - (System.currentTimeMillis() - startTime));
+            Thread.sleep(remainingTime);
+            publishProgress(++step);
+
+            BottleManager.recomputeNumberPlaced(splashScreenActivity);
+            MigrationManager.finalizeMigration(splashScreenActivity);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

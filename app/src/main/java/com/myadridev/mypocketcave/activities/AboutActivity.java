@@ -83,8 +83,8 @@ public class AboutActivity extends AppCompatActivity {
     protected void onResume() {
         if (NavigationManager.restartIfNeeded(this)) {
             finish();
-        } else {
-            super.onResume();
+            return;
         }
+        super.onResume();
     }
 }

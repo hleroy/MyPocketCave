@@ -39,10 +39,10 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final int nbRows;
     private final int nbCols;
     private final int totalWidth;
+    public int BottleIdInHighlight;
     private OnValueChangedListener onValueChangedListener;
     private int itemWidth;
-
-    public int BottleIdInHighlight;
+    private int nbPatternsLeftToLoad;
 
     public CaveArrangementAdapter(AbstractCaveEditActivity activity, CaveArrangementModelV2 caveArrangement, int nbRows, int nbCols, int totalWidth) {
         editActivity = activity;
@@ -187,8 +187,6 @@ public class CaveArrangementAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             onPatternLoaded();
         }
     }
-
-    private int nbPatternsLeftToLoad;
 
     public void onPatternLoaded() {
         nbPatternsLeftToLoad--;

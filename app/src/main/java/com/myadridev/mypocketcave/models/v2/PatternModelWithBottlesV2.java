@@ -44,10 +44,9 @@ public class PatternModelWithBottlesV2 extends PatternModelV2 implements IPatter
             return;
 
         for (Map.Entry<CoordinatesModelV2, CavePlaceModelV2> placeModelEntry : oldPattern.PlaceMapWithBottles.entrySet()) {
-            CavePlaceModelV2 cavePlace = placeModelEntry.getValue();
-            if (cavePlace.BottleId == -1) continue;
             CoordinatesModelV2 coordinates = placeModelEntry.getKey();
-            if (!PlaceMapWithBottles.containsKey(coordinates)) continue;
+            CavePlaceModelV2 cavePlace = placeModelEntry.getValue();
+            if (cavePlace.BottleId == -1 || !PlaceMapWithBottles.containsKey(coordinates)) continue;
             PlaceMapWithBottles.put(coordinates, cavePlace);
             FloatNumberPlacedBottlesByIdMap.put(cavePlace.BottleId, CollectionsHelper.getValueOrDefault(FloatNumberPlacedBottlesByIdMap, cavePlace.BottleId, 0f) + 0.25f);
         }
