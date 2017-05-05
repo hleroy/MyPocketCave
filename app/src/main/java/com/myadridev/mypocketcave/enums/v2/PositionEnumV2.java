@@ -1,6 +1,5 @@
 package com.myadridev.mypocketcave.enums.v2;
 
-
 public enum PositionEnumV2 {
     n(0),
     bl(1),

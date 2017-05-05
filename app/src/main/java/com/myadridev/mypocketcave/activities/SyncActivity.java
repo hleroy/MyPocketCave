@@ -31,10 +31,9 @@ import java.util.List;
 
 public class SyncActivity extends AppCompatActivity {
 
+    private final static String extension = "mpc";
     public boolean IsExportOngoing = false;
     public boolean IsImportOngoing = false;
-
-    private final static String extension = "mpc";
     private List<String> allowedFileExtensions;
 
     private ImageButton exportButton;
@@ -228,8 +227,8 @@ public class SyncActivity extends AppCompatActivity {
     protected void onResume() {
         if (NavigationManager.restartIfNeeded(this)) {
             finish();
-        } else {
-            super.onResume();
+            return;
         }
+        super.onResume();
     }
 }

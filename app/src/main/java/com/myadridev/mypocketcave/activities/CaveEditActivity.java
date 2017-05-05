@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.myadridev.mypocketcave.R;
+import com.myadridev.mypocketcave.managers.CaveArrangementModelManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.tasks.caves.RefreshCaveEditTask;
 import com.myadridev.mypocketcave.tasks.caves.SaveCaveTask;
@@ -68,7 +69,7 @@ public class CaveEditActivity extends AbstractCaveEditActivity {
                 break;
             case f:
             case r:
-                if (oldCave.CaveArrangement.hasDifferentPattern(cave.CaveArrangement)) {
+                if (CaveArrangementModelManager.hasDifferentPattern(oldCave.CaveArrangement, cave.CaveArrangement)) {
                     return true;
                 }
                 break;

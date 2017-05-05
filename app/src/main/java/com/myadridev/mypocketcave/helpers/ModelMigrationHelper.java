@@ -52,10 +52,15 @@ public class ModelMigrationHelper {
             newBottle.Millesime = bottle.Millesime;
             newBottle.Comments = bottle.Comments;
             newBottle.PersonToShareWith = bottle.PersonToShareWith;
-            newBottle.WineColor = WineColorEnumV2.getById(bottle.WineColor.Id);
+            if (bottle.WineColor != null) {
+                newBottle.WineColor = WineColorEnumV2.getById(bottle.WineColor.Id);
+            }
             newBottle.FoodToEatWithList.clear();
             for (FoodToEatWithEnumV1 food : bottle.FoodToEatWithList) {
-                newBottle.FoodToEatWithList.add(FoodToEatWithEnumV2.getById(food.Id));
+                if (food == null) continue;
+                FoodToEatWithEnumV2 newFood = FoodToEatWithEnumV2.getById(food.Id);
+                if (newFood == null) continue;
+                newBottle.FoodToEatWithList.add(newFood);
             }
             newBottle.Stock = bottle.Stock;
             newBottle.NumberPlaced = bottle.NumberPlaced;
@@ -74,7 +79,9 @@ public class ModelMigrationHelper {
             CaveLightModelV2 newCave = new CaveLightModelV2();
             newCave.Id = cave.Id;
             newCave.Name = cave.Name;
-            newCave.CaveType = CaveTypeEnumV2.getById(cave.CaveType.Id);
+            if (cave.CaveType != null) {
+                newCave.CaveType = CaveTypeEnumV2.getById(cave.CaveType.Id);
+            }
             newCave.TotalCapacity = cave.TotalCapacity;
             newCave.TotalUsed = cave.TotalUsed;
             return newCave;
@@ -89,7 +96,9 @@ public class ModelMigrationHelper {
             PatternModelV1 pattern = (PatternModelV1) iPattern;
             PatternModelV2 newPattern = new PatternModelV2();
             newPattern.Id = pattern.Id;
-            newPattern.Type = PatternTypeEnumV2.getById(pattern.Type.Id);
+            if (pattern.Type != null) {
+                newPattern.Type = PatternTypeEnumV2.getById(pattern.Type.Id);
+            }
             newPattern.NumberBottlesByColumn = pattern.NumberBottlesByColumn;
             newPattern.NumberBottlesByRow = pattern.NumberBottlesByRow;
             newPattern.IsHorizontallyExpendable = pattern.IsHorizontallyExpendable;
@@ -98,8 +107,11 @@ public class ModelMigrationHelper {
             newPattern.PlaceMap.clear();
             for (Map.Entry<CoordinatesModelV1, CavePlaceTypeEnumV1> placeMapEntry : pattern.PlaceMap.entrySet()) {
                 CoordinatesModelV2 coordinates = getCoordinatesModel(placeMapEntry.getKey());
-                if (coordinates == null) continue;
-                newPattern.PlaceMap.put(coordinates, CavePlaceTypeEnumV2.getById(placeMapEntry.getValue().Id));
+                CavePlaceTypeEnumV1 placeType = placeMapEntry.getValue();
+                if (placeType == null) continue;
+                CavePlaceTypeEnumV2 cavePlaceType = CavePlaceTypeEnumV2.getById(placeType.Id);
+                if (coordinates == null || cavePlaceType == null) continue;
+                newPattern.PlaceMap.put(coordinates, cavePlaceType);
             }
             newPattern.Order = pattern.Order;
             return newPattern;
@@ -128,10 +140,13 @@ public class ModelMigrationHelper {
             CaveModelV2 newCave = new CaveModelV2();
             newCave.Id = cave.Id;
             newCave.Name = cave.Name;
-            newCave.CaveType = CaveTypeEnumV2.getById(cave.CaveType.Id);
+            if (cave.CaveType != null) {
+                newCave.CaveType = CaveTypeEnumV2.getById(cave.CaveType.Id);
+            }
             CaveArrangementModelV2 caveArrangement = getCaveArrangement(cave.CaveArrangement);
-            if (caveArrangement == null) return null;
-            newCave.CaveArrangement = new CaveArrangementModelV2(caveArrangement);
+            if (caveArrangement != null) {
+                newCave.CaveArrangement = new CaveArrangementModelV2(caveArrangement);
+            }
             return newCave;
         }
         return null;
@@ -158,9 +173,9 @@ public class ModelMigrationHelper {
             newCaveArrangement.NumberBoxes = caveArrangement.NumberBoxes;
             newCaveArrangement.BoxesNumberBottlesByColumn = caveArrangement.BoxesNumberBottlesByColumn;
             newCaveArrangement.BoxesNumberBottlesByRow = caveArrangement.BoxesNumberBottlesByRow;
-            newCaveArrangement.floatNumberPlacedBottlesByIdMap.clear();
+            newCaveArrangement.FloatNumberPlacedBottlesByIdMap.clear();
             for (Map.Entry<Integer, Float> entry : caveArrangement.floatNumberPlacedBottlesByIdMap.entrySet()) {
-                newCaveArrangement.floatNumberPlacedBottlesByIdMap.put(entry.getKey(), entry.getValue());
+                newCaveArrangement.FloatNumberPlacedBottlesByIdMap.put(entry.getKey(), entry.getValue());
             }
             newCaveArrangement.IntNumberPlacedBottlesByIdMap.clear();
             for (Map.Entry<Integer, Integer> entry : caveArrangement.IntNumberPlacedBottlesByIdMap.entrySet()) {
@@ -179,7 +194,9 @@ public class ModelMigrationHelper {
             PatternModelWithBottlesV1 pattern = (PatternModelWithBottlesV1) iPattern;
             PatternModelWithBottlesV2 newPattern = new PatternModelWithBottlesV2();
             newPattern.Id = pattern.Id;
-            newPattern.Type = PatternTypeEnumV2.getById(pattern.Type.Id);
+            if (pattern.Type != null) {
+                newPattern.Type = PatternTypeEnumV2.getById(pattern.Type.Id);
+            }
             newPattern.NumberBottlesByColumn = pattern.NumberBottlesByColumn;
             newPattern.NumberBottlesByRow = pattern.NumberBottlesByRow;
             newPattern.IsHorizontallyExpendable = pattern.IsHorizontallyExpendable;
@@ -188,8 +205,11 @@ public class ModelMigrationHelper {
             newPattern.PlaceMap.clear();
             for (Map.Entry<CoordinatesModelV1, CavePlaceTypeEnumV1> placeMapEntry : pattern.PlaceMap.entrySet()) {
                 CoordinatesModelV2 coordinates = getCoordinatesModel(placeMapEntry.getKey());
-                if (coordinates == null) continue;
-                newPattern.PlaceMap.put(coordinates, CavePlaceTypeEnumV2.getById(placeMapEntry.getValue().Id));
+                CavePlaceTypeEnumV1 placeType = placeMapEntry.getValue();
+                if (placeType == null) continue;
+                CavePlaceTypeEnumV2 cavePlaceType = CavePlaceTypeEnumV2.getById(placeType.Id);
+                if (coordinates == null || cavePlaceType == null) continue;
+                newPattern.PlaceMap.put(coordinates, cavePlaceType);
             }
             newPattern.Order = pattern.Order;
             newPattern.PlaceMapWithBottles.clear();
@@ -216,7 +236,9 @@ public class ModelMigrationHelper {
             CavePlaceModelV2 newCavePlace = new CavePlaceModelV2();
             newCavePlace.BottleId = cavePlace.BottleId;
             newCavePlace.IsClickable = cavePlace.IsClickable;
-            newCavePlace.PlaceType = CavePlaceTypeEnumV2.getById(cavePlace.PlaceType.Id);
+            if (cavePlace.PlaceType != null) {
+                newCavePlace.PlaceType = CavePlaceTypeEnumV2.getById(cavePlace.PlaceType.Id);
+            }
             return newCavePlace;
         }
         return null;

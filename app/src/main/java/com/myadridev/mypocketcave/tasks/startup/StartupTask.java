@@ -33,34 +33,50 @@ public class StartupTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        int step = 0;
-        publishProgress(step);
+        try {
+            int step = 0;
+            publishProgress(step);
+            long startTime = System.currentTimeMillis();
 
-        // Bottles
-        BottlesSharedPreferencesManagerV2.init(splashScreenActivity);
-        DependencyManager.registerSingleton(IBottleStorageManagerV2.class, BottlesSharedPreferencesManagerV2.Instance);
+            // Bottles
+            BottlesSharedPreferencesManagerV2.init(splashScreenActivity);
+            DependencyManager.registerSingleton(IBottleStorageManagerV2.class, BottlesSharedPreferencesManagerV2.Instance);
 
-        publishProgress(++step);
+            long remainingTime = Math.max(0, SplashScreenActivity.minTimeForEachStepMilliseconds - (System.currentTimeMillis() - startTime));
+            Thread.sleep(remainingTime);
+            publishProgress(++step);
+            startTime = System.currentTimeMillis();
 
-        // Patterns
-        PatternsSharedPreferencesManagerV2.init(splashScreenActivity);
-        DependencyManager.registerSingleton(IPatternsStorageManagerV2.class, PatternsSharedPreferencesManagerV2.Instance);
+            // Patterns
+            PatternsSharedPreferencesManagerV2.init(splashScreenActivity);
+            DependencyManager.registerSingleton(IPatternsStorageManagerV2.class, PatternsSharedPreferencesManagerV2.Instance);
 
-        publishProgress(++step);
+            remainingTime = Math.max(0, SplashScreenActivity.minTimeForEachStepMilliseconds - (System.currentTimeMillis() - startTime));
+            Thread.sleep(remainingTime);
+            publishProgress(++step);
+            startTime = System.currentTimeMillis();
 
-        // Caves
-        CavesSharedPreferencesManagerV2.init(splashScreenActivity);
-        DependencyManager.registerSingleton(ICavesStorageManagerV2.class, CavesSharedPreferencesManagerV2.Instance);
+            // Caves
+            CavesSharedPreferencesManagerV2.init(splashScreenActivity);
+            DependencyManager.registerSingleton(ICavesStorageManagerV2.class, CavesSharedPreferencesManagerV2.Instance);
 
-        publishProgress(++step);
+            remainingTime = Math.max(0, SplashScreenActivity.minTimeForEachStepMilliseconds - (System.currentTimeMillis() - startTime));
+            Thread.sleep(remainingTime);
+            publishProgress(++step);
+            startTime = System.currentTimeMillis();
 
-        // Cave
-        CaveSharedPreferencesManagerV2.init(splashScreenActivity);
-        DependencyManager.registerSingleton(ICaveStorageManagerV2.class, CaveSharedPreferencesManagerV2.Instance);
+            // Cave
+            CaveSharedPreferencesManagerV2.init(splashScreenActivity);
+            DependencyManager.registerSingleton(ICaveStorageManagerV2.class, CaveSharedPreferencesManagerV2.Instance);
 
-        publishProgress(++step);
+            remainingTime = Math.max(0, SplashScreenActivity.minTimeForEachStepMilliseconds - (System.currentTimeMillis() - startTime));
+            Thread.sleep(remainingTime);
+            publishProgress(++step);
 
-        BottleManager.recomputeNumberPlaced(splashScreenActivity);
+            BottleManager.recomputeNumberPlaced(splashScreenActivity);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

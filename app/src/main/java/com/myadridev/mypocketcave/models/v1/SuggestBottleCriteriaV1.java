@@ -15,7 +15,7 @@ public class SuggestBottleCriteriaV1 {
 
     @JsonIgnore
     public static int NumberOfCriteria = 8;
-
+    public final List<FoodToEatWithEnumV1> FoodToEatWithList;
     public WineColorEnumV1 WineColor;
     public boolean IsWineColorRequired;
     public String Domain;
@@ -28,7 +28,6 @@ public class SuggestBottleCriteriaV1 {
     public int PriceRatingMinValue;
     public int PriceRatingMaxValue;
     public boolean IsPriceRatingRequired;
-    public final List<FoodToEatWithEnumV1> FoodToEatWithList;
     public boolean IsFoodRequired;
     public String PersonToShareWith;
     public boolean IsPersonRequired;

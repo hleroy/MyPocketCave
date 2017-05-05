@@ -8,14 +8,14 @@ import java.util.List;
 
 public class SyncModelV2 implements ISyncModel {
 
-    @SerializedName("v")
-    public String Version = "";
     @SerializedName("c")
     public final List<CaveModelV2> Caves;
     @SerializedName("b")
     public final List<BottleModelV2> Bottles;
     @SerializedName("p")
     public final List<PatternModelV2> Patterns;
+    @SerializedName("v")
+    public String Version = "";
 
     public SyncModelV2() {
         Caves = new ArrayList<>();

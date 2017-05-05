@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.reflect.TypeToken;
-import com.myadridev.mypocketcave.managers.v2.JsonManagerV2;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.ISharedPreferencesManagerV2;
+import com.myadridev.mypocketcave.managers.v2.JsonManagerV2;
 import com.myadridev.mypocketcave.models.inferfaces.IStorableModel;
 
 import java.io.File;

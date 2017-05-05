@@ -38,15 +38,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_suggest_bottle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/magic_button"
-        android:visibility="gone" />
-
-    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_bottle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

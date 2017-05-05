@@ -100,7 +100,7 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     }
 
     private void setVisibility(SuggestBottlesResultAdapter bottlesResultAdapter) {
-        if (bottlesResultAdapter.isRecyclerViewDisplayed()) {
+        if (bottlesResultAdapter.isRecyclerViewDisplayed() || bottlesResultAdapter.getNumberDisplayedBottles() == 0) {
             bottlesRecyclerView.setVisibility(View.VISIBLE);
             if (bottlesResultAdapter.getNumberDisplayedBottles() == 0) {
                 noBottlesLabelView.setVisibility(View.VISIBLE);
@@ -165,8 +165,8 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     protected void onResume() {
         if (NavigationManager.restartIfNeeded(this)) {
             finish();
-        } else {
-            super.onResume();
+            return;
         }
+        super.onResume();
     }
 }

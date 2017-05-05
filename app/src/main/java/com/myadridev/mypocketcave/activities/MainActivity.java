@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
-    private FloatingActionButton fabSuggestBottle;
     private FloatingActionButton fabAddBottle;
     private FloatingActionButton fabAddCave;
 
@@ -88,9 +87,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fabSuggestBottle = (FloatingActionButton) findViewById(R.id.fab_suggest_bottle);
-        fabSuggestBottle.setOnClickListener((View view) -> NavigationManager.navigateToSuggestBottleSearch(MainActivity.this));
-
         fabAddBottle = (FloatingActionButton) findViewById(R.id.fab_add_bottle);
         fabAddBottle.setOnClickListener((View view) -> {
             // create new bottle
@@ -105,9 +101,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void closeFloatingActionButtonsMenu() {
-        FloatingActionButtonHelper.hideFloatingActionButton(this, fabSuggestBottle, 1);
-        FloatingActionButtonHelper.hideFloatingActionButton(this, fabAddCave, 2);
-        FloatingActionButtonHelper.hideFloatingActionButton(this, fabAddBottle, 3);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabAddCave, 1);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabAddBottle, 2);
 
         FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabMenu, 0);
         fabMenu.setSize(FloatingActionButton.SIZE_NORMAL);
@@ -116,9 +111,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openFloatingActionButtonsMenu() {
-        FloatingActionButtonHelper.showFloatingActionButton(this, fabSuggestBottle, 1);
-        FloatingActionButtonHelper.showFloatingActionButton(this, fabAddCave, 2);
-        FloatingActionButtonHelper.showFloatingActionButton(this, fabAddBottle, 3);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabAddCave, 1);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabAddBottle, 2);
 
         FloatingActionButtonHelper.hideFloatingActionButton(this, fabMenu, 0);
         fabMenu.setSize(FloatingActionButton.SIZE_MINI);
@@ -130,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
     private void setupFloatingActionButtonsVisibility() {
         fabMenu.setVisibility(View.VISIBLE);
         fabMenu.setClickable(true);
-        fabSuggestBottle.setVisibility(View.INVISIBLE);
-        fabSuggestBottle.setClickable(false);
         fabAddBottle.setVisibility(View.INVISIBLE);
         fabAddBottle.setClickable(false);
         fabAddCave.setVisibility(View.INVISIBLE);
@@ -163,13 +155,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         if (NavigationManager.restartIfNeeded(this)) {
             finish();
-        } else {
-            super.onResume();
-            setupFloatingActionButtonsVisibility();
-            if (isPaused) {
-                viewPagerAdapter.allFragments.get(currentVisibleFragment).setIsVisible(true);
-                isPaused = false;
-            }
+            return;
+        }
+        super.onResume();
+        setupFloatingActionButtonsVisibility();
+        if (isPaused) {
+            viewPagerAdapter.allFragments.get(currentVisibleFragment).setIsVisible(true);
+            isPaused = false;
         }
     }
 
@@ -188,6 +180,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.sync:
                 NavigationManager.navigateToSync(this);
+                return true;
+            case R.id.suggest:
+                NavigationManager.navigateToSuggestBottleSearch(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
