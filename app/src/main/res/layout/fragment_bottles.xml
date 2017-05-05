@@ -29,19 +29,6 @@
         android:textStyle="bold"
         app:layout_widthPercent="66%" />
 
-    <TextView
-        android:id="@+id/bottles_count_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerVertical="true"
-        android:gravity="center_vertical"
-        android:padding="10dp"
-        android:text="@string/bottles_count_detail"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_widthPercent="66%" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bottles_recyclerview"
         android:layout_width="match_parent"

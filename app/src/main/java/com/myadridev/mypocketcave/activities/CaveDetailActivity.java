@@ -323,12 +323,16 @@ public class CaveDetailActivity extends AppCompatActivity {
             return;
         }
         super.onResume();
+
         cave = CaveManager.getCave(cave == null ? caveId : cave.Id);
         if (cave == null) {
             AlertDialog.Builder deleteCaveDialogBuilder = new AlertDialog.Builder(this);
             deleteCaveDialogBuilder.setCancelable(true);
             deleteCaveDialogBuilder.setMessage(R.string.cave_not_found_delete_confirmation);
-            deleteCaveDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
+            deleteCaveDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> {
+                dialog.dismiss();
+                finish();
+            });
             deleteCaveDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
                 RemoveNotFoundCaveTask removeNotFoundCaveTask = new RemoveNotFoundCaveTask(this, dialog);
                 removeNotFoundCaveTask.execute(caveId);

@@ -196,7 +196,10 @@ public class BottleDetailActivity extends AppCompatActivity {
             AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(this);
             deleteBottleDialogBuilder.setCancelable(true);
             deleteBottleDialogBuilder.setMessage(R.string.bottle_not_found_delete_confirmation);
-            deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
+            deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> {
+                dialog.dismiss();
+                finish();
+            });
             deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
                 RemoveNotFoundBottleTask removeNotFoundCaveTask = new RemoveNotFoundBottleTask(this, dialog);
                 removeNotFoundCaveTask.execute(bottleId);
