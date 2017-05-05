@@ -78,7 +78,13 @@ public class CaveManager {
     public static void removeCave(Context context, CaveModelV2 cave) {
         getCavesStorageManager().deleteCave(context, cave.Id);
         unplaceBottles(context, cave);
-        getCaveStorageManager().deleteCave(context, cave);
+        getCaveStorageManager().deleteCave(context, cave.Id);
+    }
+
+    public static void removeNotFoundCave(Context context, int caveId) {
+        getCavesStorageManager().deleteCave(context, caveId);
+        getCaveStorageManager().deleteCave(context, caveId);
+        BottleManager.recomputeNumberPlaced(context);
     }
 
     public static void removeAllCaves(Context context) {
@@ -109,12 +115,16 @@ public class CaveManager {
         return getCaveStorageManager().getLightCavesWithBottle(bottleId);
     }
 
+    public static List<CaveModelV2> getCavesWithBottle(int bottleId) {
+        return getCaveStorageManager().getCavesWithBottle(bottleId);
+    }
+
     public static boolean isBottleInTheCave(int bottleId, int caveId) {
         return getCaveStorageManager().isBottleInTheCave(bottleId, caveId);
     }
 
     public static int getNumberBottles(CaveModelV2 cave, int bottleId) {
-        return cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottleId)
+        return cave != null && cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.containsKey(bottleId)
                 ? cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.get(bottleId)
                 : 0;
     }

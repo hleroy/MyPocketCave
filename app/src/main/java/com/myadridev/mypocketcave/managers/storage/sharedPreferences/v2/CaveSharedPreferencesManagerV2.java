@@ -108,8 +108,8 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
         getSharedPreferencesManager().storeStringData(context, context.getString(filenameResourceId, cave.Id), context.getString(keyCaveResourceId), cave);
     }
 
-    public void deleteCave(Context context, CaveModelV2 cave) {
-        getSharedPreferencesManager().delete(context, context.getString(filenameResourceId, cave.Id));
+    public void deleteCave(Context context, int caveId) {
+        getSharedPreferencesManager().delete(context, context.getString(filenameResourceId, caveId));
     }
 
     public List<CaveLightModelV2> getLightCavesWithBottle(int bottleId) {
@@ -124,6 +124,20 @@ public class CaveSharedPreferencesManagerV2 implements ICaveStorageManagerV2 {
                 caveLight.CaveType = cave.CaveType;
                 caveLight.TotalUsed = numberBottlesInTheCave;
                 cavesWithBottle.add(caveLight);
+            }
+        }
+
+        Collections.sort(cavesWithBottle);
+        return cavesWithBottle;
+    }
+
+    public List<CaveModelV2> getCavesWithBottle(int bottleId) {
+        List<CaveModelV2> cavesWithBottle = new ArrayList<>(allCavesMap.size());
+
+        for (CaveModelV2 cave : allCavesMap.values()) {
+            int numberBottlesInTheCave = CaveManager.getNumberBottles(cave, bottleId);
+            if (numberBottlesInTheCave > 0) {
+                cavesWithBottle.add(cave);
             }
         }
 

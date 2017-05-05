@@ -21,6 +21,7 @@ import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.tasks.bottles.RemoveNotFoundBottleTask;
 
 public class BottleDetailActivity extends AppCompatActivity {
 
@@ -191,9 +192,26 @@ public class BottleDetailActivity extends AppCompatActivity {
         super.onResume();
 
         bottle = BottleManager.getBottle(bottle == null ? bottleId : bottle.Id);
+        if (bottle == null) {
+            AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(this);
+            deleteBottleDialogBuilder.setCancelable(true);
+            deleteBottleDialogBuilder.setMessage(R.string.bottle_not_found_delete_confirmation);
+            deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
+            deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
+                RemoveNotFoundBottleTask removeNotFoundCaveTask = new RemoveNotFoundBottleTask(this, dialog);
+                removeNotFoundCaveTask.execute(bottleId);
+            });
+            deleteBottleDialogBuilder.setOnDismissListener((DialogInterface dialog) -> closeFloatingActionButtonsMenu());
+            deleteBottleDialogBuilder.show();
+            return;
+        }
         refreshActionBar();
         setLayoutValues();
         setupFloatingActionButtonsVisibility();
+    }
+
+    public void onRemovePostExecute() {
+        finish();
     }
 
     @Override

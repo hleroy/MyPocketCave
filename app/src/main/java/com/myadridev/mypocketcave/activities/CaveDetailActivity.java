@@ -44,6 +44,7 @@ import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 import com.myadridev.mypocketcave.models.v2.CaveModelV2;
 import com.myadridev.mypocketcave.models.v2.CoordinatesModelV2;
 import com.myadridev.mypocketcave.tasks.caves.EditCaveTask;
+import com.myadridev.mypocketcave.tasks.caves.RemoveNotFoundCaveTask;
 
 import java.util.List;
 import java.util.Map;
@@ -323,9 +324,26 @@ public class CaveDetailActivity extends AppCompatActivity {
         }
         super.onResume();
         cave = CaveManager.getCave(cave == null ? caveId : cave.Id);
+        if (cave == null) {
+            AlertDialog.Builder deleteCaveDialogBuilder = new AlertDialog.Builder(this);
+            deleteCaveDialogBuilder.setCancelable(true);
+            deleteCaveDialogBuilder.setMessage(R.string.cave_not_found_delete_confirmation);
+            deleteCaveDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> dialog.dismiss());
+            deleteCaveDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
+                RemoveNotFoundCaveTask removeNotFoundCaveTask = new RemoveNotFoundCaveTask(this, dialog);
+                removeNotFoundCaveTask.execute(caveId);
+            });
+            deleteCaveDialogBuilder.setOnDismissListener((DialogInterface dialog) -> closeFloatingActionButtonsMenu());
+            deleteCaveDialogBuilder.show();
+            return;
+        }
         refreshActionBar();
         setLayoutValues();
         setupFloatingActionButtonsVisibility();
+    }
+
+    public void onRemovePostExecute() {
+        finish();
     }
 
     @Override

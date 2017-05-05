@@ -124,7 +124,9 @@
     <string name="error_cave_go">C\'est parti\u00A0!</string>
     <string name="cave_name">Nom de la cave</string>
     <string name="error_cave_no_name">Un nom de cave est nécessaire</string>
-    <string name="cave_delete_confirmation">On la supprime\u00A0? Les bouteilles placées dedans ne seront plus placées</string>
+    <string name="cave_delete_confirmation">On la supprime\u00A0? Les bouteilles placées dedans ne le seront plus</string>
+    <string name="cave_not_found_delete_confirmation">Cave non trouvée, elle sera supprimée. Les bouteilles placées dedans ne le seront plus</string>
+    <string name="bottle_not_found_delete_confirmation">Bouteille non trouvée, elle sera supprimée</string>
     <string name="title_create_cave">Ajouter une cave</string>
     <string name="title_edit_cave">Modifier la cave</string>
     <string name="global_cancel">Annuler</string>

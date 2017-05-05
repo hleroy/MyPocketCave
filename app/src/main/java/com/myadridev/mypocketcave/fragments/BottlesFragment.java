@@ -94,7 +94,6 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
 
     private void refreshBottles() {
         allBottles = BottleManager.getBottles();
-        Collections.sort(allBottles);
         if (allBottles.isEmpty()) {
             noBottlesLabelView.setVisibility(View.VISIBLE);
             bottlesRecyclerView.setVisibility(View.GONE);
