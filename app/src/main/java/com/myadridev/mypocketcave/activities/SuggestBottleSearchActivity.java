@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
@@ -19,9 +20,11 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.CaveSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.DomainSpinnerAdapter;
+import com.myadridev.mypocketcave.adapters.FarmingTypeSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.MillesimeSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.PersonSpinnerAdapter;
 import com.myadridev.mypocketcave.adapters.WineColorSpinnerAdapter;
+import com.myadridev.mypocketcave.enums.v2.FarmingTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.enums.v2.MillesimeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
@@ -51,6 +54,8 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
     private CheckBox personCheckBox;
     private Spinner caveSpinner;
     private CheckBox caveCheckBox;
+    private Spinner farmingTypeSpinner;
+    private CheckBox farmingTypeCheckBox;
     private Button searchButton;
     private CoordinatorLayout coordinatorLayout;
 
@@ -106,6 +111,9 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
         caveSpinner = (Spinner) findViewById(R.id.suggest_bottle_search_cave);
         caveCheckBox = (CheckBox) findViewById(R.id.suggest_bottle_search_cave_must_have);
 
+        farmingTypeSpinner = (Spinner) findViewById(R.id.suggest_bottle_search_farming_type);
+        farmingTypeCheckBox = (CheckBox) findViewById(R.id.suggest_bottle_search_farming_type_must_have);
+
         searchButton = (Button) findViewById(R.id.suggest_bottle_search_button);
         searchButton.setOnClickListener(onSearchButtonClick());
     }
@@ -160,6 +168,8 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
             searchCriteria.IsPersonRequired = personCheckBox.isChecked();
             searchCriteria.Cave = (CaveLightModelV2) caveSpinner.getSelectedItem();
             searchCriteria.IsCaveRequired = caveCheckBox.isChecked();
+            searchCriteria.FarmingType = (FarmingTypeEnumV2) farmingTypeSpinner.getSelectedItem();
+            searchCriteria.IsFarmingTypeRequired = farmingTypeCheckBox.isChecked();
 
             if (checkCriteria(searchCriteria)) {
                 if (!NavigationManager.navigateToSuggestBottleResult(SuggestBottleSearchActivity.this, searchCriteria)) {
@@ -208,6 +218,10 @@ public class SuggestBottleSearchActivity extends AppCompatActivity {
 
         CaveSpinnerAdapter caveSpinnerAdapter = new CaveSpinnerAdapter(this);
         caveSpinner.setAdapter(caveSpinnerAdapter);
+
+        FarmingTypeSpinnerAdapter farmingTypeSpinnerAdapter = new FarmingTypeSpinnerAdapter(this);
+        farmingTypeSpinner.setAdapter(farmingTypeSpinnerAdapter);
+
     }
 
     @Override

@@ -171,6 +171,14 @@
             android:hint="@string/bottle_detail_comments"
             android:textSize="@dimen/text_size" />
 
+        <ImageView
+            android:id="@+id/bottle_detail_organic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/bottle_detail_stock"
+            android:layout_alignTop="@+id/bottle_detail_wine_color"
+            app:srcCompat="@drawable/organic_farming" />
+
     </android.support.percent.PercentRelativeLayout>
 
 
