@@ -98,6 +98,18 @@
             android:text="bottles placed"
             android:textSize="@dimen/text_size" />
 
+        <ImageView
+            android:id="@+id/see_in_caves_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/bottle_detail_placed"
+            android:layout_alignTop="@id/bottle_detail_placed"
+            android:layout_marginBottom="@dimen/vertical_margin_for_icons"
+            android:layout_marginTop="@dimen/vertical_margin_for_icons"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/bottle_detail_placed"
+            android:src="@drawable/eye" />
+
         <RatingBar
             android:id="@+id/bottle_detail_rating"
             android:layout_width="wrap_content"
