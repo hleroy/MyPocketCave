@@ -53,15 +53,6 @@
         android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_see_in_caves"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/eye"
-        android:visibility="gone" />
-
-    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_menu_bottle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.managers;
 
 import android.content.Context;
 
+import com.myadridev.mypocketcave.enums.v2.CavePlaceTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.FarmingTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
@@ -9,6 +10,9 @@ import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
 import com.myadridev.mypocketcave.managers.storage.interfaces.v2.IBottleStorageManagerV2;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 import com.myadridev.mypocketcave.models.v2.CaveLightModelV2;
+import com.myadridev.mypocketcave.models.v2.CaveModelV2;
+import com.myadridev.mypocketcave.models.v2.CavePlaceModelV2;
+import com.myadridev.mypocketcave.models.v2.PatternModelWithBottlesV2;
 import com.myadridev.mypocketcave.models.v2.SuggestBottleCriteriaV2;
 import com.myadridev.mypocketcave.models.v2.SuggestBottleResultModelV2;
 
@@ -74,6 +78,11 @@ public class BottleManager {
 
     public static void removeBottle(Context context, int bottleId) {
         getBottleStorageManager().deleteBottle(context, bottleId);
+    }
+
+    public static void removeNotFoundBottle(Context context, int bottleId) {
+        getBottleStorageManager().deleteBottle(context, bottleId);
+        cleanFromCaves(context, bottleId);
     }
 
     public static void removeAllBottles(Context context) {
@@ -288,6 +297,27 @@ public class BottleManager {
                 bottle.NumberPlaced = totalPlaced;
                 editBottle(context, bottle);
             }
+        }
+    }
+
+    private static void cleanFromCaves(Context context, int bottleId) {
+        List<CaveModelV2> caves = CaveManager.getCavesWithBottle(bottleId);
+        for (CaveModelV2 cave : caves) {
+            cave.CaveArrangement.FloatNumberPlacedBottlesByIdMap.remove(bottleId);
+
+            cave.CaveArrangement.TotalUsed -= cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.getOrDefault(bottleId, 0);
+            cave.CaveArrangement.IntNumberPlacedBottlesByIdMap.remove(bottleId);
+
+            for (PatternModelWithBottlesV2 pattern : cave.CaveArrangement.PatternMap.values()) {
+                pattern.FloatNumberPlacedBottlesByIdMap.remove(bottleId);
+                for (CavePlaceModelV2 place : pattern.PlaceMapWithBottles.values()) {
+                    if (place.BottleId == bottleId) {
+                        place.BottleId = -1;
+                        place.PlaceType = CavePlaceTypeEnumV2.getEmptyByPosition(place.PlaceType.Position);
+                    }
+                }
+            }
+            CaveManager.editCave(context, cave);
         }
     }
 }

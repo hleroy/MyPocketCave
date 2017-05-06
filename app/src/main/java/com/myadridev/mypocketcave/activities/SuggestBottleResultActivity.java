@@ -37,7 +37,6 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private SuggestBottlesResultAdapter bottlesResultAdapter;
     private TextView bottlesCountLabelView;
-    private TextView bottlesCountDetailLabelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +65,6 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
 //
 //            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
 //            params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count_detail);
-//        });
-
-        bottlesCountDetailLabelView = (TextView) findViewById(R.id.suggest_bottle_result_bottles_count_detail);
-//        bottlesCountDetailLabelView.setOnClickListener((View v) -> {
-//            bottlesCountDetailLabelView.setVisibility(View.GONE);
-//            bottlesCountLabelView.setVisibility(View.VISIBLE);
-//
-//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-//            params.addRule(RelativeLayout.ABOVE, R.id.suggest_bottle_result_bottles_count);
 //        });
 
         Bundle bundle = getIntent().getExtras();
@@ -114,18 +104,10 @@ public class SuggestBottleResultActivity extends AppCompatActivity {
             bottlesCountLabelView.setVisibility(View.VISIBLE);
             int bottlesCount = getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible());
             bottlesCountLabelView.setText(getResources().getQuantityString(R.plurals.bottles_count, bottlesCount, bottlesCount));
-
-            bottlesCountDetailLabelView.setVisibility(View.GONE);
-            bottlesCountDetailLabelView.setText(getString(R.string.bottles_count_detail,
-                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnumV2.r),
-                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnumV2.w),
-                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnumV2.ro),
-                    getBottlesCount(allBottles, bottlesResultAdapter.getIsAllBottlesVisible(), WineColorEnumV2.c)));
         } else {
             bottlesRecyclerView.setVisibility(View.GONE);
             noBottlesLabelView.setVisibility(View.VISIBLE);
             bottlesCountLabelView.setVisibility(View.GONE);
-            bottlesCountDetailLabelView.setVisibility(View.GONE);
         }
     }
 

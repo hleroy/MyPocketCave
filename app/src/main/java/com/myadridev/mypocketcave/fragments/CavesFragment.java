@@ -62,7 +62,6 @@ public class CavesFragment extends Fragment implements IVisibleFragment {
 
     private void refreshCaves() {
         allCaves = CaveManager.getLightCaves();
-        Collections.sort(allCaves);
         if (allCaves.isEmpty()) {
             noCavesLabelView.setVisibility(View.VISIBLE);
             cavesRecyclerView.setVisibility(View.GONE);

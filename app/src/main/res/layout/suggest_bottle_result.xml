@@ -48,18 +48,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/suggest_bottle_result_bottles_count_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:text="@string/bottles_count_detail"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/suggest_bottle_result_bottles_recyclerview"
             android:layout_width="match_parent"

@@ -15,13 +15,11 @@ import android.widget.TextView;
 import com.myadridev.mypocketcave.R;
 import com.myadridev.mypocketcave.adapters.BottlesAdapter;
 import com.myadridev.mypocketcave.adapters.viewHolders.BottleViewHolder;
-import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class BottlesFragment extends Fragment implements IVisibleFragment {
@@ -32,7 +30,6 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
     private RecyclerView bottlesRecyclerView;
     private BottlesAdapter bottlesAdapter;
     private TextView bottlesCountLabelView;
-    private TextView bottlesCountDetailLabelView;
 
     private boolean isVisible;
     private int firstVisibleItemPosition;
@@ -64,15 +61,6 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
 //            params.addRule(RelativeLayout.ABOVE, R.id.bottles_count_detail);
 //        });
 
-        bottlesCountDetailLabelView = (TextView) rootView.findViewById(R.id.bottles_count_detail);
-//        bottlesCountDetailLabelView.setOnClickListener((View v) -> {
-//            bottlesCountDetailLabelView.setVisibility(View.GONE);
-//            bottlesCountLabelView.setVisibility(View.VISIBLE);
-//
-//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottlesRecyclerView.getLayoutParams();
-//            params.addRule(RelativeLayout.ABOVE, R.id.bottles_count);
-//        });
-
         setIsVisible(isDisplayedAtFirstLaunch);
         return rootView;
     }
@@ -94,12 +82,10 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
 
     private void refreshBottles() {
         allBottles = BottleManager.getBottles();
-        Collections.sort(allBottles);
         if (allBottles.isEmpty()) {
             noBottlesLabelView.setVisibility(View.VISIBLE);
             bottlesRecyclerView.setVisibility(View.GONE);
             bottlesCountLabelView.setVisibility(View.GONE);
-            bottlesCountDetailLabelView.setVisibility(View.GONE);
         } else {
             noBottlesLabelView.setVisibility(View.GONE);
             bottlesRecyclerView.setVisibility(View.VISIBLE);
@@ -114,13 +100,6 @@ public class BottlesFragment extends Fragment implements IVisibleFragment {
             String totalBottles = resources.getQuantityString(R.plurals.bottles_count, bottlesCount, bottlesCount);
             String placedBottles = resources.getQuantityString(R.plurals.bottles_count_placed, bottlesPlacedCount, bottlesPlacedCount);
             bottlesCountLabelView.setText(getString(R.string.bottle_recap, totalBottles, placedBottles));
-
-            bottlesCountDetailLabelView.setVisibility(View.GONE);
-            bottlesCountDetailLabelView.setText(getString(R.string.bottles_count_detail,
-                    BottleManager.getBottlesCount(WineColorEnumV2.r),
-                    BottleManager.getBottlesCount(WineColorEnumV2.w),
-                    BottleManager.getBottlesCount(WineColorEnumV2.ro),
-                    BottleManager.getBottlesCount(WineColorEnumV2.c)));
         }
     }
 

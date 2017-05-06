@@ -21,12 +21,15 @@ import com.myadridev.mypocketcave.helpers.FoodToEatHelper;
 import com.myadridev.mypocketcave.managers.BottleManager;
 import com.myadridev.mypocketcave.managers.NavigationManager;
 import com.myadridev.mypocketcave.models.v2.BottleModelV2;
+import com.myadridev.mypocketcave.tasks.bottles.RemoveNotFoundBottleTask;
 
 public class BottleDetailActivity extends AppCompatActivity {
 
+    public int bottleId;
     private BottleModelV2 bottle;
     private TextView stockView;
     private TextView placedView;
+    private ImageView seeCavesView;
     private ImageView wineColorIconView;
     private TextView wineColorView;
     private ImageView organicView;
@@ -37,14 +40,10 @@ public class BottleDetailActivity extends AppCompatActivity {
     private TextView domainView;
     private RatingBar ratingBar;
     private RatingBar priceRatingBar;
-
     private boolean isMenuOpened;
     private FloatingActionButton fabMenu;
-    private FloatingActionButton fabSeeCaves;
     private FloatingActionButton fabEdit;
     private FloatingActionButton fabDelete;
-
-    public int bottleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +67,10 @@ public class BottleDetailActivity extends AppCompatActivity {
             }
         });
 
-        fabSeeCaves = (FloatingActionButton) findViewById(R.id.fab_see_in_caves);
-        fabSeeCaves.setOnClickListener((View v) -> {
+        seeCavesView = (ImageView) findViewById(R.id.see_in_caves_image);
+        seeCavesView.setOnClickListener((View v) -> {
             SeeCavesAlertDialog seeCavesAlertDialog = new SeeCavesAlertDialog(this, bottle.Id);
             seeCavesAlertDialog.setTitle(R.string.title_see_caves);
-            seeCavesAlertDialog.setOnDismissListener((DialogInterface dialog) -> {
-                closeFloatingActionButtonsMenu();
-                dialog.dismiss();
-            });
             seeCavesAlertDialog.show();
         });
 
@@ -111,9 +106,8 @@ public class BottleDetailActivity extends AppCompatActivity {
     }
 
     private void closeFloatingActionButtonsMenu() {
-        FloatingActionButtonHelper.hideFloatingActionButton(this, fabSeeCaves, 1);
-        FloatingActionButtonHelper.hideFloatingActionButton(this, fabEdit, 2);
-        FloatingActionButtonHelper.hideFloatingActionButton(this, fabDelete, 3);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabEdit, 1);
+        FloatingActionButtonHelper.hideFloatingActionButton(this, fabDelete, 2);
 
         FloatingActionButtonHelper.setFloatingActionButtonNewPositionAfterHide(fabMenu, 0);
         fabMenu.setSize(FloatingActionButton.SIZE_NORMAL);
@@ -122,9 +116,8 @@ public class BottleDetailActivity extends AppCompatActivity {
     }
 
     private void openFloatingActionButtonsMenu() {
-        FloatingActionButtonHelper.showFloatingActionButton(this, fabSeeCaves, 1);
-        FloatingActionButtonHelper.showFloatingActionButton(this, fabEdit, 2);
-        FloatingActionButtonHelper.showFloatingActionButton(this, fabDelete, 3);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabEdit, 1);
+        FloatingActionButtonHelper.showFloatingActionButton(this, fabDelete, 2);
 
         FloatingActionButtonHelper.hideFloatingActionButton(this, fabMenu, 0);
         fabMenu.setSize(FloatingActionButton.SIZE_MINI);
@@ -136,8 +129,6 @@ public class BottleDetailActivity extends AppCompatActivity {
     private void setupFloatingActionButtonsVisibility() {
         fabMenu.setVisibility(View.VISIBLE);
         fabMenu.setClickable(true);
-        fabSeeCaves.setVisibility(View.INVISIBLE);
-        fabSeeCaves.setClickable(false);
         fabEdit.setVisibility(View.INVISIBLE);
         fabEdit.setClickable(false);
         fabDelete.setVisibility(View.INVISIBLE);
@@ -170,6 +161,7 @@ public class BottleDetailActivity extends AppCompatActivity {
         domainView.setText(bottle.Domain);
         stockView.setText(getString(R.string.bottles_stock, bottle.Stock));
         placedView.setText(getResources().getQuantityString(R.plurals.bottles_placed, bottle.NumberPlaced, bottle.NumberPlaced));
+        seeCavesView.setVisibility(bottle.NumberPlaced > 0 ? View.VISIBLE : View.GONE);
         int wineColorDrawableId = bottle.WineColor.DrawableResourceId;
         if (wineColorDrawableId != -1) {
             wineColorIconView.setImageDrawable(ContextCompat.getDrawable(this, wineColorDrawableId));
@@ -194,9 +186,29 @@ public class BottleDetailActivity extends AppCompatActivity {
         super.onResume();
 
         bottle = BottleManager.getBottle(bottle == null ? bottleId : bottle.Id);
+        if (bottle == null) {
+            AlertDialog.Builder deleteBottleDialogBuilder = new AlertDialog.Builder(this);
+            deleteBottleDialogBuilder.setCancelable(true);
+            deleteBottleDialogBuilder.setMessage(R.string.bottle_not_found_delete_confirmation);
+            deleteBottleDialogBuilder.setNegativeButton(R.string.global_no, (DialogInterface dialog, int which) -> {
+                dialog.dismiss();
+                finish();
+            });
+            deleteBottleDialogBuilder.setPositiveButton(R.string.global_yes, (DialogInterface dialog, int which) -> {
+                RemoveNotFoundBottleTask removeNotFoundCaveTask = new RemoveNotFoundBottleTask(this, dialog);
+                removeNotFoundCaveTask.execute(bottleId);
+            });
+            deleteBottleDialogBuilder.setOnDismissListener((DialogInterface dialog) -> closeFloatingActionButtonsMenu());
+            deleteBottleDialogBuilder.show();
+            return;
+        }
         refreshActionBar();
         setLayoutValues();
         setupFloatingActionButtonsVisibility();
+    }
+
+    public void onRemovePostExecute() {
+        finish();
     }
 
     @Override
