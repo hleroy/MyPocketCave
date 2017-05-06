@@ -74,6 +74,10 @@ public class BottleEditActivity extends AbstractBottleEditActivity {
         if (bottle.PriceRating != priceRatingBar.getProgress()) {
             return true;
         }
+        if (bottle.Organic != organicView.isChecked()) {
+            return true;
+        }
+
         return false;
     }
 

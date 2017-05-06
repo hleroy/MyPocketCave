@@ -1,5 +1,6 @@
 package com.myadridev.mypocketcave.models.v2;
 
+import android.graphics.Region;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
@@ -37,6 +38,9 @@ public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2>,
     public int Rating;
     @SerializedName("pr")
     public int PriceRating;
+    @SerializedName("o")
+    public boolean Organic = false;
+
 
     // Whisky, Rum, Liqueur : Age
     // Whisky : Type : Single Malt, Single Grain, Blended Malt, Blended Grain
@@ -70,6 +74,7 @@ public class BottleModelV2 implements IStorableModel, Comparable<BottleModelV2>,
         NumberPlaced = bottle.NumberPlaced;
         Rating = bottle.Rating;
         PriceRating = bottle.PriceRating;
+        Organic = bottle.Organic;
     }
 
     @Override

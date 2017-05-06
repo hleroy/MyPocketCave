@@ -2,6 +2,7 @@ package com.myadridev.mypocketcave.models.v2;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.myadridev.mypocketcave.enums.v2.FarmingTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.enums.v2.MillesimeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
@@ -12,7 +13,7 @@ import java.util.List;
 public class SuggestBottleCriteriaV2 {
 
     @Expose(serialize = false, deserialize = false)
-    public static final int NumberOfCriteria = 8;
+    public static final int NumberOfCriteria = 9;
     @SerializedName("f")
     public final List<FoodToEatWithEnumV2> FoodToEatWithList;
     @SerializedName("wc")
@@ -49,6 +50,10 @@ public class SuggestBottleCriteriaV2 {
     public CaveLightModelV2 Cave;
     @SerializedName("icr")
     public boolean IsCaveRequired;
+    @SerializedName("ft")
+    public FarmingTypeEnumV2 FarmingType;
+    @SerializedName("iftr")
+    public boolean IsFarmingTypeRequired;
 
     public SuggestBottleCriteriaV2() {
         WineColor = WineColorEnumV2.a;
@@ -68,6 +73,8 @@ public class SuggestBottleCriteriaV2 {
         PersonToShareWith = "";
         IsPersonRequired = false;
         Cave = null;
-        IsWineColorRequired = false;
+        IsCaveRequired = false;
+        FarmingType = FarmingTypeEnumV2.af;
+        IsFarmingTypeRequired = false;
     }
 }

@@ -247,4 +247,7 @@
     <string name="startup_patterns">Chargement des motifs…</string>
     <string name="startup_caves">Chargement des caves…</string>
     <string name="startup_finalize">Finalisation du lancement…</string>
+    <string name="any_farming">N\'importe quel type</string>
+    <string name="organic_farming">Agriculture biologique</string>
+    <string name="not_organic_farming">Agriculture non biologique</string>
 </resources>

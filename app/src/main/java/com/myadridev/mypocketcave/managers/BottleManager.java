@@ -3,6 +3,7 @@ package com.myadridev.mypocketcave.managers;
 import android.content.Context;
 
 import com.myadridev.mypocketcave.enums.v2.CavePlaceTypeEnumV2;
+import com.myadridev.mypocketcave.enums.v2.FarmingTypeEnumV2;
 import com.myadridev.mypocketcave.enums.v2.FoodToEatWithEnumV2;
 import com.myadridev.mypocketcave.enums.v2.WineColorEnumV2;
 import com.myadridev.mypocketcave.listeners.OnDependencyChangeListener;
@@ -159,10 +160,14 @@ public class BottleManager {
             if (searchCriteria.IsCaveRequired && caveScore == 0) {
                 continue;
             }
+            int farmingTypeScore = computeFarmingTypeScore(bottle, searchCriteria);
+            if (searchCriteria.IsFarmingTypeRequired && farmingTypeScore == 0) {
+                continue;
+            }
 
             SuggestBottleResultModelV2 suggestedBottle = new SuggestBottleResultModelV2();
             suggestedBottle.Bottle = bottle;
-            suggestedBottle.Score = wineColorScore + domainScore + millesimeScore + ratingScore + priceRatingScore + foodScore + personScore + caveScore;
+            suggestedBottle.Score = wineColorScore + domainScore + millesimeScore + ratingScore + priceRatingScore + foodScore + personScore + caveScore + farmingTypeScore;
 
             suggestBottles.add(suggestedBottle);
         }
@@ -241,6 +246,19 @@ public class BottleManager {
             return 1;
         }
         return CaveManager.isBottleInTheCave(bottle.Id, searchCriteria.Cave.Id) ? 1 : 0;
+    }
+
+    private static int computeFarmingTypeScore(BottleModelV2 bottle, SuggestBottleCriteriaV2 searchCriteria) {
+        switch (searchCriteria.FarmingType) {
+            case af:
+                return 1;
+            case of:
+                if (bottle.Organic) return 1;
+            case nof:
+                if (!bottle.Organic) return 1;
+            default:
+                return 0;
+        }
     }
 
     public static List<BottleModelV2> getNonPlacedBottles() {

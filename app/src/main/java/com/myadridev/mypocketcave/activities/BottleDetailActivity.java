@@ -32,6 +32,7 @@ public class BottleDetailActivity extends AppCompatActivity {
     private ImageView seeCavesView;
     private ImageView wineColorIconView;
     private TextView wineColorView;
+    private ImageView organicView;
     private TextView millesimeView;
     private TextView foodView;
     private TextView personView;
@@ -153,6 +154,7 @@ public class BottleDetailActivity extends AppCompatActivity {
         commentsView = (TextView) findViewById(R.id.bottle_detail_comments);
         ratingBar = (RatingBar) findViewById(R.id.bottle_detail_rating);
         priceRatingBar = (RatingBar) findViewById(R.id.bottle_detail_price_rating);
+        organicView = (ImageView) findViewById(R.id.bottle_detail_organic);
     }
 
     private void setLayoutValues() {
@@ -165,6 +167,7 @@ public class BottleDetailActivity extends AppCompatActivity {
             wineColorIconView.setImageDrawable(ContextCompat.getDrawable(this, wineColorDrawableId));
         }
         wineColorView.setText(bottle.WineColor.StringResourceId);
+        organicView.setVisibility(bottle.Organic ? View.VISIBLE : View.GONE);
         millesimeView.setText(bottle.Millesime == 0 ? getString(R.string.no_millesime) : String.valueOf(bottle.Millesime));
         foodView.setText(FoodToEatHelper.computeFoodViewText(this, bottle.FoodToEatWithList));
         personView.setText(bottle.PersonToShareWith);

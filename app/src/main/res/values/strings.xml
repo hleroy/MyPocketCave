@@ -266,4 +266,7 @@
     <string name="startup_patterns">Loading patterns…</string>
     <string name="startup_caves">Loading caves…</string>
     <string name="startup_finalize">Finalizing startup…</string>
+    <string name="any_farming">Any type of farming</string>
+    <string name="organic_farming">Organic farming</string>
+    <string name="not_organic_farming">Not organic farming</string>
 </resources>
